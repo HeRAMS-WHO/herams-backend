@@ -53,8 +53,10 @@ use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
@@ -92,6 +94,8 @@ class CommonConfigurator implements ContainerConfiguratorInterface
     public function configure(EnvironmentInterface $environment, Container $container): void
     {
         $container->set(\Lcobucci\JWT\Configuration::class, static function () use ($environment): Configuration {
+            echo "test1";
+            var_dump($environment);
             $key = InMemory::plainText($environment->getSecret('app/jwt_secret_key'));
             $result = Configuration::forSymmetricSigner(
                 new Sha256(),
@@ -103,6 +107,12 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                 new PermittedFor('https://api.herams.org'),
                 new StrictValidAt(SystemClock::fromUTC())
             );
+
+            $key = $key->contents();
+            $parser = new Parser(new JoseEncoder());
+            $token = $parser->parse('NnRTcG1pb05vc3JpYXZNckRoSjk1Q0NIQTJFeUM4QlNhZnRzeEtva0puTGM1YUJBUjVMbkt0OFphV2laUUNicXhVUUNUWUVUMmhlSEYzaVZidkNnaFdQb0hVa0FWQjl4c0tYdURlNWNyQUpmaVA3amFxZGVoYXlFNWs5U1FIWVg=');
+            var_dump($result);
+
             return $result;
         });
         $container->set(Environment::class, new class() extends ArrayObject implements Environment {
