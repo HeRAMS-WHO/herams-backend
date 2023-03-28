@@ -43,7 +43,7 @@ class ProjectTabMenu extends TabMenu
             'permission' => Permission::PERMISSION_WRITE,
             'title' => \Yii::t(
                 'app',
-                'Project Settings'
+                'Project settings'
             ),
         ];
         $this->tabs[] = [
@@ -52,7 +52,7 @@ class ProjectTabMenu extends TabMenu
                 'id' => $projectId,
             ],
             'permission' => Permission::PERMISSION_MANAGE_DASHBOARD,
-            'title' => \Yii::t('app', 'Dashboard Settings'),
+            'title' => \Yii::t('app', 'Dashboard settings'),
             'active' => \Yii::$app->requestedRoute === 'project/import-dashboard',
         ];
         $this->tabs[] = [
@@ -74,7 +74,7 @@ class ProjectTabMenu extends TabMenu
             ],
             'title' => \Yii::t(
                 'app',
-                'Export Data'
+                'Export data'
             ),
         ];
         return parent::renderMenu();
