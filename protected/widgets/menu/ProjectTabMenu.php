@@ -36,14 +36,14 @@ class ProjectTabMenu extends TabMenu
             ]),
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_EXPORT,
             'url' => [
-                'project/export',
+                'project/update',
                 'id' => $projectId,
             ],
+            'permission' => Permission::PERMISSION_WRITE,
             'title' => \Yii::t(
                 'app',
-                'Export data'
+                'Project settings'
             ),
         ];
         $this->tabs[] = [
@@ -57,17 +57,6 @@ class ProjectTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'url' => [
-                'project/update',
-                'id' => $projectId,
-            ],
-            'permission' => Permission::PERMISSION_WRITE,
-            'title' => \Yii::t(
-                'app',
-                'Project management'
-            ),
-        ];
-        $this->tabs[] = [
-            'url' => [
                 'project/share',
                 'id' => $projectId,
             ],
@@ -75,7 +64,18 @@ class ProjectTabMenu extends TabMenu
                 'n' => $this->project->getPermissionSourceCount(),
             ]),
             'permission' =>
-Permission::PERMISSION_SHARE,
+             Permission::PERMISSION_SHARE,
+        ];
+        $this->tabs[] = [
+            'permission' => Permission::PERMISSION_EXPORT,
+            'url' => [
+                'project/export',
+                'id' => $projectId,
+            ],
+            'title' => \Yii::t(
+                'app',
+                'Export data'
+            ),
         ];
         return parent::renderMenu();
     }

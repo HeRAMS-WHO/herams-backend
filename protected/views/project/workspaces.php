@@ -70,23 +70,18 @@ echo AgGrid::widget([
         //        ],
         [
 
-            'headerName' => \Yii::t('app', 'Name'),
+            'headerName' => \Yii::t('app', 'Title'),
             'cellRenderer' => new JsExpression(<<<JS
                 params => {
                     const a = document.createElement('a');
                     a.textContent = params.value;
                     a.href = '/workspace/{id}/facilities'.replace('{id}', params.data.id);
+                    a.setAttribute('class','agGridAnkur');
                     return a;
                 }
             JS),
             'field' => 'name',
             //            'filter' => 'agNumberColumnFilter',
-        ],
-        [
-
-            'headerName' => \Yii::t('app', 'Id'),
-            'field' => 'id',
-            'filter' => 'agNumberColumnFilter',
         ],
 
         [
