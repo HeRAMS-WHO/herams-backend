@@ -41,6 +41,7 @@ x-env:
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
       SECRET_smtp/encryption: tcp
+      API_HOST: api.herams.test
     user: ${UID-0}:${GID-0}
     working_dir: "/project"
   mysql: &mysql
@@ -106,6 +107,7 @@ services:
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
       SECRET_smtp/encryption: ''
+      API_HOST: api.herams.test
     depends_on:
       - devdb
       - mailcatcher
@@ -255,6 +257,7 @@ services:
       SECRET_smtp/host: mailcatcher
       SECRET_smtp/port: 1025
       RUNTIME_PATH: /runtime
+      API_HOST: api.herams.test
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:
