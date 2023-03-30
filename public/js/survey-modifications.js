@@ -98,7 +98,7 @@
         defaultValue: ['en']
       },
       {
-        name: 'defaultlanguage',
+        name: 'primaryLanguage',
         type: 'dropdown',
         title: 'Primary language for this project',
         choicesFromQuestion: 'languages',
@@ -110,6 +110,21 @@
     },
 
   });
+
+  Survey.ComponentCollection.Instance.add({
+    name: 'currentlanguage',
+    title: 'Current Language',
+    category: 'HeRAMS',
+    visible: false,
+    questionJSON: {
+      name: 'currentLanguage',
+      type: 'text',
+      defaultValue: `${document.documentElement.lang}`,
+    },
+    onInit() {
+      // debugger;
+    },
+  })
 
   Survey.ComponentCollection.Instance.add({
     iconName: 'icon-dropdown',
