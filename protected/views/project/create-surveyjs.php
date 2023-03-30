@@ -12,7 +12,7 @@ use prime\widgets\survey\SurveyFormWidget;
  */
 assert($this instanceof View);
 
-$this->title = \Yii::t('app', "Create new project");
+$this->title = \Yii::t('app', "Create a new project");
 
 $this->beginBlock('tabs');
 $this->endBlock();
