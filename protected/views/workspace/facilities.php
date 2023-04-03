@@ -52,23 +52,18 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
     'columns' => [
         [
 
-            'headerName' => \Yii::t('app', 'Name'),
+            'headerName' => \Yii::t('app', 'Health facility name'),
             'field' => 'name',
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 params => {
                     const a = document.createElement('a');
                     a.textContent = params.value;
                     a.href = '/facility/{id}/responses'.replace('{id}', params.data.id);
+                    a.setAttribute('class','agGridAnkur');
                     return a;
                 }
             JS),
             //            'filter' => 'agNumberColumnFilter',
-        ],
-        [
-
-            'headerName' => \Yii::t('app', 'Id'),
-            'field' => 'id',
-            'filter' => 'agNumberColumnFilter',
         ],
         ...\iter\map(fn (VariableInterface $variable) => [
             'field' => $variable->getName(),
