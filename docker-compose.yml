@@ -1,8 +1,7 @@
 version: '3.8'
 networks:
-  devproxy:
-    external:
-      name: devproxy
+  devproxy2:
+    external: true
 volumes:
   devdb:
   assets:
@@ -53,6 +52,9 @@ x-env:
       MYSQL_PASSWORD: ${DB_PASS}
 services:
   phpfpm:
+    networks:
+      - devproxy2
+      - default
     environment:
       SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
@@ -94,18 +96,20 @@ services:
     labels:
       com.awesam.proxy.domains: "coverage.herams"
     networks:
-      - devproxy
+      - devproxy2
       - default
     image: nginx
     volumes:
-      - ./tests/_output/coverage:/usr/share/nginx/html:ro
+      - ./tests/_output/coverage:/usr/share/nginx/html:rw
   nginx:
     labels:
-      com.awesam.proxy.domains: "herams"
+      traefik.enable: "true"
+      devDomain: v1.herams
     networks:
-      - devproxy
+      - devproxy2
       - default
     image: ghcr.io/herams-who/docker/nginx:latest
+    command: ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
     environment:
       PHPFPM: "phpfpm:9000"
       RESOLVER: "127.0.0.11"
@@ -208,10 +212,11 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:
-      - devproxy
+      - devproxy2
       - default
     labels:
-      com.awesam.proxy.domains: "phpmyadmin.herams"
+      traefik.enable: "true"
+      devDomain: "v1.phpmyadmin.herams"
     depends_on:
       - devdb
     environment:
@@ -223,10 +228,10 @@ services:
   mailcatcher:
     image: schickling/mailcatcher
     networks:
-      - devproxy
+      - devproxy2
       - default
     labels:
-      com.awesam.proxy.domains: "mailcatcher-herams"
-      com.awesam.proxy.port: "1080"
+      traefik.http.routers.v1-heramsphpma.rule: "Host(`v1.mailcatcher.herams.test`)"
+      traefik.http.routers.v1-heramsphpma.tls: "true"
     ports:
       - "127.0.0.1:${MAILCATCHER_PORT-12347}:1080"
