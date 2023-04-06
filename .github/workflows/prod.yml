@@ -21,7 +21,7 @@ jobs:
             ${{ runner.os }}-composer-
       - run: composer install --ignore-platform-reqs
       - run: docker-compose build
-      - run: docker network create devproxy
+      - run: docker network create devproxy2
       - run: cp .env.default .env
       - run: docker-compose run --rm codeception run
       - run: composer stan
