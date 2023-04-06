@@ -17,5 +17,5 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - run: composer global require "squizlabs/php_codesniffer=dev-v1"
+      - run: composer global require "squizlabs/php_codesniffer=3.*"
       - run: ~/.composer/vendor/bin/phpcs
