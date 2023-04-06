@@ -65,13 +65,13 @@ class Workspace extends ActiveRecord
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => [
                     'latestUpdate' => [
-                        VirtualFieldBehavior::GREEDY => Response::find()
-                            ->limit(1)->select('max(last_updated)')
-                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
                         VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                             return $workspace->getResponses()->orderBy(['last_updated' => SORT_DESC])->limit(1)
-                                ->one()->last_updated ?? null;
-                        }
+                                    ->one()->last_updated ?? null;
+                        },
+                        VirtualFieldBehavior::GREEDY => Response::find()
+                            ->limit(1)->select('max(last_updated)')
+                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
                     ],
                     'facilityCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
