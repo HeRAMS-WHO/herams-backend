@@ -19,6 +19,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+      - run: composer global require "squizlabs/php_codesniffer=3.*"
       - run: composer install --ignore-platform-reqs
       - run: docker-compose build
       - run: docker network create devproxy2
