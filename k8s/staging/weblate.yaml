@@ -77,17 +77,6 @@ spec:
             - mountPath: /data
               name: weblate-pvc
               subPath: data
-        - name: migrations
-          image: python:3.8
-          command: ["/bin/sh", "-c", "pip install psycopg2-binary && python manage.py migrate"]
-          workingDir: /app
-          volumeMounts:
-            - mountPath: /app
-              name: weblate-pvc
-              subPath: data
-            - name: weblate-config
-              mountPath: /app/config/
-              readOnly: true
       containers:
         - name: redis
           image: redis:6-alpine
@@ -102,3 +91,10 @@ spec:
             - mountPath: /app/data
               name: weblate-pvc
               subPath: data
+          envFrom:
+            - secretRef:
+                name: postgres
+            - configMapRef:
+                name: weblate-config
+          ports:
+            - containerPort: 8080
