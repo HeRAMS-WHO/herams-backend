@@ -53,8 +53,8 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
     'columns' => [
         [
 
-            'headerName' => \Yii::t('app', 'Id'),
-            'field' => 'id',
+            'headerName' => \Yii::t('app', 'Updated by'),
+            'field' => 'created_by',
             'filter' => 'agNumberColumnFilter',
         ],
         ...\iter\map(fn (VariableInterface $variable) => [

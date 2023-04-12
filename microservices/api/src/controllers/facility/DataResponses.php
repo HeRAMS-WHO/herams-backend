@@ -41,6 +41,7 @@ final class DataResponses extends Action
         foreach ($surveyResponseRepository->retrieveDataInFacility($facilityId) as $facility) {
             $row = [
                 'id' => $facility->id + random_int(1, 1000),
+                'created_by' => $facility->user->name,
             ];
             /** @var VariableInterface $variable */
             foreach ($variables as $variable) {

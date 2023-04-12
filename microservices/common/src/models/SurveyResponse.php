@@ -9,6 +9,7 @@ use DateTimeInterface;
 use herams\common\attributes\TriggersJob;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\survey\Survey;
+use herams\common\domain\user\User;
 use herams\common\interfaces\HeramsResponseInterface;
 use herams\common\interfaces\RecordInterface;
 use herams\common\jobs\UpdateFacilityDataJob;
@@ -168,6 +169,12 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
     {
         return $this->hasOne(Survey::class, [
             'id' => 'survey_id',
+        ]);
+    }
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, [
+            'id' => 'created_by',
         ]);
     }
 
