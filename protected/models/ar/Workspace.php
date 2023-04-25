@@ -60,7 +60,6 @@ class Workspace extends ActiveRecord
     public function behaviors()
     {
         return [
-
             VirtualFieldBehavior::class => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => [
@@ -124,9 +123,9 @@ class Workspace extends ActiveRecord
         ];
     }
 
-    public static function find(): ActiveQuery
+    public static function find(): WorkspaceQuery
     {
-        return new ActiveQuery(self::class);
+        return new WorkspaceQuery(self::class);
     }
 
     public function getProject()

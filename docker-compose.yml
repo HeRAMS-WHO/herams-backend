@@ -223,6 +223,9 @@ services:
       PMA_HOSTS: testdb,devdb
       PMA_PASSWORD: $DB_PASS
       PMA_USER: $DB_USER
+      PHP_INI_UPLOAD_MAX_FILESIZE: 500M
+      PHP_INI_POST_MAX_SIZE: 50
+      UPLOAD_LIMIT: 500M
     tmpfs:
       - /sessions
   mailcatcher:
