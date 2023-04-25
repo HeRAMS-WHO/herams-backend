@@ -193,11 +193,13 @@ class Project extends ActiveRecord implements Linkable
         return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
     }
 
-    public function getWorkspaces(): ActiveQuery
+    /**
+     * @return WorkspaceQuery
+     */
+    public function getWorkspaces(): WorkspaceQuery
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
-
     public function rules(): array
     {
         return [
@@ -358,11 +360,11 @@ class Project extends ActiveRecord implements Linkable
 
         $query = $this->getResponses()
             ->groupBy([
-                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))"
+                'type'
             ])
             ->select([
                 'count' => 'count(*)',
-                'type' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))",
+                'type' => 'type',
             ])
              ->indexBy('type')
             ->asArray();
@@ -383,11 +385,11 @@ class Project extends ActiveRecord implements Linkable
     {
         $query = $this->getResponses()
             ->groupBy([
-                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))"
+                'functionality'
             ])
             ->select([
                 'count' => 'count(*)',
-                'functionality' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))",
+                'functionality' => "functionality",
             ])
             ->indexBy('functionality')
             ->orderBy('functionality')
@@ -417,11 +419,14 @@ class Project extends ActiveRecord implements Linkable
             HeramsSubject::FULLY_AVAILABLE => 0,
             HeramsSubject::PARTIALLY_AVAILABLE => 0,
             HeramsSubject::NOT_AVAILABLE => 0,
-            HeramsSubject::NOT_PROVIDED=> 0,
+            HeramsSubject::NOT_PROVIDED => 0,
         ];
-        /** @var HeramsResponseInterface $heramsResponse */
-        foreach ($this->getResponses()->each() as $heramsResponse) {
-            foreach ($heramsResponse->getSubjects() as $subject) {
+
+        /** @var Response $response */
+        foreach ($this->getResponses()->each() as $response) {
+            $subjects = $response->getSubjects();
+
+            foreach ($subjects as $subject) {
                 $subjectAvailability = $subject->getAvailability();
                 if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
                     continue;
@@ -434,7 +439,7 @@ class Project extends ActiveRecord implements Linkable
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
             'A3' => \Yii::t('app', 'None'),
-//            'A4' => \Yii::t('app', 'Not normally provided'),
+            // 'A4' => \Yii::t('app', 'Not normally provided'),
         ];
 
         $result = [];
