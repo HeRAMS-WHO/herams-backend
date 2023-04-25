@@ -49,7 +49,30 @@ class Workspace extends Model
         $query = \prime\models\ar\Workspace::find();
 
         $query->with('project');
-        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'contributorCount');
+        $query->withFields(['*','latestUpdate', 'facilityCount', 'responseCount', 'contributorCount']);
+        // Add the subqueries for the virtual fields
+        $query->addSelect([
+            'latestUpdate' => \prime\models\ar\Response::find()
+                ->select('MAX(last_updated)')
+                ->where('workspace_id = prime2_workspace.id')
+                ->groupBy('workspace_id'),
+            'facilityCount' => \prime\models\ar\Response::find()
+                ->select('COUNT(DISTINCT hf_id)')
+                ->where('workspace_id = prime2_workspace.id')
+                ->groupBy('workspace_id'),
+            'responseCount' => \prime\models\ar\Response::find()
+                ->select('COUNT(*)')
+                ->where('workspace_id = prime2_workspace.id')
+                ->groupBy('workspace_id'),
+            'contributorCount' => \prime\models\ar\Permission::find()
+                ->select('COUNT(DISTINCT source_id)')
+                ->where([
+                    'target' => Workspace::class,
+                    'target_id' => new Expression('prime2_workspace.id'),
+                    'source' => User::class,
+                ])
+                ->groupBy('target_id'),
+        ]);
         $query->andFilterWhere(['tool_id' => $this->project->id]);
 
         $dataProvider = new ActiveDataProvider([

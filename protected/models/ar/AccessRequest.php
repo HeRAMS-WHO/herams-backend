@@ -112,7 +112,7 @@ class AccessRequest extends ActiveRecord
         return $this->hasOne(User::class, ['id' => 'responded_by']);
     }
 
-    public function getTarget(): ActiveQuery
+    public function getTarget(): ActiveQuery| WorkspaceQuery
     {
         return $this->hasOne($this->target_class, ['id' => 'target_id']);
     }
