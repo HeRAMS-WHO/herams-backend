@@ -74,49 +74,48 @@ class Workspace extends ActiveRecord
                     ],
                     'facilityCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Response::find()
-                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
-                            ->select('count(distinct hf_id)'),
                         VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                             $filter = new ResponseFilter(null, new HeramsCodeMap());
                             return (int) $filter->filterQuery($workspace->getResponses())->count();
-                        }
+                        },
+                        VirtualFieldBehavior::GREEDY => Response::find()
+                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')])
+                            ->select('count(distinct hf_id)'),
                     ],
                     'contributorCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
-                            'target' => Workspace::class,
-                            'target_id' => new Expression(self::tableName() . '.[[id]]'),
-                            'source' => User::class,
-                        ])->select('count(distinct [[source_id]])')
-                        ,
                         VirtualFieldBehavior::LAZY => static function (self $model): int {
                             return (int) Permission::find()->where([
                                 'target' => Workspace::class,
                                 'target_id' => $model->id,
                                 'source' => User::class,
                             ])->count('distinct [[source_id]]');
-                        }
+                        },
+                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                            'target' => Workspace::class,
+                            'target_id' => new Expression(self::tableName() . '.[[id]]'),
+                            'source' => User::class,
+                        ])->select('count(distinct [[source_id]])')
                     ],
                     'permissionSourceCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) $model->getPermissions()->count('distinct source_id');
+                        },
                         VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
                             ->where([
                                 'source' => User::class,
                                 'target' => self::class,
                                 'target_id' => new Expression(self::tableName() . '.[[id]]')
                             ]),
-                        VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            return (int) $model->getPermissions()->count('distinct source_id');
-                        }
                     ],
                     'responseCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('count(*)')
-                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
                         VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                             return $workspace->getResponses()->count();
-                        }
+                        },
+                        VirtualFieldBehavior::GREEDY => Response::find()->limit(1)->select('count(*)')
+                            ->where(['workspace_id' => new Expression(self::tableName() . '.[[id]]')]),
                     ]
                 ]
             ]
