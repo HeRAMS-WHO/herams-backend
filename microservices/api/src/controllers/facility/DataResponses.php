@@ -38,15 +38,18 @@ final class DataResponses extends Action
         usort($variables, fn (VariableInterface $a, VariableInterface $b): int => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
 
         $data = [];
-        foreach ($surveyResponseRepository->retrieveDataInFacility($facilityId) as $facility) {
+        foreach ($surveyResponseRepository->retrieveDataInFacility($facilityId) as $surveyResponse) {
             $row = [
-                'id' => $facility->id + random_int(1, 1000),
-                'created_by' => $facility->user->name,
+                'id' => $surveyResponse->id,
+                'latest_update_by' => $surveyResponse->updatedUser?->name,
+                'facilityId'=> $facilityId,
+                'latest_udpate_date'=> $surveyResponse->latest_udpate_date,
+                'action' => $surveyResponse->id,
             ];
             /** @var VariableInterface $variable */
             foreach ($variables as $variable) {
                 $row[$variable->getName()] = $variable->getDisplayValue(
-                    $facility,
+                    $surveyResponse,
                     \Yii::$app->language
                 )->getRawValue();
             }

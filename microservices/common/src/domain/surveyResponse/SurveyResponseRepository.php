@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace herams\common\domain\surveyResponse;
 
 use herams\api\models\NewSurveyResponse;
+use herams\api\models\UpdateSurveyResponse;
 use herams\common\domain\facility\Facility;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
@@ -213,8 +214,9 @@ class SurveyResponseRepository
     {
         return SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
-            'survey_id' => $surveyId,
+            'survey_id' => $surveyId
         ])->all();
+
     }
     /**
      * @return SurveyResponse
@@ -226,5 +228,23 @@ class SurveyResponseRepository
         ]);
         $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
         return $this->retrieveData($facilityId, $facility->workspace->project->getAdminSurveyId());
+    }
+
+    public function updateSurveyResponse(UpdateSurveyResponse $model): void
+    {
+        $record = SurveyResponse::findOne([
+            'id' => $model->id,
+        ]);
+        \Yii::debug($model->attributes);
+
+        $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
+        $record->update();
+    }
+    public function deleteSurveyResponse(UpdateSurveyResponse $model): void
+    {
+        $record = SurveyResponse::findOne($model->id);
+        $record->deleted_at = \Carbon\Carbon::now();
+        $record->update();
+        //return $this->redirect(\Yii::$app->request->referrer);
     }
 }

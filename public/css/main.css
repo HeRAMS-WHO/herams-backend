@@ -897,3 +897,6 @@ input[type="text"] {
     text-decoration: underline !important;
     color: var(--primary-button-background-color) !important;
 }
+.ag-grid-action-icon{
+    padding:5px;
+}

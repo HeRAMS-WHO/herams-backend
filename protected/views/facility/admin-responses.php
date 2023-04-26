@@ -11,6 +11,7 @@ use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\web\User;
+use prime\helpers\Icon;
 
 /**
  * @var ActiveDataProvider $responseProvider
@@ -20,6 +21,10 @@ use yii\web\User;
  * @var array $dataRoute
  */
 $this->title = \Yii::t('app', "Admin responses");
+
+$editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
+$viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
+$deleteIcon = preg_replace( "/\r|\n/", "", Icon::trash() );
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
@@ -58,6 +63,59 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'headerName' => \Yii::t('app', 'Id'),
             'field' => 'id',
             'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Last Updated Date'),
+            'field' => 'latest_udpate_date',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        
+        [
+            'headerName' => \Yii::t('app', 'Action'),
+            'cellRenderer' => new \yii\web\JsExpression(<<<JS
+                params => {
+                    if (params.data == null) {
+                        const a = document.createElement('span');
+                        a.textContent = params.value;
+                        return a; 
+                    }
+                    
+                    let box = document.createElement("div");
+
+                    svgEditIcon = '$editIcon';
+                    const e = document.createElement('a');
+                   // e.textContent = Icon::edit() ;
+                    //e.href = '/project/{id}/workspaces'.replace('{id}', params.data.id);
+                    e.href = '/facility/'+params.data.facilityId+'/edit-admin-situation/' + params.data.id;
+                    e.setAttribute('class','ag-grid-action-icon');
+                    e.innerHTML += (svgEditIcon);
+
+                    svgViewIcon = '$viewIcon';
+
+                    const v = document.createElement("a");
+                    v.href = '/facility/'+params.data.facilityId+'/view-admin-situation/' + params.data.id;
+                    v.setAttribute("class","ag-grid-action-icon");
+                    v.innerHTML += (svgViewIcon);
+
+                    svgDeleteIcon = '$deleteIcon';
+
+                    const d = document.createElement("a");
+                    d.href = '/facility/'+params.data.facilityId+'/delete-situation/' + params.data.id;
+                    d.setAttribute("class","ag-grid-action-icon");
+                    d.setAttribute("data-confirm","Are you sure you wish to remove this response from the system?");
+                    d.innerHTML += (svgDeleteIcon);
+
+                    box.appendChild(e);
+                    box.appendChild(v);
+                    box.appendChild(d);
+                    return  box 
+                    return e;
+                    
+                }
+            JS),
+            'field' => 'action',
+            'filter' => false,
         ],
         ...\iter\map(fn (VariableInterface $variable) => [
             'field' => $variable->getName(),

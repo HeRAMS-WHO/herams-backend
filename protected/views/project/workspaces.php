@@ -70,6 +70,12 @@ echo AgGrid::widget([
         //        ],
         [
 
+            'headerName' => \Yii::t('app', 'ID'),
+            'field' => 'id',
+            //'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
             'headerName' => \Yii::t('app', 'Title'),
             'cellRenderer' => new JsExpression(<<<JS
                 params => {
