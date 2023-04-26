@@ -30,6 +30,12 @@ echo AgGrid::widget([
     'route' => ['api/project/index'],
     'columns' => [
         [
+
+            'headerName' => \Yii::t('app', 'ID'),
+            'field' => 'id',
+            //'filter' => 'agNumberColumnFilter',
+        ],
+        [
             'headerName' => \Yii::t('app', 'Project Name'),
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 params => {

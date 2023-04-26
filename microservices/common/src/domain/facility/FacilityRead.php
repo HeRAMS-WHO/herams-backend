@@ -69,11 +69,11 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                     ->limit(1)->select('count(*)')
                     ->where([
                         'facility_id' => new Expression(self::tableName() . '.[[id]]'),
-                    ]),
+                    ])->andWhere(['!=', 'status', 'Deleted']),
                 VirtualFieldBehavior::LAZY => static fn (self $facility) => SurveyResponse::find()
                     ->where([
                         'facility_id' => $facility->id
-                    ])->count(),
+                    ])->andWhere(['!=', 'status', 'Deleted'])->count(),
             ],
             'adminSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -85,7 +85,7 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                             ->where([
                                 'id' => Workspace::find()->select('project_id')->where(['id' => $facility->workspace_id])
                             ])
-                    ])->count(),
+                    ])->andWhere(['!=', 'status', 'Deleted'])->count(),
             ],
             'dataSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -97,7 +97,7 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                             ->where([
                                 'id' => Workspace::find()->select('project_id')->where(['id' => $facility->workspace_id])
                             ])
-                    ])->count(),
+                    ])->andWhere(['!=', 'status', 'Deleted'])->count(),
 
             ],
 

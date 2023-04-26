@@ -9,6 +9,7 @@ use DateTimeInterface;
 use herams\common\attributes\TriggersJob;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\survey\Survey;
+use herams\common\domain\user\User;
 use herams\common\interfaces\HeramsResponseInterface;
 use herams\common\interfaces\RecordInterface;
 use herams\common\jobs\UpdateFacilityDataJob;
@@ -42,11 +43,11 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
         return [
             BlameableBehavior::class => [
                 'class' => BlameableBehavior::class,
-                'updatedByAttribute' => false,
+                'updatedByAttribute' =>  'latest_update_by',
             ],
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
-                'updatedAtAttribute' => false,
+                'updatedAtAttribute' => 'latest_udpate_date',
                 'value' => fn() => Carbon::now()
             ],
         ];
@@ -170,12 +171,25 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
             'id' => 'survey_id',
         ]);
     }
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, [
+            'id' => 'created_by',
+        ]);
+    }
+
+    public function getUpdatedUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, [
+            'id' => 'latest_update_by',
+        ]);
+    }
 
     public function rules(): array
     {
         return [
             [['data', 'facility_id', 'survey_id'], RequiredValidator::class],
-            [['data'], SafeValidator::class],
+            [['data', 'response_type', 'status', 'latest_udpate_date', 'latest_update_by'], SafeValidator::class],
             [['facility_id'],
                 ExistValidator::class,
                 'targetRelation' => 'facility',

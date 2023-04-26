@@ -30,11 +30,15 @@ final class Survey extends ActiveRecord
         ]);
     }
 
-    public function getTitle(): string
+    public function getTitle()
     {
-        return $this->config['title'] ?? \Yii::t('app', "Survey without title, id {id}", [
+        // return $this->config['title'] ?? \Yii::t('app', "Survey without title, id {id}", [
+        //     'id' => $this->id,
+        // ]);
+
+        return ((isset($this->config['title']) ) ? ((is_array($this->config['title']) ) ? $this->config['title']['default'] : $this->config['title'] ): \Yii::t('app', "Survey without title, id {id}", [
             'id' => $this->id,
-        ]);
+        ]));
     }
 
     public static function labels(): array

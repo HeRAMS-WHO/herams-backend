@@ -52,6 +52,12 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
     'columns' => [
         [
 
+            'headerName' => \Yii::t('app', 'ID'),
+            'field' => 'id',
+            //'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
             'headerName' => \Yii::t('app', 'Health facility name'),
             'field' => 'name',
             'cellRenderer' => new \yii\web\JsExpression(<<<JS

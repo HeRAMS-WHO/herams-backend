@@ -15,6 +15,15 @@ use prime\controllers\facility\View;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\values\FacilityId;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\values\SurveyResponseId;
+use herams\common\models\SurveyResponse;
+
 final class FacilityController extends Controller
 {
     public $layout = self::LAYOUT_ADMIN_TABS;
@@ -49,4 +58,136 @@ final class FacilityController extends Controller
             ]
         );
     }
+    public function actionEditSituation(
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyRepository $surveyRepository,
+        ProjectRepository $projectRepository,
+        SurveyResponseRepository $surveyResponseRepository,
+        int $pid,   //parentID
+        int $cid    //childId
+
+    ) {
+        $facilityId = new FacilityId($pid);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $surveyId = $projectRepository->retrieveDataSurveyId($projectId);
+        $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
+
+        $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
+
+        return $this->render('situation/edit', [
+            'projectId' => $projectId,
+            'workspaceId' => $workspaceId,
+            'facilityId' => $facilityId,
+            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
+            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
+            'response' => $response,
+            'surveyResponseId' => new SurveyResponseId($cid),
+            'cid' => $cid
+        ]);
+    }    
+    public function actionViewSituation(
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyRepository $surveyRepository,
+        ProjectRepository $projectRepository,
+        SurveyResponseRepository $surveyResponseRepository,
+        int $pid,   //parentID
+        int $cid    //childId
+
+    ) {
+        $facilityId = new FacilityId($pid);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $surveyId = $projectRepository->retrieveDataSurveyId($projectId);
+        $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
+
+        $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
+
+        return $this->render('situation/view', [
+            'projectId' => $projectId,
+            'workspaceId' => $workspaceId,
+            'facilityId' => $facilityId,
+            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
+            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
+            'response' => $response,
+            'surveyResponseId' => new SurveyResponseId($cid),
+            'cid' => $cid
+        ]);
+    }   
+    
+    public function actionDeleteSituation(
+        int $pid,   //parentID  -facility id
+        int $cid    //childId - response id
+    ) {
+        $model = SurveyResponse::findOne($cid);
+        $model->status = 'Deleted';
+        $model->update();
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+    public function actionEditAdminSituation(
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyRepository $surveyRepository,
+        ProjectRepository $projectRepository,
+        SurveyResponseRepository $surveyResponseRepository,
+        int $pid,   //parentID
+        int $cid    //childId
+
+    ) {
+        $facilityId = new FacilityId($pid);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+        $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
+
+        $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
+
+        return $this->render('admin-situation/edit', [
+            'projectId' => $projectId,
+            'workspaceId' => $workspaceId,
+            'facilityId' => $facilityId,
+            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
+            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
+            'response' => $response,
+            'surveyResponseId' => new SurveyResponseId($cid),
+            'cid' => $cid
+        ]);
+    }    
+    public function actionViewAdminSituation(
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyRepository $surveyRepository,
+        ProjectRepository $projectRepository,
+        SurveyResponseRepository $surveyResponseRepository,
+        int $pid,   //parentID
+        int $cid    //childId
+
+    ) {
+        $facilityId = new FacilityId($pid);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+        $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
+
+        $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
+
+        return $this->render('admin-situation/view', [
+            'projectId' => $projectId,
+            'workspaceId' => $workspaceId,
+            'facilityId' => $facilityId,
+            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
+            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
+            'response' => $response,
+            'surveyResponseId' => new SurveyResponseId($cid),
+            'cid' => $cid
+        ]);
+    }   
+    
 }
+

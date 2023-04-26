@@ -27,6 +27,10 @@ return [
         'route' => '<controller>/<action>',
     ],
     [
+        'pattern' => '<controller>/<pid:[\w-]+>/<action:[\w-]+>/<cid:[\w-]+>',
+        'route' => '<controller>/<action>',
+    ],
+    [
         'pattern' => '<controller>/<action:[\w-]+>',
         'route' => '<controller>/<action>',
     ],

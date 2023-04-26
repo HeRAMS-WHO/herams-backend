@@ -40,14 +40,18 @@ final class AdminResponses extends Action
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
 
         $data = [];
-        foreach ($surveyResponseRepository->retrieveAdminDataInFacility($facilityId) as $facility) {
+        foreach ($surveyResponseRepository->retrieveAdminDataInFacility($facilityId) as $surveyResponse) {
             $row = [
-                'id' => $facility->id,
+                'id' => $surveyResponse->id,
                 //                'raw' => $facility->allData()
+                'latest_update_by' => $surveyResponse->updatedUser?->name,
+                'facilityId'=> $facilityId,
+                'latest_udpate_date'=> $surveyResponse->updated_at,
+                'action' => $surveyResponse->id,
             ];
             foreach ($variables as $variable) {
                 $row[$variable->getName()] = $variable->getDisplayValue(
-                    $facility,
+                    $surveyResponse,
                     substr(\Yii::$app->language, 0, 2)
                 )->getRawValue();
             }

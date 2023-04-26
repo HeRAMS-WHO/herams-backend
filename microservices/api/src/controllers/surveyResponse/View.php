@@ -14,6 +14,7 @@ final class View extends Action
         SurveyResponseRepository $surveyResponseRepository,
         int $id
     ) {
-        return $surveyResponseRepository->retrieve(new SurveyResponseId($id));
+        $response = $surveyResponseRepository->retrieve(new SurveyResponseId($id));
+        print_r($response); exit;
     }
 }
