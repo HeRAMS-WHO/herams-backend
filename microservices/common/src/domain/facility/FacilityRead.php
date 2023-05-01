@@ -69,11 +69,19 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                     ->limit(1)->select('count(*)')
                     ->where([
                         'facility_id' => new Expression(self::tableName() . '.[[id]]'),
-                    ])->andWhere(['!=', 'status', 'Deleted']),
+                    ])->andWhere([
+                        'or',
+                           ['!=', 'status', 'Deleted'],
+                           ['IS', 'status', null]
+                        ]),
                 VirtualFieldBehavior::LAZY => static fn (self $facility) => SurveyResponse::find()
                     ->where([
                         'facility_id' => $facility->id
-                    ])->andWhere(['!=', 'status', 'Deleted'])->count(),
+                    ])->andWhere([
+                        'or',
+                           ['!=', 'status', 'Deleted'],
+                           ['IS', 'status', null]
+                        ])->count(),
             ],
             'adminSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -85,7 +93,11 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                             ->where([
                                 'id' => Workspace::find()->select('project_id')->where(['id' => $facility->workspace_id])
                             ])
-                    ])->andWhere(['!=', 'status', 'Deleted'])->count(),
+                    ])->andWhere([
+                        'or',
+                           ['!=', 'status', 'Deleted'],
+                           ['IS', 'status', null]
+                        ])->count(),
             ],
             'dataSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -97,7 +109,11 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                             ->where([
                                 'id' => Workspace::find()->select('project_id')->where(['id' => $facility->workspace_id])
                             ])
-                    ])->andWhere(['!=', 'status', 'Deleted'])->count(),
+                    ])->andWhere([
+                        'or',
+                           ['!=', 'status', 'Deleted'],
+                           ['IS', 'status', null]
+                        ])->count(),
 
             ],
 

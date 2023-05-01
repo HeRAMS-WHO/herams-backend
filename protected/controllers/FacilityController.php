@@ -23,6 +23,7 @@ use herams\common\values\FacilityId;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\values\SurveyResponseId;
 use herams\common\models\SurveyResponse;
+use prime\controllers\facility\CreateAdminSituation;
 
 final class FacilityController extends Controller
 {
@@ -38,6 +39,7 @@ final class FacilityController extends Controller
             'update' => Update::class,
             'view' => View::class,
             'update-situation' => UpdateSituation::class,
+            'create-admin-situation' => CreateAdminSituation::class,
         ];
     }
 
@@ -74,15 +76,14 @@ final class FacilityController extends Controller
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveDataSurveyId($projectId);
         $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
-
+        
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
-
         return $this->render('situation/edit', [
             'projectId' => $projectId,
             'workspaceId' => $workspaceId,
             'facilityId' => $facilityId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
+            'survey' => $survey,
             'response' => $response,
             'surveyResponseId' => new SurveyResponseId($cid),
             'cid' => $cid
@@ -112,7 +113,7 @@ final class FacilityController extends Controller
             'workspaceId' => $workspaceId,
             'facilityId' => $facilityId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
+            'survey' => $survey,
             'response' => $response,
             'surveyResponseId' => new SurveyResponseId($cid),
             'cid' => $cid

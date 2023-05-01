@@ -23,8 +23,8 @@ use yii\web\User;
  */
 
 
-$this->params['subject'] = Icon::healthFacility() . $facility->getTitle();
-$this->title = \Yii::t('app', 'Responses');
+//$this->params['subject'] = Icon::healthFacility() . $facility->getTitle();
+//$this->title = \Yii::t('app', 'Responses');
 $editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
 $viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
 $deleteIcon = preg_replace( "/\r|\n/", "", Icon::trash() );
@@ -39,7 +39,8 @@ $this->endBlock();
 Section::begin()
     ->withActions([
         [
-            'label' => \Yii::t('app', 'Update situation for facility'),
+            'label' => \Yii::t('app', 'Update Situation'),
+            'icon' => Icon::add(),
             'link' => Url::to($updateSituationUrl),
             'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
                 return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(Permission::PERMISSION_SURVEY_DATA);
@@ -60,24 +61,42 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'id',
             //'filter' => 'agNumberColumnFilter',
         ],
-        ...\iter\map(fn (VariableInterface $variable) => [
-            'field' => $variable->getName(),
-            'headerName' => $variable->getTitle(\Yii::$app->language),
-        ], $variables),
-
         [
 
-            'headerName' => \Yii::t('app', 'Last Updated by'),
-            'field' => 'latest_update_by',
+            'headerName' => \Yii::t('app', 'Survey Date'),
+            'field' => 'survey_date',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Created Date'),
+            'field' => 'created_at',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Created By'),
+            'field' => 'created_by',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Latest Update'),
+            'field' => 'latest_udpate_date',
             'filter' => 'agNumberColumnFilter',
         ],
         
         [
 
-            'headerName' => \Yii::t('app', 'Last Updated Date'),
-            'field' => 'latest_udpate_date',
+            'headerName' => \Yii::t('app', 'Update by'),
+            'field' => 'latest_update_by',
             'filter' => 'agNumberColumnFilter',
         ],
+        
+        ...\iter\map(fn (VariableInterface $variable) => [
+            'field' => $variable->getName(),
+            'headerName' => $variable->getTitle(\Yii::$app->language),
+        ], $variables),
         
         [
             'headerName' => \Yii::t('app', 'Action'),

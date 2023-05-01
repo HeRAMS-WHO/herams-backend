@@ -15,6 +15,10 @@ use yii\helpers\Url;
 use yii\web\Request;
 use yii\web\Response;
 
+
+use herams\common\values\FacilityId;
+use herams\common\domain\facility\FacilityRepository;
+
 final class Create extends Action
 {
     public function run(
@@ -24,7 +28,10 @@ final class Create extends Action
         Request $request,
         Response $response,
         CommandHandlerInterface $commandHandler,
+        FacilityRepository $facilityRepository,
     ) {
+
+        $requestData = $request->bodyParams;
         $model = new NewSurveyResponse();
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
 
@@ -39,6 +46,10 @@ final class Create extends Action
         // Todo: should we move this to an event that is triggered from the repository?
         $updateFacilityJob = new UpdateFacilityDataJob($model->facilityId);
 
+        $facilityid = $model->facilityId;
+        $facility = $facilityRepository->retrieveForUpdate($facilityid);
+        $model->status = 'Validatd';
+        $model->survey_date = $facility->admin_data['date_of_update'] ?? null;
         $id = $surveyResponseRepository->save($model);
 
         // For now update the facility synchronously.

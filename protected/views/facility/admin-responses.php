@@ -20,7 +20,7 @@ use prime\helpers\Icon;
  * @var iterable<VariableInterface> $variables
  * @var array $dataRoute
  */
-$this->title = \Yii::t('app', "Admin responses");
+//$this->title = \Yii::t('app', "Admin responses");
 
 $editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
 $viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
@@ -37,11 +37,12 @@ $this->endBlock();
 Section::begin()
     ->withActions([
         [
-            'label' => \Yii::t('app', 'Update admin for facility'),
+            'label' => \Yii::t('app', 'Update Admin Info'),
             'link' => Url::to([
-                'update',
+                'create-admin-situation',
                 'id' => $facility->getId(),
             ]),
+            'icon' => Icon::add(),
             'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
                 return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(Permission::PERMISSION_WRITE);
             },
@@ -55,15 +56,40 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
     'columns' => [
         [
 
+            'headerName' => \Yii::t('app', 'Id'),
+            'field' => 'id',
+            'filter' => 'agNumberColumnFilter',
+        ], 
+        [
+
             'headerName' => \Yii::t('app', 'Name'),
             'field' => 'name',
         ],
         [
 
-            'headerName' => \Yii::t('app', 'Id'),
-            'field' => 'id',
+            'headerName' => \Yii::t('app', 'Survey Date'),
+            'field' => 'survey_date',
             'filter' => 'agNumberColumnFilter',
         ],
+        [
+
+            'headerName' => \Yii::t('app', 'Created Date'),
+            'field' => 'created_at',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Created By'),
+            'field' => 'created_by',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
+            'headerName' => \Yii::t('app', 'Last Updated by'),
+            'field' => 'latest_update_by',
+            'filter' => 'agNumberColumnFilter',
+        ],
+        
         [
 
             'headerName' => \Yii::t('app', 'Last Updated Date'),
@@ -71,6 +97,10 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'filter' => 'agNumberColumnFilter',
         ],
         
+        ...\iter\map(fn (VariableInterface $variable) => [
+            'field' => $variable->getName(),
+            'headerName' => $variable->getTitle(\Yii::$app->language),
+        ], $variables),
         [
             'headerName' => \Yii::t('app', 'Action'),
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
@@ -117,10 +147,6 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'action',
             'filter' => false,
         ],
-        ...\iter\map(fn (VariableInterface $variable) => [
-            'field' => $variable->getName(),
-            'headerName' => $variable->getTitle(\Yii::$app->language),
-        ], $variables),
     ],
 
 ]);

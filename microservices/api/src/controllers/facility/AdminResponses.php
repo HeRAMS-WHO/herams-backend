@@ -43,10 +43,13 @@ final class AdminResponses extends Action
         foreach ($surveyResponseRepository->retrieveAdminDataInFacility($facilityId) as $surveyResponse) {
             $row = [
                 'id' => $surveyResponse->id,
-                //                'raw' => $facility->allData()
+                'survey_date' => $surveyResponse->survey_date,
+                //'raw' => $facility->allData()
                 'latest_update_by' => $surveyResponse->updatedUser?->name,
                 'facilityId'=> $facilityId,
-                'latest_udpate_date'=> $surveyResponse->updated_at,
+                'latest_udpate_date'=> $surveyResponse->latest_udpate_date,
+                'created_at' => $surveyResponse->created_at,
+                'created_by' => $surveyResponse->user->name,
                 'action' => $surveyResponse->id,
             ];
             foreach ($variables as $variable) {

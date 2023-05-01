@@ -215,6 +215,10 @@ class SurveyResponseRepository
         return SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
             'survey_id' => $surveyId
+        ])->andWhere([
+        'or',
+           ['!=', 'status', 'Deleted'],
+           ['IS', 'status', null]
         ])->all();
 
     }
@@ -230,20 +234,22 @@ class SurveyResponseRepository
         return $this->retrieveData($facilityId, $facility->workspace->project->getAdminSurveyId());
     }
 
-    public function updateSurveyResponse(UpdateSurveyResponse $model): void
+    public function updateSurveyResponse(UpdateSurveyResponse $model, $request, $facility): void
     {
         $record = SurveyResponse::findOne([
             'id' => $model->id,
         ]);
         \Yii::debug($model->attributes);
-
+        $record->response_type =  $request['response_type'];
+        $record->survey_date = $facility->admin_data['date_of_update'] ?? $record->survey_date;
+        $record->status =  $record->status ?? 'Validated';
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
     }
     public function deleteSurveyResponse(UpdateSurveyResponse $model): void
     {
         $record = SurveyResponse::findOne($model->id);
-        $record->deleted_at = \Carbon\Carbon::now();
+        $record->status = 'Deleted';
         $record->update();
         //return $this->redirect(\Yii::$app->request->referrer);
     }

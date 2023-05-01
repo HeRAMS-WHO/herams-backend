@@ -27,14 +27,14 @@ echo FacilityTabMenu::widget(
 $this->endBlock();
 
 Section::begin()
-    ->withHeader(Yii::t('app', 'Update Situation'));
+    ->withHeader(Yii::t('app', 'Create Admin Situation'));
 
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
     ->withExtraData([
         'facilityId' => $facilityId,
         'surveyId' => $survey->getId(),
-        'response_type' => 'situation',
+        'response_type' => 'admin',
     ])
     ->withSubmitRoute([
         'update-situation',
@@ -45,7 +45,7 @@ $survey = Survey::begin()
         'api/survey-response/create',
     ])
     ->withRedirectRoute([
-        'facility/responses',
+        'facility/admin-responses',
         'id' => $facilityId,
     ])
 ;

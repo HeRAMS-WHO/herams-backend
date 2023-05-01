@@ -20,13 +20,14 @@ use prime\helpers\Icon;
  //$this->params['subject'] = Icon::healthFacility() . $tabMenuModel->getTitle();
 $this->title = 'Edit Situation';
 
+$surveyConfig = $survey->getConfig();
 
 Section::begin()
     ->withHeader(Yii::t('app', 'Edit Admin Situation'));
 $survey = Survey::begin()
-    ->withConfig($survey->getConfig())
+    ->withConfig($surveyConfig)
     ->withDataRoute([
-        '/api/facility/view-admin-situation',
+        '/api/facility/view-situation',
         'id' => $cid,
     ], ['data'])
     ->withExtraData([
@@ -34,17 +35,13 @@ $survey = Survey::begin()
         'facilityId' => $facilityId,
         'response_type' => 'admin',
     ])
-    ->withSubmitRoute([
-        'edit-admin-situation',
-        'id' => $facilityId,
-    ])
     ->withProjectId($projectId)
     ->withSubmitRoute([
         'api/facility/save-situation',
         'id' => $cid,
     ])
     ->withRedirectRoute([
-        'facility/responses',
+        'facility/admin-responses',
         'id' => $facilityId,
     ])
 ;

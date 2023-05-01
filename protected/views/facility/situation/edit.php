@@ -21,10 +21,12 @@ use prime\helpers\Icon;
 $this->title = 'Edit Situation';
 
 
+$surveyConfig = $survey->getConfig();
+
 Section::begin()
     ->withHeader(Yii::t('app', 'Edit Situation'));
 $survey = Survey::begin()
-    ->withConfig($survey->getConfig())
+    ->withConfig($surveyConfig)
     ->withDataRoute([
         '/api/facility/view-situation',
         'id' => $cid,
