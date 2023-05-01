@@ -18,7 +18,8 @@ use yii\web\Response;
 use herams\common\helpers\ModelHydrator;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\api\models\UpdateSurveyResponse;
-
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\values\FacilityId;
 final class FacilityController extends Controller
 {
     public function actions()
@@ -38,66 +39,36 @@ final class FacilityController extends Controller
         $surveyResponse = SurveyResponse::findOne([
             'id' => $surveyResponseId,
         ]);
+
         if (! $surveyResponse) {
             return null;
         }
 
+        //print_r($surveyResponse); exit;
         return $surveyResponse;
     }
  
     public function actionSaveSituation(        
         SurveyResponseRepository $surveyResponseRepository,
+        FacilityRepository $facilityRepository,
         ModelHydrator $modelHydrator,
         Request $request,
         Response $response,
         int $id
         ) {
         $surveyResponseId = new SurveyResponseId($id);
-        //$model = new SurveyResponse($surveyResponseId);
-
+        
+        $requestData =  $request->bodyParams;
         $model = new UpdateSurveyResponse($surveyResponseId);
-        $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
+        $modelHydrator->hydrateFromJsonDictionary($model, $requestData);
         \Yii::debug($request->bodyParams);
         if (! $model->validate()) {
             $response->setStatusCode(422);
             return $model->errors;
         }
-
-        $surveyResponseRepository->updateSurveyResponse($model);
+        $facility = $facilityRepository->retrieveForUpdate(new FacilityId($requestData['facilityId']));
+        $surveyResponseRepository->updateSurveyResponse($model, $requestData, $facility);
     }
 
-    public function actionViewAdminSituation(int $id) {
-        $surveyResponseId = new SurveyResponseId($id);
-        $data = 
-        $surveyResponse = SurveyResponse::findOne([
-            'id' => $surveyResponseId,
-        ]);
-        if (! $surveyResponse) {
-            return null;
-        }
-
-        return $surveyResponse;
-    }
- 
-    public function actionSaveAdminSituation(        
-        SurveyResponseRepository $surveyResponseRepository,
-        ModelHydrator $modelHydrator,
-        Request $request,
-        Response $response,
-        int $id
-        ) {
-        $surveyResponseId = new SurveyResponseId($id);
-        //$model = new SurveyResponse($surveyResponseId);
-
-        $model = new UpdateSurveyResponse($surveyResponseId);
-        $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
-        \Yii::debug($request->bodyParams);
-        if (! $model->validate()) {
-            $response->setStatusCode(422);
-            return $model->errors;
-        }
-
-        $surveyResponseRepository->updateSurveyResponse($model);
-    }
 
 }

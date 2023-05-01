@@ -11,6 +11,7 @@ use herams\common\values\SurveyId;
 use herams\common\models\RequestModel;
 use herams\common\values\SurveyResponseId;
 use yii\validators\RequiredValidator;
+use herams\common\helpers\LocalizedString;
 
 class UpdateSurveyResponse extends RequestModel
 {
@@ -21,6 +22,8 @@ class UpdateSurveyResponse extends RequestModel
     ) {
         parent::__construct();
     }
+
+   // public LocalizedString|null $response_type = null;
 
     public RecordInterface|null $data = null;
 

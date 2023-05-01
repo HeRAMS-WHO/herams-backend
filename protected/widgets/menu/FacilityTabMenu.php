@@ -21,19 +21,19 @@ class FacilityTabMenu extends TabMenu
     {
         $this->tabs = [];
 
-        $this->tabs[] = [
-            'permission' => Permission::PERMISSION_READ,
-            'title' => \Yii::t('app', 'Current situation'),
-            'url' => [
-                'facility/view',
-                'id' => $this->facility->getId(),
+        // $this->tabs[] = [
+        //     'permission' => Permission::PERMISSION_READ,
+        //     'title' => \Yii::t('app', 'Current situation'),
+        //     'url' => [
+        //         'facility/view',
+        //         'id' => $this->facility->getId(),
 
-            ],
-        ];
+        //     ],
+        // ];
 
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_LIST_DATA_RESPONSES,
-            'title' => \Yii::t('app', 'Responses ({n})', [
+            'title' => \Yii::t('app', 'Situation Updates ({n})', [
                 'n' => $this->facility->getResponseCount(),
             ]),
             'url' => [
@@ -44,7 +44,7 @@ class FacilityTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_LIST_ADMIN_RESPONSES,
-            'title' => \Yii::t('app', 'Admin responses ({n})', [
+            'title' => \Yii::t('app', 'Admin Updates ({n})', [
                 'n' => $this->facility->getAdminResponseCount(),
             ]),
             'url' => [
@@ -55,7 +55,7 @@ class FacilityTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_WRITE,
-            'title' => \Yii::t('app', 'Facility settings'),
+            'title' => \Yii::t('app', 'Health Facility settings'),
             'url' => [
                 "facility/update",
                 'id' => $this->facility->getId(),

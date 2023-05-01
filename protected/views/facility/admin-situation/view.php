@@ -16,13 +16,14 @@ use prime\widgets\survey\Survey;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
-$this->title = 'View Situation';
+$this->title = 'View Admin Situation';
 
 
+$surveyConfig = $survey->getConfig();
 
 Section::begin();
 $survey = Survey::begin()
-    ->withConfig($survey->getConfig())
+    ->withConfig($surveyConfig)
     ->withDataRoute([
         '/api/facility/view-situation',
         'id' => $cid,

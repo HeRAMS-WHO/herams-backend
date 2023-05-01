@@ -120,9 +120,10 @@ final class FacilityRepository
         if (! isset($facility)) {
             throw new NotFoundHttpException();
         }
+        //print_r($facility->admin_data); exit;
         return new \prime\models\facility\FacilityForTabMenu(
             $id,
-            $facility->name ?? 'test_name',
+            $facility->admin_data['name']['en'] ?? $facility->data['name']['en'] ?? 'Facility ',
             new WorkspaceId($facility->workspace_id),
             $facility->dataSurveyResponseCount,
             $facility->adminSurveyResponseCount,
