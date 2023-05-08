@@ -28,7 +28,15 @@ use prime\controllers\facility\CreateAdminSituation;
 final class FacilityController extends Controller
 {
     public $layout = self::LAYOUT_ADMIN_TABS;
-
+    public function __construct(
+        $id,
+        $module,
+        private ProjectRepository $projectRepository,
+        private FacilityRepository $facilityRepository,
+        $config = []
+    ) {
+        parent::__construct($id, $module, $config);
+    }
     public function actions(): array
     {
         return [
@@ -82,6 +90,7 @@ final class FacilityController extends Controller
             'projectId' => $projectId,
             'workspaceId' => $workspaceId,
             'facilityId' => $facilityId,
+            'surveyId' => $surveyId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
             'survey' => $survey,
             'response' => $response,
@@ -112,6 +121,7 @@ final class FacilityController extends Controller
             'projectId' => $projectId,
             'workspaceId' => $workspaceId,
             'facilityId' => $facilityId,
+            'surveyId' => $surveyId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
             'survey' => $survey,
             'response' => $response,
@@ -152,6 +162,7 @@ final class FacilityController extends Controller
             'projectId' => $projectId,
             'workspaceId' => $workspaceId,
             'facilityId' => $facilityId,
+            'surveyId' => $surveyId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
             'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
             'response' => $response,
@@ -182,13 +193,23 @@ final class FacilityController extends Controller
             'projectId' => $projectId,
             'workspaceId' => $workspaceId,
             'facilityId' => $facilityId,
+            'surveyId' => $surveyId,
             'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
             'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
             'response' => $response,
             'surveyResponseId' => new SurveyResponseId($cid),
             'cid' => $cid
         ]);
-    }   
+    }
+
+    public function render($view, $params = [])
+    {
+        if (! isset($params['tabMenuModel']) && $this->request->getQueryParam('id')) {
+            $facilityId = new FacilityId((int) $this->request->getQueryParam('id'));
+            $params['tabMenuModel'] = $this->facilityRepository->retrieveForTabMenu($facilityId);
+        }
+        return parent::render($view, $params);
+    }
     
 }
 

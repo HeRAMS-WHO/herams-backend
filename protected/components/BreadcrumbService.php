@@ -72,13 +72,13 @@ class BreadcrumbService
     {
         $facility = $this->facilityRepository->retrieveForTabMenu($id);
         $result = $this->retrieveForWorkspace($facility->getWorkspaceId());
-        $result->add(new Breadcrumb(
-            Icon::healthFacility() . ' ' . $facility->getTitle(),
-            Url::to([
-                'facility/responses',
-                'id' => $id,
-            ])
-        ));
+        // $result->add(new Breadcrumb(
+        //     Icon::healthFacility() . $facility->getTitle(),
+        //     Url::to([
+        //         'facility/responses',
+        //         'id' => $id,
+        //     ])
+        // ));
         return $result;
     }
 }

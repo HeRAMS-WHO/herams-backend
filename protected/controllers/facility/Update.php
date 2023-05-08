@@ -10,6 +10,7 @@ use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\FacilityId;
 use prime\actions\FrontendAction;
+use prime\components\BreadcrumbService;
 
 final class Update extends FrontendAction
 {
@@ -18,6 +19,7 @@ final class Update extends FrontendAction
         WorkspaceRepository $workspaceRepository,
         ProjectRepository $projectRepository,
         FacilityRepository $facilityRepository,
+        BreadcrumbService $breadcrumbService,
         int $id
     ) {
         $facilityId = new FacilityId($id);
@@ -25,6 +27,8 @@ final class Update extends FrontendAction
 
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+
+        $this->controller->view->breadcrumbCollection->mergeWith($breadcrumbService->retrieveForFacility($facilityId));
 
         return $this->render('update', [
             'projectId' => $projectId,

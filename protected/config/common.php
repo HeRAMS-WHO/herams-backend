@@ -17,7 +17,7 @@ return [
     'name' => 'HeRAMS',
     'basePath' => realpath(__DIR__ . '/../'),
     'runtimePath' => $env->getWithDefault('RUNTIME_PATH', '/tmp'),
-    'timeZone' => 'UTC',
+    'timeZone' => 'CET',
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en',
     'aliases' => [

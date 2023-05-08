@@ -20,7 +20,8 @@ use prime\helpers\Icon;
  * @var iterable<VariableInterface> $variables
  * @var array $dataRoute
  */
-//$this->title = \Yii::t('app', "Admin responses");
+$this->title = $tabMenuModel->getTitle();
+
 
 $editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
 $viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
@@ -60,11 +61,11 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'id',
             'filter' => 'agNumberColumnFilter',
         ], 
-        [
+        // [
 
-            'headerName' => \Yii::t('app', 'Name'),
-            'field' => 'name',
-        ],
+        //     'headerName' => \Yii::t('app', 'Name'),
+        //     'field' => 'name',
+        // ],
         [
 
             'headerName' => \Yii::t('app', 'Survey Date'),

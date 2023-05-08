@@ -70,5 +70,15 @@ final class FacilityController extends Controller
         $surveyResponseRepository->updateSurveyResponse($model, $requestData, $facility);
     }
 
+    public function actionDeleteFacility( 
+        FacilityRepository $facilityRepository,
+        Request $request,
+        Response $response,
+        int $id
+        ) {
+       
+        $facilityId = new FacilityId($id);
+        $facilityRepository->deleteFacility($facilityId);
+    }
 
 }

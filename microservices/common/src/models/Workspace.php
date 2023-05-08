@@ -21,6 +21,10 @@ use yii\validators\ExistValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use function iter\map;
+use yii\validators\SafeValidator;
+use yii\behaviors\TimestampBehavior;
+use Carbon\Carbon;
+use yii\behaviors\BlameableBehavior;
 
 /**
  * Attributes
@@ -50,6 +54,17 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
     public function behaviors(): array
     {
         return [
+                TimestampBehavior::class => [
+                    'class' => TimestampBehavior::class,
+                    'updatedAtAttribute' => 'latest_udpate_date',
+                    'createdAtAttribute' => 'created_date',
+                    'value' => fn() => Carbon::now()
+                ],
+                BlameableBehavior::class => [
+                    'class' => BlameableBehavior::class,
+                    'updatedByAttribute' =>  'latest_update_by',
+                    'createdByAttribute' =>  'created_by',
+                ],
                 'virtualFields' => [
                     'class' => VirtualFieldBehavior::class,
                     'virtualFields' => [
@@ -160,7 +175,11 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                                         ->andWhere([
                                             'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
                                         ]),
-                                ]),
+                                ])->andWhere([
+                                    'or',
+                                       ['!=', 'status', 'Deleted'],
+                                       ['IS', 'status', null]
+                                    ]),
                             VirtualFieldBehavior::LAZY => static fn (Workspace $workspace): int => (int) $workspace->getResponses()->count(),
 
                         ],
@@ -241,6 +260,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                 StringValidator::class,
                 'min' => 1,
             ],
+            [['latest_survey_date', 'created_date', 'created_by', 'latest_udpate_date', 'latest_update_by', 'status'], SafeValidator::class],
             [['project_id'],
                 ExistValidator::class,
                 'targetRelation' => 'project',

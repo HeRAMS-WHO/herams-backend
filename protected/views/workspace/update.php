@@ -24,7 +24,7 @@ assert($this instanceof View);
 
 
 $this->params['subject'] = $tabMenuModel->title();
-$this->title = \Yii::t('app', "Settings");
+//$this->title = \Yii::t('app', "Settings");
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget([
     'workspace' => $tabMenuModel,

@@ -41,7 +41,7 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
         'name' => 'HeRAMS API',
         'basePath' => realpath(__DIR__ . '/../'),
         'runtimePath' => $env->getWithDefault('RUNTIME_PATH', '/tmp'),
-        'timeZone' => 'UTC',
+        'timeZone' => 'CET',
         'vendorPath' => '@app/../vendor',
         'sourceLanguage' => 'en',
         'language' => 'en',
