@@ -24,7 +24,8 @@ use yii\web\User;
 
 
 //$this->params['subject'] = Icon::healthFacility() . $facility->getTitle();
-//$this->title = \Yii::t('app', 'Responses');
+//$this->title = \Yii::t('app', 'Situation Updates');
+$this->title = $tabMenuModel->getTitle();
 $editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
 $viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
 $deleteIcon = preg_replace( "/\r|\n/", "", Icon::trash() );
@@ -97,7 +98,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => $variable->getName(),
             'headerName' => $variable->getTitle(\Yii::$app->language),
         ], $variables),
-        
+
         [
             'headerName' => \Yii::t('app', 'Action'),
             'cellRenderer' => new \yii\web\JsExpression(<<<JS

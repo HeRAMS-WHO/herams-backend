@@ -21,6 +21,7 @@ use prime\helpers\CanCurrentUserWrapper;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use yii\web\NotFoundHttpException;
+use herams\common\models\SurveyResponse;
 
 final class FacilityRepository
 {
@@ -59,6 +60,7 @@ final class FacilityRepository
         $record = new Facility();
 
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
+        //$record->survey_date = $record->admin_data['date_of_update'] ?? null;
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
@@ -121,14 +123,30 @@ final class FacilityRepository
             throw new NotFoundHttpException();
         }
         //print_r($facility->admin_data); exit;
+        $name = $facility->admin_data['name']['en'] ?? '';
+        if($name == ''){
+            $name = $facility->admin_data['name'] ?? '';
+        }
+        if($name == ''){
+            $name = $facility->data['name']['en'] ?? '';
+        }
         return new \prime\models\facility\FacilityForTabMenu(
             $id,
-            $facility->admin_data['name']['en'] ?? $facility->data['name']['en'] ?? 'Facility ',
+            $name,
             new WorkspaceId($facility->workspace_id),
             $facility->dataSurveyResponseCount,
             $facility->adminSurveyResponseCount,
             $facility->canReceiveSituationUpdate(),
             new CanCurrentUserWrapper($this->accessCheck, $facility)
         );
+    }
+    public function deleteFacility(FacilityId $id)
+    { 
+        //$facility = Facility::findOne([
+         //   'id' => $id,
+       // ]);        
+        
+        //SurveyResponse::deleteAll(['facility_id' =>  $facility->id]);
+        //$facility->delete();
     }
 }

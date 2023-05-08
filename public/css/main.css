@@ -899,4 +899,7 @@ input[type="text"] {
 }
 .ag-grid-action-icon{
     padding:5px;
+    position: relative;
+    top: -13px;
+    right: 7px;
 }

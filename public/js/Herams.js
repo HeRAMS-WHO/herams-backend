@@ -80,21 +80,53 @@ class Herams {
   }
 
   static async #delete ({ heramsEndpoint, heramsConfirm, heramsRedirect }) {
-    // Configuration
-    /**
-     2. execute DELETE on endpoint
-     3. check result
-     4. Do redirect OR show error message
-     */
-
-    try {
-      await this.#confirm(heramsConfirm)
-      await this.fetchWithCsrf(heramsEndpoint, null, 'DELETE')
-      window.location.assign(heramsRedirect)
-      this.notifySuccess()
+    try{
+      iziToast.show({
+        message: heramsConfirm,
+        overlay: true,
+        overlayClose: true,
+        color: 'red',
+        closeOnEscape: true,
+        position: "center",
+        buttons: [
+            ['<button>Yes</button>', (instance, toast) => {
+                instance.hide({}, toast, 'yes');
+        }],
+            ['<button>No</button>', (instance, toast) => {
+                instance.hide({}, toast, 'no');
+        }],
+        ],
+        onClosed: (instance, toast, closedBy) => {
+            if (closedBy === 'yes') {
+              const response = this.delete(heramsEndpoint, heramsRedirect);
+            } else {
+                !cancel || cancel();
+            }
+        }
+      });
     } catch (error) {
-      this.#notifyError(typeof error === 'string' ? error : error.message)
       console.error(error)
+    }
+  }
+
+  static delete(uri, redirect){
+    
+    const response = fetch(uri, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'X-CSRF-Token': window.yii.getCsrfToken(),
+        Accept: 'application/json;indent=2',
+        'Accept-Language': document.documentElement.lang ?? 'en',
+        'Content-Type': 'application/json',
+      },
+      redirect: 'error',
+      referrer: 'no-referrer',
+    })
+    if (response) {
+      //window.location.assign(redirect);
     }
   }
 

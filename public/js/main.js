@@ -26,3 +26,6 @@ yii.confirm = function (message, ok, cancel) {
     return false;
 }
 
+$(document).on("click","#delete",function() {
+    alert("click");
+});

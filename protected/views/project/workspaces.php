@@ -68,12 +68,12 @@ echo AgGrid::widget([
         //                '(a, b) => a == b ? 0 : a ? 1: -1'
         //            ),
         //        ],
-        [
+        // [
 
-            'headerName' => \Yii::t('app', 'ID'),
-            'field' => 'id',
-            //'filter' => 'agNumberColumnFilter',
-        ],
+        //     'headerName' => \Yii::t('app', 'ID'),
+        //     'field' => 'id',
+        //     //'filter' => 'agNumberColumnFilter',
+        // ],
         [
 
             'headerName' => \Yii::t('app', 'Title'),
@@ -90,10 +90,16 @@ echo AgGrid::widget([
             //            'filter' => 'agNumberColumnFilter',
         ],
 
+        // [
+
+        //     'headerName' => \Yii::t('app', 'Latest update'),
+        //     'field' => 'latestUpdate',
+        //     'filter' => 'agDateColumnFilter',
+        // ],
         [
 
-            'headerName' => \Yii::t('app', 'Latest update'),
-            'field' => 'latestUpdate',
+            'headerName' => \Yii::t('app', 'Latest Survey'),
+            'field' => 'latest_survey_date',
             'filter' => 'agDateColumnFilter',
         ],
         [

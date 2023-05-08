@@ -241,10 +241,15 @@ class SurveyResponseRepository
         ]);
         \Yii::debug($model->attributes);
         $record->response_type =  $request['response_type'];
-        $record->survey_date = $facility->admin_data['date_of_update'] ?? $record->survey_date;
+        //$record->survey_date = $facility->admin_data['date_of_update'] ?? $record->survey_date;
+        $record->survey_date = $request['data']['date_of_update'] ?? $record->survey_date;
         $record->status =  $record->status ?? 'Validated';
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
+
+        $suserveyId = $record->facility->workspace->project->data_survey_id;
+        $adminSuserveyId = $record->facility->workspace->project->admin_survey_id;
+        $this->updateSurveyDateToWorkspace($suserveyId, $adminSuserveyId);
     }
     public function deleteSurveyResponse(UpdateSurveyResponse $model): void
     {
@@ -252,5 +257,17 @@ class SurveyResponseRepository
         $record->status = 'Deleted';
         $record->update();
         //return $this->redirect(\Yii::$app->request->referrer);
+    }
+    public function updateSurveyDateToWorkspace($surveyId,$adminSuserveyId){
+
+        $surveyResponse = SurveyResponse::find()
+        ->where(['survey_id' => $surveyId])
+        ->orWhere(['survey_id' => $adminSuserveyId])
+        ->orderBy('survey_date DESC')->limit(1)->one();
+        
+        $surveyResponse->facility->workspace->latest_survey_date = $surveyResponse->survey_date;
+
+        $surveyResponse->facility->workspace->update();
+
     }
 }

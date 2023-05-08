@@ -189,7 +189,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
     {
         return [
             [['data', 'facility_id', 'survey_id'], RequiredValidator::class],
-            [['data', 'response_type', 'status', 'latest_udpate_date', 'latest_update_by'], SafeValidator::class],
+            [['data', 'survey_date', 'response_type', 'status', 'latest_udpate_date', 'latest_update_by'], SafeValidator::class],
             [['facility_id'],
                 ExistValidator::class,
                 'targetRelation' => 'facility',
