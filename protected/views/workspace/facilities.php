@@ -58,6 +58,12 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         ],
         [
 
+            'headerName' => \Yii::t('app', 'Latest Survey Date'),
+            'field' => 'latestServeyDate',
+            //'filter' => 'agNumberColumnFilter',
+        ],
+        [
+
             'headerName' => \Yii::t('app', 'Health facility name'),
             'field' => 'name',
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
