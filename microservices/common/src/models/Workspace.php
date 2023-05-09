@@ -183,6 +183,23 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                             VirtualFieldBehavior::LAZY => static fn (Workspace $workspace): int => (int) $workspace->getResponses()->count(),
 
                         ],
+                        
+                        'latestServeyDate' => [
+                            
+                            VirtualFieldBehavior::LAZY => static fn (self $workspace) => SurveyResponse::find()
+                                ->where([
+                                    'facility_id' => Facility::find()
+                                        ->select('id')
+                                        ->andWhere([
+                                            'workspace_id' => $workspace->id,
+                                        ]),
+                                ])->andWhere([
+                                    'or',
+                                    ['!=', 'status', 'Deleted'],
+                                    ['IS', 'status', null]
+                                    ])
+                                    ->orderBy('survey_date DESC')->limit(1)->one()->survey_date,
+                        ],
                     ],
                 ],
             ];
