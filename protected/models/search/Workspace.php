@@ -46,11 +46,43 @@ class Workspace extends Model
 
     public function search($params)
     {
-        $query = \prime\models\ar\Workspace::find();
+        $subqueryResponse = (new \yii\db\Query())
+            ->select([
+                'workspace_id',
+                'latestUpdate' => 'MAX(last_updated)',
+                'facilityCount' => 'COUNT(DISTINCT hf_id)',
+                'responseCount' => 'COUNT(*)'
+            ])
+            ->from(\prime\models\ar\Response::tableName())
+            ->groupBy('workspace_id');
 
-        $query->with('project');
-        $query->withFields('latestUpdate', 'facilityCount', 'responseCount', 'contributorCount');
-        $query->andFilterWhere(['tool_id' => $this->project->id]);
+        $subqueryContributorCount = (new \yii\db\Query())
+            ->select(['target_id', 'contributorCount' => 'COUNT(DISTINCT source_id)'])
+            ->from(\prime\models\ar\Permission::tableName())
+            ->where([
+                'target' => \prime\models\ar\Workspace::class,
+                'source' => \prime\models\ar\User::class,
+            ])
+            ->groupBy('target_id');
+
+        $subqueryFavorite = (new \yii\db\Query())
+            ->select('target_id')
+            ->from(\prime\models\ar\Favorite::tableName())
+            ->where([
+                'target_class' => \prime\models\ar\Workspace::class,
+                'user_id' => $this->user->id
+            ]);
+
+        $query = \prime\models\ar\Workspace::find()
+            ->leftJoin(['r' => $subqueryResponse], 'r.workspace_id = prime2_workspace.id')
+            ->leftJoin(['p' => $subqueryContributorCount], 'p.target_id = prime2_workspace.id')
+            ->select(['prime2_workspace.*', 'r.latestUpdate', 'r.facilityCount', 'r.responseCount', 'p.contributorCount'])
+            ->andFilterWhere(['tool_id' => $this->project->id]);
+
+        $query->orderBy([
+            new Expression("CASE WHEN prime2_workspace.id NOT IN ({$subqueryFavorite->createCommand()->rawSql}) THEN 1 ELSE 0 END DESC"),
+            'r.latestUpdate' => SORT_DESC,
+        ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
