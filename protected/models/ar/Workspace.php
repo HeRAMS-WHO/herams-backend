@@ -122,9 +122,9 @@ class Workspace extends ActiveRecord
         ];
     }
 
-    public static function find(): WorkspaceQuery
+    public static function find(): ActiveQuery
     {
-        return new WorkspaceQuery(self::class);
+        return new ActiveQuery(self::class);
     }
 
     public function getProject()
