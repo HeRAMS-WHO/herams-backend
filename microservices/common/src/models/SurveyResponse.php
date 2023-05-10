@@ -47,7 +47,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
             ],
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
-                'updatedAtAttribute' => 'latest_udpate_date',
+                'updatedAtAttribute' => 'latest_update_date',
                 'value' => fn() => Carbon::now()
             ],
         ];
@@ -189,7 +189,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
     {
         return [
             [['data', 'facility_id', 'survey_id'], RequiredValidator::class],
-            [['data', 'survey_date', 'response_type', 'status', 'latest_udpate_date', 'latest_update_by'], SafeValidator::class],
+            [['data', 'survey_date', 'response_type', 'status', 'latest_update_date', 'latest_update_by'], SafeValidator::class],
             [['facility_id'],
                 ExistValidator::class,
                 'targetRelation' => 'facility',

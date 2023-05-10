@@ -56,7 +56,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
         return [
                 TimestampBehavior::class => [
                     'class' => TimestampBehavior::class,
-                    'updatedAtAttribute' => 'latest_udpate_date',
+                    'updatedAtAttribute' => 'latest_update_date',
                     'createdAtAttribute' => 'created_date',
                     'value' => fn() => Carbon::now()
                 ],
@@ -198,7 +198,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                                     ['!=', 'status', 'Deleted'],
                                     ['IS', 'status', null]
                                     ])
-                                    ->orderBy('survey_date DESC')->limit(1)->one()->survey_date,
+                                    ->orderBy('survey_date DESC')->limit(1)->one()->survey_date ?? null,
                         ],
                     ],
                 ],
@@ -277,7 +277,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                 StringValidator::class,
                 'min' => 1,
             ],
-            [['latest_survey_date', 'created_date', 'created_by', 'latest_udpate_date', 'latest_update_by', 'status'], SafeValidator::class],
+            [['latest_survey_date', 'created_date', 'created_by', 'latest_update_date', 'latest_update_by', 'status'], SafeValidator::class],
             [['project_id'],
                 ExistValidator::class,
                 'targetRelation' => 'project',

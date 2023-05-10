@@ -44,7 +44,7 @@ final class DataResponses extends Action
                 'survey_date' => $surveyResponse->survey_date,
                 'latest_update_by' => $surveyResponse->updatedUser?->name,
                 'facilityId'=> $facilityId,
-                'latest_udpate_date'=> $surveyResponse->latest_udpate_date,
+                'latest_update_date'=> $surveyResponse->latest_update_date,
                 'created_at' => $surveyResponse->created_at,
                 'created_by' => $surveyResponse->user->name,
                 'action' => $surveyResponse->id,
