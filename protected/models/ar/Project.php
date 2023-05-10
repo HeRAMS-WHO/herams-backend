@@ -193,11 +193,13 @@ class Project extends ActiveRecord implements Linkable
         return $this->limesurveyDataProvider()->getSurvey($this->base_survey_eid);
     }
 
-    public function getWorkspaces(): ActiveQuery
+    /**
+     * @return WorkspaceQuery
+     */
+    public function getWorkspaces(): WorkspaceQuery
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
-
     public function rules(): array
     {
         return [
