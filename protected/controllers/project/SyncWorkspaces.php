@@ -24,8 +24,8 @@ class SyncWorkspaces extends Action
     ): string {
         /** @var Project|null $project */
         $project = Project::find()
-            ->with(['workspaces' => static function (WorkspaceQuery $query) {
-                $query->withFields(['latestUpdate']);
+            ->with(['workspaces' => static function (ActiveQuery $query) {
+                $query->withFields('latestUpdate');
                 $query->addSelect([
                     'latestUpdate' => \prime\models\ar\Response::find()
                         ->select('MAX(last_updated)')

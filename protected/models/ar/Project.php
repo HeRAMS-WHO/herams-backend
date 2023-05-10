@@ -194,9 +194,9 @@ class Project extends ActiveRecord implements Linkable
     }
 
     /**
-     * @return WorkspaceQuery
+     * @return ActiveQuery
      */
-    public function getWorkspaces(): WorkspaceQuery
+    public function getWorkspaces(): ActiveQuery
     {
         return $this->hasMany(Workspace::class, ['tool_id' => 'id'])->inverseOf('project');
     }
