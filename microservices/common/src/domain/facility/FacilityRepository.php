@@ -142,11 +142,11 @@ final class FacilityRepository
     }
     public function deleteFacility(FacilityId $id)
     { 
-        //$facility = Facility::findOne([
-         //   'id' => $id,
-       // ]);        
+        $facility = Facility::findOne([
+           'id' => $id,
+       ]);        
         
-        //SurveyResponse::deleteAll(['facility_id' =>  $facility->id]);
-        //$facility->delete();
+        SurveyResponse::deleteAll(['facility_id' =>  $facility->id]);
+        $facility->delete();
     }
 }

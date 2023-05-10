@@ -99,8 +99,10 @@ class Herams {
         onClosed: (instance, toast, closedBy) => {
             if (closedBy === 'yes') {
               const response = this.delete(heramsEndpoint, heramsRedirect);
+
+             // const response = await this.delete(heramsEndpoint, heramsRedirect);
             } else {
-                !cancel || cancel();
+                
             }
         }
       });
@@ -109,10 +111,11 @@ class Herams {
     }
   }
 
-  static delete(uri, redirect){
+  static async delete(uri, redirect){
     
-    const response = fetch(uri, {
-      method: 'POST',
+    $.ajax({
+      method: "POST",
+      url: uri,
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
@@ -122,12 +125,30 @@ class Herams {
         'Accept-Language': document.documentElement.lang ?? 'en',
         'Content-Type': 'application/json',
       },
-      redirect: 'error',
-      referrer: 'no-referrer',
-    })
-    if (response) {
-      //window.location.assign(redirect);
-    }
+      success: function(data){ 
+        window.location.assign(redirect);
+      },
+      error: function (data) {
+          console.log('An error occurred.');
+      },
+    });
+    // const response = await fetch(uri, {
+    //   method: 'POST',
+    //   mode: 'cors',
+    //   cache: 'no-cache',
+    //   credentials: 'same-origin',
+    //   headers: {
+    //     'X-CSRF-Token': window.yii.getCsrfToken(),
+    //     Accept: 'application/json;indent=2',
+    //     'Accept-Language': document.documentElement.lang ?? 'en',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   redirect: 'error',
+    //   referrer: 'no-referrer',
+    // })
+    // if (response) {
+    //     window.location.assign(redirect);
+    // }
   }
 
   #getCsrfToken () {
