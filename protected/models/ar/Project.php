@@ -360,11 +360,11 @@ class Project extends ActiveRecord implements Linkable
 
         $query = $this->getResponses()
             ->groupBy([
-                'type'
+                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))"
             ])
             ->select([
                 'count' => 'count(*)',
-                'type' => 'type',
+                'type' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getType()}'))",
             ])
              ->indexBy('type')
             ->asArray();
@@ -385,11 +385,11 @@ class Project extends ActiveRecord implements Linkable
     {
         $query = $this->getResponses()
             ->groupBy([
-                'functionality'
+                "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))"
             ])
             ->select([
                 'count' => 'count(*)',
-                'functionality' => "functionality",
+                'functionality' => "json_unquote(json_extract([[data]], '$.{$this->getMap()->getFunctionality()}'))",
             ])
             ->indexBy('functionality')
             ->orderBy('functionality')
@@ -419,14 +419,11 @@ class Project extends ActiveRecord implements Linkable
             HeramsSubject::FULLY_AVAILABLE => 0,
             HeramsSubject::PARTIALLY_AVAILABLE => 0,
             HeramsSubject::NOT_AVAILABLE => 0,
-            HeramsSubject::NOT_PROVIDED => 0,
+            HeramsSubject::NOT_PROVIDED=> 0,
         ];
-
-        /** @var Response $response */
-        foreach ($this->getResponses()->each() as $response) {
-            $subjects = $response->getSubjects();
-
-            foreach ($subjects as $subject) {
+        /** @var HeramsResponseInterface $heramsResponse */
+        foreach ($this->getResponses()->each() as $heramsResponse) {
+            foreach ($heramsResponse->getSubjects() as $subject) {
                 $subjectAvailability = $subject->getAvailability();
                 if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
                     continue;
@@ -439,7 +436,7 @@ class Project extends ActiveRecord implements Linkable
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
             'A3' => \Yii::t('app', 'None'),
-            // 'A4' => \Yii::t('app', 'Not normally provided'),
+//            'A4' => \Yii::t('app', 'Not normally provided'),
         ];
 
         $result = [];
