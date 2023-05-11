@@ -194,7 +194,7 @@ class Project extends ActiveRecord implements Linkable
     }
 
     /**
-     * @return WorkspaceQuery
+     * @return ActiveQuery
      */
     public function getWorkspaces(): ActiveQuery
     {
