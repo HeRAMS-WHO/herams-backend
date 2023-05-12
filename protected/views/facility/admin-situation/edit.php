@@ -16,9 +16,9 @@ use prime\helpers\Icon;
  * @var \prime\models\survey\SurveyForSurveyJs $survey
  * @var \herams\common\values\FacilityId $facilityId
  */
+$this->params['subject'] =  'Edit Admin Situation';
 
- //$this->params['subject'] = Icon::healthFacility() . $tabMenuModel->getTitle();
-$this->title = 'Edit Situation';
+$this->title = 'Edit Admin Situation';
 
 $surveyConfig = $survey->getConfig();
 

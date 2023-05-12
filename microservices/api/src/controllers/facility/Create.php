@@ -30,7 +30,7 @@ final class Create extends Action
         FacilityRepository $facilityRepository
     ): Response {
         $facility = new NewFacility();
-
+        $requestData = $request->bodyParams;
         $modelHydrator->hydrateFromJsonDictionary($facility, $request->bodyParams);
 
         if (! $modelValidator->validateModel($facility)) {
@@ -44,6 +44,11 @@ final class Create extends Action
         $responseRecord->surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
         $responseRecord->facilityId = $facilityId;
         $modelHydrator->hydrateFromJsonDictionary($responseRecord, $request->bodyParams);
+
+        $responseRecord->status = 'Validatd';
+        $responseRecord->survey_date = $requestData['data']['date_of_update'] ?? null;
+        $responseRecord->response_type = 'admin';
+
         $surveyResponseRepository->save($responseRecord);
 
         $response->setStatusCode(201);
