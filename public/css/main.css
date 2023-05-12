@@ -903,3 +903,14 @@ input[type="text"] {
     top: -13px;
     right: 7px;
 }
+.admin-header{
+    background-color: green !important;
+}
+
+.user-menu.admin{
+    background-color: green !important;
+}
+.breadcrumb {
+    --breadcrumbs-color: #fff;
+    --separator-color: #fff;
+}
