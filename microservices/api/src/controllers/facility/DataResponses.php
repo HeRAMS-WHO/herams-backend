@@ -41,6 +41,7 @@ final class DataResponses extends Action
         foreach ($surveyResponseRepository->retrieveDataInFacility($facilityId) as $surveyResponse) {
             $row = [
                 'id' => $surveyResponse->id,
+                'response_type' => $surveyResponse->response_type ?? 'situation',
                 'survey_date' => $surveyResponse->survey_date,
                 'latest_update_by' => $surveyResponse->updatedUser?->name,
                 'facilityId'=> $facilityId,

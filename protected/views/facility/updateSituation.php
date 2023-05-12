@@ -16,7 +16,8 @@ use prime\widgets\survey\Survey;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
-$this->title = $tabMenuModel->getTitle();
+ 
+$this->title = Yii::t('app', 'Create update Situation');
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(

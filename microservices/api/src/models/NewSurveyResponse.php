@@ -23,6 +23,7 @@ class NewSurveyResponse extends Model
 
     public $status;
     public $survey_date;
+    public $response_type;
 
     public function rules(): array
     {

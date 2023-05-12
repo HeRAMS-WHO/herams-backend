@@ -24,6 +24,7 @@ use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\values\SurveyResponseId;
 use herams\common\models\SurveyResponse;
 use prime\controllers\facility\CreateAdminSituation;
+use prime\components\BreadcrumbService;
 
 final class FacilityController extends Controller
 {
@@ -145,6 +146,8 @@ final class FacilityController extends Controller
         SurveyRepository $surveyRepository,
         ProjectRepository $projectRepository,
         SurveyResponseRepository $surveyResponseRepository,
+        BreadcrumbService $breadcrumbService,
+        \prime\components\View $view,
         int $pid,   //parentID
         int $cid    //childId
 
@@ -152,6 +155,7 @@ final class FacilityController extends Controller
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
 
+        $view->getBreadcrumbCollection()->mergeWith($breadcrumbService->retrieveForFacility($facilityId));
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
         $survey = $surveyRepository->retrieveForSurveyJs($surveyId);

@@ -61,6 +61,10 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'id',
             'filter' => 'agNumberColumnFilter',
         ], 
+        ...\iter\map(fn (VariableInterface $variable) => [
+            'field' => $variable->getName(),
+            'headerName' => $variable->getTitle(\Yii::$app->language),
+        ], $variables),
         // [
 
         //     'headerName' => \Yii::t('app', 'Name'),
@@ -74,14 +78,26 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         ],
         [
 
-            'headerName' => \Yii::t('app', 'Created Date'),
-            'field' => 'created_at',
+            'headerName' => \Yii::t('app', 'Response Type'),
+            'field' => 'response_type',
             'filter' => 'agNumberColumnFilter',
         ],
+        // [
+
+        //     'headerName' => \Yii::t('app', 'Created Date'),
+        //     'field' => 'created_at',
+        //     'filter' => 'agNumberColumnFilter',
+        // ],
+        // [
+
+        //     'headerName' => \Yii::t('app', 'Created By'),
+        //     'field' => 'created_by',
+        //     'filter' => 'agNumberColumnFilter',
+        // ],
         [
 
-            'headerName' => \Yii::t('app', 'Created By'),
-            'field' => 'created_by',
+            'headerName' => \Yii::t('app', 'Last Updated Date'),
+            'field' => 'latest_update_date',
             'filter' => 'agNumberColumnFilter',
         ],
         [
@@ -91,17 +107,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'filter' => 'agNumberColumnFilter',
         ],
         
-        [
-
-            'headerName' => \Yii::t('app', 'Last Updated Date'),
-            'field' => 'latest_update_date',
-            'filter' => 'agNumberColumnFilter',
-        ],
         
-        ...\iter\map(fn (VariableInterface $variable) => [
-            'field' => $variable->getName(),
-            'headerName' => $variable->getTitle(\Yii::$app->language),
-        ], $variables),
         [
             'headerName' => \Yii::t('app', 'Action'),
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
