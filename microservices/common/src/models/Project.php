@@ -333,7 +333,11 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                                 'project_id' => new Expression(self::tableName() . '.[[id]]'),
                             ]),
                     ])->select('id'),
-                ])->select('count(*)'),
+                ])->andWhere([
+                    'or',
+                       ['!=', 'status', 'Deleted'],
+                       ['IS', 'status', null]
+                    ])->select('count(*)'),
                 VirtualFieldBehavior::LAZY => static fn (self $model) => SurveyResponse::find()->andWhere([
                     'survey_id' => $model->data_survey_id,
                     'facility_id' => Facility::find()->andFilterWhere([
