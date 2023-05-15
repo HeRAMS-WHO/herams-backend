@@ -90,12 +90,12 @@ echo AgGrid::widget([
             //            'filter' => 'agNumberColumnFilter',
         ],
 
-        // [
+        [
 
-        //     'headerName' => \Yii::t('app', 'Latest update'),
-        //     'field' => 'latestUpdate',
-        //     'filter' => 'agDateColumnFilter',
-        // ],
+            'headerName' => \Yii::t('app', 'ID'),
+            'field' => 'id',
+            'filter' => 'agDateColumnFilter',
+        ],
         [
 
             'headerName' => \Yii::t('app', 'Latest Survey'),
