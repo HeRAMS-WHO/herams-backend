@@ -94,7 +94,7 @@ echo AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'ID'),
             'field' => 'id',
-            'filter' => 'agDateColumnFilter',
+            'filter' => 'agNumberColumnFilter',
         ],
         [
 
