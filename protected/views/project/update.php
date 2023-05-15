@@ -50,25 +50,41 @@ echo Html::tag('p', Yii::t('app', 'This will permanently delete the project and 
 echo Html::tag('p', Yii::t('app', 'This action cannot be undone.'));
 echo Html::tag('p', Html::tag('em', Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this project?')));
 
+// echo ButtonGroup::widget([
+//     'buttons' => [
+//         [
+//             'icon' => Icon::trash(),
+//             'label' => Yii::t('app', 'Delete'),
+//             'link' => [
+//                 'project/delete',
+//                 'id' => cccc
+//             ],
+//             'style' => ButtonGroup::STYLE_DELETE,
+//             'linkOptions' => [
+//                 'data-method' => 'delete',
+//                 'title' => Yii::t('app', 'Delete project'),
+//                 'data-confirm' => Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
+//             ],
+//         ],
+//     ],
+// ]);
 echo ButtonGroup::widget([
     'buttons' => [
         [
+            //'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $id),
             'icon' => Icon::trash(),
-            'label' => Yii::t('app', 'Delete'),
-            'link' => [
-                'project/delete',
+            'type' => ButtonGroup::TYPE_DELETE_BUTTON,
+            'label' => \Yii::t('app', 'Delete'),
+            'endpoint' => [
+                '/api/project/delete-project',
                 'id' => $project->id,
             ],
-            'style' => ButtonGroup::STYLE_DELETE,
-            'linkOptions' => [
-                'data-method' => 'delete',
-                'title' => Yii::t('app', 'Delete project'),
-                'data-confirm' => Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
-            ],
+            'redirect' => 'project/index',
+            'confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
+            'title' => Yii::t('app', 'Delete project'),
         ],
     ],
 ]);
-
 Section::end();
 
 Section::begin()
@@ -82,23 +98,39 @@ echo Html::tag('p', Yii::t('app', 'This will permanently delete all workspaces i
 echo Html::tag('p', Yii::t('app', 'This action cannot be undone.'));
 echo Html::tag('p', Html::tag('em', Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete all workspaces?')));
 
+// echo ButtonGroup::widget([
+//     'buttons' => [
+//         [
+//             'icon' => Icon::trash(),
+//             'label' => Yii::t('app', 'Delete all workspaces'),
+//             'link' => [
+//                 'project/delete-workspaces',
+//                 'id' => $project->id,
+//             ],
+//             'style' => ButtonGroup::STYLE_DELETE,
+//             'linkOptions' => [
+//                 'data-method' => 'delete',
+//                 'title' => Yii::t('app', 'Delete all workspaces in project'),
+//                 'data-confirm' => Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
+//             ],
+//         ],
+//     ],
+// ]);
 echo ButtonGroup::widget([
     'buttons' => [
         [
+            //'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $id),
             'icon' => Icon::trash(),
-            'label' => Yii::t('app', 'Delete all workspaces'),
-            'link' => [
-                'project/delete-workspaces',
+            'type' => ButtonGroup::TYPE_DELETE_BUTTON,
+            'label' => \Yii::t('app', 'Delete all workspaces'),
+            'endpoint' => [
+                '/api/project/delete-workspaces',
                 'id' => $project->id,
             ],
-            'style' => ButtonGroup::STYLE_DELETE,
-            'linkOptions' => [
-                'data-method' => 'delete',
-                'title' => Yii::t('app', 'Delete all workspaces in project'),
-                'data-confirm' => Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
-            ],
+            'redirect' => 'project/index',
+            'confirm' => Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
+            'title' => Yii::t('app', 'Delete all workspaces in project'),
         ],
     ],
 ]);
-
 Section::end();

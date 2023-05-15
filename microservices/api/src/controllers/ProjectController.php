@@ -16,6 +16,8 @@ use herams\api\controllers\project\Validate;
 use herams\api\controllers\project\Variables;
 use herams\api\controllers\project\View;
 use herams\api\controllers\project\Workspaces;
+use herams\api\controllers\project\DeleteWorkspace;
+use herams\api\controllers\project\Delete;
 use herams\common\models\Project;
 
 class ProjectController extends Controller
@@ -48,6 +50,8 @@ class ProjectController extends Controller
             'locales' => Locales::class,
             'pages' => Pages::class,
             'workspaces' => Workspaces::class,
+            'delete-workspaces' => DeleteWorkspace::class,
+            'delete-project' => Delete::class,
             'permissions' => [
                 'class' => UserPermissions::class,
                 'target' => Project::authName(),
