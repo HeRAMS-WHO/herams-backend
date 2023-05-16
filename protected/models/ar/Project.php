@@ -419,24 +419,28 @@ class Project extends ActiveRecord implements Linkable
             HeramsSubject::FULLY_AVAILABLE => 0,
             HeramsSubject::PARTIALLY_AVAILABLE => 0,
             HeramsSubject::NOT_AVAILABLE => 0,
-            HeramsSubject::NOT_PROVIDED=> 0,
+            HeramsSubject::NOT_PROVIDED => 0,
         ];
-        /** @var HeramsResponseInterface $heramsResponse */
-        foreach ($this->getResponses()->each() as $heramsResponse) {
-            foreach ($heramsResponse->getSubjects() as $subject) {
-                $subjectAvailability = $subject->getAvailability();
-                if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
-                    continue;
-                }
-                $counts[$subjectAvailability]++;
-            }
-        }
-        ksort($counts);
+
+// Service availability here
+//        /** @var Response $response */
+//        foreach ($this->getResponses()->with(['subjects'])->each() as $response) {
+//            $subjects = $response->getSubjects();
+//
+//            foreach ($subjects as $subject) {
+//                $subjectAvailability = $subject->getAvailability();
+//                if (!isset($subjectAvailability, $counts[$subjectAvailability])) {
+//                    continue;
+//                }
+//                $counts[$subjectAvailability]++;
+//            }
+//        }
+//        ksort($counts);
         $map = [
             'A1' => \Yii::t('app', 'Full'),
             'A2' => \Yii::t('app', 'Partial'),
             'A3' => \Yii::t('app', 'None'),
-//            'A4' => \Yii::t('app', 'Not normally provided'),
+            // 'A4' => \Yii::t('app', 'Not normally provided'),
         ];
 
         $result = [];
