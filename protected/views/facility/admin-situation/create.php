@@ -31,6 +31,10 @@ Section::begin()
 
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
+    ->withDataRoute([
+        '/api/facility/latest-admin-situation',
+        'id' => $facilityId,
+    ], ['data'])
     ->withExtraData([
         'facilityId' => $facilityId,
         'surveyId' => $survey->getId(),

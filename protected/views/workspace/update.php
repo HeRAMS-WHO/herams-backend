@@ -58,7 +58,7 @@ echo ButtonGroup::widget([
             'type' => ButtonGroup::TYPE_DELETE_BUTTON,
             'label' => \Yii::t('app', 'Delete'),
             'endpoint' => [
-                'api/workspace/delete',
+                '/api/workspace/delete-workspace',
                 'id' => $workspaceId,
             ],
             'redirect' => [

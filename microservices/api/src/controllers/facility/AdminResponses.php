@@ -44,6 +44,7 @@ final class AdminResponses extends Action
             $row = [
                 'id' => $surveyResponse->id,
                 'response_type' => $surveyResponse->response_type ?? 'admin',
+                'status' => $surveyResponse->status ?? '',
                 'survey_date' => $surveyResponse->survey_date,
                 //'raw' => $facility->allData()
                 'latest_update_by' => $surveyResponse->updatedUser?->name,

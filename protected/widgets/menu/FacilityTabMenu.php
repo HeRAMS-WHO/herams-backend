@@ -55,7 +55,7 @@ class FacilityTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_WRITE,
-            'title' => \Yii::t('app', 'Health Facility settings'),
+            'title' => \Yii::t('app', 'HSDU settings'),
             'url' => [
                 "facility/update",
                 'id' => $this->facility->getId(),

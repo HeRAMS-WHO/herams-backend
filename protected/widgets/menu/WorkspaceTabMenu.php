@@ -28,7 +28,7 @@ class WorkspaceTabMenu extends TabMenu
                 "workspace/facilities",
                 'id' => $this->workspace->id(),
             ],
-            'title' => \Yii::t('app', 'Health Facilities') . " ({$this->workspace->getFacilityCount()})
+            'title' => \Yii::t('app', 'HSDUs') . " ({$this->workspace->getFacilityCount()})
 ",
         ];
         $this->tabs[] = [

@@ -107,7 +107,11 @@ final class FacilityRepository
             'id' => $id->getValue(),
         ]);
         $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
-        $query = FacilityReadRecord::find()
+        $query = FacilityReadRecord::find()->andWhere([
+            'or',
+               ['!=', 'status', 'Deleted'],
+               ['IS', 'status', null]
+            ])
             ->inWorkspace($id)
             ->useInList()
         ;

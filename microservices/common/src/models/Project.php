@@ -295,8 +295,16 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                 VirtualFieldBehavior::GREEDY => $workspaceCountGreedy = Workspace::find()->limit(1)->select('count(*)')
                     ->where([
                         'project_id' => new Expression(self::tableName() . '.[[id]]'),
-                    ]),
-                VirtualFieldBehavior::LAZY => static fn (self $model) => $model->getWorkspaces()->count(),
+                    ])->andWhere([
+                        'or',
+                           ['!=', 'status', 'Deleted'],
+                           ['IS', 'status', null]
+                        ]),
+                VirtualFieldBehavior::LAZY => static fn (self $model) => $model->getWorkspaces()->andWhere([
+                    'or',
+                       ['!=', 'status', 'Deleted'],
+                       ['IS', 'status', null]
+                    ])->count(),
 
             ],
             'pageCount' => [
@@ -314,14 +322,22 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                         ->where([
                             'project_id' => new Expression(self::tableName() . '.[[id]]'),
                         ]),
-                ])->select('count(*)'),
+                ])->andWhere([
+                    'or',
+                       ['!=', 'status', 'Deleted'],
+                       ['IS', 'status', null]
+                    ])->select('count(*)'),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return Facility::find()->andWhere([
                         'workspace_id' => $model->getWorkspaces()->select('id')
                             ->where([
                                 'project_id' => $model->id,
                             ]),
-                    ])->count();
+                    ])->andWhere([
+                        'or',
+                           ['!=', 'status', 'Deleted'],
+                           ['IS', 'status', null]
+                        ])->count();
                 },
             ],
             'responseCount' => [
