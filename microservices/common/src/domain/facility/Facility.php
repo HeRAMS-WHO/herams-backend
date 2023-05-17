@@ -122,7 +122,7 @@ class Facility extends ActiveRecord
     {
         return [
             [['workspace_id'], RequiredValidator::class],
-            [['code'], StringValidator::class],
+            [['code', 'status'], StringValidator::class],
             [['workspace_id'],
                 ExistValidator::class,
                 'targetClass' => Workspace::class,

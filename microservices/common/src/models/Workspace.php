@@ -129,12 +129,20 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                             VirtualFieldBehavior::GREEDY => Facility::find()
                                 ->andWhere([
                                     'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
-                                ])
+                                ])->andWhere([
+                                    'or',
+                                       ['!=', 'status', 'Deleted'],
+                                       ['IS', 'status', null]
+                                    ])
                                 ->select([
                                     'count' => 'count(*)',
                                 ]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
-                                return (int) $workspace->getFacilities()->count();
+                                return (int) $workspace->getFacilities()->andWhere([
+                                    'or',
+                                       ['!=', 'status', 'Deleted'],
+                                       ['IS', 'status', null]
+                                    ])->count();
                             },
                         ],
                         'contributorCount' => [

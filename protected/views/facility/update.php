@@ -62,12 +62,12 @@ Survey::end();
 Section::end();
 
 Section::begin()
-    ->withHeader(\Yii::t('app', 'Delete Health Facility'))
+    ->withHeader(\Yii::t('app', 'Delete HSDU'))
     ->forDangerousAction();
 
-echo Html::tag('p', \Yii::t('app', 'This will permanently delete the Health Facility.'));
+echo Html::tag('p', \Yii::t('app', 'This will permanently delete the HSDU.'));
 echo Html::tag('p', \Yii::t('app', 'This action cannot be undone.'));
-echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this Health Facility?')));
+echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you wish to delete this HSDU?')));
 //echo Html::a(Icon::trash().\Yii::t('app', 'Delete'), '#', ['data-action' => 'delete','class' => 'btn btn-delete', 'data-confirm' => 'Are you sure you wish to remove this Health Facility from the system?', 'data-redirect' => '', 'id' => 'delete', 'data-herams-endpoint' => '#test']);
 
 echo ButtonGroup::widget([
@@ -85,8 +85,8 @@ echo ButtonGroup::widget([
                 '/workspace/facilities',
                 'id' => $workspaceId,
             ],
-            'confirm' => \Yii::t('app', 'Are you sure you wish to remove this Health Facility from the system?'),
-            'title' => \Yii::t('app', 'Delete Health Facility'),
+            'confirm' => \Yii::t('app', 'Are you sure you wish to remove this HSDU from the system?'),
+            'title' => \Yii::t('app', 'Delete HSDU'),
         ],
     ],
 ]);

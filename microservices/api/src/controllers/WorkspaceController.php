@@ -9,6 +9,7 @@ use herams\api\actions\UserPermissions;
 use herams\api\controllers\workspace\Create;
 use herams\api\controllers\workspace\Facilities;
 use herams\api\controllers\workspace\Update;
+use herams\api\controllers\workspace\DeleteWorkspace;
 use herams\api\controllers\workspace\Validate;
 use herams\api\controllers\workspace\View;
 use herams\common\models\Workspace;
@@ -23,14 +24,15 @@ final class WorkspaceController extends Controller
             'validate' => Validate::class,
             'facilities' => Facilities::class,
             'update' => Update::class,
+            'delete-workspace' => DeleteWorkspace::class,
             'permissions' => [
                 'class' => UserPermissions::class,
                 'target' => Workspace::class,
             ],
-            'delete' => [
-                'class' => DeleteAction::class,
-                'query' => Workspace::find(),
-            ],
+            // 'delete' => [
+            //     'class' => DeleteAction::class,
+            //     'query' => Workspace::find(),
+            // ],
         ];
     }
 }

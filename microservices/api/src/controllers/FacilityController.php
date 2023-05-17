@@ -20,6 +20,9 @@ use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\api\models\UpdateSurveyResponse;
 use herams\common\domain\facility\FacilityRepository;
 use herams\common\values\FacilityId;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
 final class FacilityController extends Controller
 {
     public function actions()
@@ -44,6 +47,42 @@ final class FacilityController extends Controller
             return null;
         }
 
+        //print_r($surveyResponse); exit;
+        return $surveyResponse;
+    }
+ 
+    public function actionLatestSituation(
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyRepository $surveyRepository,
+        ProjectRepository $projectRepository,
+        int $id
+    ) {
+        $facilityId = new FacilityId($id);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $surveyId = $projectRepository->retrieveDataSurveyId($projectId);
+
+        $surveyResponse = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $surveyId
+        ])->andWhere([
+        'or',
+           ['!=', 'status', 'Deleted'],
+           ['IS', 'status', null]
+        ])->orderBy([
+            'survey_date' => SORT_DESC,
+            'id'=> SORT_DESC
+          ])->limit(1)->one();
+
+        if (! $surveyResponse) {
+            $surveyResponse['data'] =[];
+            return $surveyResponse['data'];
+        }
+        $response['data'] =  $surveyResponse->data;
+        $response['data']['date_of_update'] = null;
+        $surveyResponse->data = $response['data'];
         //print_r($surveyResponse); exit;
         return $surveyResponse;
     }
@@ -81,4 +120,39 @@ final class FacilityController extends Controller
         $facilityRepository->deleteFacility($facilityId);
     }
 
+    public function actionLatestAdminSituation(
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyRepository $surveyRepository,
+        ProjectRepository $projectRepository,
+        int $id
+    ) {
+        $facilityId = new FacilityId($id);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+
+        $surveyResponse = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $surveyId
+        ])->andWhere([
+        'or',
+           ['!=', 'status', 'Deleted'],
+           ['IS', 'status', null]
+        ])->orderBy([
+            'survey_date' => SORT_DESC,
+            'id'=> SORT_DESC
+          ])->limit(1)->one();
+
+        if (! $surveyResponse) {
+            $surveyResponse['data'] =[];
+            return $surveyResponse['data'];
+        }
+        $response['data'] =  $surveyResponse->data;
+        $response['data']['date_of_update'] = null;
+        $surveyResponse->data = $response['data'];
+        //print_r($surveyResponse); exit;
+        return $surveyResponse;
+    }
 }

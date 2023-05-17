@@ -42,6 +42,7 @@ final class DataResponses extends Action
             $row = [
                 'id' => $surveyResponse->id,
                 'response_type' => $surveyResponse->response_type ?? 'situation',
+                'status' => $surveyResponse->status ?? '',
                 'survey_date' => $surveyResponse->survey_date,
                 'latest_update_by' => $surveyResponse->updatedUser?->name,
                 'facilityId'=> $facilityId,

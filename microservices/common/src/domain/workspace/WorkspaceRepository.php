@@ -34,7 +34,11 @@ class WorkspaceRepository {
             ->withFields('leadNames', 'latestUpdate', 'responseCount', 'facilityCount', 'favorite_id')
             ->andWhere([
                 'project_id' => $projectId->getValue(),
-            ]);
+            ])->andWhere([
+                'or',
+                   ['!=', 'status', 'Deleted'],
+                   ['IS', 'status', null]
+                ]);
     }
 
     /**

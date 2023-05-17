@@ -60,6 +60,9 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'headerName' => \Yii::t('app', 'Id'),
             'field' => 'id',
             'filter' => 'agNumberColumnFilter',
+            'pinned' => 'left',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
         ], 
         ...\iter\map(fn (VariableInterface $variable) => [
             'field' => $variable->getName(),
@@ -76,10 +79,16 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'survey_date',
             'filter' => 'agNumberColumnFilter',
         ],
+        // [
+
+        //     'headerName' => \Yii::t('app', 'Response Type'),
+        //     'field' => 'response_type',
+        //     'filter' => 'agNumberColumnFilter',
+        // ],
         [
 
-            'headerName' => \Yii::t('app', 'Response Type'),
-            'field' => 'response_type',
+            'headerName' => \Yii::t('app', 'Status'),
+            'field' => 'status',
             'filter' => 'agNumberColumnFilter',
         ],
         // [
@@ -110,6 +119,9 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         
         [
             'headerName' => \Yii::t('app', 'Action'),
+            'pinned' => 'right',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 params => {
                     if (params.data == null) {

@@ -32,6 +32,10 @@ Section::begin()
 
 $survey = Survey::begin()
     ->withConfig($survey->getConfig())
+    ->withDataRoute([
+        '/api/facility/latest-situation',
+        'id' => $facilityId,
+    ], ['data'])
     ->withExtraData([
         'facilityId' => $facilityId,
         'surveyId' => $survey->getId(),
@@ -54,3 +58,13 @@ $survey = Survey::begin()
 Survey::end();
 
 Section::end();
+
+$script = <<< JS
+    $( document ).ready(function() {
+        $(document).on("change", "input[type=date]", function(){
+         console.log($(this).val());
+        });
+
+    });
+JS;
+$this->registerJs($script);
