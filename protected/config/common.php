@@ -117,6 +117,7 @@ return [
             'client' => 'limesurvey',
         ],
         'limesurvey' => function () use ($env) {
+            var_dump($env);
             $json = new JsonRpcClient($env->getSecret('limesurvey/host'), false, 30);
             $result = new Client($json, $env->getSecret('limesurvey/username'), $env->getSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
