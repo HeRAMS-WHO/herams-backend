@@ -22,6 +22,8 @@ class KubernetesSecretEnvironment implements EnvironmentInterface
         }
 
         $this->secretDir = $secretDir;
+
+        var_dump($this->data);
     }
 
     public function __debugInfo()
