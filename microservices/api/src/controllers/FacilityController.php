@@ -155,4 +155,46 @@ final class FacilityController extends Controller
         //print_r($surveyResponse); exit;
         return $surveyResponse;
     }
+    public function actionValidateSituation(
+        FacilityRepository $facilityRepository,
+        WorkspaceRepository $workspaceRepository,
+        SurveyRepository $surveyRepository,
+        ProjectRepository $projectRepository,
+        Request $request,
+        Response $response,
+        int $id
+    ) {
+
+        $requestData =  $request->bodyParams;
+        $facilityId = new FacilityId($id);
+        $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
+
+        $projectId = $workspaceRepository->getProjectId($workspaceId);
+        if($requestData['response_type'] == 'admin'){
+            $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
+        }else{
+            $surveyId = $projectRepository->retrieveDataSurveyId($projectId);
+        }
+
+        $query = SurveyResponse::find()->andWhere([
+            'facility_id' => $facilityId,
+            'survey_id' => $surveyId,
+            'survey_date' => $requestData['data']['date_of_update'],
+        ])->andWhere([
+        'or',
+           ['!=', 'status', 'Deleted'],
+           ['IS', 'status', null]
+        ]);
+
+        if(isset($requestData['response_id'])){
+            $query->andWhere(['!=', 'id', $requestData['response_id']]);
+        }
+        $surveyResponse = $query->limit(1)->one();
+
+        if ($surveyResponse) {
+            return  ['errors' => ['date_of_update' => ['This Date of Update already taken']]];
+        }
+        return ['errors'=>[]];
+    }
+
 }

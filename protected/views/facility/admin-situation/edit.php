@@ -34,6 +34,7 @@ $survey = Survey::begin()
         'surveyResponseId' => $surveyResponseId,
         'facilityId' => $facilityId,
         'response_type' => 'admin',
+        'response_id' => $cid, //respose id for validation
     ])
     ->withProjectId($projectId)
     ->withSubmitRoute([
@@ -43,6 +44,11 @@ $survey = Survey::begin()
     ->withRedirectRoute([
         'facility/admin-responses',
         'id' => $facilityId,
+    ])
+    ->withServerValidationRoute([
+        'api/facility/validate-situation',
+        'id' => $facilityId,
+        
     ])
 ;
 

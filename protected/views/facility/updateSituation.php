@@ -7,7 +7,7 @@ use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
-
+use yii\helpers\Url;
 /**
  * @var View $this
  * @var \herams\common\values\ProjectId $projectId
@@ -53,18 +53,53 @@ $survey = Survey::begin()
         'facility/responses',
         'id' => $facilityId,
     ])
+    ->withServerValidationRoute([
+            'api/facility/validate-situation',
+            'id' => $facilityId,
+        
+    ])
 ;
 
 Survey::end();
 
 Section::end();
+// $url = Url::to(['/api/facility/validate-situation', 'id' => $facilityId]);
+// $script = <<< JS
+//     $( document ).ready(function() {
+//         $(document).on("change", "input[type=date]", function(){
+//          console.log($(this).val());
+//          console.log('name');
+//          console.log($(this).attr('name'));
+//             uri = '$url';
+//             $.ajax({
+//             method: "POST",
+//             url: uri,
+//             mode: 'cors',
+//             cache: 'no-cache',
+//             credentials: 'same-origin',
+//             data:JSON.stringify({
+//                 "response_type":"situation",
+//                 "survey_date": $(this).val()
+//             }),
+//             headers: {
+//                 'X-CSRF-Token': window.yii.getCsrfToken(),
+//                 Accept: 'application/json;indent=2',
+//                 'Accept-Language': document.documentElement.lang ?? 'en',
+//                 'Content-Type': 'application/json',
+//             },
+//             success: function(data){ 
+//                 console.log('Success');
+//                 if (data.data){
+//                     $(this)
+//                 }
+                
+//             },
+//             error: function (data) {
+//                 console.log('An error occurred.');
+//             },
+//             });
+//         });
 
-$script = <<< JS
-    $( document ).ready(function() {
-        $(document).on("change", "input[type=date]", function(){
-         console.log($(this).val());
-        });
-
-    });
-JS;
-$this->registerJs($script);
+//     });
+// JS;
+// $this->registerJs($script);

@@ -52,6 +52,11 @@ $survey = Survey::begin()
         'facility/admin-responses',
         'id' => $facilityId,
     ])
+    ->withServerValidationRoute([
+        'api/facility/validate-situation',
+        'id' => $facilityId,
+        
+    ])
 ;
 
 Survey::end();
