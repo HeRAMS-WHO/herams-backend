@@ -117,11 +117,7 @@ return [
             'client' => 'limesurvey',
         ],
         'limesurvey' => function () use ($env) {
-            var_dump($env->getSecret('limesurvey/host'));
-            var_dump($env->getSecret('limesurvey/username'));
-            var_dump($env->getSecret('limesurvey/password'));
-            var_dump($env->getSecret('SECRET_limesurvey/sso_private_key'));
-            var_dump(json_encode($env));
+            var_dump($env->getWrappedSecret('limesurvey/sso_private_key'));
             $json = new JsonRpcClient($env->getSecret('limesurvey/host'), false, 30);
             $result = new Client($json, $env->getSecret('limesurvey/username'), $env->getSecret('limesurvey/password'));
             $result->setCache(function ($key, $value, $duration) {
