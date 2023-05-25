@@ -69,7 +69,7 @@ echo AgGrid::widget([
         ],
         [
 
-            'headerName' => \Yii::t('app', '# Health facilities'),
+            'headerName' => \Yii::t('app', '# HSDUs'),
             'field' => 'facilityCount',
             'filter' => 'agNumberColumnFilter',
         ],

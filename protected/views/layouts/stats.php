@@ -23,7 +23,7 @@ $stats[] = [
     'count' => \iter\reduce(static function (int $accumulator, Project $project) {
         return $accumulator + $project->facilityCount;
     }, $projects, 0),
-    'label' => \Yii::t('app', 'Health Facilities'),
+    'label' => \Yii::t('app', 'HSDUs'),
 ];
 
 $stats[] = [

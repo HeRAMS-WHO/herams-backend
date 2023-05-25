@@ -101,7 +101,7 @@ if (isset($date) || (is_array($filters) && count($filters) > 0)) {
                             <?php
                             echo Icon::healthFacility();
 echo Html::tag('em', count($data));
-echo \Yii::t('app', 'Health Facilities');
+echo \Yii::t('app', 'HSDUs');
 ?>
                         </div>
                         <div class="count">

@@ -24,7 +24,7 @@ echo Html::beginTag('div', [
     'class' => 'count',
 ]);
 echo Icon::list();
-echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
+echo Html::tag('span', \Yii::t('app', 'HSDUs'));
 echo Html::tag('em', $model->facilityCount);
 echo Html::endTag('div');
 

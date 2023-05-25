@@ -71,7 +71,7 @@ final class Map extends Widget
             'markerRadius' => $this->markerRadius,
             'colors' => $this->colors,
             'translations' => [
-                'health-facilities' => \Yii::t('app', 'Health facilities'),
+                'health-facilities' => \Yii::t('app', 'HSDUs'),
                 'contributors' => \Yii::t('app', 'Contributors'),
                 'type' => \Yii::t('app', 'Type'),
                 'functionality' => \Yii::t('app', 'Functionality'),

@@ -30,7 +30,7 @@ echo Html::beginForm([
 <div class="count">
     <?php
     echo Icon::healthFacility();
-echo Html::tag('span', \Yii::t('app', 'Health Facilities'));
+echo Html::tag('span', \Yii::t('app', 'HSDUs'));
 echo Html::tag('em', count($data));
 ?>
 </div>

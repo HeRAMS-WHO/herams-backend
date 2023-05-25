@@ -33,7 +33,7 @@ $stats[] = [
         return $accumulator + $project->facilityCount;
     }, $projects, 0),
 
-    'subject' => \Yii::t('app', 'Health facilities'),
+    'subject' => \Yii::t('app', 'HSDUs'),
 ];
 
 echo Html::beginTag('div', [
