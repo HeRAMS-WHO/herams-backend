@@ -71,7 +71,7 @@ echo GridView::widget([
             'attribute' => 'contributorCount',
         ],
         [
-            'label' => '# Health facilities',
+            'label' => '# HSDUs',
             'attribute' => 'facilityCount',
         ],
         [
