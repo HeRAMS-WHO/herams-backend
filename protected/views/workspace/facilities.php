@@ -33,7 +33,7 @@ Section::begin([
     'actions' => [
         [
             'icon' => Icon::add(),
-            'label' => \Yii::t('app', 'Register new facility'),
+            'label' => \Yii::t('app', 'Register new HSDU'),
             'link' => [
                 'facility/create',
                 'workspaceId' => $tabMenuModel->id(),
@@ -64,7 +64,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         ],
         [
 
-            'headerName' => \Yii::t('app', 'Health facility name'),
+            'headerName' => \Yii::t('app', 'HSDU name'),
             'field' => 'name',
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 params => {
