@@ -34,32 +34,32 @@ echo FacilityTabMenu::widget(
 );
 $this->endBlock();
 
-Section::begin()
-    ->withHeader(Yii::t('app', 'Update facility'));
+// Section::begin()
+//     ->withHeader(Yii::t('app', 'Update facility'));
 
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
-    ->withDataRoute([
-        '/api/facility/view',
-        'id' => $id,
-    ], ['admin_data'])
-    ->withProjectId($projectId)
-    ->withExtraData([
-        'facilityId' => $id,
-        'surveyId' => $survey->getId(),
-    ])
-    ->withSubmitRoute([
-        'api/survey-response/create',
-    ])
-    ->withRedirectRoute([
-        'facility/admin-responses',
-        'id' => $id,
-    ])
-;
+// $survey = Survey::begin()
+//     ->withConfig($survey->getConfig())
+//     ->withDataRoute([
+//         '/api/facility/view',
+//         'id' => $id,
+//     ], ['admin_data'])
+//     ->withProjectId($projectId)
+//     ->withExtraData([
+//         'facilityId' => $id,
+//         'surveyId' => $survey->getId(),
+//     ])
+//     ->withSubmitRoute([
+//         'api/survey-response/create',
+//     ])
+//     ->withRedirectRoute([
+//         'facility/admin-responses',
+//         'id' => $id,
+//     ])
+// ;
 
-Survey::end();
+// Survey::end();
 
-Section::end();
+// Section::end();
 
 Section::begin()
     ->withHeader(\Yii::t('app', 'Delete HSDU'))

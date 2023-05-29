@@ -150,7 +150,15 @@ final class FacilityRepository
            'id' => $id,
        ]);        
         
-        SurveyResponse::deleteAll(['facility_id' =>  $facility->id]);
-        $facility->delete();
+        //SurveyResponse::deleteAll(['facility_id' =>  $facility->id]);
+        //$facility->delete();
+
+        $surveyResponse = SurveyResponse::find()->where(['facility_id' =>  $facility->id])->all();
+        foreach($surveyResponse as $situationUpdate){
+            $situationUpdate->status = 'Deleted';
+            $situationUpdate->update();
+        }
+        $facility->status = 'Deleted';
+        $facility->update(false);
     }
 }
