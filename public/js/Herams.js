@@ -126,7 +126,20 @@ class Herams {
         'Content-Type': 'application/json',
       },
       success: function(data){ 
-        window.location.assign(redirect);
+        
+        if(data.empty == true){
+          iziToast.show({
+            message: 'This project is not empty, and cannot be deleted. Please make sure the project is empty before deleting it',
+            overlay: true,
+            overlayClose: true,
+            color: 'red',
+            closeOnEscape: true,
+            position: "center",
+            
+          });
+        }else{
+          window.location.assign(redirect);
+        }
       },
       error: function (data) {
           console.log('An error occurred.');

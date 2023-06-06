@@ -27,26 +27,36 @@ class Delete extends Action
         int $id
     ) {
         $projectId = new ProjectId($id);
-
+        $empty = false;
         $workspaces = $workspaceRepository->retrieveForProject($projectId);
         if($workspaces){
             foreach($workspaces as $workspace){
                 $workspaceId = new WorkspaceId($workspace->id);
                 if($workspaceId){
                     $facilities = $facilityRepository->retrieveForWorkspace($workspaceId);
-                    if($facilities){
+                    if($facilities){                        
                         foreach($facilities as $facility){
-                            SurveyResponse::deleteAll(['facility_id' => $facility->id]);
+                            $surveyResponse = SurveyResponse::find()->where(['facility_id' => $facility->id])->one();
+                            //SurveyResponse::deleteAll(['facility_id' => $facility->id]);
+                            if($surveyResponse){
+                                $empty = true;
+                            }
                         }
-                        Facility::deleteAll(['workspace_id' => $workspace->id]);
+                        $empty = true;
+                        //Facility::deleteAll(['workspace_id' => $workspace->id]);
                     }
                 }
-                Workspace::deleteAll(['project_id' => $id]);
+                $empty = true;
+                //Workspace::deleteAll(['project_id' => $id]);
     
             }
 
         }
-
+        if($empty == true){
+            return [
+                'empty' => true
+            ];
+        }
         $project = Project::findOne([
             'id' => $id,
         ]);  
