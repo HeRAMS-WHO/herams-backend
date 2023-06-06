@@ -18,7 +18,7 @@ volumes:
 
 x-env:
   base: &base
-    image: ghcr.io/herams-who/docker/php:latest
+    image: ghcr.io/herams-who/docker/php-v2:latest
     volumes:
       - .:/project:rw
       - ./tests:/project/tests:rw
@@ -73,7 +73,7 @@ services:
       - devdb
       - mailcatcher
       - phpmyadmin
-    image: ghcr.io/herams-who/docker/php-api:latest
+    image: ghcr.io/herams-who/docker/php-api-v2:latest
     volumes:
       - shared:/shared
       - type: bind
@@ -112,7 +112,7 @@ services:
       - devdb
       - mailcatcher
       - phpmyadmin
-    image: ghcr.io/herams-who/docker/php:latest
+    image: ghcr.io/herams-who/docker/php-v2:latest
     volumes:
       - shared:/shared
       - type: bind
@@ -142,7 +142,7 @@ services:
     networks:
       - devproxy2
       - default
-    image: ghcr.io/herams-who/docker/nginx-api:latest
+    image: ghcr.io/herams-who/docker/nginx-api-v2:latest
     depends_on:
       - api
       - coverage
@@ -155,7 +155,7 @@ services:
     networks:
       - devproxy2
       - default
-    image: ghcr.io/herams-who/docker/nginx:latest
+    image: ghcr.io/herams-who/docker/nginx-v2:latest
     environment:
       PHPFPM: "phpfpm:9000"
       API: "api:9000"
