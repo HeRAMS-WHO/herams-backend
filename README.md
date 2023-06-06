@@ -24,6 +24,7 @@ For specific Windows installation see [Windows setup](docs/dev/setup/Windows.md)
 ## Result
 After taking the above steps you will have everything up and running:
 - A database with username `root` and password `secret`, and a user / password / database combo from your `.env` file.
+- The database can be accessed from the phpmyadmin.
 - An application with (invalid) email: `admin@user.com` and password: `Test12345`
 - A mailcatcher allowing you to inspect mails sent by the system
 
