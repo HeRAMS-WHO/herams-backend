@@ -22,6 +22,23 @@ use prime\helpers\Icon;
  * @var \herams\common\values\ProjectId $projectId
  * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
  */
+$style= <<< CSS
+
+ 
+   .dangerous{  
+        width: 400px;
+        height: 300px !important;
+        display: block !important;
+        text-align: left;
+        line-height: 2.5;
+        margin: auto;
+        flex-grow: unset !important;
+        margin-top: 30px;
+   }
+
+ CSS;
+ $this->registerCss($style);
+
 
 //$this->title = \Yii::t('app', 'Facility settings');
 $this->title = $tabMenuModel->getTitle();
