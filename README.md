@@ -18,13 +18,13 @@ For specific Windows installation see [Windows setup](docs/dev/setup/Windows.md)
  cd herams-backend
  cp .env.default .env
  ```
-5. Optionally alter `.env` to suit your preferences, it is recommended to set UID and GID to prevent permission issues
-6. Run `docker-compose up serve`
+5. Optionally alter `.env` to suit your preferences, it is recommended to set UID and GID to prevent permission issues also remove parameters that contains "/" like the smtp and database.
+6. Run `docker compose up -d devdb testdb phpmyadmin nginx-api nginx`
 
 ## Result
 After taking the above steps you will have everything up and running:
 - A database with username `root` and password `secret`, and a user / password / database combo from your `.env` file.
-- An application with (invalid) email: `root` and password: `secret`
+- An application with (invalid) email: `admin@user.com` and password: `Test12345`
 - A mailcatcher allowing you to inspect mails sent by the system
 
 ### Commands available
