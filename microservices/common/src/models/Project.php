@@ -8,6 +8,7 @@ use herams\common\domain\facility\Facility;
 use herams\common\domain\survey\Survey;
 use herams\common\domain\user\User;
 use herams\common\enums\ProjectVisibility;
+use herams\common\enums\UserPermissions;
 use herams\common\helpers\Locale;
 use herams\common\interfaces\ProjectForTabMenuInterface;
 use herams\common\queries\ActiveQuery as ActiveQuery;
@@ -378,16 +379,15 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             'contributorPermissionCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([
-                    'target' => Workspace::class,
+                    'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                     'target_id' => Workspace::find()->select('id')
                         ->where([
                             'project_id' => new Expression(self::tableName() . '.[[id]]'),
-                        ]),
-                    'source' => User::class,
+                        ])
                 ])->select('count(distinct [[source_id]])'),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return (int) Permission::find()->where([
-                        'target' => Workspace::class,
+                        'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                         'target_id' => $model->getWorkspaces()->select('id'),
                         'source' => User::class,
                     ])->count('distinct [[source_id]]');
@@ -402,12 +402,12 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                     $result->addParams([
                         ':ccpath' => '$.contributorCount',
                     ]);
-                    $result->select(new Expression("coalesce(cast(json_unquote(json_extract([[overrides]], :ccpath)) as unsigned), greatest($permissionCount, $workspaceCount))"));
+                    $result->select(new Expression("coalesce(cast(json_unquote(json_extract([[overrides]], :ccpath)) as unsigned), $permissionCount)"));
                     return $result;
                 },
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    return max($model->contributorPermissionCount, $model->workspaceCount);
+                    return $model->contributorPermissionCount;
                 },
             ],
             'tierPrimaryCount' => [
