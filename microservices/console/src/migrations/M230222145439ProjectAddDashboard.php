@@ -16,5 +16,4 @@ final class M230222145439ProjectAddDashboard extends Migration
     {
         return false;
     }
-
 }

@@ -18,9 +18,7 @@ class PageRepository
 {
     public function __construct(
         private AccessCheckInterface $accessCheck,
-    )
-    {
-
+    ) {
     }
 
     public function retrieveForBreadcrumb(PageId $id): ForBreadcrumbInterface
@@ -30,6 +28,7 @@ class PageRepository
         ]);
         return new PageForBreadcrumb($record);
     }
+
     public function retrieveProjectId(PageId $pageId): ProjectId
     {
         $id = Page::find()
@@ -54,6 +53,8 @@ class PageRepository
             'id' => $id->getValue(),
         ]);
         $this->accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_DASHBOARD);
-        return Page::find()->andWhere(['project_id' => $id])->all();
+        return Page::find()->andWhere([
+            'project_id' => $id,
+        ])->all();
     }
 }

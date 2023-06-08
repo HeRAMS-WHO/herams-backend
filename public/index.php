@@ -1,3 +1,3 @@
 <?php
 
-    include __DIR__ . '/../protected/entry.php';
+include __DIR__ . '/../protected/entry.php';

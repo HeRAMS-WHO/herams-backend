@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\models;
 
+use Carbon\Carbon;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\favorite\Favorite;
 use herams\common\domain\user\User;
@@ -16,15 +17,14 @@ use herams\common\traits\LocalizedReadTrait;
 use herams\common\values\ProjectId;
 use herams\common\values\UserId;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\validators\ExistValidator;
 use yii\validators\RequiredValidator;
+use yii\validators\SafeValidator;
 use yii\validators\StringValidator;
 use function iter\map;
-use yii\validators\SafeValidator;
-use yii\behaviors\TimestampBehavior;
-use Carbon\Carbon;
-use yii\behaviors\BlameableBehavior;
 
 /**
  * Attributes
@@ -51,166 +51,169 @@ use yii\behaviors\BlameableBehavior;
 class Workspace extends ActiveRecord implements RequestableInterface, ConditionallyDeletable
 {
     use LocalizedReadTrait;
+
     public function behaviors(): array
     {
         return [
-                TimestampBehavior::class => [
-                    'class' => TimestampBehavior::class,
-                    'updatedAtAttribute' => 'latest_update_date',
-                    'createdAtAttribute' => 'created_date',
-                    'value' => fn() => Carbon::now()
-                ],
-                BlameableBehavior::class => [
-                    'class' => BlameableBehavior::class,
-                    'updatedByAttribute' =>  'latest_update_by',
-                    'createdByAttribute' =>  'created_by',
-                ],
+            TimestampBehavior::class => [
+                'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => 'latest_update_date',
+                'createdAtAttribute' => 'created_date',
+                'value' => fn () => Carbon::now(),
+            ],
+            BlameableBehavior::class => [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => 'latest_update_by',
+                'createdByAttribute' => 'created_by',
+            ],
+            'virtualFields' => [
+                'class' => VirtualFieldBehavior::class,
                 'virtualFields' => [
-                    'class' => VirtualFieldBehavior::class,
-                    'virtualFields' => [
-                        'leadNames' => [
-                            VirtualFieldBehavior::GREEDY => (function () {
-                                $permissionQuery = Permission::find()->andWhere([
-                                    'target' => self::class,
-                                    'target_id' => new Expression(self::tableName() . '.[[id]]'),
-                                    'source' => User::class,
-                                    'permission' => Permission::ROLE_LEAD,
-                                ]);
-
-                                return User::find()->andWhere([
-                                    'id' => $permissionQuery->select('source_id'),
-                                ])->select(new Expression("GROUP_CONCAT(name SEPARATOR ', ')"));
-                            })(),
-                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): string {
-                                return \iter\join(', ', map(fn (User $user) => $user->name, $workspace->getLeads()));
-                            },
-                        ],
-
-                        // This is a clunky trick since we depend on the current user...
-                        'favorite_id' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => static fn () => Favorite::find()
-                                ->workspaces()
-                                ->user(new UserId(\Yii::$app->user->id))
-                                ->andWhere([
-                                    'target_id' => new Expression(self::tableName() . '.[[id]]'),
-                                ])
-                                ->select('min(id)'),
-                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): null|int {
-                                return Favorite::find()->workspaces()->andWhere(['target_id' => $workspace->id])->select('id')->limit(1)->one()?->id;
-                            },
-                        ],
-                        'projectTitle' => [
-                            VirtualFieldBehavior::GREEDY => Project::find()
-                                ->limit(1)->select('title')
-                                ->where([
-                                    'id' => new Expression(self::tableName() . '.[[project_id]]'),
-                                ]),
-                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace): null|string {
-                                return $workspace->getProject()->limit(1)->one()->title ?? null;
-                            },
-                        ],
-                        'latestUpdate' => [
-                            VirtualFieldBehavior::GREEDY => Facility::find()
-                                ->limit(1)->select('max(latest_date)')
-                                ->where([
-                                    'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
-                                ]),
-                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
-                                return $workspace->getFacilities()->orderBy([
-                                    'latest_date' => SORT_DESC,
-                                ])->limit(1)
-                                    ->one()->latest_date ?? null
-;
-                            },
-                        ],
-                        'facilityCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => Facility::find()
-                                ->andWhere([
-                                    'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
-                                ])->andWhere([
-                                    'or',
-                                       ['!=', 'status', 'Deleted'],
-                                       ['IS', 'status', null]
-                                    ])
-                                ->select([
-                                    'count' => 'count(*)',
-                                ]),
-                            VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
-                                return (int) $workspace->getFacilities()->andWhere([
-                                    'or',
-                                       ['!=', 'status', 'Deleted'],
-                                       ['IS', 'status', null]
-                                    ])->count();
-                            },
-                        ],
-                        'contributorCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => Permission::find()->where([
-                                'target' => Workspace::class,
+                    'leadNames' => [
+                        VirtualFieldBehavior::GREEDY => (function () {
+                            $permissionQuery = Permission::find()->andWhere([
+                                'target' => self::class,
                                 'target_id' => new Expression(self::tableName() . '.[[id]]'),
                                 'source' => User::class,
-                            ])->select('count(distinct [[source_id]])'),
-                            VirtualFieldBehavior::LAZY => static function (self $model): int {
-                                return (int) Permission::find()->where([
-                                    'target' => Workspace::class,
-                                    'target_id' => $model->id,
-                                    'source' => User::class,
-                                ])->count('distinct [[source_id]]');
-                            },
-                        ],
-                        'permissionSourceCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
-                                ->where([
-                                    'source' => User::class,
-                                    'target' => self::class,
-                                    'target_id' => new Expression(self::tableName() . '.[[id]]'),
-                                ]),
-                            VirtualFieldBehavior::LAZY => static function (self $model): int {
-                                return (int) $model->getPermissions()->count('distinct source_id');
-                            },
-                        ],
-                        'responseCount' => [
-                            VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                            VirtualFieldBehavior::GREEDY => SurveyResponse::find()
-                                ->limit(1)
-                                ->select('count(*)')
-                                ->where([
-                                    'facility_id' => Facility::find()
-                                        ->select('id')
-                                        ->andWhere([
-                                            'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
-                                        ]),
-                                ])->andWhere([
-                                    'or',
-                                       ['!=', 'status', 'Deleted'],
-                                       ['IS', 'status', null]
-                                    ]),
-                            VirtualFieldBehavior::LAZY => static fn (Workspace $workspace): int => (int) $workspace->getResponses()->count(),
+                                'permission' => Permission::ROLE_LEAD,
+                            ]);
 
-                        ],
-                        
-                        'latestServeyDate' => [
-                            
-                            VirtualFieldBehavior::LAZY => static fn (self $workspace) => SurveyResponse::find()
-                                ->where([
-                                    'facility_id' => Facility::find()
-                                        ->select('id')
-                                        ->andWhere([
-                                            'workspace_id' => $workspace->id,
-                                        ]),
-                                ])->andWhere([
-                                    'or',
-                                    ['!=', 'status', 'Deleted'],
-                                    ['IS', 'status', null]
-                                    ])
-                                    ->orderBy('survey_date DESC')->limit(1)->one()->survey_date ?? null,
-                        ],
+                            return User::find()->andWhere([
+                                'id' => $permissionQuery->select('source_id'),
+                            ])->select(new Expression("GROUP_CONCAT(name SEPARATOR ', ')"));
+                        })(),
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace): string {
+                            return \iter\join(', ', map(fn (User $user) => $user->name, $workspace->getLeads()));
+                        },
+                    ],
+
+                    // This is a clunky trick since we depend on the current user...
+                    'favorite_id' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => static fn () => Favorite::find()
+                            ->workspaces()
+                            ->user(new UserId(\Yii::$app->user->id))
+                            ->andWhere([
+                                'target_id' => new Expression(self::tableName() . '.[[id]]'),
+                            ])
+                            ->select('min(id)'),
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace): null|int {
+                            return Favorite::find()->workspaces()->andWhere([
+                                'target_id' => $workspace->id,
+                            ])->select('id')->limit(1)->one()?->id;
+                        },
+                    ],
+                    'projectTitle' => [
+                        VirtualFieldBehavior::GREEDY => Project::find()
+                            ->limit(1)->select('title')
+                            ->where([
+                                'id' => new Expression(self::tableName() . '.[[project_id]]'),
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace): null|string {
+                            return $workspace->getProject()->limit(1)->one()->title ?? null;
+                        },
+                    ],
+                    'latestUpdate' => [
+                        VirtualFieldBehavior::GREEDY => Facility::find()
+                            ->limit(1)->select('max(latest_date)')
+                            ->where([
+                                'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
+                            return $workspace->getFacilities()->orderBy([
+                                'latest_date' => SORT_DESC,
+                            ])->limit(1)
+                                ->one()->latest_date ?? null
+                            ;
+                        },
+                    ],
+                    'facilityCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Facility::find()
+                            ->andWhere([
+                                'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                            ])->andWhere([
+                                'or',
+                                ['!=', 'status', 'Deleted'],
+                                ['IS', 'status', null],
+                            ])
+                            ->select([
+                                'count' => 'count(*)',
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
+                            return (int) $workspace->getFacilities()->andWhere([
+                                'or',
+                                ['!=', 'status', 'Deleted'],
+                                ['IS', 'status', null],
+                            ])->count();
+                        },
+                    ],
+                    'contributorCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                            'target' => Workspace::class,
+                            'target_id' => new Expression(self::tableName() . '.[[id]]'),
+                            'source' => User::class,
+                        ])->select('count(distinct [[source_id]])'),
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) Permission::find()->where([
+                                'target' => Workspace::class,
+                                'target_id' => $model->id,
+                                'source' => User::class,
+                            ])->count('distinct [[source_id]]');
+                        },
+                    ],
+                    'permissionSourceCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
+                            ->where([
+                                'source' => User::class,
+                                'target' => self::class,
+                                'target_id' => new Expression(self::tableName() . '.[[id]]'),
+                            ]),
+                        VirtualFieldBehavior::LAZY => static function (self $model): int {
+                            return (int) $model->getPermissions()->count('distinct source_id');
+                        },
+                    ],
+                    'responseCount' => [
+                        VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
+                        VirtualFieldBehavior::GREEDY => SurveyResponse::find()
+                            ->limit(1)
+                            ->select('count(*)')
+                            ->where([
+                                'facility_id' => Facility::find()
+                                    ->select('id')
+                                    ->andWhere([
+                                        'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
+                                    ]),
+                            ])->andWhere([
+                                'or',
+                                ['!=', 'status', 'Deleted'],
+                                ['IS', 'status', null],
+                            ]),
+                        VirtualFieldBehavior::LAZY => static fn (Workspace $workspace): int => (int) $workspace->getResponses()->count(),
+
+                    ],
+
+                    'latestServeyDate' => [
+
+                        VirtualFieldBehavior::LAZY => static fn (self $workspace) => SurveyResponse::find()
+                            ->where([
+                                'facility_id' => Facility::find()
+                                    ->select('id')
+                                    ->andWhere([
+                                        'workspace_id' => $workspace->id,
+                                    ]),
+                            ])->andWhere([
+                                'or',
+                                ['!=', 'status', 'Deleted'],
+                                ['IS', 'status', null],
+                            ])
+                            ->orderBy('survey_date DESC')->limit(1)->one()->survey_date ?? null,
                     ],
                 ],
-            ];
+            ],
+        ];
     }
 
     public function getFacilities(): FacilityQuery
@@ -343,11 +346,11 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
     public function extraFields(): array
     {
         $result = parent::extraFields();
-//        $result['subjectAvailabilityCounts'] = 'subjectAvailabilityCounts';
-//        $result['functionalityCounts'] = 'functionalityCounts';
-//        $result['typeCounts'] = 'typeCounts';
-//        $result['coordinatorName'] = static fn(self $project) => implode(', ', $project->getLeads());
-//        $result['statusText'] = 'statusText';
+        //        $result['subjectAvailabilityCounts'] = 'subjectAvailabilityCounts';
+        //        $result['functionalityCounts'] = 'functionalityCounts';
+        //        $result['typeCounts'] = 'typeCounts';
+        //        $result['coordinatorName'] = static fn(self $project) => implode(', ', $project->getLeads());
+        //        $result['statusText'] = 'statusText';
 
         return $result;
     }

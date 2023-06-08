@@ -7,7 +7,6 @@ namespace herams\common\helpers\surveyjs;
 use Collecthor\SurveyjsParser\ElementParserInterface;
 use Collecthor\SurveyjsParser\ParserHelpers;
 use Collecthor\SurveyjsParser\SurveyConfiguration;
-use herams\common\helpers\ConfigurationProvider;
 
 class LocalizableTextQuestionParser implements ElementParserInterface
 {

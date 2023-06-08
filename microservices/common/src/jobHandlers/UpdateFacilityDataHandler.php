@@ -10,7 +10,6 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
-use herams\common\helpers\surveyjs\FacilityTierVariable;
 use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\values\WorkspaceId;
@@ -40,7 +39,6 @@ final class UpdateFacilityDataHandler
         $workspaceId = new WorkspaceId($this->facilityRepository->retrieveActiveRecord($job->facilityId)->workspace_id);
         $projectId = $this->workspaceRepository->getProjectId($workspaceId);
 
-
         $adminSurveyId = $this->projectRepository->retrieveAdminSurveyId($projectId);
         var_dump($adminSurveyId);
         $dataSurveyId = $this->projectRepository->retrieveDataSurveyId($projectId);
@@ -53,7 +51,6 @@ final class UpdateFacilityDataHandler
             if ($tier !== FacilityTier::Unknown) {
                 $facility->tier = $tier->value;
             }
-
         }
         $facility->admin_data = $adminData->allData();
 

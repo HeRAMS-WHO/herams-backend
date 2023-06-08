@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\console\migrations;
@@ -17,5 +18,4 @@ class M230222145446ProjectDropOverrides extends Migration
     {
         return false;
     }
-
 }

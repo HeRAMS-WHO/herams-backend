@@ -4,7 +4,6 @@ namespace herams\common\models;
 
 use herams\common\domain\element\Element;
 use herams\common\interfaces\PageInterface;
-use prime\interfaces\Exportable;
 use prime\queries\ElementQuery;
 use yii\base\InvalidArgumentException;
 use yii\base\NotSupportedException;

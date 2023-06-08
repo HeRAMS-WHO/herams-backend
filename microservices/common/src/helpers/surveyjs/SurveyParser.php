@@ -22,7 +22,7 @@ final class SurveyParser extends BaseParser
         $this->setParser(self::TYPE_FACILITY_TYPE, $facilityTypeQuestionParser);
         $this->setParser('localizableprojecttext', $localizableTextQuestionParser);
 
-//        $this->setParser(self::TYPE_FACILITY_NAME, $facilityTypeQuestionParser);
+        //        $this->setParser(self::TYPE_FACILITY_NAME, $facilityTypeQuestionParser);
     }
 
     public function parseHeramsSurveyStructure(array $structure): HeramsVariableSet

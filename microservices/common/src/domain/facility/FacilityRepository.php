@@ -13,6 +13,7 @@ use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\SurveyRepositoryInterface;
 use herams\common\models\Permission;
+use herams\common\models\SurveyResponse;
 use herams\common\models\Workspace;
 use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
@@ -21,7 +22,6 @@ use prime\helpers\CanCurrentUserWrapper;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
 use yii\web\NotFoundHttpException;
-use herams\common\models\SurveyResponse;
 
 final class FacilityRepository
 {
@@ -66,6 +66,7 @@ final class FacilityRepository
         }
         return new FacilityId((int) $record->id);
     }
+
     public function retrieveForUpdate(FacilityId $id): Facility
     {
         $record = Facility::findOne([
@@ -74,7 +75,6 @@ final class FacilityRepository
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
         return $record;
     }
-
 
     public function retrieveActiveRecord(FacilityId $id): Facility|null
     {
@@ -109,9 +109,9 @@ final class FacilityRepository
         $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
         $query = FacilityReadRecord::find()->andWhere([
             'or',
-               ['!=', 'status', 'Deleted'],
-               ['IS', 'status', null]
-            ])
+            ['!=', 'status', 'Deleted'],
+            ['IS', 'status', null],
+        ])
             ->inWorkspace($id)
             ->useInList()
         ;
@@ -128,10 +128,10 @@ final class FacilityRepository
         }
         //print_r($facility->admin_data); exit;
         $name = $facility->admin_data['name']['en'] ?? '';
-        if($name == ''){
+        if ($name == '') {
             $name = $facility->admin_data['name'] ?? '';
         }
-        if($name == ''){
+        if ($name == '') {
             $name = $facility->data['name']['en'] ?? '';
         }
         return new \prime\models\facility\FacilityForTabMenu(
@@ -144,17 +144,20 @@ final class FacilityRepository
             new CanCurrentUserWrapper($this->accessCheck, $facility)
         );
     }
+
     public function deleteFacility(FacilityId $id)
-    { 
+    {
         $facility = Facility::findOne([
-           'id' => $id,
-       ]);        
-        
+            'id' => $id,
+        ]);
+
         //SurveyResponse::deleteAll(['facility_id' =>  $facility->id]);
         //$facility->delete();
 
-        $surveyResponse = SurveyResponse::find()->where(['facility_id' =>  $facility->id])->all();
-        foreach($surveyResponse as $situationUpdate){
+        $surveyResponse = SurveyResponse::find()->where([
+            'facility_id' => $facility->id,
+        ])->all();
+        foreach ($surveyResponse as $situationUpdate) {
             $situationUpdate->status = 'Deleted';
             $situationUpdate->update();
         }

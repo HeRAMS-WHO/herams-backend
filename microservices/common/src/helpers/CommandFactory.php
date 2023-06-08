@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\common\helpers;
 
 use herams\common\interfaces\CommandFactoryInterface;
 use yii\db\Command;
-use yii\db\Connection;
 
 final class CommandFactory implements CommandFactoryInterface
 {

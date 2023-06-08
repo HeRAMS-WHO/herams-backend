@@ -17,7 +17,7 @@ class CountryValidator extends Validator
 
         $configurationProvider = new ConfigurationProvider();
 
-        foreach($configurationProvider->getPlatformCountries() as $country) {
+        foreach ($configurationProvider->getPlatformCountries() as $country) {
             if ($value === $country['alpha3']) {
                 return null;
             }

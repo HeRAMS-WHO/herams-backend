@@ -6,6 +6,8 @@ namespace herams\api\controllers;
 
 use herams\api\actions\UserPermissions;
 use herams\api\controllers\project\Create;
+use herams\api\controllers\project\Delete;
+use herams\api\controllers\project\DeleteWorkspace;
 use herams\api\controllers\project\Index;
 use herams\api\controllers\project\LatestData;
 use herams\api\controllers\project\Locales;
@@ -16,8 +18,6 @@ use herams\api\controllers\project\Validate;
 use herams\api\controllers\project\Variables;
 use herams\api\controllers\project\View;
 use herams\api\controllers\project\Workspaces;
-use herams\api\controllers\project\DeleteWorkspace;
-use herams\api\controllers\project\Delete;
 use herams\common\models\Project;
 
 class ProjectController extends Controller

@@ -49,12 +49,10 @@ use yii\validators\StringValidator;
  */
 class Facility extends ActiveRecord
 {
-
     public static function find(): FacilityQuery
     {
         return new FacilityQuery(static::class);
     }
-
 
     public function getAdminSurveyResponses(): ActiveQuery
     {
@@ -116,8 +114,6 @@ class Facility extends ActiveRecord
         );
     }
 
-
-
     public function rules(): array
     {
         return [
@@ -131,5 +127,4 @@ class Facility extends ActiveRecord
             [['latitude', 'longitude'], NumberValidator::class],
         ];
     }
-
 }

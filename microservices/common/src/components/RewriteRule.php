@@ -25,16 +25,15 @@ final class RewriteRule implements UrlRuleInterface
 
     public function createUrl($manager, $route, $params): string|false
     {
-//        if (in_array(explode('/', $route, 2)[0], ['frontend', 'api'])) {
-//            var_dump($this->frontendUrlFactory->createUrl(explode('/', $route, 2)[1], $params));
-//            var_dump($route, $params); die();
-//        }
+        //        if (in_array(explode('/', $route, 2)[0], ['frontend', 'api'])) {
+        //            var_dump($this->frontendUrlFactory->createUrl(explode('/', $route, 2)[1], $params));
+        //            var_dump($route, $params); die();
+        //        }
         $parts = explode('/', $route, 2);
-        return match($parts[0]) {
+        return match ($parts[0]) {
             'frontend' => $this->frontendUrlFactory->createUrl($parts[1] ?? '', $params),
             'api' => $this->apiUrlFactory->createUrl($parts[1] ?? '', $params),
             default => false
-
         };
     }
 }

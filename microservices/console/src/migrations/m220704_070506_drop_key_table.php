@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace herams\console\migrations;
+
 use yii\db\Migration;
 
 /**

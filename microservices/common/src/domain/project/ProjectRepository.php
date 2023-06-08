@@ -26,6 +26,7 @@ use yii\web\NotFoundHttpException;
 class ProjectRepository implements ProjectLocalesRetriever
 {
     use RepositorySave;
+
     public function __construct(
         private readonly AccessCheckInterface $accessCheck,
         private readonly ActiveRecordHydratorInterface $activeRecordHydrator,

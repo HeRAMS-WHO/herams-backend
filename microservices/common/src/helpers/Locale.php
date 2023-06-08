@@ -19,8 +19,9 @@ final class Locale implements LocalizableInterface
 
     public readonly string $label;
 
-    private function __construct(public readonly string $locale)
-    {
+    private function __construct(
+        public readonly string $locale
+    ) {
         $label = locale_get_display_name($locale);
         if ($label === $locale) {
             throw new \Exception("Unsupported locale $locale");
@@ -85,8 +86,8 @@ final class Locale implements LocalizableInterface
     public function toLocalizedArray(Locale $locale): array
     {
         return [
-            'label'=> ucfirst(locale_get_display_name($this->locale, $locale->locale)),
-            'locale'=> $this->locale
+            'label' => ucfirst(locale_get_display_name($this->locale, $locale->locale)),
+            'locale' => $this->locale,
         ];
     }
 }

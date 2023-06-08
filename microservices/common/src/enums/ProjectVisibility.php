@@ -21,9 +21,9 @@ enum ProjectVisibility: string implements \JsonSerializable
 
     public static function toArray(): array
     {
-        return array_map(fn($case) => [
+        return array_map(fn ($case) => [
             'label' => $case->label(),
-            'value' => $case->value
+            'value' => $case->value,
         ], self::cases());
     }
 

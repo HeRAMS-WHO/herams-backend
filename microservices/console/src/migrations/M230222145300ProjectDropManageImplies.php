@@ -18,5 +18,4 @@ final class M230222145300ProjectDropManageImplies extends Migration
     {
         return false;
     }
-
 }

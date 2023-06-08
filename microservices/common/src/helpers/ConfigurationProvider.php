@@ -11,6 +11,7 @@ use function iter\filter;
 class ConfigurationProvider
 {
     public const COUNTRY_UNSPECIFIED = 'XXX';
+
     /**
      * @return list<Locale>
      */
@@ -27,16 +28,15 @@ class ConfigurationProvider
         return [
             [
                 'alpha3' => self::COUNTRY_UNSPECIFIED,
-                'name' => \Yii::t('app', "Unspecified (training / not in list)")
+                'name' => \Yii::t('app', "Unspecified (training / not in list)"),
             ],
-            ...filter(fn(array $country) => [
+            ...filter(fn (array $country) => [
                 'alpha3' => $country['alpha3'],
-                'name' => $country['name']
+                'name' => $country['name'],
 
-            ], (new ISO3166())->all())
+            ], (new ISO3166())->all()),
 
         ];
-
     }
 
     /**
@@ -46,5 +46,4 @@ class ConfigurationProvider
     {
         return ProjectVisibility::toArray();
     }
-
 }

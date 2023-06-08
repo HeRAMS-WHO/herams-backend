@@ -8,6 +8,7 @@ use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
 use yii\helpers\Url;
+
 /**
  * @var View $this
  * @var \herams\common\values\ProjectId $projectId
@@ -16,7 +17,7 @@ use yii\helpers\Url;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
- 
+
 $this->title = Yii::t('app', 'Create update Situation');
 
 $this->beginBlock('tabs');
@@ -54,9 +55,9 @@ $survey = Survey::begin()
         'id' => $facilityId,
     ])
     ->withServerValidationRoute([
-            'api/facility/validate-situation',
-            'id' => $facilityId,
-        
+        'api/facility/validate-situation',
+        'id' => $facilityId,
+
     ])
 ;
 
@@ -87,12 +88,12 @@ Section::end();
 //                 'Accept-Language': document.documentElement.lang ?? 'en',
 //                 'Content-Type': 'application/json',
 //             },
-//             success: function(data){ 
+//             success: function(data){
 //                 console.log('Success');
 //                 if (data.data){
 //                     $(this)
 //                 }
-                
+
 //             },
 //             error: function (data) {
 //                 console.log('An error occurred.');

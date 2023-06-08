@@ -13,8 +13,9 @@ class HydrateVia
     /**
      * @var class-string
      */
-    public function __construct(private string $type)
-    {
+    public function __construct(
+        private string $type
+    ) {
         if (! is_subclass_of($type, Hydrator::class)) {
             throw new \InvalidArgumentException('Class does not exist or does not have implement Hydrator');
         }
