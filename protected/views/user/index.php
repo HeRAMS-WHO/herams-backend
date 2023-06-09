@@ -55,13 +55,9 @@ echo GridView::widget([
         'email:email',
         [
             'attribute' => 'created_at',
-
             'value' => function ($model) {
-                if (extension_loaded('intl')) {
-                    return Yii::t('app', '{0, date, MMMM dd, YYYY HH:mm}', [$model->created_at]);
-                } else {
-                    return date('Y-m-d G:i:s', $model->created_at);
-                }
+                $formattedDateTime = Yii::$app->formatter->format($model->created_at, ['datetime', 'format' => 'MMMM dd, YYYY HH:mm']);
+                return Html::encode($formattedDateTime);
             },
             'filter' => false,
         ],
