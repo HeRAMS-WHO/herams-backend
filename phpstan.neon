@@ -12,6 +12,14 @@ parameters:
       - protected/config/common.php
       - protected/config/console.php
       - protected/config/web.php
+      - protected/models/ar/*/*/*
+      - protected/widgets/*/*
+      - protected/*/*/*/*
+      - protected/*/*/*
+      - protected/config/*
+      - microservices/*/*/*
+      - microservices/*/*
+      - microservices/*/*/*/*
     checkMaybeUndefinedVariables: true
     reportUnmatchedIgnoredErrors: false
 
