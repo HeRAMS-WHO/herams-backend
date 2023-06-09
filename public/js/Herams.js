@@ -168,11 +168,12 @@ class Herams {
     return window.yii.getCsrfToken()
   }
 
-  async notifySuccess (message = '', position = 'topRight') {
+  async notifySuccess (message = '', position = 'topRight', timeout = '500') {
     return new Promise((resolve, reject) => {
       this.#iziToast.success({
         position,
         message,
+        timeout,
         onClosed: () => resolve(),
       })
     })
