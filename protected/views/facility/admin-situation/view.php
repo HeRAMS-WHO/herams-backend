@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
-use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
 

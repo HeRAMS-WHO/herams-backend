@@ -10,7 +10,7 @@ namespace herams\common\enums;
 enum Language: string
 {
     case en = 'en';
-//    case enUS = 'en-US';
+    //    case enUS = 'en-US';
     case arAR = 'ar-AR';
     case ar = 'ar';
     case fr = 'fr';

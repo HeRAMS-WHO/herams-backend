@@ -2,7 +2,6 @@
 
 namespace herams\console\controllers;
 
-use Ifsnop\Mysqldump\Mysqldump;
 use yii\console\Controller;
 use yii\db\Connection;
 use yii\db\Exception;
@@ -96,7 +95,7 @@ class DatabaseController extends Controller
             }
             $columns = array_flip($schema->columnNames);
             $ddl = $db->createCommand('SHOW CREATE TABLE ' . $db->quoteTableName($schema->name))->queryOne();
-            if (!isset($ddl['Create Table'])) {
+            if (! isset($ddl['Create Table'])) {
                 continue;
             }
             foreach (explode("\n", $ddl['Create Table']) as $line) {

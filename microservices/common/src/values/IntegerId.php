@@ -6,8 +6,9 @@ namespace herams\common\values;
 
 class IntegerId extends Id
 {
-    public function __construct(private int $id)
-    {
+    public function __construct(
+        private int $id
+    ) {
     }
 
     public function __toString(): string

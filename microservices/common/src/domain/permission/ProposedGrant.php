@@ -6,8 +6,11 @@ namespace herams\common\domain\permission;
 
 class ProposedGrant
 {
-    public function __construct(private object $source, private object $target, private string $permission)
-    {
+    public function __construct(
+        private object $source,
+        private object $target,
+        private string $permission
+    ) {
     }
 
     public function getTarget(): object

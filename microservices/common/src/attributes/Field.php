@@ -12,7 +12,8 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Field
 {
-    public function __construct(public readonly string $field)
-    {
+    public function __construct(
+        public readonly string $field
+    ) {
     }
 }

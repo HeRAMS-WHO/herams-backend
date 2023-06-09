@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\common\helpers\surveyjs;
@@ -16,9 +17,10 @@ class RequiredVariableValidator extends Validator
     public array $requiredVariables = [];
 
     public SurveyParser $surveyParser;
+
     protected function validateValue($value): array|null
     {
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return ['Value must be an array'];
         }
 
@@ -28,7 +30,7 @@ class RequiredVariableValidator extends Validator
             return [$t->getMessage()];
         }
         $missing = [];
-        foreach($this->requiredVariables as $requiredVariable) {
+        foreach ($this->requiredVariables as $requiredVariable) {
             try {
                 $variableSet->getVariable($requiredVariable);
             } catch (\InvalidArgumentException) {
@@ -36,12 +38,12 @@ class RequiredVariableValidator extends Validator
             }
         }
         if ($missing !== []) {
-            return ["The following required variables are missing: {variables}", ['variables' => implode(', ', $missing)]];
+            return [
+                "The following required variables are missing: {variables}", [
+                    'variables' => implode(', ', $missing),
+                ]];
         }
 
         return null;
-
     }
-
-
 }

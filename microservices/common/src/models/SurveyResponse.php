@@ -43,12 +43,12 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
         return [
             BlameableBehavior::class => [
                 'class' => BlameableBehavior::class,
-                'updatedByAttribute' =>  'latest_update_by',
+                'updatedByAttribute' => 'latest_update_by',
             ],
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
                 'updatedAtAttribute' => 'latest_update_date',
-                'value' => fn() => Carbon::now()
+                'value' => fn () => Carbon::now(),
             ],
         ];
     }
@@ -171,6 +171,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
             'id' => 'survey_id',
         ]);
     }
+
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(User::class, [

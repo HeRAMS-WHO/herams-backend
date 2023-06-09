@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\common\traits;
 
 trait LocalizedReadTrait
 {
-
     abstract public function getAttribute($name);
 
     /**
-     * @param string $attribute
      * @param string ...$locales The locales in order of preference
      * @return string
      */
@@ -19,7 +18,7 @@ trait LocalizedReadTrait
         if (empty($values)) {
             return null;
         }
-        foreach($locales as $locale) {
+        foreach ($locales as $locale) {
             if (isset($values[$locale])) {
                 return $values[$locale];
             }

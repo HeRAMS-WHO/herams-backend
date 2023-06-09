@@ -6,8 +6,9 @@ namespace herams\common\values;
 
 class Latitude implements \JsonSerializable
 {
-    public function __construct(public readonly float $value)
-    {
+    public function __construct(
+        public readonly float $value
+    ) {
         if ($value < -90 || $value > 90) {
             throw new \InvalidArgumentException('Latitude must be between -90 and 90');
         }

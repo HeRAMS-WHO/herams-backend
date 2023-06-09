@@ -57,9 +57,8 @@ class PermissionRepository
             'target_id' => $target->getId(),
             'source' => $source->getAuthName(),
             'source_id' => $source->getId(),
-            'permission' => $grant->getPermission()
+            'permission' => $grant->getPermission(),
         ])->select('id')->one();
         return new PermissionId($permission->id);
-
     }
 }

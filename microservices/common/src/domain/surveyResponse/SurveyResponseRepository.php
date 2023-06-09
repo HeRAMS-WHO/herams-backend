@@ -17,13 +17,9 @@ use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
 use herams\common\values\SurveyResponseId;
-use prime\components\HydratedActiveDataProvider;
-use prime\interfaces\AdminResponseForListInterface;
 use prime\interfaces\surveyResponse\SurveyResponseForSurveyJsInterface;
 use prime\models\forms\surveyResponse\CreateForm;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
-use yii\data\DataProviderInterface;
-use yii\data\Sort;
 use yii\web\NotFoundHttpException;
 
 class SurveyResponseRepository
@@ -193,8 +189,6 @@ class SurveyResponseRepository
         return $query->one();
     }
 
-
-
     /**
      * @return SurveyResponse
      */
@@ -214,14 +208,14 @@ class SurveyResponseRepository
     {
         return SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
-            'survey_id' => $surveyId
+            'survey_id' => $surveyId,
         ])->andWhere([
-        'or',
-           ['!=', 'status', 'Deleted'],
-           ['IS', 'status', null]
+            'or',
+            ['!=', 'status', 'Deleted'],
+            ['IS', 'status', null],
         ])->all();
-
     }
+
     /**
      * @return SurveyResponse
      */
@@ -240,10 +234,10 @@ class SurveyResponseRepository
             'id' => $model->id,
         ]);
         \Yii::debug($model->attributes);
-        $record->response_type =  $request['response_type'];
+        $record->response_type = $request['response_type'];
         //$record->survey_date = $facility->admin_data['date_of_update'] ?? $record->survey_date;
         $record->survey_date = $request['data']['date_of_update'] ?? $record->survey_date;
-        $record->status =  $record->status ?? 'Validated';
+        $record->status = $record->status ?? 'Validated';
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
 
@@ -251,6 +245,7 @@ class SurveyResponseRepository
         $adminSuserveyId = $record->facility->workspace->project->admin_survey_id;
         $this->updateSurveyDateToWorkspace($suserveyId, $adminSuserveyId);
     }
+
     public function deleteSurveyResponse(UpdateSurveyResponse $model): void
     {
         $record = SurveyResponse::findOne($model->id);
@@ -258,16 +253,20 @@ class SurveyResponseRepository
         $record->update();
         //return $this->redirect(\Yii::$app->request->referrer);
     }
-    public function updateSurveyDateToWorkspace($surveyId,$adminSuserveyId){
 
+    public function updateSurveyDateToWorkspace($surveyId, $adminSuserveyId)
+    {
         $surveyResponse = SurveyResponse::find()
-        ->where(['survey_id' => $surveyId])
-        ->orWhere(['survey_id' => $adminSuserveyId])
-        ->orderBy('survey_date DESC')->limit(1)->one();
-        
+            ->where([
+                'survey_id' => $surveyId,
+            ])
+            ->orWhere([
+                'survey_id' => $adminSuserveyId,
+            ])
+            ->orderBy('survey_date DESC')->limit(1)->one();
+
         $surveyResponse->facility->workspace->latest_survey_date = $surveyResponse->survey_date;
 
         $surveyResponse->facility->workspace->update();
-
     }
 }

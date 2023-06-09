@@ -19,14 +19,14 @@ use herams\common\values\WorkspaceId;
 use prime\interfaces\WorkspaceForTabMenu;
 use yii\web\NotFoundHttpException;
 
-class WorkspaceRepository {
+class WorkspaceRepository
+{
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private ActiveRecordHydratorInterface $activeRecordHydrator,
         private ModelHydratorInterface $modelHydrator
     ) {
     }
-
 
     private function workspaceQuery(ProjectId $projectId): WorkspaceQuery
     {
@@ -36,9 +36,9 @@ class WorkspaceRepository {
                 'project_id' => $projectId->getValue(),
             ])->andWhere([
                 'or',
-                   ['!=', 'status', 'Deleted'],
-                   ['IS', 'status', null]
-                ]);
+                ['!=', 'status', 'Deleted'],
+                ['IS', 'status', null],
+            ]);
     }
 
     /**
@@ -73,6 +73,7 @@ class WorkspaceRepository {
 
         return $record;
     }
+
     public function retrieveForTabMenu(WorkspaceId $id): WorkspaceForTabMenu
     {
         $record = Workspace::find()
@@ -92,13 +93,14 @@ class WorkspaceRepository {
         $record = Workspace::findOne([
             'id' => $workspaceId->getValue(),
         ]);
-        if (!isset($record)) {
+        if (! isset($record)) {
             throw new NotFoundHttpException();
         }
         $model = new UpdateWorkspace($workspaceId);
         $this->activeRecordHydrator->hydrateRequestModel($record, $model);
         return $model;
     }
+
     public function update(UpdateWorkspace $model): void
     {
         $record = Workspace::findOne([

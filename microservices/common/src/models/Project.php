@@ -67,10 +67,12 @@ use yii\validators\RequiredValidator;
 class Project extends ActiveRecord implements ProjectForTabMenuInterface
 {
     use LocalizedReadTrait;
+
     public static function authName(): string
     {
         return 'Project';
     }
+
     public const VISIBILITY_PUBLIC = 'public';
 
     public const VISIBILITY_PRIVATE = 'private';
@@ -90,13 +92,16 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
 
     public function getSurvey(): Survey
     {
-        return $this->hasOne(Survey::class, ['data_survey_id' => 'id']);
+        return $this->hasOne(Survey::class, [
+            'data_survey_id' => 'id',
+        ]);
     }
 
     final public function getTitle(): string
     {
         return $this->getLocalizedAttribute('title', \Yii::$app->language, $this->primary_language, 'en') ?? "#{$this->id}";
     }
+
     public function getAdminSurveyId(): SurveyId
     {
         return new SurveyId($this->admin_survey_id);
@@ -157,8 +162,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             'id' => $permissionQuery->select('source_id'),
         ])->all();
     }
-
-
 
     public function getMainPages(): ActiveQuery
     {
@@ -245,7 +248,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                     'admin_survey_id',
                     'data_survey_id',
                 ],
-                RequiredValidator::class
+                RequiredValidator::class,
             ],
             [['latitude', 'longitude'],
                 NumberValidator::class,
@@ -297,14 +300,14 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                         'project_id' => new Expression(self::tableName() . '.[[id]]'),
                     ])->andWhere([
                         'or',
-                           ['!=', 'status', 'Deleted'],
-                           ['IS', 'status', null]
-                        ]),
+                        ['!=', 'status', 'Deleted'],
+                        ['IS', 'status', null],
+                    ]),
                 VirtualFieldBehavior::LAZY => static fn (self $model) => $model->getWorkspaces()->andWhere([
                     'or',
-                       ['!=', 'status', 'Deleted'],
-                       ['IS', 'status', null]
-                    ])->count(),
+                    ['!=', 'status', 'Deleted'],
+                    ['IS', 'status', null],
+                ])->count(),
 
             ],
             'pageCount' => [
@@ -324,9 +327,9 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                         ]),
                 ])->andWhere([
                     'or',
-                       ['!=', 'status', 'Deleted'],
-                       ['IS', 'status', null]
-                    ])->select('count(*)'),
+                    ['!=', 'status', 'Deleted'],
+                    ['IS', 'status', null],
+                ])->select('count(*)'),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
                     return Facility::find()->andWhere([
                         'workspace_id' => $model->getWorkspaces()->select('id')
@@ -335,9 +338,9 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                             ]),
                     ])->andWhere([
                         'or',
-                           ['!=', 'status', 'Deleted'],
-                           ['IS', 'status', null]
-                        ])->count();
+                        ['!=', 'status', 'Deleted'],
+                        ['IS', 'status', null],
+                    ])->count();
                 },
             ],
             'responseCount' => [
@@ -351,16 +354,16 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                     ])->select('id'),
                 ])->andWhere([
                     'or',
-                       ['!=', 'status', 'Deleted'],
-                       ['IS', 'status', null]
-                    ])->select('count(*)'),
+                    ['!=', 'status', 'Deleted'],
+                    ['IS', 'status', null],
+                ])->select('count(*)'),
                 VirtualFieldBehavior::LAZY => static fn (self $model) => SurveyResponse::find()->andWhere([
                     'survey_id' => $model->data_survey_id,
                     'facility_id' => Facility::find()->andFilterWhere([
                         'workspace_id' => $model->getWorkspaces()->select('id'),
                     ])->select(
-    'id'
-),
+                        'id'
+                    ),
                 ])->count(),
             ],
             'permissionSourceCount' => [
@@ -394,7 +397,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                 },
             ],
             'contributorCount' => [
-                VirtualFieldBehavior::GREEDY =>static  function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
+                VirtualFieldBehavior::GREEDY => static function () use ($contributorPermissionCountGreedy, $workspaceCountGreedy): ExpressionInterface {
                     $result = new Query();
                     $permissionCount = self::getDb()->queryBuilder->buildExpression($contributorPermissionCountGreedy, $result->params);
                     $workspaceCount = self::getDb()->queryBuilder->buildExpression($workspaceCountGreedy, $result->params);
@@ -445,7 +448,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                         'tier' => null,
                     ])->count();
                 },
-                
+
             ],
         ];
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace herams\common\domain\facility;
 
-use herams\api\models\UpdateFacility;
 use herams\common\attributes\SupportedType;
 use herams\common\helpers\LocalizedString;
 use herams\common\helpers\NormalizedArrayDataRecord;
@@ -24,7 +23,7 @@ class FacilityHydrator implements ActiveRecordHydratorInterface
      */
     public function hydrateActiveRecord(RequestModel $source, ActiveRecord $target): void
     {
-        if (!$target instanceof Facility) {
+        if (! $target instanceof Facility) {
             throw new \InvalidArgumentException();
         }
 

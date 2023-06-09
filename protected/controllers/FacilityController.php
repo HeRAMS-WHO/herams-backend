@@ -4,9 +4,20 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\survey\SurveyRepository;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\models\SurveyResponse;
+use herams\common\values\FacilityId;
+use herams\common\values\SurveyResponseId;
+use prime\components\BreadcrumbService;
 use prime\components\Controller;
+
 use prime\controllers\facility\AdminResponses;
 use prime\controllers\facility\Create;
+use prime\controllers\facility\CreateAdminSituation;
 use prime\controllers\facility\Index;
 use prime\controllers\facility\Responses;
 use prime\controllers\facility\Update;
@@ -15,20 +26,10 @@ use prime\controllers\facility\View;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
-use herams\common\domain\facility\FacilityRepository;
-use herams\common\domain\project\ProjectRepository;
-use herams\common\domain\survey\SurveyRepository;
-use herams\common\domain\workspace\WorkspaceRepository;
-use herams\common\values\FacilityId;
-use herams\common\domain\surveyResponse\SurveyResponseRepository;
-use herams\common\values\SurveyResponseId;
-use herams\common\models\SurveyResponse;
-use prime\controllers\facility\CreateAdminSituation;
-use prime\components\BreadcrumbService;
-
 final class FacilityController extends Controller
 {
     public $layout = self::LAYOUT_ADMIN_TABS;
+
     public function __construct(
         $id,
         $module,
@@ -38,6 +39,7 @@ final class FacilityController extends Controller
     ) {
         parent::__construct($id, $module, $config);
     }
+
     public function actions(): array
     {
         return [
@@ -69,6 +71,7 @@ final class FacilityController extends Controller
             ]
         );
     }
+
     public function actionEditSituation(
         FacilityRepository $facilityRepository,
         WorkspaceRepository $workspaceRepository,
@@ -77,7 +80,6 @@ final class FacilityController extends Controller
         SurveyResponseRepository $surveyResponseRepository,
         int $pid,   //parentID
         int $cid    //childId
-
     ) {
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
@@ -85,7 +87,7 @@ final class FacilityController extends Controller
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveDataSurveyId($projectId);
         $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
-        
+
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
         return $this->render('situation/edit', [
             'projectId' => $projectId,
@@ -96,9 +98,10 @@ final class FacilityController extends Controller
             'survey' => $survey,
             'response' => $response,
             'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid
+            'cid' => $cid,
         ]);
-    }    
+    }
+
     public function actionViewSituation(
         FacilityRepository $facilityRepository,
         WorkspaceRepository $workspaceRepository,
@@ -107,7 +110,6 @@ final class FacilityController extends Controller
         SurveyResponseRepository $surveyResponseRepository,
         int $pid,   //parentID
         int $cid    //childId
-
     ) {
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
@@ -127,10 +129,10 @@ final class FacilityController extends Controller
             'survey' => $survey,
             'response' => $response,
             'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid
+            'cid' => $cid,
         ]);
-    }   
-    
+    }
+
     public function actionDeleteSituation(
         int $pid,   //parentID  -facility id
         int $cid    //childId - response id
@@ -140,6 +142,7 @@ final class FacilityController extends Controller
         $model->update();
         return $this->redirect(\Yii::$app->request->referrer);
     }
+
     public function actionEditAdminSituation(
         FacilityRepository $facilityRepository,
         WorkspaceRepository $workspaceRepository,
@@ -150,7 +153,6 @@ final class FacilityController extends Controller
         \prime\components\View $view,
         int $pid,   //parentID
         int $cid    //childId
-
     ) {
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
@@ -171,9 +173,10 @@ final class FacilityController extends Controller
             'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
             'response' => $response,
             'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid
+            'cid' => $cid,
         ]);
-    }    
+    }
+
     public function actionViewAdminSituation(
         FacilityRepository $facilityRepository,
         WorkspaceRepository $workspaceRepository,
@@ -182,7 +185,6 @@ final class FacilityController extends Controller
         SurveyResponseRepository $surveyResponseRepository,
         int $pid,   //parentID
         int $cid    //childId
-
     ) {
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
@@ -202,7 +204,7 @@ final class FacilityController extends Controller
             'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
             'response' => $response,
             'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid
+            'cid' => $cid,
         ]);
     }
 
@@ -214,6 +216,4 @@ final class FacilityController extends Controller
         }
         return parent::render($view, $params);
     }
-    
 }
-

@@ -9,7 +9,8 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class SourceField
 {
-    public function __construct(public readonly string $field)
-    {
+    public function __construct(
+        public readonly string $field
+    ) {
     }
 }

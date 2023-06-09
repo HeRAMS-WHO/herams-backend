@@ -1,13 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\console\migrations;
 
 use yii\db\Migration;
 
-/**
- * Class M230118145411ProjectAddDefaultLanguage
- */
+
 final class M230118145411ProjectAddDefaultLanguage extends Migration
 {
     // Use up()/down() to run migration code without a transaction.
@@ -22,5 +21,4 @@ final class M230118145411ProjectAddDefaultLanguage extends Migration
         $this->dropColumn('{{%project', 'primary_language');
         return false;
     }
-
 }

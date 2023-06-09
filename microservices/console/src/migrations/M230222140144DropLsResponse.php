@@ -18,5 +18,4 @@ final class M230222140144DropLsResponse extends Migration
     {
         return false;
     }
-
 }

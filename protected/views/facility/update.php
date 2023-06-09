@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
+use herams\common\models\Permission;
 use herams\common\values\FacilityId;
 use prime\components\View;
+use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
 use prime\models\forms\facility\UpdateForm;
+use prime\widgets\ButtonGroup;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
 use yii\bootstrap\Html;
-use prime\widgets\ButtonGroup;
-use herams\common\models\Permission;
-use prime\helpers\Icon;
 
 /**
  * @var View $this
@@ -22,7 +22,7 @@ use prime\helpers\Icon;
  * @var \herams\common\values\ProjectId $projectId
  * @var \prime\interfaces\survey\SurveyForSurveyJsInterface $survey
  */
-$style= <<< CSS
+$style = <<< CSS
 
  
    .dangerous{  
@@ -37,7 +37,7 @@ $style= <<< CSS
    }
 
  CSS;
- $this->registerCss($style);
+$this->registerCss($style);
 
 
 //$this->title = \Yii::t('app', 'Facility settings');

@@ -10,8 +10,9 @@ use herams\common\models\ActiveRecord;
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
 class Audits
 {
-    public function __construct(private string $event)
-    {
+    public function __construct(
+        private string $event
+    ) {
     }
 
     public function auditInsert(): bool
