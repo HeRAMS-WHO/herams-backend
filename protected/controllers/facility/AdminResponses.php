@@ -38,7 +38,6 @@ class AdminResponses extends FrontendAction
     ) {
         $facilityId = new FacilityId($id);
         $facility = $facilityRepository->retrieveForTabMenu($facilityId);
-
         $view->getBreadcrumbCollection()->mergeWith($breadcrumbService->retrieveForFacility($facilityId));
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
 
@@ -47,7 +46,6 @@ class AdminResponses extends FrontendAction
         $variableSet = $surveyRepository->retrieveSimpleVariableSet($surveyId);
         $variables = toArray(filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInResponseList') !== null, $variableSet->getVariables()));
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInResponseList') <=> $b->getRawConfigurationValue('showInResponseList'));
-
         return $this->render(
             'admin-responses',
             [
@@ -56,8 +54,7 @@ class AdminResponses extends FrontendAction
                     '/api/facility/admin-responses',
                     'id' => $facilityId,
                 ]),
-                'variables' =>
-$variables,
+                'variables' => $variables,
             ]
         );
     }

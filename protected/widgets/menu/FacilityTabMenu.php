@@ -44,7 +44,7 @@ class FacilityTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_LIST_ADMIN_RESPONSES,
-            'title' => \Yii::t('app', 'Admin Updates ({n})', [
+            'title' => \Yii::t('app', 'HSDU updates ({n})', [
                 'n' => $this->facility->getAdminResponseCount(),
             ]),
             'url' => [
@@ -55,7 +55,7 @@ class FacilityTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'permission' => Permission::PERMISSION_WRITE,
-            'title' => \Yii::t('app', 'HSDU settings'),
+            'title' => \Yii::t('app', 'Delete HSDU'),
             'url' => [
                 "facility/update",
                 'id' => $this->facility->getId(),
