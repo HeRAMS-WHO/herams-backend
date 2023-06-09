@@ -7,6 +7,7 @@ namespace herams\common\models;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\favorite\Favorite;
 use herams\common\domain\user\User;
+use herams\common\enums\UserPermissions;
 use herams\common\interfaces\ConditionallyDeletable;
 use herams\common\interfaces\RequestableInterface;
 use herams\common\queries\ActiveQuery as ActiveQuery;
@@ -148,15 +149,13 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                         'contributorCount' => [
                             VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
                             VirtualFieldBehavior::GREEDY => Permission::find()->where([
-                                'target' => Workspace::class,
+                                'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                                 'target_id' => new Expression(self::tableName() . '.[[id]]'),
-                                'source' => User::class,
                             ])->select('count(distinct [[source_id]])'),
                             VirtualFieldBehavior::LAZY => static function (self $model): int {
                                 return (int) Permission::find()->where([
-                                    'target' => Workspace::class,
+                                    'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                                     'target_id' => $model->id,
-                                    'source' => User::class,
                                 ])->count('distinct [[source_id]]');
                             },
                         ],
