@@ -43,11 +43,11 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
         return [
             BlameableBehavior::class => [
                 'class' => BlameableBehavior::class,
-                'updatedByAttribute' =>  'latest_update_by',
+                'updatedByAttribute' =>  'last_modified_by',
             ],
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
-                'updatedAtAttribute' => 'latest_update_date',
+                'updatedAtAttribute' => 'last_modified_date',
                 'value' => fn() => Carbon::now()
             ],
         ];
@@ -181,7 +181,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
     public function getUpdatedUser(): ActiveQuery
     {
         return $this->hasOne(User::class, [
-            'id' => 'latest_update_by',
+            'id' => 'last_modified_by',
         ]);
     }
 
@@ -189,7 +189,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
     {
         return [
             [['data', 'facility_id', 'survey_id'], RequiredValidator::class],
-            [['data', 'survey_date', 'response_type', 'status', 'latest_update_date', 'latest_update_by'], SafeValidator::class],
+            [['data', 'date_of_update', 'response_type', 'status', 'last_modified_date', 'last_modified_by'], SafeValidator::class],
             [['facility_id'],
                 ExistValidator::class,
                 'targetRelation' => 'facility',

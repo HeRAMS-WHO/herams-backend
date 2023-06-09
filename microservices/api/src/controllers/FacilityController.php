@@ -72,7 +72,7 @@ final class FacilityController extends Controller
            ['!=', 'status', 'Deleted'],
            ['IS', 'status', null]
         ])->orderBy([
-            'survey_date' => SORT_DESC,
+            'date_of_update' => SORT_DESC,
             'id'=> SORT_DESC
           ])->limit(1)->one();
 
@@ -141,7 +141,7 @@ final class FacilityController extends Controller
            ['!=', 'status', 'Deleted'],
            ['IS', 'status', null]
         ])->orderBy([
-            'survey_date' => SORT_DESC,
+            'date_of_update' => SORT_DESC,
             'id'=> SORT_DESC
           ])->limit(1)->one();
 
@@ -179,7 +179,7 @@ final class FacilityController extends Controller
         $query = SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
             'survey_id' => $surveyId,
-            'survey_date' => $requestData['data']['date_of_update'],
+            'date_of_update' => $requestData['data']['date_of_update'],
         ])->andWhere([
         'or',
            ['!=', 'status', 'Deleted'],

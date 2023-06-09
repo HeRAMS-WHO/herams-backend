@@ -116,7 +116,7 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                         ])->count(),
 
             ],
-            'latestServeyDate' => [
+            'date_of_update' => [
                 
                 VirtualFieldBehavior::LAZY => static fn (self $facility) => SurveyResponse::find()
                     ->where([
@@ -126,7 +126,7 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                            ['!=', 'status', 'Deleted'],
                            ['IS', 'status', null]
                         ])
-                        ->orderBy('survey_date DESC')->limit(1)->one()->survey_date ?? null,
+                        ->orderBy('date_of_update DESC')->limit(1)->one()->date_of_update ?? null,
             ],
 
         ];

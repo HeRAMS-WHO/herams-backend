@@ -73,7 +73,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         [
 
             'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'survey_date',
+            'field' => 'date_of_update',
             'filter' => 'agNumberColumnFilter',
         ],
         // [
@@ -91,7 +91,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         // [
 
         //     'headerName' => \Yii::t('app', 'Created Date'),
-        //     'field' => 'created_at',
+        //     'field' => 'created_at', q
         //     'filter' => 'agNumberColumnFilter',
         // ],
         // [
@@ -103,14 +103,14 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         [
 
             'headerName' => \Yii::t('app', 'Last modified on'),
-            'field' => 'latest_update_date',
+            'field' => 'last_modified_date',
             'filter' => 'agNumberColumnFilter',
         ],
         
         [
 
             'headerName' => \Yii::t('app', 'Last modified by'),
-            'field' => 'latest_update_by',
+            'field' => 'last_modified_by',
             'filter' => 'agNumberColumnFilter',
         ],
         

@@ -241,8 +241,8 @@ class SurveyResponseRepository
         ]);
         \Yii::debug($model->attributes);
         $record->response_type =  $request['response_type'];
-        //$record->survey_date = $facility->admin_data['date_of_update'] ?? $record->survey_date;
-        $record->survey_date = $request['data']['date_of_update'] ?? $record->survey_date;
+        //$record->date_of_update = $facility->admin_data['date_of_update'] ?? $record->date_of_update;
+        $record->date_of_update = $request['data']['date_of_update'] ?? $record->date_of_update;
         $record->status =  $record->status ?? 'Validated';
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
@@ -263,9 +263,9 @@ class SurveyResponseRepository
         $surveyResponse = SurveyResponse::find()
         ->where(['survey_id' => $surveyId])
         ->orWhere(['survey_id' => $adminSuserveyId])
-        ->orderBy('survey_date DESC')->limit(1)->one();
+        ->orderBy('date_of_update DESC')->limit(1)->one();
         
-        $surveyResponse->facility->workspace->latest_survey_date = $surveyResponse->survey_date;
+        $surveyResponse->facility->workspace->latest_date_of_update = $surveyResponse->date_of_update;
 
         $surveyResponse->facility->workspace->update();
 

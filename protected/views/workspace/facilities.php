@@ -59,7 +59,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         [
 
             'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'latestServeyDate',
+            'field' => 'date_of_update',
             //'filter' => 'agNumberColumnFilter',
         ],
         [

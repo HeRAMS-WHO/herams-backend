@@ -99,7 +99,7 @@ echo AgGrid::widget([
         [
 
             'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'latestServeyDate',
+            'field' => 'date_of_update',
             //'field' => 'latest_survey_date',
             'filter' => 'agDateColumnFilter',
         ],

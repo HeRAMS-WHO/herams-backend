@@ -46,7 +46,7 @@ final class Create extends Action
         $modelHydrator->hydrateFromJsonDictionary($responseRecord, $request->bodyParams);
 
         $responseRecord->status = 'Validatd';
-        $responseRecord->survey_date = $requestData['data']['date_of_update'] ?? null;
+        $responseRecord->date_of_update = $requestData['data']['date_of_update'] ?? null;
         $responseRecord->response_type = 'admin';
 
         $surveyResponseRepository->save($responseRecord);

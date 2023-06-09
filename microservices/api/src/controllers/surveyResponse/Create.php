@@ -52,8 +52,8 @@ final class Create extends Action
         $facility = $facilityRepository->retrieveForUpdate($facilityid);
         $model->status = 'Validatd';
         $model->response_type =  $requestData['response_type']??"admin";
-        //$model->survey_date = $facility->admin_data['date_of_update'] ?? null;
-        $model->survey_date = $requestData['data']['date_of_update'] ?? null;
+        //$model->date_of_update = $facility->admin_data['date_of_update'] ?? null;
+        $model->date_of_update = $requestData['data']['date_of_update'] ?? null;
         $id = $surveyResponseRepository->save($model);
         $surveyResponse = SurveyResponse::findOne([
             'id' => $id,
