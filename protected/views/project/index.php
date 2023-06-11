@@ -19,7 +19,6 @@ Section::begin([
         [
             'label' => \Yii::t('app', 'Create project'),
             'link' => ['project/create'],
-            'style' => 'primary',
             'icon' => Icon::add(),
             'permission' => Permission::PERMISSION_CREATE_PROJECT,
         ],

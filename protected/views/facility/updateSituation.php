@@ -79,7 +79,7 @@ Section::end();
 //             credentials: 'same-origin',
 //             data:JSON.stringify({
 //                 "response_type":"situation",
-//                 "survey_date": $(this).val()
+//                 "date_of_update": $(this).val()
 //             }),
 //             headers: {
 //                 'X-CSRF-Token': window.yii.getCsrfToken(),

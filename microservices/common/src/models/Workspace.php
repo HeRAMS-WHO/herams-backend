@@ -57,13 +57,13 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
         return [
                 TimestampBehavior::class => [
                     'class' => TimestampBehavior::class,
-                    'updatedAtAttribute' => 'latest_update_date',
+                    'updatedAtAttribute' => 'last_modified_date',
                     'createdAtAttribute' => 'created_date',
                     'value' => fn() => Carbon::now()
                 ],
                 BlameableBehavior::class => [
                     'class' => BlameableBehavior::class,
-                    'updatedByAttribute' =>  'latest_update_by',
+                    'updatedByAttribute' =>  'last_modified_by',
                     'createdByAttribute' =>  'created_by',
                 ],
                 'virtualFields' => [
@@ -191,7 +191,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
 
                         ],
                         
-                        'latestServeyDate' => [
+                        'date_of_update' => [
                             
                             VirtualFieldBehavior::LAZY => static fn (self $workspace) => SurveyResponse::find()
                                 ->where([
@@ -205,7 +205,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                                     ['!=', 'status', 'Deleted'],
                                     ['IS', 'status', null]
                                     ])
-                                    ->orderBy('survey_date DESC')->limit(1)->one()->survey_date ?? null,
+                                    ->orderBy('date_of_update DESC')->limit(1)->one()->date_of_update ?? null,
                         ],
                     ],
                 ],
@@ -284,7 +284,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                 StringValidator::class,
                 'min' => 1,
             ],
-            [['latest_survey_date', 'created_date', 'created_by', 'latest_update_date', 'latest_update_by', 'status'], SafeValidator::class],
+            [['latest_date_of_update', 'created_date', 'created_by', 'last_modified_date', 'last_modified_by', 'status'], SafeValidator::class],
             [['project_id'],
                 ExistValidator::class,
                 'targetRelation' => 'project',

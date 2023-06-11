@@ -40,7 +40,7 @@ final class Facilities extends Action
         foreach ($facilityRepository->retrieveForWorkspace($workspaceId) as $model) {
             $row = [
                 'id' => $model->id,
-                'latestServeyDate' => $model->latestServeyDate,
+                'date_of_update' => $model->date_of_update,
             ];
             /** @var VariableInterface $variable */
             foreach ($variables as $variable) {

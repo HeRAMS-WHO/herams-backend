@@ -60,7 +60,7 @@ final class FacilityRepository
         $record = new Facility();
 
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
-        //$record->survey_date = $record->admin_data['date_of_update'] ?? null;
+        //$record->date_of_update = $record->admin_data['date_of_update'] ?? null;
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
