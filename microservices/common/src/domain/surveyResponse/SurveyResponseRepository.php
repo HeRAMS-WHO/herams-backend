@@ -265,7 +265,7 @@ class SurveyResponseRepository
         ->orWhere(['survey_id' => $adminSuserveyId])
         ->orderBy('date_of_update DESC')->limit(1)->one();
         
-        $surveyResponse->facility->workspace->latest_date_of_update = $surveyResponse->date_of_update;
+        $surveyResponse->facility->workspace->date_of_update = $surveyResponse->date_of_update;
 
         $surveyResponse->facility->workspace->update();
 
