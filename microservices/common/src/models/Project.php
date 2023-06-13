@@ -281,7 +281,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
     {
         return [
             'latestDate' => [
-                VirtualFieldBehavior::GREEDY => Facility::find()->limit(1)->select('max([[latest_date]])')
+                VirtualFieldBehavior::GREEDY => Facility::find()->limit(1)->select('max([[date_of_update]])')
                     ->andWhere([
                         'workspace_id' => Workspace::find()->select('id')->andWhere([
                             'project_id' => new Expression(self::tableName() . '.[[id]]'),
@@ -289,7 +289,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
 
                     ]),
                 VirtualFieldBehavior::LAZY => static fn (self $model): ?string
-                    => $model->getFacilities()->select('max([[latest_date]])')->scalar(),
+                    => $model->getFacilities()->select('max([[date_of_update]])')->scalar(),
             ],
             'workspaceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
