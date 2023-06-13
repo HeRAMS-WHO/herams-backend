@@ -250,6 +250,10 @@ class SurveyResponseRepository
         $suserveyId = $record->facility->workspace->project->data_survey_id;
         $adminSuserveyId = $record->facility->workspace->project->admin_survey_id;
         $this->updateSurveyDateToWorkspace($suserveyId, $adminSuserveyId);
+        if ($record->date_of_update > $facility->date_of_update){
+            $facility->date_of_update = $record->date_of_update;
+            $facility->update();
+        }
     }
     public function deleteSurveyResponse(UpdateSurveyResponse $model): void
     {

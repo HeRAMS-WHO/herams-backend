@@ -23,7 +23,6 @@ final class Facilities extends Action
     ) {
         $workspaceId = new WorkspaceId($id);
         $projectId = $workspaceRepository->getProjectId($workspaceId);
-
         $adminVariables = new \SplObjectStorage();
         $variables = [...$surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveDataSurveyId($projectId))->getVariables()];
         foreach ($surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveAdminSurveyId($projectId))->getVariables() as $variable) {
@@ -38,9 +37,9 @@ final class Facilities extends Action
         $data = [];
 
         foreach ($facilityRepository->retrieveForWorkspace($workspaceId) as $model) {
+
             $row = [
-                'id' => $model->id,
-                'date_of_update' => $model->date_of_update,
+                'id' => $model->id
             ];
             /** @var VariableInterface $variable */
             foreach ($variables as $variable) {
@@ -49,6 +48,7 @@ final class Facilities extends Action
                     \Yii::$app->language
                 )->getRawValue();
             }
+            $row['date_of_update'] = $model->date_of_update;
             if (empty($row['name'])) {
                 $row['name'] = 'no name';
             }
