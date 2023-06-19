@@ -118,15 +118,7 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
             ],
             'date_of_update' => [
                 
-                VirtualFieldBehavior::LAZY => static fn (self $facility) => SurveyResponse::find()
-                    ->where([
-                        'facility_id' => $facility->id,
-                    ])->andWhere([
-                        'or',
-                           ['!=', 'status', 'Deleted'],
-                           ['IS', 'status', null]
-                        ])
-                        ->orderBy('date_of_update DESC')->limit(1)->one()->date_of_update ?? null,
+                VirtualFieldBehavior::LAZY => static fn (self $facility) => $facility->id ?? null,
             ],
 
         ];

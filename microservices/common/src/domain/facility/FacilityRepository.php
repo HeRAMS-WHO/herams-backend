@@ -160,5 +160,6 @@ final class FacilityRepository
         }
         $facility->status = 'Deleted';
         $facility->update(false);
+        return true;
     }
 }
