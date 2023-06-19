@@ -35,7 +35,6 @@ final class Create extends Action
         $requestData = $request->bodyParams;
         $model = new NewSurveyResponse();
         $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
-
         // Our model is now hydrated, we should validate it.
         /**
          * @psalm-assert FacilityId $model->facilityId
@@ -53,7 +52,7 @@ final class Create extends Action
         $model->status = 'Validatd';
         $model->response_type =  $requestData['response_type']??"admin";
         //$model->date_of_update = $facility->admin_data['date_of_update'] ?? null;
-        $model->date_of_update = $requestData['data']['date_of_update'] ?? null;
+        $model->date_of_update = $requestData['data']['date_of_update'] ?? $requestData['data']['HSDU_DATE'] ?? $requestData['data']['SITUATION_DATE'] ?? null;
         $id = $surveyResponseRepository->save($model);
         $surveyResponse = SurveyResponse::findOne([
             'id' => $id,
