@@ -38,7 +38,7 @@ $this->endBlock();
 Section::begin()
     ->withActions([
         [
-            'label' => \Yii::t('app', 'Update Admin Info'),
+            'label' => \Yii::t('app', 'Update HSDU Info'),
             'link' => Url::to([
                 'create-admin-situation',
                 'id' => $facility->getId(),
