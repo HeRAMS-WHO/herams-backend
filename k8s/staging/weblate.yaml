@@ -8,7 +8,7 @@ spec:
     - port: 80
       targetPort: 8080
   selector:
-      app: weblate
+    app: weblate
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -41,7 +41,7 @@ data:
   WEBLATE_EMAIL_USE_TLS: "1"
   WEBLATE_EMAIL_HOST: smtp.sendgrid.net
   IP_BEHIND_REVERSE_PROXY: "True"
-  POSTGRES_HOST: postgres-service
+  POSTGRES_HOST: postgres-service-12
   WEBLATE_DEBUG: "0"
   POSTGRES_DATABASE: weblate
   POSTGRES_USER: weblate
@@ -69,7 +69,7 @@ spec:
       volumes:
         - name: postgres-secret
           secret:
-            secretName: postgres
+            secretName: postgres-12
         - name: smtp-secret
           secret:
             secretName: smtp
