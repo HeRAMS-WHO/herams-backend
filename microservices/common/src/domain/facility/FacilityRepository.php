@@ -14,9 +14,11 @@ use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\SurveyRepositoryInterface;
 use herams\common\models\Permission;
 use herams\common\models\Workspace;
+use herams\common\queries\FacilityQuery;
 use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
 use herams\common\values\WorkspaceId;
+use herams\common\domain\facility\Facility as FacilityModel;
 use prime\helpers\CanCurrentUserWrapper;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
@@ -101,7 +103,7 @@ final class FacilityRepository
     /**
      * @return list<FacilityReadRecord>
      */
-    public function retrieveForWorkspace(WorkspaceId $id): array
+    public function retrieveByWorkspaceId(WorkspaceId $id): array
     {
         $workspace = Workspace::findOne([
             'id' => $id->getValue(),
@@ -118,6 +120,20 @@ final class FacilityRepository
         return $query->all();
     }
 
+    /**
+     * @return list<FacilityReadRecord>
+     */
+    public function getByWorkspace(WorkspaceId $id): array
+    {
+        $workspace = Workspace::findOne([
+            'id' => $id->getValue(),
+        ]);
+        $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
+        return FacilityModel::find()->where(['workspace_id' => $id->getValue()])
+            ->with('latestSurveyResponse')
+            ->asArray()
+            ->all();
+    }
     public function retrieveForTabMenu(FacilityId $id): FacilityForTabMenu
     {
         $facility = FacilityReadRecord::findOne([

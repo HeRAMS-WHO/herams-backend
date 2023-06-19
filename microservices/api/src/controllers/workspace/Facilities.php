@@ -10,7 +10,10 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\WorkspaceId;
+use Yii;
 use yii\base\Action;
+use yii\helpers\Html;
+use yii\helpers\VarDumper;
 
 final class Facilities extends Action
 {
@@ -23,7 +26,6 @@ final class Facilities extends Action
     ) {
         $workspaceId = new WorkspaceId($id);
         $projectId = $workspaceRepository->getProjectId($workspaceId);
-
         $adminVariables = new \SplObjectStorage();
         $variables = [...$surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveDataSurveyId($projectId))->getVariables()];
         foreach ($surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveAdminSurveyId($projectId))->getVariables() as $variable) {
@@ -36,11 +38,14 @@ final class Facilities extends Action
         usort($variables, $sorter);
 
         $data = [];
+        $facilities = $facilityRepository->getByWorkspace($workspaceId);
+        foreach($facilities as &$facility){
+            $facility['admin_data'] = json_decode($facility['admin_data']);
+        }
+        foreach ($facilityRepository->retrieveByWorkspaceId($workspaceId) as $model) {
 
-        foreach ($facilityRepository->retrieveForWorkspace($workspaceId) as $model) {
             $row = [
-                'id' => $model->id,
-                'date_of_update' => $model->date_of_update,
+                'id' => $model->id
             ];
             /** @var VariableInterface $variable */
             foreach ($variables as $variable) {
@@ -49,8 +54,22 @@ final class Facilities extends Action
                     \Yii::$app->language
                 )->getRawValue();
             }
+            $row['date_of_update'] = $model->date_of_update;
             if (empty($row['name'])) {
                 $row['name'] = 'no name';
+            }
+            foreach($facilities as $facility){
+                if ($facility['id'] === $model->id){
+                    try {
+                        $row['LAST_DATE_OF_UPDATE'] = $facility['latestSurveyResponse']['date_of_update'];
+                    }
+                    catch (Error $error){
+                        $row['LAST_DATE_OF_UPDATE'] = '';
+                    }
+                    catch (\Exception $exeption){
+                        $row['LAST_DATE_OF_UPDATE'] = '';
+                    }
+                }
             }
             $data[] = $row;
         }

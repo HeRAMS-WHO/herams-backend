@@ -93,7 +93,7 @@ class ProjectController extends Controller
          */
         $records = (function () use ($workspaceRepository, $facilityRepository, $projectId) {
             foreach ($workspaceRepository->retrieveForProject($projectId) as $workspace) {
-                yield from $facilityRepository->retrieveForWorkspace(new WorkspaceId($workspace->id));
+                yield from $facilityRepository->retrieveByWorkspaceId(new WorkspaceId($workspace->id));
             }
         })();
 

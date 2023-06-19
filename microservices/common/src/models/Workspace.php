@@ -113,15 +113,15 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                         ],
                         'latestUpdate' => [
                             VirtualFieldBehavior::GREEDY => Facility::find()
-                                ->limit(1)->select('max(latest_date)')
+                                ->limit(1)->select('max(date_of_update)')
                                 ->where([
                                     'workspace_id' => new Expression(self::tableName() . '.[[id]]'),
                                 ]),
                             VirtualFieldBehavior::LAZY => static function (Workspace $workspace) {
                                 return $workspace->getFacilities()->orderBy([
-                                    'latest_date' => SORT_DESC,
+                                    'date_of_update' => SORT_DESC,
                                 ])->limit(1)
-                                    ->one()->latest_date ?? null
+                                    ->one()->date_of_update ?? null
 ;
                             },
                         ],
@@ -284,7 +284,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                 StringValidator::class,
                 'min' => 1,
             ],
-            [['latest_date_of_update', 'created_date', 'created_by', 'last_modified_date', 'last_modified_by', 'status'], SafeValidator::class],
+            [['date_of_update', 'created_date', 'created_by', 'last_modified_date', 'last_modified_by', 'status'], SafeValidator::class],
             [['project_id'],
                 ExistValidator::class,
                 'targetRelation' => 'project',

@@ -32,7 +32,7 @@ class DeleteWorkspace extends Action
             foreach($workspaces as $workspace){
                 $workspaceId = new WorkspaceId($workspace->id);
                 
-                $facilities =$facilityRepository->retrieveForWorkspace($workspaceId);
+                $facilities =$facilityRepository->retrieveByWorkspaceId($workspaceId);
                 if($facilities){
                     foreach($facilities as $facility){
                         SurveyResponse::deleteAll(['facility_id' => $facility->id]);

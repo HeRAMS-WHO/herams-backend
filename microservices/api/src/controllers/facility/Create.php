@@ -39,6 +39,7 @@ final class Create extends Action
 
         $projectId = $workspaceRepository->getProjectId($facility->workspaceId);
         $facilityId = $facilityRepository->create($facility);
+        $facilityModel = $facilityRepository->retrieveForUpdate($facilityId);
 
         $responseRecord = new NewSurveyResponse();
         $responseRecord->surveyId = $projectRepository->retrieveAdminSurveyId($projectId);

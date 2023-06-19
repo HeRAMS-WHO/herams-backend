@@ -33,7 +33,7 @@ class Delete extends Action
             foreach($workspaces as $workspace){
                 $workspaceId = new WorkspaceId($workspace->id);
                 if($workspaceId){
-                    $facilities = $facilityRepository->retrieveForWorkspace($workspaceId);
+                    $facilities = $facilityRepository->retrieveByWorkspaceId($workspaceId);
                     if($facilities){                        
                         foreach($facilities as $facility){
                             $surveyResponse = SurveyResponse::find()->where(['facility_id' => $facility->id])->one();

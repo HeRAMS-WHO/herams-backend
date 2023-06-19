@@ -25,7 +25,6 @@ final class AdminResponses extends Action
         int $id
     ) {
         $facilityId = new FacilityId($id);
-
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
         $projectId = $workspaceRepository->getProjectId($workspaceId);
 

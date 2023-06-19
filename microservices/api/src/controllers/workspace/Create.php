@@ -29,7 +29,6 @@ final class Create extends Action
         if (! $modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
-
         $id = $workspaceRepository->create($model);
         $response->setStatusCode(201);
         $response->headers->add('Location', Url::to([
