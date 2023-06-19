@@ -39,9 +39,20 @@ final class Facilities extends Action
 
         $data = [];
         $facilities = $facilityRepository->getByWorkspace($workspaceId);
+        $dates = [];
         foreach($facilities as &$facility){
             $facility['admin_data'] = json_decode($facility['admin_data']);
+            try {
+                $date[$facility['id']] = $facility['latestSurveyResponse']['date_of_update'];
+            }
+            catch (Error $error){
+                $date[$facility['id']] = '';
+            }
+            catch (\Exception $exeption){
+                $date[$facility['id']] = '';
+            }
         }
+
         foreach ($facilityRepository->retrieveByWorkspaceId($workspaceId) as $model) {
 
             $row = [
@@ -58,18 +69,14 @@ final class Facilities extends Action
             if (empty($row['name'])) {
                 $row['name'] = 'no name';
             }
-            foreach($facilities as $facility){
-                if ($facility['id'] === $model->id){
-                    try {
-                        $row['LAST_DATE_OF_UPDATE'] = $facility['latestSurveyResponse']['date_of_update'];
-                    }
-                    catch (Error $error){
-                        $row['LAST_DATE_OF_UPDATE'] = '';
-                    }
-                    catch (\Exception $exeption){
-                        $row['LAST_DATE_OF_UPDATE'] = '';
-                    }
-                }
+            try{
+                $row['LAST_DATE_OF_UPDATE'] = $date[$model->id];
+            }
+            catch (\Exception $exception){
+                $row['LAST_DATE_OF_UPDATE'] = '';
+            }
+            catch (\Error $error){
+                $row['LAST_DATE_OF_UPDATE'] = '';
             }
             $data[] = $row;
         }
