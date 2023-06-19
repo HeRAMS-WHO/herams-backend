@@ -179,7 +179,7 @@ final class FacilityController extends Controller
         $query = SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
             'survey_id' => $surveyId,
-            'date_of_update' => $requestData['data']['date_of_update'],
+            'date_of_update' => $requestData['data']['date_of_update'] ?? $requestData['data']['HSDU_DATE'] ?? $requestData['data']['SITUATION_DATE'],
         ])->andWhere([
         'or',
            ['!=', 'status', 'Deleted'],

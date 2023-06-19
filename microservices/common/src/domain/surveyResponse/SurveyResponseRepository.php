@@ -38,6 +38,7 @@ class SurveyResponseRepository
     public function create(
         CreateForm $model
     ): SurveyResponseId {
+
         $record = new SurveyResponse();
         $record->survey_id = $model->getSurveyId()->getValue();
         $record->facility_id = $model->getFacilityId()->getValue();
@@ -244,7 +245,9 @@ class SurveyResponseRepository
         \Yii::debug($model->attributes);
         $record->response_type =  $request['response_type'];
         //$record->date_of_update = $facility->admin_data['date_of_update'] ?? $record->date_of_update;
-        $record->date_of_update = $request['data']['date_of_update'] ?? $record->date_of_update;
+        $record->date_of_update = $request['data']['date_of_update']
+            ?? $request['data']['SITUATION_DATE']
+            ?? $request['data']['HSDU_DATE'] ?? null;
         $record->status =  $record->status ?? 'Validated';
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
