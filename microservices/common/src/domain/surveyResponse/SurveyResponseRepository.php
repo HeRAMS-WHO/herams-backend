@@ -219,7 +219,9 @@ class SurveyResponseRepository
         'or',
            ['!=', 'status', 'Deleted'],
            ['IS', 'status', null]
-        ])->all();
+        ])->orderBy([
+            'date_of_update' => SORT_DESC,
+          ])->all();
 
     }
     /**

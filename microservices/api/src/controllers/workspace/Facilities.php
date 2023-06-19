@@ -73,6 +73,9 @@ final class Facilities extends Action
             }
             $data[] = $row;
         }
+        // sort($data);
+        // print_r($data); exit;
+
         return $data;
     }
 }
