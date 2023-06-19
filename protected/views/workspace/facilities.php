@@ -59,7 +59,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
         [
 
             'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'date_of_update',
+            'field' => 'LAST_DATE_OF_UPDATE',
             //'filter' => 'agNumberColumnFilter',
         ],
         [
@@ -77,10 +77,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             JS),
             //            'filter' => 'agNumberColumnFilter',
         ],
-        ...\iter\map(fn (VariableInterface $variable) => [
-            'field' => $variable->getName(),
-            'headerName' => $variable->getTitle(\Yii::$app->language),
-        ], $variables),
+        ...$tableCols
     ],
 
 ]);

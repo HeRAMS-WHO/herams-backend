@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 namespace herams\common\domain\facility;
-
 use herams\common\domain\survey\Survey;
 use herams\common\models\ActiveRecord;
 use herams\common\models\Project;
@@ -50,11 +49,11 @@ use yii\validators\StringValidator;
 class Facility extends ActiveRecord
 {
 
+
     public static function find(): FacilityQuery
     {
         return new FacilityQuery(static::class);
     }
-
 
     public function getAdminSurveyResponses(): ActiveQuery
     {
@@ -70,7 +69,9 @@ class Facility extends ActiveRecord
         ])
             ->via('project');
     }
-
+    public function getLatestSurveyResponse() {
+        return $this->hasOne(SurveyResponse::class, ['facility_id' => 'id'])->addOrderBy(['date_of_update' => SORT_DESC]);
+    }
     public function getProject(): ActiveQuery
     {
         return $this->hasOne(Project::class, [
@@ -92,7 +93,6 @@ class Facility extends ActiveRecord
             'id' => 'workspace_id',
         ]);
     }
-
     public static function labels(): array
     {
         return ArrayHelper::merge(

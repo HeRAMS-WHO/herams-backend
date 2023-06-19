@@ -10,7 +10,10 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\WorkspaceId;
+use Yii;
 use yii\base\Action;
+use yii\helpers\Html;
+use yii\helpers\VarDumper;
 
 final class Facilities extends Action
 {
@@ -35,8 +38,11 @@ final class Facilities extends Action
         usort($variables, $sorter);
 
         $data = [];
-
-        foreach ($facilityRepository->retrieveForWorkspace($workspaceId) as $model) {
+        $facilities = $facilityRepository->getByWorkspace($workspaceId);
+        foreach($facilities as &$facility){
+            $facility['admin_data'] = json_decode($facility['admin_data']);
+        }
+        foreach ($facilityRepository->retrieveByWorkspaceId($workspaceId) as $model) {
 
             $row = [
                 'id' => $model->id
@@ -51,6 +57,19 @@ final class Facilities extends Action
             $row['date_of_update'] = $model->date_of_update;
             if (empty($row['name'])) {
                 $row['name'] = 'no name';
+            }
+            foreach($facilities as $facility){
+                if ($facility['id'] === $model->id){
+                    try {
+                        $row['LAST_DATE_OF_UPDATE'] = $facility['latestSurveyResponse']['date_of_update'];
+                    }
+                    catch (Error $error){
+                        $row['LAST_DATE_OF_UPDATE'] = '';
+                    }
+                    catch (\Exception $exeption){
+                        $row['LAST_DATE_OF_UPDATE'] = '';
+                    }
+                }
             }
             $data[] = $row;
         }
