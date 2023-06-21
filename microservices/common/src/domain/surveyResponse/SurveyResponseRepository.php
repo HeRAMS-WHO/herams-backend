@@ -265,6 +265,8 @@ class SurveyResponseRepository
         $record = SurveyResponse::findOne($model->id);
         $record->status = 'Deleted';
         $record->update();
+        $surveyResponseId = new SurveyResponseId($model->id->getValue());
+        $this->propagateDate($surveyResponseId);
         //return $this->redirect(\Yii::$app->request->referrer);
     }
     public function updateSurveyDateToWorkspace($surveyId,$adminSuserveyId){
@@ -289,8 +291,11 @@ class SurveyResponseRepository
         $facility = Facility::findOne(['id' => $survey->facility_id]);
         $date_of_update = SurveyResponse::find()
             ->select('MAX(date_of_update)')
+            ->where(['!=', "status", 'Deleted'])
+            ->andWhere(['facility_id' => $survey->facility_id])
             ->orderBy('date_of_update DESC')
             ->scalar();
+            //->scalar();
         $facility->date_of_update = $date_of_update;
         $facility->update();
     }
@@ -309,6 +314,7 @@ class SurveyResponseRepository
             ->innerJoin($facilityTableName, "$facilityTableName.workspace_id = $workspaceTableName.id")
             ->innerJoin($surveyResponseTableName, "$facilityTableName.id = $surveyResponseTableName.facility_id")
             ->where([$workspaceTableName . '.id' => $facility->workspace_id])
+            ->andWhere(['!=', "$surveyResponseTableName.status", 'Deleted'])
             ->scalar();
         $workspace = Workspace::findOne(['id' => $facility->workspace_id]);
         $workspace->date_of_update = $date_of_update;

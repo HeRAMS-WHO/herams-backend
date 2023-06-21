@@ -11,6 +11,7 @@ use herams\common\models\Workspace;
 use herams\common\queries\ActiveQuery;
 use herams\common\queries\FacilityQuery;
 use prime\helpers\ArrayHelper;
+use yii\db\Expression;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -70,7 +71,9 @@ class Facility extends ActiveRecord
             ->via('project');
     }
     public function getLatestSurveyResponse() {
-        return $this->hasOne(SurveyResponse::class, ['facility_id' => 'id'])->addOrderBy(['date_of_update' => SORT_DESC]);
+        return $this->hasOne(SurveyResponse::class, ['facility_id' => 'id'])
+            ->where(['!=', 'status', 'Deleted'])
+            ->addOrderBy(['date_of_update' => SORT_DESC]);
     }
     public function getProject(): ActiveQuery
     {
