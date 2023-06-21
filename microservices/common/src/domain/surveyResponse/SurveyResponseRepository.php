@@ -13,6 +13,7 @@ use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\RecordInterface;
 use herams\common\models\Permission;
 use herams\common\models\SurveyResponse;
+use herams\common\models\Workspace;
 use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
@@ -24,8 +25,9 @@ use prime\models\forms\surveyResponse\CreateForm;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
 use yii\data\DataProviderInterface;
 use yii\data\Sort;
+use yii\db\Expression;
 use yii\web\NotFoundHttpException;
-
+use yii\db\Query;
 class SurveyResponseRepository
 {
     public function __construct(
@@ -46,6 +48,8 @@ class SurveyResponseRepository
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
+        $surveyId = new SurveyId($record->id);
+        $this->propagateDate($surveyId);
 
         return new SurveyResponseId($record->id);
     }
@@ -58,6 +62,8 @@ class SurveyResponseRepository
         if (! $record->save()) {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
+        $surveyResponseId = new SurveyResponseId($record->id);
+        $this->propagateDate($surveyResponseId);
         return new SurveyResponseId($record->id);
     }
 
@@ -251,20 +257,16 @@ class SurveyResponseRepository
         $record->status =  $record->status ?? 'Validated';
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
-
-        $suserveyId = $record->facility->workspace->project->data_survey_id;
-        $adminSuserveyId = $record->facility->workspace->project->admin_survey_id;
-        $this->updateSurveyDateToWorkspace($suserveyId, $adminSuserveyId);
-        if ($record->date_of_update > $facility->date_of_update){
-            $facility->date_of_update = $record->date_of_update;
-            $facility->update();
-        }
+        $surveyId = new SurveyResponseId($record->id);
+        $this->propagateDate($surveyId);
     }
     public function deleteSurveyResponse(UpdateSurveyResponse $model): void
     {
         $record = SurveyResponse::findOne($model->id);
         $record->status = 'Deleted';
         $record->update();
+        $surveyResponseId = new SurveyResponseId($model->id->getValue());
+        $this->propagateDate($surveyResponseId);
         //return $this->redirect(\Yii::$app->request->referrer);
     }
     public function updateSurveyDateToWorkspace($surveyId,$adminSuserveyId){
@@ -278,5 +280,44 @@ class SurveyResponseRepository
 
         $surveyResponse->facility->workspace->update();
 
+    }
+    public function propagateDate(SurveyResponseId $surveyResponseId): void {
+        $this->updateDateOnFacility($surveyResponseId);
+        $this->updateDateOnWorkspace($surveyResponseId);
+    }
+
+    public function updateDateOnFacility(SurveyResponseId $surveyResponseId): void {
+        $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
+        $facility = Facility::findOne(['id' => $survey->facility_id]);
+        $date_of_update = SurveyResponse::find()
+            ->select('MAX(date_of_update)')
+            ->where(['!=', "status", 'Deleted'])
+            ->andWhere(['facility_id' => $survey->facility_id])
+            ->orderBy('date_of_update DESC')
+            ->scalar();
+            //->scalar();
+        $facility->date_of_update = $date_of_update;
+        $facility->update();
+    }
+
+    public function updateDateOnWorkspace(SurveyResponseId $surveyResponseId): void {
+        $surveyResponse = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
+        $facility = Facility::findOne(['id' => $surveyResponse->facility_id]);
+
+        $query = new Query();
+        $workspaceTableName = Workspace::tableName();
+        $facilityTableName = Facility::tableName();
+        $surveyResponseTableName = SurveyResponse::tableName();
+
+        $date_of_update = $query->select("MAX($surveyResponseTableName.date_of_update)")
+            ->from($workspaceTableName)
+            ->innerJoin($facilityTableName, "$facilityTableName.workspace_id = $workspaceTableName.id")
+            ->innerJoin($surveyResponseTableName, "$facilityTableName.id = $surveyResponseTableName.facility_id")
+            ->where([$workspaceTableName . '.id' => $facility->workspace_id])
+            ->andWhere(['!=', "$surveyResponseTableName.status", 'Deleted'])
+            ->scalar();
+        $workspace = Workspace::findOne(['id' => $facility->workspace_id]);
+        $workspace->date_of_update = $date_of_update;
+        $workspace->update();
     }
 }

@@ -133,11 +133,14 @@ final class FacilityController extends Controller
     
     public function actionDeleteSituation(
         int $pid,   //parentID  -facility id
-        int $cid    //childId - response id
+        int $cid,    //childId - response id
+        SurveyResponseRepository $surveyResponseRepository
     ) {
         $model = SurveyResponse::findOne($cid);
         $model->status = 'Deleted';
         $model->update();
+        $surveyResponseId = new SurveyResponseId($cid);
+        $surveyResponseRepository->propagateDate($surveyResponseId);
         return $this->redirect(\Yii::$app->request->referrer);
     }
     public function actionEditAdminSituation(
