@@ -17,6 +17,7 @@ use herams\common\models\Workspace;
 use herams\common\queries\FacilityQuery;
 use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
+use herams\common\values\SurveyResponseId;
 use herams\common\values\WorkspaceId;
 use herams\common\domain\facility\Facility as FacilityModel;
 use prime\helpers\CanCurrentUserWrapper;
@@ -174,6 +175,8 @@ final class FacilityRepository
             $situationUpdate->status = 'Deleted';
             $situationUpdate->update();
         }
+        $surveyResponseId = new SurveyResponseId($situationUpdate->id);
+        $this->surveyResponseRepository->propagateDate($surveyResponseId);
         $facility->status = 'Deleted';
         $facility->update(false);
         return true;
