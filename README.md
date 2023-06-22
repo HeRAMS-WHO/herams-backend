@@ -17,7 +17,7 @@
  cp .env.default .env
  ```
 5. Optionally alter `.env` to suit your preferences, it is recommended to set UID and GID to prevent permission issues
-6. Run `docker-compose up serve`
+6. Run `docker compose up -d devdb testdb phpmyadmin nginx phpfpm`
 
 ## Result
 After taking the above steps you will have everything up and running:
