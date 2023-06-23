@@ -14,6 +14,7 @@ namespace prime\objects\enums;
  * @method static self nlNL()
  * @method static self frFR()
  * @method static self ka()
+ * @method static self hy()
  */
 class Language extends Enum
 {
