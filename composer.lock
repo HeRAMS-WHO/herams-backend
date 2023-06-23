@@ -631,12 +631,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
-                "reference": "cff364d2ca79791a37a2abfcae0e2ffd99f4fb40"
+                "reference": "ffe6ae5d71bcf9d978e62d7a93c1a2d38f71f606"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/cff364d2ca79791a37a2abfcae0e2ffd99f4fb40",
-                "reference": "cff364d2ca79791a37a2abfcae0e2ffd99f4fb40",
+                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/ffe6ae5d71bcf9d978e62d7a93c1a2d38f71f606",
+                "reference": "ffe6ae5d71bcf9d978e62d7a93c1a2d38f71f606",
                 "shasum": ""
             },
             "default-branch": true,
@@ -652,10 +652,9 @@
             ],
             "description": "Localizations for HeRAMS",
             "support": {
-                "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master",
-                "issues": "https://github.com/HeRAMS-WHO/herams-i18n/issues"
+                "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master"
             },
-            "time": "2022-12-15T16:09:20+00:00"
+            "time": "2023-06-22T10:57:24+00:00"
         },
         {
             "name": "jc-it/yii2-job-queue",
