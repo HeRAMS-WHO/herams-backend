@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: postgres
+  namespace: staging
+  creationTimestamp: null
+data:
+  password: >-
+    secret
+  POSTGRES_HOST: secret
+  POSTGRES_DATABASE: secret
+  POSTGRES_USER: secret
+  POSTGRES_PASSWORD: >-
+    secret
+  POSTGRES_PORT: secret
