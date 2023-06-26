@@ -10,16 +10,23 @@ For specific Windows installation see [Windows setup](docs/dev/setup/Windows.md)
 - Git must be available
 
 ## Steps
-1. Get [Docker](https://docs.docker.com/install/)
-2. Get [Docker Compose](https://docs.docker.com/compose/install/)
-3. Run the following commands:
+1. ```sudo apt update```
+2. ```sudo apt install apt-transport-https ca-certificates curl software-properties-common```
+3. ```curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -```
+4. ```sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"```
+5. ```sudo apt update```
+6. ```sudo apt install docker-ce docker-compose```
+7. ```sudo usermod -aG docker ${USER}```
+8. Reboot your PC
+
+9. Run the following commands:
  ```
  git clone git@github.com:WorldHealthOrganization/herams-backend.git
  cd herams-backend
  cp .env.default .env
  ```
-5. Optionally alter `.env` to suit your preferences, it is recommended to set UID and GID to prevent permission issues also remove parameters that contains "/" like the smtp and database.
-6. Run `docker compose up -d devdb testdb phpmyadmin nginx-api nginx`
+10. Optionally alter `.env` to suit your preferences, it is recommended to set UID and GID to prevent permission issues also remove parameters that contains "/" like the smtp and database.
+11. Run `docker compose up -d devdb testdb phpmyadmin nginx-api nginx`
 
 ## Result
 After taking the above steps you will have everything up and running:
