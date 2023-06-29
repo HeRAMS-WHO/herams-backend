@@ -174,9 +174,9 @@ class Survey extends Widget
                             data: sender.data
                         })
                         options.showDataSavingSuccess('Data saved');
-                        const notification = window.Herams.notifySuccess("Data saved", 'center');
+                        //const notification = window.Herams.notifySuccess("Data saved", 'center');
                         if (config.redirectUrl) {
-                            await notification
+                            //await notification
                             window.location.assign(config.redirectUrl);
                         } else if (restartWithFreshData) {
                             return restartWithFreshData()
