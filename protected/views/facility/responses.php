@@ -30,6 +30,7 @@ $editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
 $viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
 $deleteIcon = preg_replace( "/\r|\n/", "", Icon::trash() );
 $this->beginBlock('tabs');
+
 echo FacilityTabMenu::widget(
     [
         'facility' => $facility,
@@ -50,6 +51,7 @@ Section::begin()
     ])
     ->withSubject($facility)
     ->withHeader(\Yii::t('app', 'Responses'));
+
 echo \prime\widgets\AgGrid\AgGrid::widget([
     'route' => [
         '/api/facility/data-responses',
@@ -63,11 +65,11 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'pinned' => 'left',
             'lockPinned' => true,
             'cellClass' => 'lock-pinned',
-            //'filter' => 'agNumberColumnFilter',
+            'filter' => 'agNumberColumnFilter',
         ],
         ...\iter\map(fn (VariableInterface $variable) => [
             'field' => $variable->getName(),
-            'headerName' => $variable->getTitle(\Yii::$app->language),
+            'headerName' => $variable->getTitle(\Yii::$app->language)
         ], $variables),
 
         [
@@ -104,7 +106,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'Last modified on'),
             'field' => 'last_modified_date',
-            'filter' => 'agNumberColumnFilter',
+            'filter' => 'agDateColumnFilter',
         ],
         
         [
