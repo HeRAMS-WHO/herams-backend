@@ -20,7 +20,9 @@ use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\models\Permission;
 use herams\common\models\Project;
+use herams\common\models\Workspace;
 use herams\common\traits\RepositorySave;
+use herams\common\values\FacilityId;
 use herams\common\values\IntegerId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
@@ -111,7 +113,7 @@ class ProjectRepository implements ProjectLocalesRetriever
         PermissionRepository $permissionRepository,
         PageRepository $pageRepository
     ){
-        $workspaces = $workspaceRepository->retrieveForProject($projectId);
+        $workspaces = $workspaceRepository->retrieveAllWorkspacesByProjectId($projectId);
         foreach(($workspaces ?? []) as $workspace){
             $workspaceId = new WorkspaceId($workspace->id);
             $accessRequestRepository->deleteAll([
@@ -132,9 +134,13 @@ class ProjectRepository implements ProjectLocalesRetriever
                 $surveyResponseRepository->deleteAll(['facility_id' => $facility->id]);
             }
             $facilityRepository->deleteAll(['workspace_id' => $workspace->id]);
+
         }
-        $pageRepository->deleteAll(['project_id' => $projectId]);
-        $workspaceRepository->deleteAll(['project_id' => $projectId]);
+        $pageRepository->deleteAll(['project_id' => $projectId->getValue()]);
+        $workspaceRepository->deleteAll(['project_id' => $projectId->getValue()]);
+    }
+    public function deleteAll(array $condition): void {
+        Project::deleteAll($condition);
     }
     public function retrieveForExternalDashboard(ProjectId $id): ProjectForExternalDashboard
     {
