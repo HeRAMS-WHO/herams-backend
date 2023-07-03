@@ -40,8 +40,27 @@ class WorkspaceRepository {
                    ['IS', 'status', null]
                 ]);
     }
+    private function workspaceQueryComplete(ProjectId $projectId): WorkspaceQuery
+    {
+        return Workspace::find()
+            ->withFields('leadNames', 'latestUpdate', 'responseCount', 'facilityCount', 'favorite_id')
+            ->andWhere([
+                'project_id' => $projectId->getValue(),
+            ]);
+    }
     public function deleteAll(array $condition): void {
         Workspace::deleteAll($condition);
+    }
+    /**
+     * @return list<Workspace>
+     */
+    public function retrieveAllWorkspacesByProjectId(ProjectId $id): array
+    {
+        $project = Project::findOne([
+            'id' => $id->getValue(),
+        ]);
+        $this->accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
+        return $this->workspaceQueryComplete($id)->all();
     }
     /**
      * @return list<Workspace>
