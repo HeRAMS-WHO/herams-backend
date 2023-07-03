@@ -40,7 +40,9 @@ class WorkspaceRepository {
                    ['IS', 'status', null]
                 ]);
     }
-
+    public function deleteAll(array $condition): void {
+        Workspace::deleteAll($condition);
+    }
     /**
      * @return list<Workspace>
      */

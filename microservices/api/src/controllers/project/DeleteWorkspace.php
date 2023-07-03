@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace herams\api\controllers\project;
 
+use herams\common\domain\accessRequest\AccessRequestRepository;
+use herams\common\domain\favorite\FavoriteRepository;
+use herams\common\domain\page\PageRepository;
+use herams\common\domain\permission\PermissionRepository;
+use herams\common\domain\project\ProjectRepository;
 use yii\base\Action;
 use herams\common\values\ProjectId;
 use herams\common\values\WorkspaceId;
@@ -23,27 +28,24 @@ class DeleteWorkspace extends Action
         WorkspaceRepository $workspaceRepository,
         FacilityRepository $facilityRepository,
         SurveyResponseRepository $surveyResponseRepository,
+        AccessRequestRepository $accessRequestRepository,
+        FavoriteRepository $favoriteRepository,
+        PermissionRepository $permissionRepository,
+        ProjectRepository $projectRepository,
+        PageRepository $pageRepository,
         int $id
     ) {
         $projectId = new ProjectId($id);
-
-        $workspaces = $workspaceRepository->retrieveForProject($projectId);
-        if($workspaces){
-            foreach($workspaces as $workspace){
-                $workspaceId = new WorkspaceId($workspace->id);
-                
-                $facilities =$facilityRepository->retrieveByWorkspaceId($workspaceId);
-                if($facilities){
-                    foreach($facilities as $facility){
-                        SurveyResponse::deleteAll(['facility_id' => $facility->id]);
-                    }
-                    Facility::deleteAll(['workspace_id' => $workspace->id]);
-                }
-                Workspace::deleteAll(['project_id' => $id]);
-    
-            }
-
-        }
+        $projectRepository->emptyProject(
+            $projectId,
+            $workspaceRepository,
+            $facilityRepository,
+            $surveyResponseRepository,
+            $accessRequestRepository,
+            $favoriteRepository,
+            $permissionRepository,
+            $pageRepository
+        );
         return true;
     }
 }

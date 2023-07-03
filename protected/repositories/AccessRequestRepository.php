@@ -32,4 +32,8 @@ class AccessRequestRepository
 
         return $result;
     }
+    public function deleteAll(array $condition): void
+    {
+        AccessRequest::deleteAll($condition);
+    }
 }
