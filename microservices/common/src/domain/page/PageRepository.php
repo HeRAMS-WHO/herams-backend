@@ -30,6 +30,9 @@ class PageRepository
         ]);
         return new PageForBreadcrumb($record);
     }
+    public function deleteAll(array $condition): void {
+        Page::deleteAll($condition);
+    }
     public function retrieveProjectId(PageId $pageId): ProjectId
     {
         $id = Page::find()

@@ -8,7 +8,9 @@ use DateTimeZone;
 use herams\common\components\AuditService;
 use herams\common\components\LazyUrlFactory;
 use herams\common\components\RewriteRule;
+use herams\common\domain\accessRequest\AccessRequestRepository;
 use herams\common\domain\facility\FacilityHydrator;
+use herams\common\domain\favorite\FavoriteRepository;
 use herams\common\domain\project\ProjectHydrator;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
@@ -150,7 +152,8 @@ class CommonConfigurator implements ContainerConfiguratorInterface
         $container->set(AccessCheckInterface::class, static fn() => new UserAccessCheck(\Yii::$app->user));
         $container->set(SurveyRepository::class, SurveyRepository::class);
         $container->set(SurveyParser::class, SurveyParser::class);
-
+        $container->set(AccessRequestRepository::class, AccessRequestRepository::class);
+        $container->set(FavoriteRepository::class, FavoriteRepository::class);
         $container->set(ActiveRecordHydratorInterface::class, static function (): ActiveRecordHydratorInterface {
             $result = new StrategyActiveRecordHydrator();
 

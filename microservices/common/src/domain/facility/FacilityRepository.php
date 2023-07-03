@@ -101,6 +101,15 @@ final class FacilityRepository
         ])->each();
     }
 
+    public function retrieveAllByWorkspaceId(WorkspaceId $id): array {
+        $workspace = Workspace::findOne([
+            'id' => $id->getValue(),
+        ]);
+        $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
+        $query = FacilityReadRecord::find()
+            ->inWorkspace($id);
+        return $query->all();
+    }
     /**
      * @return list<FacilityReadRecord>
      */
@@ -121,6 +130,10 @@ final class FacilityRepository
         return $query->all();
     }
 
+    public function deleteAll(array $condition): void
+    {
+        Facility::deleteAll($condition);
+    }
     /**
      * @return list<FacilityReadRecord>
      */

@@ -6,6 +6,14 @@ namespace herams\common\domain\project;
 
 use herams\api\domain\project\NewProject;
 use herams\api\domain\project\UpdateProject;
+use herams\common\domain\accessRequest\AccessRequestRepository;
+use herams\common\domain\facility\FacilityRepository;
+use herams\common\domain\favorite\FavoriteRepository;
+use herams\common\domain\page\PageRepository;
+use herams\common\domain\permission\PermissionRepository;
+use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\enums\UserPermissions;
 use herams\common\helpers\Locale;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
@@ -16,6 +24,7 @@ use herams\common\traits\RepositorySave;
 use herams\common\values\IntegerId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
+use herams\common\values\WorkspaceId;
 use prime\interfaces\project\ProjectForBreadcrumbInterface;
 use prime\models\ar\read\Project as ProjectRead;
 use prime\models\project\ProjectForBreadcrumb;
@@ -92,7 +101,41 @@ class ProjectRepository implements ProjectLocalesRetriever
         $this->internalSave($record, $model);
         return new ProjectId($record->id);
     }
+    public function emptyProject(
+        ProjectId $projectId,
+        WorkspaceRepository $workspaceRepository,
+        FacilityRepository $facilityRepository,
+        SurveyResponseRepository $surveyResponseRepository,
+        AccessRequestRepository $accessRequestRepository,
+        FavoriteRepository $favoriteRepository,
+        PermissionRepository $permissionRepository,
+        PageRepository $pageRepository
+    ){
+        $workspaces = $workspaceRepository->retrieveForProject($projectId);
+        foreach(($workspaces ?? []) as $workspace){
+            $workspaceId = new WorkspaceId($workspace->id);
+            $accessRequestRepository->deleteAll([
+                'target_class' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
+                'target_id' => $workspace->id
+            ]);
+            $favoriteRepository->deleteAll([
+                'target_class' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
+                'target_id' => $workspace->id
+            ]);
 
+            $permissionRepository->deleteAll([
+                'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
+                'target_id' => $workspace->id
+            ]);
+            $facilities = $facilityRepository->retrieveAllByWorkspaceId($workspaceId);
+            foreach(($facilities ?? []) as $facility){
+                $surveyResponseRepository->deleteAll(['facility_id' => $facility->id]);
+            }
+            $facilityRepository->deleteAll(['workspace_id' => $workspace->id]);
+        }
+        $pageRepository->deleteAll(['project_id' => $projectId]);
+        $workspaceRepository->deleteAll(['project_id' => $projectId]);
+    }
     public function retrieveForExternalDashboard(ProjectId $id): ProjectForExternalDashboard
     {
         $record = ProjectRead::findOne([

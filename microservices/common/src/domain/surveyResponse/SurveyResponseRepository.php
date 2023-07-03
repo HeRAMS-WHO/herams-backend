@@ -36,7 +36,9 @@ class SurveyResponseRepository
         private ModelHydrator $hydrator,
     ) {
     }
-
+    public function deleteAll(array $condition): void {
+        SurveyResponse::deleteAll($condition);
+    }
     public function create(
         CreateForm $model
     ): SurveyResponseId {
