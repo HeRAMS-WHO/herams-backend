@@ -17,6 +17,7 @@ use yii\web\View;
  * @var Resolver $abacResolver
  * @var iterable<VariableInterface> $variables
  */
+echo "<script> const updateSituationContent = `" . Icon::add() . \Yii::t('app', 'Update Situation') . "`</script>";
 
 $this->title = $tabMenuModel->title();
 
@@ -77,7 +78,23 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             JS),
             //            'filter' => 'agNumberColumnFilter',
         ],
-        ...$tableCols
+        ...$tableCols,
+        [
+            'headerName' => '',
+            'field' => 'actions',
+            'cellRenderer' => new \yii\web\JsExpression(<<<JS
+                params => {
+                    const a = document.createElement('a');
+                    a.innerHTML = updateSituationContent;
+                    a.href = '/facility/{id}/update-situation'.replace('{id}', params.data.id);
+                    a.setAttribute('class','btn btn-default');
+                    return a;
+                }
+            JS),
+            'filter' => null
+
+
+        ]
     ],
 
 ]);
