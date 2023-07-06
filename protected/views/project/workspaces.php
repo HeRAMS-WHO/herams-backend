@@ -23,6 +23,9 @@ use yii\web\View;
 $this->params['subject'] = $project->getTitle();
 $this->title = \Yii::t('app', 'Workspaces');
 $this->beginBlock('tabs');
+$this->registerCSSFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
+$this->registerJSFile('https://cdn.jsdelivr.net/npm/flatpickr');
+$this->registerJsFile('https://momentjs.com/downloads/moment-with-locales.js');
 echo ProjectTabMenu::widget(
     [
         'project' => $project,
@@ -100,8 +103,13 @@ echo AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'Date of update'),
             'field' => 'date_of_update',
-            //'field' => 'latest_survey_date',
             'filter' => 'agDateColumnFilter',
+            'cellRenderer' => new JsExpression(<<<JS
+                params => {
+                    return moment(params.data.date_of_update).format('L');
+                }
+            JS),
+
         ],
         [
 

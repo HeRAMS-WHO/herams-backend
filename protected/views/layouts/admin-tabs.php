@@ -10,7 +10,9 @@ use yii\helpers\Html;
  * @var string $content
  */
 
+$this->registerCSSFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
 $this->registerJsFile("//code.iconify.design/1/1.0.6/iconify.min.js");
+$this->registerJsFile('https://cdn.jsdelivr.net/npm/flatpickr');
 $this->beginContent('@views/layouts/admin-screen.php');
 //
 if (isset($this->blocks['tabs'])) {
