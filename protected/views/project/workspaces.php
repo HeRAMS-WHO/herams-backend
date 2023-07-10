@@ -10,7 +10,7 @@ use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\web\JsExpression;
 use yii\web\View;
-
+use prime\helpers\AgGridHelper;
 /**
  * @var int $closedCount
  * @var View $this
@@ -23,9 +23,9 @@ use yii\web\View;
 $this->params['subject'] = $project->getTitle();
 $this->title = \Yii::t('app', 'Workspaces');
 $this->beginBlock('tabs');
-$this->registerCSSFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
-$this->registerJSFile('https://cdn.jsdelivr.net/npm/flatpickr');
-$this->registerJsFile('https://momentjs.com/downloads/moment-with-locales.js');
+
+
+
 echo ProjectTabMenu::widget(
     [
         'project' => $project,
@@ -92,62 +92,17 @@ echo AgGrid::widget([
             'field' => 'name',
             //            'filter' => 'agNumberColumnFilter',
         ],
-
+        AgGridHelper::generateColumnTypeDate(
+            'Date of update',
+            'date_of_update'
+        ),
         [
 
             'headerName' => \Yii::t('app', 'ID'),
             'field' => 'id',
             'filter' => 'agNumberColumnFilter',
         ],
-        [
-            'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'date_of_update',
-            'filter' => 'agDateColumnFilter',
-            'filterParams' => new \yii\web\JsExpression(<<<JS
-                {
-                    comparator: function(filterLocalDateAtMidnight, cellValue) {
-                        var dateParts = cellValue.indexOf('-') > -1 ? cellValue.split("-") : cellValue.split("/");
-                        var isISO = dateParts[0].length === 4;
-                        var cellYear = isISO ? Number(dateParts[0]) : Number(dateParts[2]);
-                        var cellMonth = isISO ? Number(dateParts[1]) - 1 : Number(dateParts[0]) - 1;
-                        var cellDay = isISO ? Number(dateParts[2]) : Number(dateParts[1]);
-                        var cellDate = new Date(cellYear, cellMonth, cellDay).setHours(0, 0, 0, 0);
-        
-                        var filterYear = filterLocalDateAtMidnight.getFullYear();
-                        var filterMonth = filterLocalDateAtMidnight.getMonth();
-                        var filterDay = filterLocalDateAtMidnight.getDate();
-                        var filterDate = new Date(filterYear, filterMonth, filterDay).setHours(0, 0, 0, 0);
-        
-                        if (cellDate === filterDate) {
-                            return 0;
-                        }
-                        if (cellDate < filterDate) {
-                            return -1;
-                        }
-                        return 1;
-                    }
-                }
-            JS),
-            'cellRenderer' => new \yii\web\JsExpression(<<<JS
-                function(params) {
-                    if (params.value) {
-                        var dateFormat = 'MM/DD/YYYY'; // Replace this with the actual format you are using
-                        var dateParts = params.value.split("-");
-                        var dateObject = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
-                        
-                        if (dateFormat === 'MM/DD/YYYY') {
-                            return (dateObject.getMonth() + 1) + '/' + dateObject.getDate() + '/' + dateObject.getFullYear();
-                        } else if (dateFormat === 'DD/MM/YYYY') {
-                            return dateObject.getDate() + '/' + (dateObject.getMonth() + 1) + '/' + dateObject.getFullYear();
-                        } else {
-                            // Default to ISO format
-                            return params.value;
-                        }
-                    }
-                    return '';
-                }
-            JS)
-        ],
+
         [
 
             'headerName' => \Yii::t('app', '# Contributors'),

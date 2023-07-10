@@ -14,16 +14,21 @@ class AgGrid extends Widget
     public string|array $route;
 
     public array $columns = [];
-
+    public string $language;
     public function init()
     {
         parent::init();
+        $this->language = explode("-", \Yii::$app->request->getPreferredLanguage())[0];
+        $this->view->registerCSSFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
+        $this->view->registerJSFile('https://cdn.jsdelivr.net/npm/flatpickr');
+        $this->view->registerJsFile("https://npmcdn.com/flatpickr/dist/l10n/{$this->language}.js");
         $this->view->registerAssetBundle(AgGridBundle::class);
         //        $this->view->registerAssetBundle(AgGridPremiumBundle::class);
     }
 
     public function run()
     {
+        $language = explode('-', \Yii::$app->language)[0];
         $config = Json::encode([
             'id' => $this->getId(),
             'gridId' => "{$this->getId()}-grid",
@@ -85,6 +90,26 @@ class AgGrid extends Widget
                     }
                     // Sets the filter model via the grid API
                     gridOptions.api.setFilterModel(storage.filterState);
+                    const inputsDate = document.querySelectorAll('input[type="date"]');
+                    for(let i = 0; i < inputsDate.length; i++){
+                        flatpickr(inputsDate[i], {
+                            format:'yyyy-mm-dd'
+                        })
+                        inputsDate[i].addEventListener('click', () => {
+                            const calendar = document.querySelectorAll('.flatpickr-calendar')[i]
+                            const haveButtonClear = calendar.querySelector('button.btn.btn-default')
+                            if (haveButtonClear){
+                                return 0;
+                            }
+                            const div = document.createElement('div')
+                            const button = document.createElement('button');
+                            button.onclick = () => inputsDate[i].value = '';
+                            button.className = 'btn btn-default';
+                            button.textContent = 'Clear';
+                            div.appendChild(button)
+                            calendar.appendChild(div)
+                        })
+                    }
                     
                     // params.columnApi.sizeColumnsToFit()
                 },

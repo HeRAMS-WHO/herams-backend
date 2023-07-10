@@ -7,49 +7,44 @@ class AgGridHelper
 {
     public static function generateColumnTypeDate (
         string $textToTranslate,
-        string $colName
+        string $fieldName,
+        string $language = 'en-US'
     ) : array
     {
       return [
           'headerName' => \Yii::t('app', $textToTranslate),
-          'field' => $colName,
+          'field' => $fieldName,
           'filter' => 'agDateColumnFilter',
           'filterParams' => new \yii\web\JsExpression(<<<JS
                 {
+                    'newRowsAction' : 'keep',
+                    'suppressAndOrCondition': true, 
                     comparator: function(filterLocalDateAtMidnight, cellValue) {
-                        var dateParts = cellValue.split("-");
-                        var cellYear = Number(dateParts[0]);
-                        var cellMonth = Number(dateParts[1]) - 1; // Months are 0-based in JS
-                        var cellDay = Number(dateParts[2]);
-                        var cellDate = new Date(cellYear, cellMonth, cellDay);
-        
+                        var dateParts = cellValue.indexOf('-') > -1 ? cellValue.split("-") : cellValue.split("/");
+                        var isISO = dateParts[0].length === 4;
+                        var cellYear = isISO ? Number(dateParts[0]) : Number(dateParts[2]);
+                        var cellMonth = isISO ? Number(dateParts[1]) - 1 : Number(dateParts[0]) - 1;
+                        var cellDay = isISO ? Number(dateParts[2]) : Number(dateParts[1]);
+                        var cellDate = new Date(cellYear, cellMonth, cellDay).setHours(0, 0, 0, 0);
                         var filterYear = filterLocalDateAtMidnight.getFullYear();
                         var filterMonth = filterLocalDateAtMidnight.getMonth();
                         var filterDay = filterLocalDateAtMidnight.getDate();
-                        var filterDate = new Date(filterYear, filterMonth, filterDay);
-        
-                        if (cellDate.getTime() === filterDate.getTime()) {
+                        var filterDate = new Date(filterYear, filterMonth, filterDay).setHours(0, 0, 0, 0);
+                        if (cellDate === filterDate) {
                             return 0;
                         }
                         if (cellDate < filterDate) {
                             return -1;
                         }
-                        if (cellDate > filterDate) {
-                            return 1;
-                        }
+                        return 1;
                     }
                 }
             JS),
           'cellRenderer' => new \yii\web\JsExpression(<<<JS
-        function(params) {
-            if (params.value) {
-                var dateParts = params.value.split("-");
-                var dateObject = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
-                return (dateObject.getMonth() + 1) + '/' + dateObject.getDate() + '/' + dateObject.getFullYear();
-            }
-            return '';
-        }
-        JS)
+                function(params) {
+                    return params.value === '0000-00-00' ? '' : params.value;
+                }
+            JS)
       ];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Collecthor\DataInterfaces\VariableInterface;
 use herams\common\models\Permission;
+use prime\helpers\AgGridHelper;
 use prime\helpers\Icon;
 use prime\widgets\menu\WorkspaceTabMenu;
 use prime\widgets\Section;
@@ -57,6 +58,10 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'id',
             //'filter' => 'agNumberColumnFilter',
         ],
+        AgGridHelper::generateColumnTypeDate(
+            'Date of update',
+            'LAST_DATE_OF_UPDATE'
+        ),
         [
 
             'headerName' => \Yii::t('app', 'Date of update'),
