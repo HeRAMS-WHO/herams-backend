@@ -43,7 +43,7 @@ final class Facilities extends Action
         foreach($facilities as &$facility){
             $facility['admin_data'] = json_decode($facility['admin_data']);
             try {
-                $date[$facility['id']] = $facility['latestSurveyResponse']['date_of_update'];
+                $date[$facility['id']] = $facility['latestSurveyResponse']['date_of_update'] ?? '0000-00-00';
             }
             catch (Error $error){
                 $date[$facility['id']] = '';

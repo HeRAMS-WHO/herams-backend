@@ -10,7 +10,7 @@ use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\web\JsExpression;
 use yii\web\View;
-
+use prime\helpers\AgGridHelper;
 /**
  * @var int $closedCount
  * @var View $this
@@ -23,6 +23,9 @@ use yii\web\View;
 $this->params['subject'] = $project->getTitle();
 $this->title = \Yii::t('app', 'Workspaces');
 $this->beginBlock('tabs');
+
+
+
 echo ProjectTabMenu::widget(
     [
         'project' => $project,
@@ -89,20 +92,17 @@ echo AgGrid::widget([
             'field' => 'name',
             //            'filter' => 'agNumberColumnFilter',
         ],
-
+        AgGridHelper::generateColumnTypeDate(
+            'Date of update',
+            'date_of_update'
+        ),
         [
 
             'headerName' => \Yii::t('app', 'ID'),
             'field' => 'id',
             'filter' => 'agNumberColumnFilter',
         ],
-        [
 
-            'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'date_of_update',
-            //'field' => 'latest_survey_date',
-            'filter' => 'agDateColumnFilter',
-        ],
         [
 
             'headerName' => \Yii::t('app', '# Contributors'),

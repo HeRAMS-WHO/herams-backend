@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Collecthor\DataInterfaces\VariableInterface;
 use herams\common\models\Permission;
 use prime\components\View;
+use prime\helpers\AgGridHelper;
 use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\menu\FacilityTabMenu;
@@ -67,17 +68,20 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'cellClass' => 'lock-pinned',
             'filter' => 'agNumberColumnFilter',
         ],
-        ...\iter\map(fn (VariableInterface $variable) => [
-            'field' => $variable->getName(),
-            'headerName' => $variable->getTitle(\Yii::$app->language)
-        ], $variables),
+        ...\iter\map(fn (VariableInterface $variable) =>
+        $variable->getName() === 'last_modified_date' || $variable->getName() === 'date_of_update' ?
+            AgGridHelper::generateColumnTypeDate($variable->getTitle(\Yii::$app->language), $variable->getName()) :
+            [
+                'field' => $variable->getName(),
+                'headerName' => $variable->getTitle(\Yii::$app->language),
+                'filter' => $variable->getName() === 'last_modified_date' ? 'agDateColumnFilter' : 'agTextColumnFilter'
+            ], $variables),
+        // [
 
-        [
-
-            'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'date_of_update',
-            'filter' => 'agDateColumnFilter'
-        ],
+        //     'headerName' => \Yii::t('app', 'Name'),
+        //     'field' => 'name',
+        // ],
+        AgGridHelper::generateColumnTypeDate('Date of update', 'date_of_update'),
         // [
 
         //     'headerName' => \Yii::t('app', 'Response Type'),

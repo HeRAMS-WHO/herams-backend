@@ -17,6 +17,14 @@ class Workspaces extends Action
         $projectId = new ProjectId($id);
 
         $workspaces = $workspaceRepository->retrieveForProject($projectId);
-        return $this->controller->asJson($workspaces);
+        $workspaceToArray = [];
+        foreach($workspaces as $workspace){
+            $tempWorkspace = $workspace->toArray();
+            if (is_null($tempWorkspace['date_of_update'])){
+                $tempWorkspace['date_of_update'] = '0000-00-00';
+            }
+            $workspaceToArray[] = $tempWorkspace;
+        }
+        return $workspaceToArray;
     }
 }

@@ -522,3 +522,7 @@ body[data-modal]:after {
         border: 2px solid var(--highlight-background-color);
     }
 }
+
+div.ag-filter-from.ag-filter-date-from {
+    display: none;
+}

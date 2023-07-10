@@ -11,6 +11,7 @@ use yii\helpers\Html;
  */
 
 $this->registerJsFile("//code.iconify.design/1/1.0.6/iconify.min.js");
+
 $this->beginContent('@views/layouts/admin-screen.php');
 //
 if (isset($this->blocks['tabs'])) {
