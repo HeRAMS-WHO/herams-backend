@@ -15,6 +15,8 @@ class AgGrid extends Widget
 
     public array $columns = [];
     public string $language;
+    public static string $sortyBy;
+    public static string $sortOrder;
     public function init()
     {
         parent::init();
@@ -28,6 +30,7 @@ class AgGrid extends Widget
 
     public function run()
     {
+
         $language = explode('-', \Yii::$app->language)[0];
         $config = Json::encode([
             'id' => $this->getId(),
@@ -76,21 +79,8 @@ class AgGrid extends Widget
                     return JSON.parse(localStorage.getItem(filterStateKey))
                 }
             }
-            const gridOptions = {
-                ...config.gridOptions,
-                // rowData: data,
-                onGridReady: (params) => {
-                    params.columnApi.autoSizeAllColumns(false)
-                    const columnState = storage.columnState
-                    if (columnState) {
-                        params.columnApi.applyColumnState({ 
-                            state: columnState,
-                            applyOrder: true
-                        })
-                    }
-                    // Sets the filter model via the grid API
-                    gridOptions.api.setFilterModel(storage.filterState);
-                    const inputsDate = document.querySelectorAll('input[type="date"]');
+            const initializeFlatpickers = () => {
+                const inputsDate = document.querySelectorAll('input[type="date"]');
                     for(let i = 0; i < inputsDate.length; i++){
                         flatpickr(inputsDate[i], {
                             format:'yyyy-mm-dd'
@@ -110,7 +100,23 @@ class AgGrid extends Widget
                             calendar.appendChild(div)
                         })
                     }
+            }
+            const gridOptions = {
+                ...config.gridOptions,
+                // rowData: data,
+                onGridReady: (params) => {
+                    params.columnApi.autoSizeAllColumns(false)
+                    const columnState = storage.columnState
+                    if (columnState) {
+                        params.columnApi.applyColumnState({ 
+                            state: columnState,
+                            applyOrder: true
+                        })
+                    }
+                    // Sets the filter model via the grid API
+                    gridOptions.api.setFilterModel(storage.filterState);
                     
+                    initializeFlatpickers();
                     // params.columnApi.sizeColumnsToFit()
                 },
                 onColumnMoved: (params) => storage.columnState = params.columnApi.getColumnState(),
@@ -125,12 +131,9 @@ class AgGrid extends Widget
             
             document.getElementById(config.id).querySelector('button.reset').addEventListener('click', () => {
                 gridOptions.columnApi.resetColumnState();
+                initializeFlatpickers()
                 // gridOptions.api.resetFilterValues();
             })
-            
-            
-            
-            
             window.grid = grid
             const data = await Herams.fetchWithCsrf(config.url, null, 'GET');
             gridOptions.api.setRowData(data);
@@ -143,7 +146,7 @@ class AgGrid extends Widget
             Html::tag(
                 'div',
                 Html::button('Reset grid', [
-                    'class' => 'reset',
+                    'class' => 'reset btn',
                     'style' => [
                         'border' => 'none',
                     ],

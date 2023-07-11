@@ -32,6 +32,9 @@ echo AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'ID'),
             'field' => 'id',
+            'pinned' => 'left',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
             //'filter' => 'agNumberColumnFilter',
         ],
         [
@@ -52,6 +55,10 @@ echo AgGrid::widget([
                 }
             JS),
             'field' => 'name',
+            'sort' => 'asc',
+            'pinned' => 'left',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
             //            'filter' => 'agNumberColumnFilter',
         ],
         [

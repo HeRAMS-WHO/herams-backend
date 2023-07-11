@@ -56,17 +56,10 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'ID'),
             'field' => 'id',
+            'pinned' => 'left',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
             //'filter' => 'agNumberColumnFilter',
-        ],
-        AgGridHelper::generateColumnTypeDate(
-            'Date of update',
-            'LAST_DATE_OF_UPDATE'
-        ),
-        [
-
-            'headerName' => \Yii::t('app', 'Date of update'),
-            'field' => 'LAST_DATE_OF_UPDATE',
-            'filter' => 'agDateColumnFilter',
         ],
         [
 
@@ -82,21 +75,38 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
                 }
             JS),
             //            'filter' => 'agNumberColumnFilter',
+            'pinned' => 'left',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
+            'minWidth' => '200'
         ],
+        AgGridHelper::generateColumnTypeDate(
+            'Date of update',
+            'LAST_DATE_OF_UPDATE',
+            'desc',
+            'left'
+        ),
         ...$tableCols,
         [
             'headerName' => '',
             'field' => 'actions',
             'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 params => {
+                    const span = document.createElement('span');
+                    span.className='d-block';
                     const a = document.createElement('a');
                     a.innerHTML = updateSituationContent;
                     a.href = '/facility/{id}/update-situation'.replace('{id}', params.data.id);
                     a.setAttribute('class','btn btn-default');
-                    return a;
+                    span.appendChild(a)
+                    return span;
                 }
             JS),
-            'filter' => null
+            'minWidth' => '200',
+            'filter' => null,
+            'pinned' => 'right',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
 
 
         ]

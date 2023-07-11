@@ -66,19 +66,24 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'cellClass' => 'lock-pinned',
         ], 
         ...\iter\map(fn (VariableInterface $variable) =>
-        $variable->getName() === 'last_modified_date' || $variable->getName() === 'date_of_update' ?
+        $variable->getName() === 'date_of_update' ?
             AgGridHelper::generateColumnTypeDate($variable->getTitle(\Yii::$app->language), $variable->getName()) :
            [
                 'field' => $variable->getName(),
                 'headerName' => $variable->getTitle(\Yii::$app->language),
-                'filter' => $variable->getName() === 'last_modified_date' ? 'agDateColumnFilter' : 'agTextColumnFilter'
+                'filter' => $variable->getName() === 'agTextColumnFilter'
             ], $variables),
         // [
 
         //     'headerName' => \Yii::t('app', 'Name'),
         //     'field' => 'name',
         // ],
-        AgGridHelper::generateColumnTypeDate('Date of update', 'date_of_update'),
+        AgGridHelper::generateColumnTypeDate(
+            'Date of update',
+            'date_of_update',
+            'desc',
+            'left'
+        ),
         // [
 
         //     'headerName' => \Yii::t('app', 'Response Type'),
@@ -107,7 +112,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'Last modified on'),
             'field' => 'last_modified_date',
-            'filter' => 'agDateColumnFilter',
+            'filter' => 'agTextColumnFilter',
         ],
         [
 

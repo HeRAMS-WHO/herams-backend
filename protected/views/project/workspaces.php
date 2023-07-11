@@ -79,6 +79,15 @@ echo AgGrid::widget([
         // ],
         [
 
+            'headerName' => \Yii::t('app', 'ID'),
+            'field' => 'id',
+            'filter' => 'agNumberColumnFilter',
+            'pinned' => 'left',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
+        ],
+        [
+
             'headerName' => \Yii::t('app', 'Title'),
             'cellRenderer' => new JsExpression(<<<JS
                 params => {
@@ -90,18 +99,19 @@ echo AgGrid::widget([
                 }
             JS),
             'field' => 'name',
+            'pinned' => 'left',
+            'lockPinned' => true,
+            'cellClass' => 'lock-pinned',
+            'minWidth' => '200'
             //            'filter' => 'agNumberColumnFilter',
         ],
         AgGridHelper::generateColumnTypeDate(
             'Date of update',
-            'date_of_update'
+            'date_of_update',
+            'desc',
+            'left'
         ),
-        [
 
-            'headerName' => \Yii::t('app', 'ID'),
-            'field' => 'id',
-            'filter' => 'agNumberColumnFilter',
-        ],
 
         [
 
