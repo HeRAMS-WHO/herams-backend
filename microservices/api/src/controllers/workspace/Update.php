@@ -11,28 +11,18 @@ use herams\common\values\WorkspaceId;
 use yii\base\Action;
 use yii\web\Request;
 use yii\web\Response;
-
+use yii\helpers\Json;
 final class Update extends Action
 {
     public function run(
-        ModelHydrator $modelHydrator,
         Request $request,
         WorkspaceRepository $workspaceRepository,
         Response $response,
         int $id
     ) {
-        echo 'asd'; exit;
-        $model = new UpdateWorkspace(new WorkspaceId($id));
-
-        $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams['data']);
-        \Yii::debug($request->bodyParams['data']);
-        if (! $model->validate()) {
-            $response->setStatusCode(422);
-            return $model->errors;
-        }
-
-        $workspaceRepository->update($model);
-
+        $workspaceId = new WorkspaceId($id);
+        $titles = ['title' => $request->bodyParams['data']['title']];
+        $workspaceRepository->updateTitles($workspaceId, $titles);
         $response->setStatusCode(200);
         return $response;
     }
