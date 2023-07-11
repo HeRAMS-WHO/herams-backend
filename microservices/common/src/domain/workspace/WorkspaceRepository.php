@@ -132,6 +132,15 @@ class WorkspaceRepository {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
     }
+    public function updateTitles(
+        WorkspaceId $workspaceId,
+        array $titles
+    )
+    {
+        $workspace = Workspace::findOne(['id' => $workspaceId->getValue()]);
+        $workspace->i18n = $titles;
+        $workspace->save();
+    }
 
     public function getProjectId(WorkspaceId $id): ProjectId
     {
