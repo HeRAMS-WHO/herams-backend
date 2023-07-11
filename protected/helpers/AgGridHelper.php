@@ -8,14 +8,15 @@ class AgGridHelper
     public static function generateColumnTypeDate (
         string $textToTranslate,
         string $fieldName,
-        string $language = 'en-US'
+        string $sortOder = '',
+        string $pinnedAt = ''
     ) : array
     {
-      return [
-          'headerName' => \Yii::t('app', $textToTranslate),
-          'field' => $fieldName,
-          'filter' => 'agDateColumnFilter',
-          'filterParams' => new \yii\web\JsExpression(<<<JS
+        $data = [
+            'headerName' => \Yii::t('app', $textToTranslate),
+            'field' => $fieldName,
+            'filter' => 'agDateColumnFilter',
+            'filterParams' => new \yii\web\JsExpression(<<<JS
                 {
                     'newRowsAction' : 'keep',
                     'suppressAndOrCondition': true, 
@@ -40,11 +41,23 @@ class AgGridHelper
                     }
                 }
             JS),
-          'cellRenderer' => new \yii\web\JsExpression(<<<JS
+            'cellRenderer' => new \yii\web\JsExpression(<<<JS
                 function(params) {
                     return params.value === '0000-00-00' ? '' : params.value;
                 }
             JS)
-      ];
+        ];
+        if ($sortOder){
+            $data['sort'] = $sortOder;
+        }
+        if ($pinnedAt){
+            $pinned = [
+                'pinned' => $pinnedAt,
+                'lockPinned' => true,
+                'cellClass' => 'lock-pinned',
+            ];
+            $data = [...$data, ...$pinned];
+        }
+      return $data;
     }
 }
