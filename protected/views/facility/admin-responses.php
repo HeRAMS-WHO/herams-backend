@@ -64,26 +64,27 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'pinned' => 'left',
             'lockPinned' => true,
             'cellClass' => 'lock-pinned',
-        ], 
-        ...\iter\map(fn (VariableInterface $variable) =>
-        $variable->getName() === 'date_of_update' ?
-            AgGridHelper::generateColumnTypeDate($variable->getTitle(\Yii::$app->language), $variable->getName()) :
-           [
-                'field' => $variable->getName(),
-                'headerName' => $variable->getTitle(\Yii::$app->language),
-                'filter' => $variable->getName() === 'agTextColumnFilter'
-            ], $variables),
-        // [
-
-        //     'headerName' => \Yii::t('app', 'Name'),
-        //     'field' => 'name',
-        // ],
+        ],
         AgGridHelper::generateColumnTypeDate(
             'Date of update',
             'date_of_update',
             'desc',
             'left'
         ),
+        ...\iter\map(fn (VariableInterface $variable) =>
+        $variable->getName() === 'date_of_update' ?
+            AgGridHelper::generateColumnTypeDate($variable->getTitle(\Yii::$app->language), $variable->getName()) :
+            [
+                'field' => $variable->getName(),
+                'headerName' => $variable->getTitle(\Yii::$app->language),
+                'filter' => 'agTextColumnFilter'
+            ], $variables),
+        // [
+
+        //     'headerName' => \Yii::t('app', 'Name'),
+        //     'field' => 'name',
+        // ],
+
         // [
 
         //     'headerName' => \Yii::t('app', 'Response Type'),
