@@ -97,7 +97,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'Status'),
             'field' => 'status',
-            'filter' => 'agNumberColumnFilter',
+            'filter' => 'agTextColumnFilter',
         ],
         // [
 
@@ -122,7 +122,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
 
             'headerName' => \Yii::t('app', 'Last modified by'),
             'field' => 'last_modified_by',
-            'filter' => 'agNumberColumnFilter',
+            'filter' => 'agTextColumnFilter',
         ],
         
         [
