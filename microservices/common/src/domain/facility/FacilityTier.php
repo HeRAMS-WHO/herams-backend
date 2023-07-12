@@ -12,6 +12,7 @@ enum FacilityTier: int implements LabeledEnum, ValueInterface
     case Primary = 1;
     case Secondary = 2;
     case Tertiary = 3;
+    case Other = 4;
     case Unknown = 0;
 
     public function label(string $locale = null): string
@@ -20,6 +21,7 @@ enum FacilityTier: int implements LabeledEnum, ValueInterface
             self::Primary => \Yii::t('app', 'Primary', language: $locale),
             self::Secondary => \Yii::t('app', 'Secondary', language: $locale),
             self::Tertiary => \Yii::t('app', 'Tertiary', language: $locale),
+            self::Other => \Yii::t('app', 'Other', language: $locale),
             self::Unknown => \Yii::t('app', 'Unknown', language: $locale),
         };
     }
