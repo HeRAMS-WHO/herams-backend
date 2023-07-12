@@ -25,9 +25,10 @@
         choices: [
           {value: 1, text: "Primary"},
           {value: 2, text: "Secondary"},
-          {value: 3, text: "Tertiary"}
+          {value: 3, text: "Tertiary"},
+          {value: 4, text: "Other"},
         ],
-        default: 1,
+        default: 2,
       })
       Survey.Serializer.addClass(this.name, [
         {
