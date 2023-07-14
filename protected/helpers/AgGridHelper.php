@@ -15,7 +15,7 @@ class AgGridHelper
         $data = [
             'headerName' => \Yii::t('app', $textToTranslate),
             'field' => $fieldName,
-            'filter' => 'agDateColumnFilter',
+            'filter' => 'agTextColumnFilter',
             'filterParams' => new \yii\web\JsExpression(<<<JS
                 {
                     'newRowsAction' : 'keep',

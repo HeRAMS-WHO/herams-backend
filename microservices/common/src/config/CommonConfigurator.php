@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace herams\common\config;
 
 use ArrayObject;
-use DateTimeZone;
 use herams\common\components\AuditService;
 use herams\common\components\LazyUrlFactory;
 use herams\common\components\RewriteRule;
@@ -81,6 +80,8 @@ use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\resolvers\ChainedResolver;
 use SamIT\Yii2\abac\ActiveRecordRepository;
 use SamIT\Yii2\abac\ActiveRecordResolver;
+use utils\interfaces\SurveyParserCleanInterface;
+use utils\tools\SurveyParserClean;
 use yii\caching\CacheInterface;
 use yii\caching\FileCache;
 use yii\db\Connection;
@@ -150,6 +151,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
         $container->set(AuditServiceInterface::class, AuditService::class);
         $container->set(WorkspaceRepository::class, WorkspaceRepository::class);
         $container->set(AccessCheckInterface::class, static fn() => new UserAccessCheck(\Yii::$app->user));
+        $container->set(SurveyParserClean::class, SurveyParserClean::class);
         $container->set(SurveyRepository::class, SurveyRepository::class);
         $container->set(SurveyParser::class, SurveyParser::class);
         $container->set(AccessRequestRepository::class, AccessRequestRepository::class);
@@ -161,7 +163,6 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             $result->registerAttributeStrategy(new ModelHydrator());
             return $result;
         });
-
         $container->set(Resolver::class, static function (): Resolver {
             return new ChainedResolver(
                 new SingleTableInheritanceResolver(),

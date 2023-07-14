@@ -22,7 +22,6 @@ use yii\validators\StringValidator;
  * @property array $admin_data
  * @property string $alternative_name
  * @property bool $can_receive_situation_update
- * @property string $code
  * @property array $data
  * @property string|null $deactivated_at
  * @property string|null $deleted_at
@@ -104,7 +103,6 @@ class Facility extends ActiveRecord
                 'admin_data' => \Yii::t('app', 'Admin data'),
                 'alternative_name' => \Yii::t('app', 'Alternative name'),
                 'can_receive_situation_update' => \Yii::t('app', 'Can receive situation update'),
-                'code' => \Yii::t('app', 'Code'),
                 'data' => \Yii::t('app', 'Data'),
                 'deactivated_at' => \Yii::t('app', 'Deactivated at'),
                 'i18n' => \Yii::t('app', 'Localization'),
@@ -125,7 +123,7 @@ class Facility extends ActiveRecord
     {
         return [
             [['workspace_id'], RequiredValidator::class],
-            [['code', 'status'], StringValidator::class],
+            [['status'], StringValidator::class],
             [['workspace_id'],
                 ExistValidator::class,
                 'targetClass' => Workspace::class,

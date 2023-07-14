@@ -140,7 +140,7 @@ final class FacilityController extends Controller
         $model->status = 'Deleted';
         $model->update();
         $surveyResponseId = new SurveyResponseId($cid);
-        $surveyResponseRepository->propagateDate($surveyResponseId);
+        $surveyResponseRepository->propagateSurveysResponses($surveyResponseId);
         return $this->redirect(\Yii::$app->request->referrer);
     }
     public function actionEditAdminSituation(

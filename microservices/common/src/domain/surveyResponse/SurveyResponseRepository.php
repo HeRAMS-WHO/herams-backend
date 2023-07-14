@@ -18,22 +18,26 @@ use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
 use herams\common\values\SurveyResponseId;
-use prime\components\HydratedActiveDataProvider;
-use prime\interfaces\AdminResponseForListInterface;
 use prime\interfaces\surveyResponse\SurveyResponseForSurveyJsInterface;
 use prime\models\forms\surveyResponse\CreateForm;
 use prime\models\surveyResponse\SurveyResponseForSurveyJs;
-use yii\data\DataProviderInterface;
-use yii\data\Sort;
-use yii\db\Expression;
-use yii\web\NotFoundHttpException;
+use utils\tools\SurveyParserClean;
 use yii\db\Query;
+use yii\web\NotFoundHttpException;
+
 class SurveyResponseRepository
 {
+    /**
+     * @param AccessCheckInterface $accessCheck
+     * @param ActiveRecordHydratorInterface $activeRecordHydrator
+     * @param ModelHydrator $hydrator
+     * @param SurveyParserClean $surveyParserClean
+     */
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private ActiveRecordHydratorInterface $activeRecordHydrator,
         private ModelHydrator $hydrator,
+        private SurveyParserClean $surveyParserClean
     ) {
     }
     public function deleteAll(array $condition): void {
@@ -51,7 +55,7 @@ class SurveyResponseRepository
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         $surveyId = new SurveyId($record->id);
-        $this->propagateDate($surveyId);
+        $this->propagateSurveysResponses($surveyId);
 
         return new SurveyResponseId($record->id);
     }
@@ -65,7 +69,7 @@ class SurveyResponseRepository
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
         $surveyResponseId = new SurveyResponseId($record->id);
-        $this->propagateDate($surveyResponseId);
+        $this->propagateSurveysResponses($surveyResponseId);
         return new SurveyResponseId($record->id);
     }
 
@@ -260,7 +264,7 @@ class SurveyResponseRepository
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
         $surveyId = new SurveyResponseId($record->id);
-        $this->propagateDate($surveyId);
+        $this->propagateSurveysResponses($surveyId);
     }
     public function deleteSurveyResponse(UpdateSurveyResponse $model): void
     {
@@ -268,7 +272,7 @@ class SurveyResponseRepository
         $record->status = 'Deleted';
         $record->update();
         $surveyResponseId = new SurveyResponseId($model->id->getValue());
-        $this->propagateDate($surveyResponseId);
+        $this->propagateSurveysResponses($surveyResponseId);
         //return $this->redirect(\Yii::$app->request->referrer);
     }
     public function updateSurveyDateToWorkspace($surveyId,$adminSuserveyId){
@@ -283,11 +287,44 @@ class SurveyResponseRepository
         $surveyResponse->facility->workspace->update();
 
     }
-    public function propagateDate(SurveyResponseId $surveyResponseId): void {
+    public function propagateSurveysResponses(SurveyResponseId $surveyResponseId): void {
         $this->updateDateOnFacility($surveyResponseId);
         $this->updateDateOnWorkspace($surveyResponseId);
-    }
+        $this->updateAnswersOnFacility($surveyResponseId);
 
+    }
+    public function updateAnswersOnFacility(
+        SurveyResponseId $surveyResponseId
+
+    ): void {
+
+        $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
+        $facility = Facility::findOne(['id' => $survey->facility_id]);
+        $adminData = SurveyResponse::find()
+            ->select('data')
+            ->where(['!=', 'status', 'Deleted'])
+            ->andWhere(['facility_id' => $survey->facility_id])
+            ->andWhere(['response_type' => 'admin'])
+            ->orderBy(['date_of_update' => SORT_DESC])
+            ->one();
+        $situationData = SurveyResponse::find()
+            ->select('data')
+            ->where(['!=', 'status', 'Deleted'])
+            ->andWhere(['facility_id' => $survey->facility_id])
+            ->andWhere(['response_type' => 'situation'])
+            ->orderBy(['date_of_update' => SORT_DESC])
+            ->one();
+        $surveyParserClean = new SurveyParserClean();
+        if (!is_null($situationData?->data)){
+            $facility->data = $situationData->data;
+        }
+        if (!is_null($adminData?->data)){
+            $facility->admin_data = $adminData->data;
+            $facility->latitude = $adminData->data['HSDU_COORDINATES']['HSDU_LATITUDE'];
+            $facility->longitude = $adminData->data['HSDU_COORDINATES']['HSDU_LONGITUDE'];
+        }
+        $facility->save();
+    }
     public function updateDateOnFacility(SurveyResponseId $surveyResponseId): void {
         $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
         $facility = Facility::findOne(['id' => $survey->facility_id]);
