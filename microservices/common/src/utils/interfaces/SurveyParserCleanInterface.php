@@ -1,7 +1,7 @@
 <?php
     declare(strict_types=1);
 
-    namespace utils\interfaces;
+    namespace herams\common\utils\interfaces;
 
     use herams\common\models\Survey;
 

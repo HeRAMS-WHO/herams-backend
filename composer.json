@@ -70,9 +70,6 @@
             "prime\\tests\\": [
                 "tests/",
                 "tests/_support"
-            ],
-            "utils\\": [
-                "utils/"
             ]
         },
         "classmap": [

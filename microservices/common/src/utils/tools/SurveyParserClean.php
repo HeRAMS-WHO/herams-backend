@@ -1,9 +1,9 @@
 <?php
     declare(strict_types=1);
 
-    namespace utils\tools;
+    namespace herams\common\utils\tools;
     use herams\common\models\Survey;
-    use utils\interfaces\SurveyParserCleanInterface;
+    use herams\common\utils\interfaces\SurveyParserCleanInterface;
 
     final class SurveyParserClean implements SurveyParserCleanInterface {
 
