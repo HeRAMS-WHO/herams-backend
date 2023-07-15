@@ -13,7 +13,7 @@ enum FacilityTier: int implements LabeledEnum, ValueInterface
     case Secondary = 2;
     case Tertiary = 3;
     case Other = 4;
-    case Unknown = 0;
+    case Unknown = 5;
 
     public function label(string $locale = null): string
     {

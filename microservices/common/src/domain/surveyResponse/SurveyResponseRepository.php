@@ -7,11 +7,13 @@ namespace herams\common\domain\surveyResponse;
 use herams\api\models\NewSurveyResponse;
 use herams\api\models\UpdateSurveyResponse;
 use herams\common\domain\facility\Facility;
+use herams\common\domain\facility\FacilityTier;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\RecordInterface;
 use herams\common\models\Permission;
+use herams\common\models\Survey;
 use herams\common\models\SurveyResponse;
 use herams\common\models\Workspace;
 use herams\common\utils\tools\SurveyParserClean;
@@ -297,31 +299,41 @@ class SurveyResponseRepository
         SurveyResponseId $surveyResponseId
 
     ): void {
-
-        $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
-        $facility = Facility::findOne(['id' => $survey->facility_id]);
+        $surveyResponse = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
+        $survey = Survey::findOne(['id' => $surveyResponse->survey_id]);
+        $facility = Facility::findOne(['id' => $surveyResponse->facility_id]);
         $adminData = SurveyResponse::find()
             ->select('data')
             ->where(['!=', 'status', 'Deleted'])
-            ->andWhere(['facility_id' => $survey->facility_id])
+            ->andWhere(['facility_id' => $surveyResponse->facility_id])
             ->andWhere(['response_type' => 'admin'])
             ->orderBy(['date_of_update' => SORT_DESC])
             ->one();
         $situationData = SurveyResponse::find()
             ->select('data')
             ->where(['!=', 'status', 'Deleted'])
-            ->andWhere(['facility_id' => $survey->facility_id])
+            ->andWhere(['facility_id' => $surveyResponse->facility_id])
             ->andWhere(['response_type' => 'situation'])
             ->orderBy(['date_of_update' => SORT_DESC])
             ->one();
-        $surveyParserClean = new SurveyParserClean();
+
         if (!is_null($situationData?->data)){
             $facility->data = $situationData->data;
         }
+
         if (!is_null($adminData?->data)){
+            $tierData = $this->surveyParserClean::findQuestionInfo($survey, 'HSDU_TYPE');
+            $tier = 'Other';
+            foreach($tierData['choices'] as $tierInfo){
+                if ($tierInfo['value'] === $adminData->data['HSDU_TYPE']){
+                    $tier = FacilityTier::from((int)$tierInfo['tier'])->label('en');
+                    break;
+                }
+            }
             $facility->admin_data = $adminData->data;
             $facility->latitude = $adminData->data['HSDU_COORDINATES']['HSDU_LATITUDE'];
             $facility->longitude = $adminData->data['HSDU_COORDINATES']['HSDU_LONGITUDE'];
+            $facility->tier = $tier;
         }
         $facility->save();
     }

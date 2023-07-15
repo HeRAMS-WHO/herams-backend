@@ -32,7 +32,7 @@ use yii\validators\StringValidator;
  * @property string $name
  * @property bool $use_in_dashboarding
  * @property bool $use_in_list
- * @properyt int $tier
+ * @property string $tier
  * @property int $workspace_id
  *
  * Virtual fields
@@ -48,7 +48,6 @@ use yii\validators\StringValidator;
  */
 class Facility extends ActiveRecord
 {
-
 
     public static function find(): FacilityQuery
     {
