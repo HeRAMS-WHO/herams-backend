@@ -50,6 +50,9 @@ class Facilities extends Action
         if ($tableCols['name'] ?? ''){
             unset($tableCols['name']);
         }
+        if ($tableCols['HSDU_TYPE_tier'] ?? ''){
+            unset($tableCols['HSDU_TYPE_tier']);
+        }
         return $this->controller->render('facilities', [
             'variables' => $variables,
             'tableCols' => $tableCols

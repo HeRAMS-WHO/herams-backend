@@ -29,7 +29,6 @@ final class AdminResponses extends Action
         $projectId = $workspaceRepository->getProjectId($workspaceId);
 
         $variableSet = $surveyRepository->retrieveSimpleVariableSet($projectRepository->retrieveAdminSurveyId($projectId));
-
         /**
          * @var list<VariableInterface>
          */
@@ -58,6 +57,7 @@ final class AdminResponses extends Action
                     $surveyResponse,
                     substr(\Yii::$app->language, 0, 2)
                 )->getRawValue();
+
             }
             $data[] = $row;
         }

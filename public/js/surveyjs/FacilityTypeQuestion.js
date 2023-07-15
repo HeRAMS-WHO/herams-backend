@@ -26,9 +26,10 @@
           {value: 1, text: "Primary"},
           {value: 2, text: "Secondary"},
           {value: 3, text: "Tertiary"},
-          {value: 4, text: "Other"},
+          { value: 4, text: "Other"},
+          { value: 5, text: "Unknow"}
         ],
-        default: 2,
+        default: 5,
       })
       Survey.Serializer.addClass(this.name, [
         {

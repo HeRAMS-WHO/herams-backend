@@ -52,12 +52,12 @@ final class Create extends Action
         $responseRecord->facilityId = $facilityId;
         $modelHydrator->hydrateFromJsonDictionary($responseRecord, $request->bodyParams);
 
-        $responseRecord->status = 'Validatd';
+        $responseRecord->status = 'Validated';
         $responseRecord->date_of_update = $requestData['data']['date_of_update'] ?? null;
         $responseRecord->response_type = 'admin';
         $surveyResponseId = $surveyResponseRepository->save($responseRecord);
         $surveyResponseId = new SurveyResponseId($surveyResponseId->getValue());
-        $surveyResponseRepository->propagateDate($surveyResponseId);
+        $surveyResponseRepository->propagateSurveysResponses($surveyResponseId);
         $response->setStatusCode(201);
         $response->headers->add('Location', Url::to([
             '/api/facility/view',

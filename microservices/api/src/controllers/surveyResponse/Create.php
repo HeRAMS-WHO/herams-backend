@@ -49,7 +49,7 @@ final class Create extends Action
         $requestData = $request->bodyParams;
         $facilityid = $model->facilityId;
         $facility = $facilityRepository->retrieveForUpdate($facilityid);
-        $model->status = 'Validatd';
+        $model->status = 'Validated';
         $model->response_type =  $requestData['response_type']??"admin";
         //$model->date_of_update = $facility->admin_data['date_of_update'] ?? null;
         $model->date_of_update = $requestData['data']['date_of_update'] ?? $requestData['data']['HSDU_DATE'] ?? $requestData['data']['SITUATION_DATE'] ?? null;

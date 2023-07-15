@@ -124,9 +124,7 @@ final class FacilityRepository
                ['!=', 'status', 'Deleted'],
                ['IS', 'status', null]
             ])
-            ->inWorkspace($id)
-            ->useInList()
-        ;
+            ->inWorkspace($id);
         return $query->all();
     }
 
@@ -189,7 +187,7 @@ final class FacilityRepository
             $situationUpdate->update();
         }
         $surveyResponseId = new SurveyResponseId($situationUpdate->id);
-        $this->surveyResponseRepository->propagateDate($surveyResponseId);
+        $this->surveyResponseRepository->propagateSurveysResponses($surveyResponseId);
         $facility->status = 'Deleted';
         $facility->update(false);
         return true;

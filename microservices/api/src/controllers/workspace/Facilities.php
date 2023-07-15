@@ -65,6 +65,7 @@ final class Facilities extends Action
                     \Yii::$app->language
                 )->getRawValue();
             }
+
             $row['date_of_update'] = $model->date_of_update;
             if (empty($row['name'])) {
                 $row['name'] = 'no name';
@@ -80,6 +81,7 @@ final class Facilities extends Action
             }
             $data[] = $row;
         }
+
         // sort($data);
         // print_r($data); exit;
 

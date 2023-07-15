@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace herams\common\config;
 
 use ArrayObject;
-use DateTimeZone;
 use herams\common\components\AuditService;
 use herams\common\components\LazyUrlFactory;
 use herams\common\components\RewriteRule;
@@ -50,6 +49,7 @@ use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
 use herams\common\models\Permission;
 use herams\common\services\UserAccessCheck;
+use herams\common\utils\tools\SurveyParserClean;
 use Http\Factory\Guzzle\UriFactory;
 use JCIT\jobqueue\components\jobQueues\Synchronous;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
@@ -150,6 +150,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
         $container->set(AuditServiceInterface::class, AuditService::class);
         $container->set(WorkspaceRepository::class, WorkspaceRepository::class);
         $container->set(AccessCheckInterface::class, static fn() => new UserAccessCheck(\Yii::$app->user));
+        $container->set(SurveyParserClean::class, SurveyParserClean::class);
         $container->set(SurveyRepository::class, SurveyRepository::class);
         $container->set(SurveyParser::class, SurveyParser::class);
         $container->set(AccessRequestRepository::class, AccessRequestRepository::class);
@@ -161,7 +162,6 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             $result->registerAttributeStrategy(new ModelHydrator());
             return $result;
         });
-
         $container->set(Resolver::class, static function (): Resolver {
             return new ChainedResolver(
                 new SingleTableInheritanceResolver(),
