@@ -16,7 +16,7 @@ class AgGridHelper
             'headerName' => \Yii::t('app', $textToTranslate),
             'field' => $fieldName,
             'filter' => 'agTextColumnFilter',
-            'filterParams' => new \yii\web\JsExpression(<<<JS
+            /*'filterParams' => new \yii\web\JsExpression(<<<JS
                 {
                     'newRowsAction' : 'keep',
                     'suppressAndOrCondition': true, 
@@ -45,7 +45,7 @@ class AgGridHelper
                 function(params) {
                     return params.value === '0000-00-00' ? '' : params.value;
                 }
-            JS)
+            JS)*/
         ];
         if ($sortOder){
             $data['sort'] = $sortOder;
