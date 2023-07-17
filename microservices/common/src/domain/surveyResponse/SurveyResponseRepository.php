@@ -324,7 +324,7 @@ class SurveyResponseRepository
         if (!is_null($adminData?->data)){
             $tierData = $this->surveyParserClean::findQuestionInfo($survey, 'HSDU_TYPE');
             $tier = 'Other';
-            foreach($tierData['choices'] as $tierInfo){
+            foreach($tierData['choices'] ?? [] as $tierInfo){
                 if ($tierInfo['value'] === $adminData->data['HSDU_TYPE']){
                     $tier = FacilityTier::from((int)$tierInfo['tier'])->label('en');
                     break;

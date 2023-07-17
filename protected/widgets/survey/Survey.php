@@ -36,6 +36,7 @@ class Survey extends Widget
     private null|string $localeEndpoint = null;
 
     private bool $displayMode = false;
+    private int $haveToDeleteDate = 0;
 
     public function init(): void
     {
@@ -94,6 +95,11 @@ class Survey extends Widget
         $this->redirectRoute = $route;
         return $this;
     }
+    public function deleteDate(): self
+    {
+        $this->haveToDeleteDate = 1;
+        return $this;
+    }
 
     public function run(): string
     {
@@ -114,8 +120,8 @@ class Survey extends Widget
             <<<JS
         // await new Promise((resolve) => setTimeout(resolve, 5000));
             const config = {$config};
-            
-            const surveyStructure = config.structure
+            const haveToDeleteDate = {$this->haveToDeleteDate};
+            const surveyStructure = config.structure;
             
             if (config.localeEndpoint) {
                 const locales = await Herams.fetchWithCsrf(config.localeEndpoint, null, 'get')
@@ -136,6 +142,10 @@ class Survey extends Widget
                         data = data[pathElement]
                     }
                     try {
+                        if (haveToDeleteDate){
+                            delete (data['HSDU_DATE']);
+                            delete(data['SITUATION_DATE']);
+                        }
                     survey.data = { ...data, ...config.data }
                     } catch (error) {
                         survey.data = {};
