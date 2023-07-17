@@ -57,6 +57,7 @@ $survey = Survey::begin()
         'id' => $facilityId,
         
     ])
+    ->deleteDate()
 ;
 
 Survey::end();

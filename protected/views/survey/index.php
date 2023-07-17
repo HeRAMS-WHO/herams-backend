@@ -21,7 +21,9 @@ Section::begin()
         [
             'label' => \Yii::t('app', 'Create survey'),
             'link' => ['survey/create'],
-            'style' => 'primary',
+            'options' => [
+                'class' => 'btn-default',
+            ],
             'icon' => Icon::add(),
         ],
     ])
