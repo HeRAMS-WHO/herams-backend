@@ -24,6 +24,7 @@ class CreateForSurveyJs extends Action
         AccessCheckInterface $accessCheck,
         int $page_id
     ) {
+
         $page = Page::findOne([
             'id' => $page_id,
         ]);

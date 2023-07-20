@@ -30,10 +30,8 @@ $this->endBlock();
 Section::begin()
     ->withSubject($project)
     ->withHeader(Yii::t('app', 'Project settings'));
-
 $survey = SurveyFormWidget::begin()
     ->withForm($form);
-
 
 SurveyFormWidget::end();
 

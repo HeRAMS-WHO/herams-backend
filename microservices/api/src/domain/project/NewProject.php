@@ -29,7 +29,7 @@ class NewProject extends RequestModel
 
     public null|SurveyId $adminSurveyId = null;
 
-    public null|ProjectVisibility $visibility = null;
+    public null|ProjectVisibility|string $visibility = null;
 
     public null|Latitude $latitude = null;
 

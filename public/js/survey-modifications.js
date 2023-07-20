@@ -1,7 +1,6 @@
 'use strict';
 
-((Survey) =>
-{
+((Survey) => {
   [
     'navigateToUrl',
     'navigateToUrlOnCondition',
@@ -50,17 +49,17 @@
    * sendResultOnPageNext --> should be forced to true
    */
   Survey.Serializer.addClass('coloritemvalue', [
-        {
-          name: 'text',
-          visible: false,
-        },
-        {
-          name: 'color',
-          type: 'color',
-        },
-      ],
-      null,
-      'itemvalue')
+    {
+      name: 'text',
+      visible: false,
+    },
+    {
+      name: 'color',
+      type: 'color',
+    },
+  ],
+  null,
+  'itemvalue')
   Survey.Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     default: [
@@ -93,9 +92,9 @@
         choicesByUrl: {
           url: `/api-proxy/core/configuration/locales?_lang=${document.documentElement.lang}`,
           valueName: 'locale',
-          titleName: 'label'
+          titleName: 'label',
         },
-        defaultValue: ['en']
+        defaultValue: ['en'],
       },
       {
         name: 'primaryLanguage',
@@ -103,13 +102,13 @@
         title: 'Primary language for this project',
         choicesFromQuestion: 'languages',
         choicesFromQuestionMode: 'selected',
-        defaultValue: 'en'
-      }
+        defaultValue: 'en',
+      },
     ],
     onInit () {
     },
 
-  });
+  })
 
   Survey.ComponentCollection.Instance.add({
     name: 'currentlanguage',
@@ -121,7 +120,7 @@
       type: 'text',
       defaultValue: `${document.documentElement.lang}`,
     },
-    onInit() {
+    onInit () {
       // debugger;
     },
   })
@@ -143,11 +142,10 @@
         titleName: 'name',
       },
     },
-    onInit() {
+    onInit () {
       // debugger;
     },
   })
-
 
   Survey.ComponentCollection.Instance.add({
     iconName: 'icon-arrow-right',
@@ -155,15 +153,15 @@
     title: 'Longitude',
     category: 'HeRAMS',
     questionJSON: {
-      "type": "text",
-      "name": "longitude",
-      "title": "Longitude",
-      "inputType": "number",
-      "min": -180,
-      "max": 180,
-      "step": 0.00001
+      type: 'text',
+      name: 'longitude',
+      title: 'Longitude',
+      inputType: 'number',
+      min: -180,
+      max: 180,
+      step: 0.00001,
     },
-    onInit() {
+    onInit () {
       // debugger;
     },
   })
@@ -174,15 +172,15 @@
     title: 'Latitude',
     category: 'HeRAMS',
     questionJSON: {
-      "type": "text",
-      "name": "longitude",
-      "title": "Longitude",
-      "inputType": "number",
-      "min": -90,
-      "max": 90,
-      "step": 0.00001
+      type: 'text',
+      name: 'longitude',
+      title: 'Longitude',
+      inputType: 'number',
+      min: -90,
+      max: 90,
+      step: 0.00001,
     },
-    onInit() {
+    onInit () {
       // debugger;
     },
   })
@@ -204,11 +202,11 @@
         titleName: 'title',
       },
     },
-    onInit() {
+    onInit () {
       // debugger;
     },
   })
-// Add expression properties to survey
+  // Add expression properties to survey
   Survey.Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     name: 'canReceiveSituationUpdate',
@@ -273,16 +271,13 @@
   Survey.defaultV2Css.saveData.success = 'success'
   Survey.defaultV2Css.saveData.root = 'savedata'
   Survey.StylesManager.applyTheme('defaultV2')
-})(Survey);
-
+})(Survey)
 
 window.__herams_init_callbacks = window.__herams_init_callbacks ?? []
 window.__herams_init_callbacks.unshift(async () => {
   if (typeof window.Survey === 'undefined') {
     throw new Error('SurveyJS not (yet) loaded')
   }
-
-
 
   // Survey.Serializer.removeProperty('selectBase', 'choicesByUrl')
   // [
@@ -300,7 +295,6 @@ window.__herams_init_callbacks.unshift(async () => {
   //
   // ].forEach(Survey.QuestionFactory.Instance.unregisterElement, Survey.QuestionFactory.Instance);
 
-
   // Survey.Serializer.addProperty('survey', {
   //   category: 'general',
   //   choices: ['projectUpdate', 'workspaceUpdate', 'facilityAdmin','facilityData'],
@@ -311,11 +305,4 @@ window.__herams_init_callbacks.unshift(async () => {
   // })
 
   // New question type for facility type:
-
-
-
-
-
-
-
 })
