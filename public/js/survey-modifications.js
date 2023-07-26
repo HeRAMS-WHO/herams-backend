@@ -106,6 +106,7 @@
       },
     ],
     onInit () {
+      console.log(this)
     },
 
   })

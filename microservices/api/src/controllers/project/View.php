@@ -13,10 +13,11 @@ final class View extends Action
     public function run(
         ProjectRepository $projectRepository,
         int $id
-    ): UpdateProject {
+    ): array {
         $project = $projectRepository->retrieveForUpdate(new ProjectId($id));
         $visibility = $project->visibility;
         $project->visibility = ProjectVisibility::getValueFromText($visibility);
-        return $project;
+        $projectArray = $project->toArray();
+        return $projectArray;
     }
 }

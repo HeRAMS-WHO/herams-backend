@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace prime\repositories;
 
+use herams\common\domain\project\ProjectRepository;
 use herams\common\values\ProjectId;
 use herams\common\values\WorkspaceId;
+use prime\helpers\SurveyConfiguration;
 use prime\interfaces\SurveyFormInterface;
 use prime\models\forms\SurveyForm;
 use Psr\Http\Message\UriFactoryInterface;
@@ -18,6 +20,12 @@ use yii\helpers\Url;
  */
 class FormRepository
 {
+    public function __construct(
+        private UriFactoryInterface $uriFactory,
+        private ProjectRepository $projectRepository
+    ) {
+    }
+
     private function loadDefinition(string $name): array
     {
         return json_decode(file_get_contents(\Yii::getAlias("@app/models/forms/$name.json")), true, 512, JSON_THROW_ON_ERROR);
@@ -28,10 +36,7 @@ class FormRepository
         return $this->uriFactory->createUri(Url::toRoute([$route, ...$params]));
     }
 
-    public function __construct(
-        private UriFactoryInterface $uriFactory
-    ) {
-    }
+
 
     public function getCreateProjectForm(): SurveyFormInterface
     {
@@ -39,17 +44,18 @@ class FormRepository
             submitRoute: $this->createUri('/api/project/create'),
             redirectRoute: $this->createUri('project/index'),
             serverValidationRoute: $this->createUri('/api/project/validate'),
-            configuration: $this->loadDefinition('createUpdateProject'),
+            configuration: SurveyConfiguration::forCreatingProject()
         );
     }
 
     public function getUpdateProjectForm(ProjectId $id): SurveyFormInterface
     {
+        $project = $this->projectRepository->retrieveById($id);
         return new SurveyForm(
             submitRoute: $this->createUri('/api/project/update', id: $id),
             dataRoute: $this->createUri('/api/project/view', id: $id),
             serverValidationRoute: $this->createUri('/api/project/validate', id: $id),
-            configuration: $this->loadDefinition('createUpdateProject'),
+            configuration: SurveyConfiguration::forUpdatingProject($project),
             extraData: [
                 'id' => $id,
             ]

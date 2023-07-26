@@ -10,6 +10,7 @@ use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\SurveyFormWidget;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 
 /**
  * @var \prime\models\ar\read\Project $project
@@ -17,7 +18,6 @@ use yii\helpers\Html;
  * @var \herams\common\values\ProjectId $projectId
  * @var View $this
  */
-
 $this->title = \Yii::t('app', "Project management");
 $this->params['subject'] = $project->getTitle();
 
@@ -30,6 +30,8 @@ $this->endBlock();
 Section::begin()
     ->withSubject($project)
     ->withHeader(Yii::t('app', 'Project settings'));
+echo '<script>const shouldUpdateSurveyData = false;</script>';
+
 $survey = SurveyFormWidget::begin()
     ->withForm($form);
 

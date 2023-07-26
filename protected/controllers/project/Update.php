@@ -22,7 +22,6 @@ class Update extends Action
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $projectId = new ProjectId($id);
-
         $this->controller->view->breadcrumbCollection->add(
             ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())
         );
