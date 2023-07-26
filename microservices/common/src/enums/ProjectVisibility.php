@@ -18,7 +18,17 @@ enum ProjectVisibility: string implements \JsonSerializable
             self::Private => \Yii::t('app', 'Private, this project is visible on the map and in the list, but people need permission to view it')
         };
     }
+    public static function getValueFromText(self $value): ?string
+    {
 
+        foreach (self::cases() as $case) {
+            if ($case->value == $value->value) {
+                return $case->label();
+            }
+        }
+
+        return null; // El texto no coincide con ningún valor en el enum
+    }
     public static function toArray(): array
     {
         return array_map(fn($case) => [
@@ -31,4 +41,5 @@ enum ProjectVisibility: string implements \JsonSerializable
     {
         return $this->value;
     }
+
 }

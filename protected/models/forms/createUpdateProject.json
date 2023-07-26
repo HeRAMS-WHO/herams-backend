@@ -23,14 +23,20 @@
           "title": "Project languages",
           "description": "These will be available for workspace & facility data",
           "defaultValue": [
-            "en"
+            "en",
+            "es"
           ],
           "isRequired": true,
-          "choicesByUrl": {
-            "url": "/api-proxy/core/configuration/locales?_lang={lang}",
-            "valueName": "locale",
-            "titleName": "label"
-          }
+          "choices": [
+            {
+              "text": "English",
+              "value": "en"
+            },
+            {
+              "text": "Spanish",
+              "value": "es"
+            }
+          ]
         },
         {
           "type": "radiogroup",

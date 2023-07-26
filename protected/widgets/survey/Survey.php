@@ -133,7 +133,7 @@ class Survey extends Widget
             
             let restartWithFreshData
             let waitForDataPromise
-            if (config.dataUrl) {
+            if (config.dataUrl && !(typeof shouldUpdateSurveyData !== 'undefined' &&  shouldUpdateSurveyData !== false)) {
                 restartWithFreshData = async () => {
                     console.log("Clearing survey");
                     survey.clear()

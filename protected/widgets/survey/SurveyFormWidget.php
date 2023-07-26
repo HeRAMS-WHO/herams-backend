@@ -40,11 +40,12 @@ class SurveyFormWidget extends Widget
             'elementId' => $this->getId(),
             'localeEndpoint' => $this->surveyForm->getLocaleEndpoint(),
         ]);
+
         $this->view->registerJs(
             <<<JS
             
             const config = {$config};
-            
+            window.surveyContainer = config.elementId;
             const surveyStructure = config.structure
             
             if (config.localeEndpoint) {
@@ -58,10 +59,13 @@ class SurveyFormWidget extends Widget
             if (config.dataUrl) {
                 restartWithFreshData = async () => {
                     console.log("Clearing survey");
-                    survey.clear()
+                    //survey.clear()
                     const data = await window.Herams.fetchWithCsrf(config.dataUrl, null, 'GET');
+                    console.log(survey.data)
                     try {
-                    survey.data = data
+                        data.projectvisibility = data.visibility
+                        
+                        //survey.data = data
                     } catch (error) {
                         survey.data = {};
                         console.warn("Fallback to setting individual values", error);
@@ -74,7 +78,8 @@ class SurveyFormWidget extends Widget
                             }
                         }
                     }
-                    return survey.data;
+                    //return survey.data;
+                    console.log(survey.data)
                 }
                 waitForDataPromise = restartWithFreshData();
                

@@ -43,7 +43,10 @@ class ProjectRepository implements ProjectLocalesRetriever
         private readonly ModelHydrator $hydrator
     ) {
     }
-
+    public function retrieveById(ProjectId $projectId): Project
+    {
+        return Project::findOne(['id' => $projectId->getValue()]);
+    }
     public function create(NewProject $model): ProjectId
     {
         $record = new Project();
