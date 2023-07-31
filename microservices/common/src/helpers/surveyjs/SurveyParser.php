@@ -14,6 +14,9 @@ final class SurveyParser extends BaseParser
 
     private const TYPE_FACILITY_NAME = 'facilityName';
 
+    private const HSDU_STATE_TYPE = 'hsdu_state_type';
+    private const TYPE_HSDU_STATE_NAME = 'type_hsdu_state_name';
+
     public function __construct(
         FacilityTypeQuestionParser $facilityTypeQuestionParser,
         LocalizableTextQuestionParser $localizableTextQuestionParser
@@ -21,7 +24,7 @@ final class SurveyParser extends BaseParser
         parent::__construct();
         $this->setParser(self::TYPE_FACILITY_TYPE, $facilityTypeQuestionParser);
         $this->setParser('localizableprojecttext', $localizableTextQuestionParser);
-
+        $this->setParser(self::TYPE_HSDU_STATE_NAME, $facilityTypeQuestionParser);
 //        $this->setParser(self::TYPE_FACILITY_NAME, $facilityTypeQuestionParser);
     }
 
