@@ -18,6 +18,7 @@ class SurveyModificationBundle extends AssetBundle
 
     public $js = [
         '/js/surveyjs/FacilityTypeQuestion.js',
+        '/js/surveyjs/HSDUStateQuestion.js',
         '/js/surveyjs/ProjectVisibilityQuestion.js',
         '/js/surveyjs/LocalizableProjectTextQuestion.js',
         '/js/survey-modifications.js',
