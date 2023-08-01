@@ -17,15 +17,15 @@
     init () {
       Survey.Serializer.addClass(this.name + 'value', [], null, 'itemvalue')
       Survey.Serializer.addProperty(this.name + 'value', {
-        name: 'HSDU State',
+        name: 'hsdu_state',
         displayName: 'HSDU State',
         // choices: ['primary', 'secondary', 'tertiary'],
         // default: 'primary',
         type: 'number',
         choices: [
-          {value: 0, text: "Accept updates"},
-          {value: 1, text: "Does not accept updates"},
-          { value: 2, text: "Unknow"}
+          {value: 1, text: "Accept updates"},
+          {value: 0, text: "Does not accept updates"},
+          {value: 2, text: "Unknow"}
         ],
         default: 2,
       })

@@ -67,6 +67,7 @@ final class Facilities extends Action
             }
 
             $row['date_of_update'] = $model->date_of_update;
+            $row['can_receive_situation_update'] = $model->canReceiveSituationUpdate() ? 1 : 0;
             if (empty($row['name'])) {
                 $row['name'] = 'no name';
             }

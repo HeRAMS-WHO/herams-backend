@@ -8,6 +8,7 @@ use herams\api\models\NewSurveyResponse;
 use herams\api\models\UpdateSurveyResponse;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\facility\FacilityTier;
+use herams\common\domain\facility\HSDUStateEnum;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
@@ -293,7 +294,32 @@ class SurveyResponseRepository
         $this->updateDateOnFacility($surveyResponseId);
         $this->updateDateOnWorkspace($surveyResponseId);
         $this->updateAnswersOnFacility($surveyResponseId);
-
+        $this->updateIfFacilityCanReceiveUpdates($surveyResponseId);
+    }
+    public function updateIfFacilityCanReceiveUpdates(SurveyResponseId $surveyResponseId): void {
+        $surveyResponse = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
+        $survey = Survey::findOne(['id' => $surveyResponse->survey_id]);
+        $facility = Facility::findOne(['id' => $surveyResponse->facility_id]);
+        $adminData = SurveyResponse::find()
+            ->select('data')
+            ->where(['!=', 'status', 'Deleted'])
+            ->andWhere(['facility_id' => $surveyResponse->facility_id])
+            ->andWhere(['response_type' => 'admin'])
+            ->orderBy(['date_of_update' => SORT_DESC])
+            ->one();
+        $state = $adminData->data['HSDU_DATE'];
+        $surveyData = Survey::findOne(['id' => $adminData->survey_id]);
+        $hsduStatusData = $this->surveyParserClean::findQuestionInfo($survey, 'HSDU_STATUS');
+        $statusInSurvey = $adminData->data['HSDU_STATUS'];
+        $status = HSDUStateEnum::acceptUpdates;
+        foreach($hsduStatusData['choices'] ?? [] as $statusInfo){
+            if ($statusInfo['value'] === $statusInSurvey){
+                $status = HSDUStateEnum::from((int)$statusInfo['hsdu_state']);
+                break;
+            }
+        }
+        $facility->can_receive_situation_update = $status === HSDUStateEnum::acceptUpdates;
+        $facility->save();
     }
     public function updateAnswersOnFacility(
         SurveyResponseId $surveyResponseId
