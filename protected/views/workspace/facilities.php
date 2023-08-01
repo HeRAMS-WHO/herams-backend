@@ -19,9 +19,9 @@ use yii\web\View;
  * @var iterable<VariableInterface> $variables
  */
 echo "<script> const updateSituationContent = `" . Icon::add() . \Yii::t('app', 'Update Situation') . "`</script>";
+echo "<script> const closedFacility = `" . Icon::close() . \Yii::t('app', 'Facility closed') . "`</script>";
 
 $this->title = $tabMenuModel->title();
-
 
 $this->beginBlock('tabs');
 echo WorkspaceTabMenu::widget(
@@ -101,8 +101,15 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
                     const a = document.createElement('a');
                     a.innerHTML = updateSituationContent;
                     a.href = '/facility/{id}/update-situation'.replace('{id}', params.data.id);
-                    a.setAttribute('class','btn btn-default');
+                    let className = 'btn btn-default';
+                    if (params.data.can_receive_situation_update == 0){
+                        a.onclick = () => false;
+                        className = 'btn';
+                        a.innerHTML = closedFacility;
+                    }
+                    a.setAttribute('class', className);
                     span.appendChild(a)
+                    
                     return span;
                 }
             JS),
