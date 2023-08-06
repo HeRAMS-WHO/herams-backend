@@ -37,8 +37,10 @@ class FacilityTypeQuestionParser implements ElementParserInterface
             if ($variable instanceof ClosedVariableInterface) {
                 yield new FacilityTierVariable($variable, $tierMap, [
                     ...$questionConfig,
-                    'showInResponseList' => $questionConfig['showTierInResponseList'] ?? false,
-                    'showFacilityInResponseList' => $questionConfig['showTierInFacilityResponseList'] ?? false,
+                    'showTierInResponseList' => $questionConfig['showTierInResponseList'] ?? false,
+                    'showInResponseList' => $questionConfig['showInResponseList'] ?? false,
+                    'showFacilityInResponseList' => $questionConfig['showFacilityInResponseList'] ?? false,
+                    'showTierInFacilityList' => $questionConfig['showTierInFacilityList'] ?? false,
                 ]);
             }
             yield $variable;

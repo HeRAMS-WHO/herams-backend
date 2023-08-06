@@ -48,14 +48,14 @@ class Facilities extends Action
                         $unsortedCols[] = $element['name'];
                     }
                 }
-                if ($element['showTierInResponseList'] ?? false){
-                    $sortedCols[$element['showTierInResponseList'] - 1] = 'HSDU_TYPE_tier';
+                if ($element['showTierInFacilityList'] ?? false){
+                    $sortedCols[$element['showTierInFacilityList'] - 1] = 'HSDU_TYPE_tier';
                 }
 
             }
 
         }
-
+        
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInFacilityList') <=> $b->getRawConfigurationValue('showInFacilityList'));
         $this->controller
             ->view
