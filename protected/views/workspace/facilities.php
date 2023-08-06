@@ -86,10 +86,6 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'desc',
             'left'
         ),
-        [
-            'field' => 'TIER',
-            'headerName' => \Yii::t('app', 'Tier'),
-        ],
         ...$tableCols,
         [
             'headerName' => '',
