@@ -44,10 +44,12 @@ class Facilities extends Action
                     $sortedCols[$element['showInFacilityList'] - 1] = $element['name'];
                 }
                 else {
-                    $unsortedCols[] = $element['name'];
+                    if ($element['name'] !== 'HSDU_TYPE_tier'){
+                        $unsortedCols[] = $element['name'];
+                    }
                 }
-                if ($element['showTierInResponseList'] ?? false){
-                    $sortedCols[$element['showTierInResponseList'] - 1] = 'HSDU_TYPE_tier';
+                if ($element['showTierInFacilityList'] ?? false){
+                    $sortedCols[$element['showTierInFacilityList'] - 1] = 'HSDU_TYPE_tier';
                 }
 
             }
@@ -71,15 +73,13 @@ class Facilities extends Action
         if ($tableCols['name'] ?? ''){
             unset($tableCols['name']);
         }
-        if ($tableCols['HSDU_TYPE_tier'] ?? ''){
-            unset($tableCols['HSDU_TYPE_tier']);
-        }
+
         $sortedTableCols = [];
         $sortedFields = [];
         foreach($sortedCols as $sorted){
-            foreach($tableCols as $col){
+            foreach($tableCols as $key => $col){
                 if ($sorted == $col['field']){
-                    $sortedTableCols[] = $col;
+                    $sortedTableCols[$key] = $col;
                     $sortedFields[$col['field']] = true;
                 }
             }
@@ -89,7 +89,6 @@ class Facilities extends Action
                 $sortedTableCols[] = $col;
             }
         }
-
         return $this->controller->render('facilities', [
             'variables' => $variables,
             'tableCols' => $sortedTableCols

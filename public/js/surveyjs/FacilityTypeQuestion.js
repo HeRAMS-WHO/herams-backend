@@ -46,7 +46,7 @@
         },
         {
           category: 'Reporting & Dashboarding',
-          name: 'showFacilityInResponseList',
+          name: 'showTierInFacilityList',
           displayName: 'Show the derived tier question in the facility list',
           isRequired: false,
           type: 'number',
