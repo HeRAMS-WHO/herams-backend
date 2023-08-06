@@ -55,7 +55,7 @@ class Facilities extends Action
             }
 
         }
-        
+
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInFacilityList') <=> $b->getRawConfigurationValue('showInFacilityList'));
         $this->controller
             ->view
