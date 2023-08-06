@@ -8,6 +8,8 @@ use Collecthor\DataInterfaces\VariableInterface;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\utils\interfaces\SurveyParserCleanInterface;
+use herams\common\utils\tools\SurveyParserClean;
 use herams\common\values\WorkspaceId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
@@ -24,6 +26,7 @@ class Facilities extends Action
         WorkspaceRepository $workspaceRepository,
         ProjectRepository $projectRepository,
         SurveyRepository $surveyRepository,
+        SurveyParserClean $surveyParserClean,
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
@@ -31,7 +34,25 @@ class Facilities extends Action
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $variableSet = $surveyRepository->retrieveVariableSet($projectRepository->retrieveAdminSurveyId($projectId), $projectRepository->retrieveDataSurveyId($projectId));
         $variables = toArray(filter(fn (VariableInterface $variable) => $variable->getRawConfigurationValue('showInFacilityList') !== null, $variableSet->getVariables()));
+        $adminSurveyId = $surveyRepository->retrieveAdminSurveyForWorkspaceForSurveyJs($workspaceId)->getId();
+        $adminSurvey = $surveyRepository->getById($adminSurveyId);
+        $sortedCols = [];
+        $unsortedCols = [];
+        foreach($adminSurvey->config['pages'] as $page){
+            foreach($page['elements'] as $element){
+                if ($element['showInFacilityList'] ?? false){
+                    $sortedCols[$element['showInFacilityList'] - 1] = $element['name'];
+                }
+                else {
+                    $unsortedCols[] = $element['name'];
+                }
+                if ($element['showTierInResponseList'] ?? false){
+                    $sortedCols[$element['showTierInResponseList'] - 1] = 'HSDU_TYPE_tier';
+                }
 
+            }
+
+        }
 
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInFacilityList') <=> $b->getRawConfigurationValue('showInFacilityList'));
         $this->controller
@@ -53,9 +74,25 @@ class Facilities extends Action
         if ($tableCols['HSDU_TYPE_tier'] ?? ''){
             unset($tableCols['HSDU_TYPE_tier']);
         }
+        $sortedTableCols = [];
+        $sortedFields = [];
+        foreach($sortedCols as $sorted){
+            foreach($tableCols as $col){
+                if ($sorted == $col['field']){
+                    $sortedTableCols[] = $col;
+                    $sortedFields[$col['field']] = true;
+                }
+            }
+        }
+        foreach($tableCols as $col){
+            if (($sortedFields[$col['field']] ?? null) === null){
+                $sortedTableCols[] = $col;
+            }
+        }
+
         return $this->controller->render('facilities', [
             'variables' => $variables,
-            'tableCols' => $tableCols
+            'tableCols' => $sortedTableCols
         ]);
     }
 }

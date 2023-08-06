@@ -8,6 +8,7 @@ use Collecthor\DataInterfaces\VariableSetInterface;
 use Collecthor\SurveyjsParser\VariableSet;
 use herams\api\models\NewSurvey;
 use herams\api\models\UpdateSurvey;
+use herams\common\models\Survey as SurveyModel;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\interfaces\AccessCheckInterface;
@@ -95,7 +96,9 @@ final class SurveyRepository implements SurveyRepositoryInterface
             'id' => $surveyId->getValue(),
         ])->config);
     }
-
+    public function getById(SurveyId $id): SurveyModel {
+        return SurveyModel::findOne(['id' =>  $id]);
+    }
     public function retrieveForUpdate(SurveyId $id): Survey
     {
         $record = Survey::findOne([
