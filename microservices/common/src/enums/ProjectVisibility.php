@@ -18,6 +18,14 @@ enum ProjectVisibility: string implements \JsonSerializable
             self::Private => \Yii::t('app', 'Private, this project is visible on the map and in the list, but people need permission to view it')
         };
     }
+    public static function getValueFromLabel(string $value): ?string {
+        foreach (self::cases() as $case) {
+            if ($case->label() == $value) {
+                return $case->value;
+            }
+        }
+        return null;
+    }
     public static function getValueFromText(self $value): ?string
     {
 
