@@ -6,6 +6,7 @@ namespace herams\api\controllers\project;
 
 use herams\api\domain\project\NewProject;
 use herams\api\domain\project\UpdateProject;
+use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\values\ProjectId;
@@ -22,12 +23,13 @@ final class Validate extends Action
         Response $response,
         int $id = null
     ): Response {
+        $data = $request->bodyParams['data'];
         if (! isset($id)) {
             $model = new NewProject();
         } else {
             $model = new UpdateProject(new ProjectId($id));
         }
-        $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams['data']);
+        $modelHydrator->hydrateFromJsonDictionary($model, $data);
         return $modelValidator->validateAndRenderForValidationEndpoint($model, $response);
     }
 }

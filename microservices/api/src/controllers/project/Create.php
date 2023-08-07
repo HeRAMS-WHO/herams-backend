@@ -6,8 +6,10 @@ namespace herams\api\controllers\project;
 
 use herams\api\domain\project\NewProject;
 use herams\common\domain\project\ProjectRepository;
+use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
+use herams\common\values\Visibility;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;
@@ -22,15 +24,17 @@ final class Create extends Action
         Request $request,
         Response $response,
     ) {
+        $data = $request->bodyParams['data'];
         $model = new NewProject();
 
-        $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams['data']);
+        $modelHydrator->hydrateFromJsonDictionary($model, $data);
 
         // Our model is now hydrated, we should validate it.
         if (! $modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
-
+        $visibility = ProjectVisibility::getValueFromLabel($data['projectvisibility']) ?? 'public';
+        $model->visibility = new Visibility($visibility);
         $id = $projectRepository->create($model);
         $response->setStatusCode(204);
         $response->headers->add('Location', Url::to([

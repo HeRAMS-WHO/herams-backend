@@ -16,6 +16,7 @@ use herams\common\validators\ExistValidator;
 use herams\common\values\Latitude;
 use herams\common\values\Longitude;
 use herams\common\values\SurveyId;
+use herams\common\values\Visibility;
 use yii\validators\RangeValidator;
 use yii\validators\RequiredValidator;
 use yii\validators\SafeValidator;
@@ -29,7 +30,7 @@ class NewProject extends RequestModel
 
     public null|SurveyId $adminSurveyId = null;
 
-    public null|ProjectVisibility|string $visibility = null;
+    public null|ProjectVisibility|string|Visibility $visibility = null;
 
     public null|Latitude $latitude = null;
 
