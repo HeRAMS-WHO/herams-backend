@@ -18,7 +18,7 @@ class M230804162741CreateUserTable extends Migration
             'id' => $this->primaryKey(),
             'email' => $this->string()->unique()->notNull(),
             'password_hash' => $this->string(60)->notNull(),
-            'name' => $this->string()->append('CHARACTER SET utf8 COLLATE utf8_unicode_ci'),
+            'name' => $this->string()->append('collate utf8mb4_unicode_ci'),
             'language' => $this->string(10)->append('collate ascii_bin'),
             'newsletter_subscription' => $this->tinyInteger(1)->notNull(),
             'created_at' => $this->dateTime()->notNull(),
