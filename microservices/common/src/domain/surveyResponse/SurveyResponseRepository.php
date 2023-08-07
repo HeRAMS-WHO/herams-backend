@@ -350,15 +350,32 @@ class SurveyResponseRepository
         if (!is_null($adminData?->data)){
             $tierData = $this->surveyParserClean::findQuestionInfo($survey, 'HSDU_TYPE');
             $tier = 'Other';
-            foreach($tierData['choices'] ?? [] as $tierInfo){
-                if ($tierInfo['value'] === $adminData->data['HSDU_TYPE']){
-                    $tier = FacilityTier::from((int)$tierInfo['tier'])->label('en');
-                    break;
+            try {
+                foreach($tierData['choices'] ?? [] as $tierInfo){
+                    if ($tierInfo['value'] === ($adminData->data['HSDU_TYPE'] ?? $adminData?->data['HSDU_TYPE'] ?? $adminData->data['HSDU_TYPE'] ?? [])){
+                        $tier = FacilityTier::from((int)$tierInfo['tier'])->label('en');
+                        break;
+                    }
                 }
             }
+            catch (\Exception $exception){
+                $tier = 'Unknown';
+            }
+
             $facility->admin_data = $adminData->data;
-            $facility->latitude = $adminData->data['HSDU_COORDINATES']['HSDU_LATITUDE'];
-            $facility->longitude = $adminData->data['HSDU_COORDINATES']['HSDU_LONGITUDE'];
+            try {
+                $facility->latitude = $adminData->data['HSDU_COORDINATES']['HSDU_LATITUDE'];
+                $facility->longitude = $adminData->data['HSDU_COORDINATES']['HSDU_LONGITUDE'];
+            }
+            catch (\Exception $exception){
+                $facility->longitude = null;
+                $facility->latitude = null;
+            }
+            catch (\Error $error){
+                $facility->longitude = null;
+                $facility->latitude = null;
+            }
+
             $facility->tier = $tier;
         }
         $facility->save();
