@@ -60,7 +60,7 @@ class Delete extends Action
         $project = Project::findOne([
             'id' => $id,
         ]);  
-        //$project->delete();
+        $project->delete();
 
         return true;
     }
