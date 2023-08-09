@@ -127,7 +127,7 @@ echo ButtonGroup::widget([
                 '/api/project/delete-workspaces',
                 'id' => $project->id,
             ],
-            'redirect' => 'project/index',
+            'redirect' => "project/{$project->id}/update",
             'confirm' => Yii::t('app', 'Are you sure you wish to remove the workspaces from the system?'),
             'title' => Yii::t('app', 'Delete all workspaces in project'),
         ],
