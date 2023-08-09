@@ -79,7 +79,7 @@ echo ButtonGroup::widget([
                 '/api/project/delete-project',
                 'id' => $project->id,
             ],
-            'redirect' => 'project/index',
+            'redirect' => \yii\helpers\Url::to('project/index'),
             'confirm' => \Yii::t('app', 'Are you sure you wish to remove this project from the system?'),
             'title' => Yii::t('app', 'Delete project'),
         ],
