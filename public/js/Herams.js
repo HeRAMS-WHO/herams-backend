@@ -80,41 +80,40 @@ class Herams {
   }
 
   static async #delete ({ heramsEndpoint, heramsConfirm, heramsRedirect }) {
-    try{
+    try {
       iziToast.show({
         message: heramsConfirm,
         overlay: true,
         overlayClose: true,
         color: 'red',
         closeOnEscape: true,
-        position: "center",
+        position: 'center',
         buttons: [
-            ['<button>Yes</button>', (instance, toast) => {
-                instance.hide({}, toast, 'yes');
-        }],
-            ['<button>No</button>', (instance, toast) => {
-                instance.hide({}, toast, 'no');
-        }],
+          ['<button>Yes</button>', (instance, toast) => {
+            instance.hide({}, toast, 'yes')
+          }],
+          ['<button>No</button>', (instance, toast) => {
+            instance.hide({}, toast, 'no')
+          }],
         ],
         onClosed: (instance, toast, closedBy) => {
-            if (closedBy === 'yes') {
-              const response = this.delete(heramsEndpoint, heramsRedirect);
+          if (closedBy === 'yes') {
+            const response = this.delete(heramsEndpoint, heramsRedirect)
 
-             // const response = await this.delete(heramsEndpoint, heramsRedirect);
-            } else {
-                
-            }
-        }
-      });
+            // const response = await this.delete(heramsEndpoint, heramsRedirect);
+          } else {
+
+          }
+        },
+      })
     } catch (error) {
       console.error(error)
     }
   }
 
-  static async delete(uri, redirect){
-    
+  static async delete (uri, redirect) {
     $.ajax({
-      method: "POST",
+      method: 'POST',
       url: uri,
       mode: 'cors',
       cache: 'no-cache',
@@ -125,27 +124,26 @@ class Herams {
         'Accept-Language': document.documentElement.lang ?? 'en',
         'Content-Type': 'application/json',
       },
-      success: function(data){ 
-        if(data){
-          if(data.empty == true){
-            iziToast.show({
-              message: 'This project is not empty, and cannot be deleted. Please make sure the project is empty before deleting it',
-              overlay: true,
-              overlayClose: true,
-              color: 'red',
-              closeOnEscape: true,
-              position: "center",
-              
-            });
-          } 
-        }else {
-          window.location.assign(redirect);
+      success: function (data) {
+        if (data !== true){
+          iziToast.show({
+            message: 'This project is not empty, and cannot be deleted. Please make sure the project is empty before deleting it',
+            overlay: true,
+            overlayClose: true,
+            color: 'red',
+            closeOnEscape: true,
+            position: 'center',
+
+          })
+        }
+        else {
+          window.location.assign(redirect)
         }
       },
       error: function (data) {
-          console.log('An error occurred.');
+        console.log('An error occurred.')
       },
-    });
+    })
     // const response = await fetch(uri, {
     //   method: 'POST',
     //   mode: 'cors',
@@ -204,6 +202,7 @@ class Herams {
       throw new Error(`Delete failed with code (${response.status}): ${response.statusText}`)
     }
   }
+
   async fetchWithCsrf (uri, body = null, method = 'POST') {
     const response = await fetch(uri, {
       method,
@@ -246,8 +245,7 @@ class Herams {
    * @param body
    * @returns {Promise<void>}
    */
-  async createInCollectionWithCsrf (uri, body)
-  {
+  async createInCollectionWithCsrf (uri, body) {
     const response = await fetch(uri, {
       method: 'POST',
       mode: 'cors',
