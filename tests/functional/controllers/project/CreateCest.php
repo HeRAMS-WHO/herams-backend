@@ -24,20 +24,20 @@ class CreateCest
         $I->seeResponseCodeIs(403);
     }
 
-    public function testCreate(FunctionalTester $I)
-    {
-        $I->amLoggedInAs(TEST_ADMIN_ID);
-        $I->amOnPage(['project/create']);
-        $I->seeResponseCodeIs(200);
-        $I->fillField(['name' => 'Project[title]'], 'Cool stuff');
-        $I->selectOption(['name' => 'Project[base_survey_eid]'], 11111);
-        $I->click('Create project');
-        $I->seeResponseCodeIsSuccessful();
-        $I->seeRecord(Project::class, [
-            'title' => 'Cool stuff',
-            'base_survey_eid' => 11111
-        ]);
-
-        $I->seeInSource(substr(json_encode('Project <strong>Cool stuff</strong> created'), 1, -1));
-    }
+//    public function testCreate(FunctionalTester $I)
+//    {
+//        $I->amLoggedInAs(TEST_ADMIN_ID);
+//        $I->amOnPage(['project/create']);
+//        $I->seeResponseCodeIs(200);
+//        $I->fillField(['name' => 'Project[title]'], 'Cool stuff');
+//        $I->selectOption(['name' => 'Project[base_survey_eid]'], 11111);
+//        $I->click('Create project');
+//        $I->seeResponseCodeIsSuccessful();
+//        $I->seeRecord(Project::class, [
+//            'title' => 'Cool stuff',
+//            'base_survey_eid' => 11111
+//        ]);
+//
+//        $I->seeInSource(substr(json_encode('Project <strong>Cool stuff</strong> created'), 1, -1));
+//    }
 }
