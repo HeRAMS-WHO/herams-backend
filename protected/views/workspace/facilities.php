@@ -78,7 +78,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'pinned' => 'left',
             'lockPinned' => true,
             'cellClass' => 'lock-pinned',
-            'minWidth' => '200'
+            'minWidth' => '200',
         ],
         AgGridHelper::generateColumnTypeDate(
             'Date of update',
@@ -116,7 +116,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'cellClass' => 'lock-pinned',
 
 
-        ]
+        ],
     ],
 
 ]);

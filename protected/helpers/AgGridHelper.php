@@ -1,17 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace prime\helpers;
 
 class AgGridHelper
 {
-    public static function generateColumnTypeDate (
+    public static function generateColumnTypeDate(
         string $textToTranslate,
         string $fieldName,
         string $sortOder = '',
         string $pinnedAt = ''
-    ) : array
-    {
+    ): array {
         $data = [
             'headerName' => \Yii::t('app', $textToTranslate),
             'field' => $fieldName,
@@ -19,7 +19,7 @@ class AgGridHelper
             /*'filterParams' => new \yii\web\JsExpression(<<<JS
                 {
                     'newRowsAction' : 'keep',
-                    'suppressAndOrCondition': true, 
+                    'suppressAndOrCondition': true,
                     comparator: function(filterLocalDateAtMidnight, cellValue) {
                         var dateParts = cellValue.indexOf('-') > -1 ? cellValue.split("-") : cellValue.split("/");
                         var isISO = dateParts[0].length === 4;
@@ -47,10 +47,10 @@ class AgGridHelper
                 }
             JS)*/
         ];
-        if ($sortOder){
+        if ($sortOder) {
             $data['sort'] = $sortOder;
         }
-        if ($pinnedAt){
+        if ($pinnedAt) {
             $pinned = [
                 'pinned' => $pinnedAt,
                 'lockPinned' => true,
@@ -58,6 +58,6 @@ class AgGridHelper
             ];
             $data = [...$data, ...$pinned];
         }
-      return $data;
+        return $data;
     }
 }

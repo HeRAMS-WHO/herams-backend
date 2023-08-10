@@ -3,11 +3,10 @@
 declare(strict_types=1);
 
 use prime\components\View;
+use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
-use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
-use prime\helpers\Icon;
 
 /**
  * @var View $this
@@ -17,7 +16,7 @@ use prime\helpers\Icon;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
- //$this->params['subject'] = Icon::healthFacility() . $tabMenuModel->getTitle();
+//$this->params['subject'] = Icon::healthFacility() . $tabMenuModel->getTitle();
 $this->title = 'Edit Situation';
 
 
@@ -53,7 +52,7 @@ $survey = Survey::begin()
     ->withServerValidationRoute([
         'api/facility/validate-situation',
         'id' => $facilityId,
-        
+
     ])
 ;
 

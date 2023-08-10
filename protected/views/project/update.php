@@ -10,7 +10,6 @@ use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\SurveyFormWidget;
 use yii\helpers\Html;
-use yii\web\JsExpression;
 
 /**
  * @var \prime\models\ar\read\Project $project

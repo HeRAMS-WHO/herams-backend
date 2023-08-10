@@ -36,6 +36,7 @@ class Survey extends Widget
     private null|string $localeEndpoint = null;
 
     private bool $displayMode = false;
+
     private int $haveToDeleteDate = 0;
 
     public function init(): void
@@ -95,6 +96,7 @@ class Survey extends Widget
         $this->redirectRoute = $route;
         return $this;
     }
+
     public function deleteDate(): self
     {
         $this->haveToDeleteDate = 1;

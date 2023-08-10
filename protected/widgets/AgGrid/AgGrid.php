@@ -14,9 +14,13 @@ class AgGrid extends Widget
     public string|array $route;
 
     public array $columns = [];
+
     public string $language;
+
     public static string $sortyBy;
+
     public static string $sortOrder;
+
     public function init()
     {
         parent::init();
@@ -30,7 +34,6 @@ class AgGrid extends Widget
 
     public function run()
     {
-
         $language = explode('-', \Yii::$app->language)[0];
         $config = Json::encode([
             'id' => $this->getId(),
