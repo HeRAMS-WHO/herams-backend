@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
-use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
-use prime\helpers\Icon;
 
 /**
  * @var View $this
@@ -16,7 +14,7 @@ use prime\helpers\Icon;
  * @var \prime\models\survey\SurveyForSurveyJs $survey
  * @var \herams\common\values\FacilityId $facilityId
  */
-$this->params['subject'] =  'Edit Admin Situation';
+$this->params['subject'] = 'Edit Admin Situation';
 
 $this->title = 'Edit Admin Situation';
 
@@ -48,7 +46,7 @@ $survey = Survey::begin()
     ->withServerValidationRoute([
         'api/facility/validate-situation',
         'id' => $facilityId,
-        
+
     ])
 ;
 

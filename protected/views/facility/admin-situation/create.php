@@ -55,7 +55,7 @@ $survey = Survey::begin()
     ->withServerValidationRoute([
         'api/facility/validate-situation',
         'id' => $facilityId,
-        
+
     ])
     ->deleteDate()
 ;

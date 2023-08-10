@@ -56,7 +56,10 @@ echo GridView::widget([
         [
             'attribute' => 'created_at',
             'value' => function ($model) {
-                $formattedDateTime = Yii::$app->formatter->format($model->created_at, ['datetime', 'format' => 'MMMM dd, YYYY HH:mm']);
+                $formattedDateTime = Yii::$app->formatter->format($model->created_at, [
+                    'datetime',
+                    'format' => 'MMMM dd, YYYY HH:mm',
+                ]);
                 return Html::encode($formattedDateTime);
             },
             'filter' => false,

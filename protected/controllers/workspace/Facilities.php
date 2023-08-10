@@ -8,7 +8,6 @@ use Collecthor\DataInterfaces\VariableInterface;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
-use herams\common\utils\interfaces\SurveyParserCleanInterface;
 use herams\common\utils\tools\SurveyParserClean;
 use herams\common\values\WorkspaceId;
 use prime\components\BreadcrumbService;
@@ -38,22 +37,19 @@ class Facilities extends Action
         $adminSurvey = $surveyRepository->getById($adminSurveyId);
         $sortedCols = [];
         $unsortedCols = [];
-        foreach($adminSurvey->config['pages'] as $page){
-            foreach($page['elements'] as $element){
-                if ($element['showInFacilityList'] ?? false){
+        foreach ($adminSurvey->config['pages'] as $page) {
+            foreach ($page['elements'] as $element) {
+                if ($element['showInFacilityList'] ?? false) {
                     $sortedCols[$element['showInFacilityList'] - 1] = $element['name'];
-                }
-                else {
-                    if ($element['name'] !== 'HSDU_TYPE_tier'){
+                } else {
+                    if ($element['name'] !== 'HSDU_TYPE_tier') {
                         $unsortedCols[] = $element['name'];
                     }
                 }
-                if ($element['showTierInFacilityList'] ?? false){
+                if ($element['showTierInFacilityList'] ?? false) {
                     $sortedCols[$element['showTierInFacilityList'] - 1] = 'HSDU_TYPE_tier';
                 }
-
             }
-
         }
 
         usort($variables, fn (VariableInterface $a, VariableInterface $b) => $a->getRawConfigurationValue('showInFacilityList') <=> $b->getRawConfigurationValue('showInFacilityList'));
@@ -65,33 +61,33 @@ class Facilities extends Action
             'field' => $variable->getName(),
             'headerName' => $variable->getTitle(\Yii::$app->language),
         ], $variables)];
-        foreach($tableCols as $index => $col){
-            if ($col['field'] === 'name'){
+        foreach ($tableCols as $index => $col) {
+            if ($col['field'] === 'name') {
                 unset($tableCols[$index]);
             }
         }
-        if ($tableCols['name'] ?? ''){
+        if ($tableCols['name'] ?? '') {
             unset($tableCols['name']);
         }
 
         $sortedTableCols = [];
         $sortedFields = [];
-        foreach($sortedCols as $sorted){
-            foreach($tableCols as $key => $col){
-                if ($sorted == $col['field']){
+        foreach ($sortedCols as $sorted) {
+            foreach ($tableCols as $key => $col) {
+                if ($sorted == $col['field']) {
                     $sortedTableCols[$key] = $col;
                     $sortedFields[$col['field']] = true;
                 }
             }
         }
-        foreach($tableCols as $col){
-            if (($sortedFields[$col['field']] ?? null) === null){
+        foreach ($tableCols as $col) {
+            if (($sortedFields[$col['field']] ?? null) === null) {
                 $sortedTableCols[] = $col;
             }
         }
         return $this->controller->render('facilities', [
             'variables' => $variables,
-            'tableCols' => $sortedTableCols
+            'tableCols' => $sortedTableCols,
         ]);
     }
 }

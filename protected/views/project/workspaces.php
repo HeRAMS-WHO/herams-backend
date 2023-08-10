@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use herams\common\models\Permission;
 use herams\common\models\Project;
+use prime\helpers\AgGridHelper;
 use prime\helpers\Icon;
 use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\menu\ProjectTabMenu;
 use prime\widgets\Section;
 use yii\web\JsExpression;
 use yii\web\View;
-use prime\helpers\AgGridHelper;
+
 /**
  * @var int $closedCount
  * @var View $this
@@ -102,7 +103,7 @@ echo AgGrid::widget([
             'pinned' => 'left',
             'lockPinned' => true,
             'cellClass' => 'lock-pinned',
-            'minWidth' => '200'
+            'minWidth' => '200',
             //            'filter' => 'agNumberColumnFilter',
         ],
         AgGridHelper::generateColumnTypeDate(
