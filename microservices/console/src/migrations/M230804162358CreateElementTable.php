@@ -7,7 +7,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%element}}`.
  */
-class M230804162357CreateElementTable extends Migration
+class M230804162358CreateElementTable extends Migration
 {
     /**
      * {@inheritdoc}
@@ -24,6 +24,8 @@ class M230804162357CreateElementTable extends Migration
             'width' => $this->tinyInteger()->unsigned()->notNull()->defaultValue('1'),
             'height' => $this->tinyInteger()->unsigned()->notNull()->defaultValue('1'),
         ], 'charset = latin1');
+        $this->addForeignKey('element_page', '{{%element}}', ['page_id'], '{{%page}}', ['id']);
+
     }
 
     /**
@@ -31,6 +33,7 @@ class M230804162357CreateElementTable extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('element_page', '{{%element}}');
         $this->dropTable('{{%element}}');
     }
 }

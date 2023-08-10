@@ -7,7 +7,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%survey}}`.
  */
-class M230804162700CreateSurveyTable extends Migration
+class M230804162353CreateSurveyTable extends Migration
 {
     /**
      * {@inheritdoc}

@@ -37,6 +37,9 @@ class M230804162221CreateAccessRequestTable extends Migration
 
         $this->createIndex('i-access_request-target_class-target_id',
             '{{%access_request}}', ['target_class', 'target_id']);
+        $this->addForeignKey('fk-access_request-responded_by-user-id',
+            '{{%access_request}}', ['responded_by'], '{{%user}}',
+            ['id'], 'SET NULL', 'CASCADE');
     }
 
     /**
@@ -44,6 +47,7 @@ class M230804162221CreateAccessRequestTable extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk-access_request-responded_by-user-id', '{{%access_request}}');
         $this->dropTable('{{%access_request}}');
     }
 }

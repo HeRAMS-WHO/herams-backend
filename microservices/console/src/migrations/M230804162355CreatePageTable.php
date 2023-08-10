@@ -7,7 +7,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%page}}`.
  */
-class M230804162516CreatePageTable extends Migration
+class M230804162355CreatePageTable extends Migration
 {
     /**
      * {@inheritdoc}
@@ -21,6 +21,8 @@ class M230804162516CreatePageTable extends Migration
             'parent_id' => $this->integer(),
             'sort' => $this->integer()->notNull(),
         ],'charset = latin1');
+        $this->addForeignKey('page_project', '{{%page}}', ['project_id'], '{{%project}}', ['id']);
+        $this->addForeignKey('page_page', '{{%page}}', ['parent_id'], '{{%page}}', ['id']);
     }
 
     /**
@@ -28,6 +30,8 @@ class M230804162516CreatePageTable extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('page_page', '{{%page}}');
+        $this->dropForeignKey('page_project', '{{%page}}');
         $this->dropTable('{{%page}}');
     }
 }
