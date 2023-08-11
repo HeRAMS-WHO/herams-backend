@@ -14,10 +14,9 @@ final class View extends Action
         ProjectRepository $projectRepository,
         int $id
     ): array {
-        $project = $projectRepository->retrieveForUpdate(new ProjectId($id));
+        $project = $projectRepository->getProject(new ProjectId($id));
         $visibility = $project->visibility;
-        $project->visibility = ProjectVisibility::getValueFromText($visibility);
-        $projectArray = $project->toArray();
-        return $projectArray;
+        $project->visibility = ProjectVisibility::from(strtolower($visibility))->label();
+        return $project->toArray();
     }
 }

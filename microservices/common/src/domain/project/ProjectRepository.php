@@ -84,7 +84,11 @@ class ProjectRepository implements ProjectLocalesRetriever
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_EXPORT);
         return $record;
     }
-
+    public function getProject(ProjectId $id): Project {
+        return Project::findOne([
+            'id' => $id
+        ]);
+    }
     public function retrieveForUpdate(ProjectId $id): UpdateProject
     {
         $record = Project::findOne([

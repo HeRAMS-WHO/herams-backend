@@ -7,7 +7,9 @@ namespace herams\api\controllers\project;
 use herams\api\domain\project\UpdateProject;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\enums\ProjectVisibility;
+use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
+use herams\common\models\Project;
 use herams\common\values\ProjectId;
 use herams\common\values\Visibility;
 use yii\base\Action;
@@ -25,6 +27,11 @@ final class Update extends Action
     ): array|Response {
         $data = $request->bodyParams['data'];
         $model = new UpdateProject(new ProjectId($id));
+        $project = $projectRepository->getProject(new ProjectId($id));
+        $data['createdDate'] = $project->created_date;
+        $data['createdBy'] = $project->created_by;
+        $commonFields = CommonFieldsInTables::forUpdatingHydratation();
+        $data = [...$data, ...$commonFields];
         $modelHydrator->hydrateFromJsonDictionary($model, $data);
         if (! $model->validate()) {
             $response->setStatusCode(422);

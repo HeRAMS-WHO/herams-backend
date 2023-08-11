@@ -7,6 +7,7 @@ namespace herams\api\controllers\project;
 use herams\api\domain\project\NewProject;
 use herams\api\domain\project\UpdateProject;
 use herams\common\enums\ProjectVisibility;
+use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\values\ProjectId;
@@ -24,6 +25,7 @@ final class Validate extends Action
         int $id = null
     ): Response {
         $data = $request->bodyParams['data'];
+        $data = [...$data, ...CommonFieldsInTables::forCreatingHydratation()];
         if (! isset($id)) {
             $model = new NewProject();
         } else {

@@ -13,6 +13,7 @@ use herams\common\models\RequestModel;
 use herams\common\validators\BackedEnumValidator;
 use herams\common\validators\CountryValidator;
 use herams\common\validators\ExistValidator;
+use herams\common\values\DatetimeValue;
 use herams\common\values\Latitude;
 use herams\common\values\Longitude;
 use herams\common\values\SurveyId;
@@ -44,6 +45,11 @@ class NewProject extends RequestModel
 
     public string $primaryLanguage = '';
 
+    public int $createdBy = 0;
+    public null|DatetimeValue $createdDate = null;
+    public int $lastModifiedBy = 0;
+    public null|DatetimeValue $lastModifiedDate = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -61,7 +67,10 @@ class NewProject extends RequestModel
     public function rules(): array
     {
         return [
-            [['title', 'country', 'visibility', 'adminSurveyId', 'dataSurveyId', 'primaryLanguage', 'languages'], RequiredValidator::class],
+            [['title', 'country', 'visibility', 'adminSurveyId', 'dataSurveyId', 'primaryLanguage', 'languages', 'lastModifiedBy',
+                'lastModifiedDate',
+                'createdDate',
+                'createdBy'], RequiredValidator::class],
             [['languages'],
                 RangeValidator::class,
                 'range' => Locale::keys(),

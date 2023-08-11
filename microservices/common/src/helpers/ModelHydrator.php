@@ -21,6 +21,7 @@ use herams\common\values\IntegerId;
 use herams\common\values\Latitude;
 use herams\common\values\Longitude;
 use herams\common\values\StringId;
+use herams\common\values\DatetimeValue;
 use prime\objects\enums\Enum;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -145,6 +146,7 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                 $name === LocalizedString::class => $this->castLocalizedString($value, $name),
                 $name === Latitude::class => new Latitude((float) $value),
                 $name === Longitude::class => new Longitude((float) $value),
+                $name === DatetimeValue::class => new DatetimeValue((string) $value),
                 $name === RecordInterface::class => isset($value) ? new NormalizedArrayDataRecord($value) : null,
                 is_subclass_of($name, BackedEnum::class) => $this->castBackedEnum($value, $name, $source),
                 is_subclass_of($name, Enum::class) => $this->castEnum($value, $name),
@@ -342,7 +344,6 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
     {
         foreach ($model->safeAttributes() as $attribute) {
             $path = $this->getPath($model, $attribute);
-
             if ($this->pathExists($path, $data)) {
                 try {
                     $value = $this->castValue($model, $attribute, $this->getValue($path, $data), HydrateSource::json);

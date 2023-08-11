@@ -177,7 +177,7 @@ class SurveyConfiguration
                             "title" => "Visibility",
                             "description" => "Visibility",
                             "isRequired" => true,
-                            "defaultValue" => ProjectVisibility::from($project->visibility)->label()
+                            "defaultValue" => ProjectVisibility::from(strtolower($project->visibility))->label()
                         ],
                         [
                             "type" => "surveypicker",
