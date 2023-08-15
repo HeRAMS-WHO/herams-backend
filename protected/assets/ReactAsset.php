@@ -11,8 +11,17 @@ class ReactAsset extends AssetBundle
 
     public function init()
     {
-        $this->js = $this->getReactJsFiles();
-        $this->css = $this->getReactCssFiles();
+        $host = $_SERVER['HTTP_HOST'];
+
+        if ($host === 'herams.test') {
+            // For development environment, point to React development server
+            $this->baseUrl = 'https://react.herams.test/';
+            $this->js = ['https://react.herams.test/static/js/bundle.js'];
+            $this->css = [];  // Typically, in development, CSS is also included in the JS bundle
+        } else {
+            $this->js = $this->getReactJsFiles();
+            $this->css = $this->getReactCssFiles();
+        }
         parent::init();
     }
 

@@ -202,6 +202,27 @@ services:
       - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
     tmpfs:
       - /var/lib/mysql:rw,nodev,nosuid,relatime
+  react-dev:
+    build:
+      context: .
+      dockerfile: docker/react/Dockerfile
+    working_dir: /app/protected/react-src
+    networks:
+      - devproxy2
+      - default
+    volumes:
+      - ./protected/react-src:/app/protected/react-src
+      - /app/protected/react-src/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=react.herams.test
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.react-app.rule=Host(`react.herams.test`)
+      - traefik.http.routers.react-app.entrypoints=websecure
+      - traefik.http.routers.react-app.tls=true
+      - traefik.http.services.react-app.loadbalancer.server.port=3000
   cli:
     << : *base
     depends_on:
