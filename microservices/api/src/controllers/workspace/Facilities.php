@@ -10,10 +10,7 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\values\WorkspaceId;
-use Yii;
 use yii\base\Action;
-use yii\helpers\Html;
-use yii\helpers\VarDumper;
 
 final class Facilities extends Action
 {
@@ -40,23 +37,20 @@ final class Facilities extends Action
         $data = [];
         $facilities = $facilityRepository->getByWorkspace($workspaceId);
         $dates = [];
-        foreach($facilities as &$facility){
+        foreach ($facilities as &$facility) {
             $facility['admin_data'] = json_decode($facility['admin_data']);
             try {
                 $date[$facility['id']] = $facility['latestSurveyResponse']['date_of_update'] ?? '0000-00-00';
-            }
-            catch (Error $error){
+            } catch (Error $error) {
                 $date[$facility['id']] = '';
-            }
-            catch (\Exception $exeption){
+            } catch (\Exception $exeption) {
                 $date[$facility['id']] = '';
             }
         }
 
         foreach ($facilityRepository->retrieveByWorkspaceId($workspaceId) as $model) {
-
             $row = [
-                'id' => $model->id
+                'id' => $model->id,
             ];
             /** @var VariableInterface $variable */
             foreach ($variables as $variable) {
@@ -71,13 +65,11 @@ final class Facilities extends Action
             if (empty($row['name'])) {
                 $row['name'] = 'no name';
             }
-            try{
+            try {
                 $row['LAST_DATE_OF_UPDATE'] = $date[$model->id];
-            }
-            catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $row['LAST_DATE_OF_UPDATE'] = '';
-            }
-            catch (\Error $error){
+            } catch (\Error $error) {
                 $row['LAST_DATE_OF_UPDATE'] = '';
             }
             $data[] = $row;

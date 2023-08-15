@@ -22,7 +22,9 @@ class NewSurveyResponse extends Model
     public RecordInterface|null $data = null;
 
     public $status;
+
     public $date_of_update;
+
     public $response_type;
 
     public function rules(): array

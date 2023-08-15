@@ -46,8 +46,8 @@ final class AdminResponses extends Action
                 'date_of_update' => $surveyResponse->date_of_update,
                 //'raw' => $facility->allData()
                 'last_modified_by' => $surveyResponse->updatedUser?->name,
-                'facilityId'=> $facilityId,
-                'last_modified_date'=> $surveyResponse->last_modified_date,
+                'facilityId' => $facilityId,
+                'last_modified_date' => $surveyResponse->last_modified_date,
                 'created_at' => $surveyResponse->created_at,
                 'created_by' => $surveyResponse->user->name,
                 'action' => $surveyResponse->id,
@@ -57,7 +57,6 @@ final class AdminResponses extends Action
                     $surveyResponse,
                     substr(\Yii::$app->language, 0, 2)
                 )->getRawValue();
-
             }
             $data[] = $row;
         }
