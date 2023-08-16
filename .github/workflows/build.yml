@@ -19,7 +19,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - name: Setup GitHub Token for Composer
-      - run: composer config -g github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
+        run: composer config -g github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
       - run: composer install --ignore-platform-reqs
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
