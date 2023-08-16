@@ -39,7 +39,7 @@
         "sam-it/yii2-abac": "^1.0.4",
         "sam-it/yii2-urlsigner": "^2.0",
         "sam-it/yii2-virtual-fields": "^2.0",
-        "yiisoft/yii2": "2.0.48.5",
+        "yiisoft/yii2": "2.0.48.2",
         "yiisoft/yii2-bootstrap": "> 2",
         "yiisoft/yii2-swiftmailer": "^2.1",
         "kartik-v/yii2-widget-activeform": "^1.5",
@@ -104,7 +104,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/HeRAMS-WHO/yii2"
+            "url": "https://github.com/HeRAMS-WHO/yii2-framework"
         },
         {
             "type": "vcs",
