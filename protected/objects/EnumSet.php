@@ -40,6 +40,7 @@ abstract class EnumSet implements \JsonSerializable, \IteratorAggregate, Arrayab
         $this->values[] = $this->class::from($value);
     }
 
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->values;
