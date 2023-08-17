@@ -217,6 +217,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - HOST=react.herams.test
       - DANGEROUSLY_DISABLE_HOST_CHECK=true
+      - HOT=false
+      - LIVE_RELOAD=false
+      - HTTPS=false
     labels:
       - traefik.enable=true
       - traefik.http.routers.react-app.rule=Host(`react.herams.test`)

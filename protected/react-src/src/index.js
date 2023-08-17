@@ -1,18 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import DemoComponent from './components/DemoComponent';
+import Profile from './components/Profile';
+import reportWebVitals from "./reportWebVitals";
 
-const root = document.getElementById('react-root');
-const reactRoot = ReactDOM.createRoot(root);
-reactRoot.render(<App />);
+const componentsMap = {
+    'DemoComponent': DemoComponent,
+    'Profile': Profile
+};
 
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
+for (const [componentName, Component] of Object.entries(componentsMap)) {
+    const root = document.getElementById(componentName);
+
+    // Check if the root exists on the page
+    if (root) {
+        // Spread the dataset for props
+        const props = {...root.dataset};
+        const reactRoot = ReactDOM.createRoot(root);
+        reactRoot.render(<Component {...props} />);
+    }
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

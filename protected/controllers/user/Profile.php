@@ -24,7 +24,7 @@ class Profile extends Action
             return $this->controller->refresh();
         }
 
-        return $this->controller->render('profile', [
+        return $this->controller->render('react-profile', [
             'model' => $model,
         ]);
     }
