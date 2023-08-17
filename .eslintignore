@@ -1,0 +1,6 @@
+/vendor/
+/public/
+/microservices/api/vendor/
+/microservices/console/
+/protected/widgets/
+/protected/assets/icons
