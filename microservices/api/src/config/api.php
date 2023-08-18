@@ -45,6 +45,7 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
         'vendorPath' => '@app/../vendor',
         'sourceLanguage' => 'en',
         'language' => 'en',
+        'class' => '\herams\common\components\Application',
         'aliases' => [
             '@tests' => '@app/../tests',
             '@composer' => realpath(__DIR__ . '/../../vendor'),
@@ -127,10 +128,21 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
                 ],
             ],
             'i18n' => [
-                'class' => I18N::class,
+                'class' => \yii\i18n\I18N::class,
                 'translations' => [
                     'app*' => [
-                        'class' => GettextMessageSource::class,
+                        'class' => \yii\i18n\GettextMessageSource::class,
+                        'useMoFile' => false,
+                        'basePath' => '@vendor/herams/i18n/locales',
+                        'catalog' => 'LC_MESSAGES/app',
+                        'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function (MissingTranslationEvent $event) {
+                            if (YII_DEBUG) {
+                                $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
+                            }
+                        },
+                    ],
+                    'yii*' => [
+                        'class' => \herams\common\extensions\ExtendedGettextMessageSource::class,
                         'useMoFile' => false,
                         'basePath' => '@vendor/herams/i18n/locales',
                         'catalog' => 'LC_MESSAGES/app',
@@ -141,6 +153,9 @@ return function (EnvironmentInterface $env, \yii\di\Container $container): void 
                         },
                     ],
                 ],
+            ],
+            'translator' => [
+                'class' => '\herams\common\components\TranslationComponent',
             ],
         ],
         'controllerNamespace' => 'herams\\api\\controllers',
