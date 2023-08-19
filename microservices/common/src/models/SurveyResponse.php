@@ -6,6 +6,7 @@ namespace herams\common\models;
 
 use Carbon\Carbon;
 use DateTimeInterface;
+use herams\common\attributes\Field;
 use herams\common\attributes\TriggersJob;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\survey\Survey;
@@ -16,6 +17,7 @@ use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\queries\ActiveQuery;
 use herams\common\queries\SurveyResponseQuery;
 use herams\common\validators\ExistValidator;
+use herams\common\values\DatetimeValue;
 use herams\common\values\SurveyId;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -38,6 +40,17 @@ use yii\validators\SafeValidator;
 #[TriggersJob(UpdateFacilityDataJob::class, 'facility_id')]
 final class SurveyResponse extends ActiveRecord implements HeramsResponseInterface, RecordInterface
 {
+    #[Field('created_by')]
+    public int|null $createdBy = null;
+
+    #[Field('last_modified_by')]
+    public int|null $lastModifiedBy = null;
+
+    #[Field('created_date')]
+    public DatetimeValue|null $createdDate = null;
+
+    #[Field('last_modified_date')]
+    public DatetimeValue|null $lastModifiedDate = null;
     public function behaviors(): array
     {
         return [
@@ -48,6 +61,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
                 'updatedAtAttribute' => 'last_modified_date',
+                'createdAtAttribute' => 'created_date',
                 'value' => fn() => Carbon::now()
             ],
         ];
@@ -85,7 +99,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
 
     public function getDate(): ?Carbon
     {
-        return new Carbon($this->created_at);
+        return new Carbon($this->created_date);
     }
 
     public function getFunctionality(): string
@@ -188,8 +202,8 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
     public function rules(): array
     {
         return [
-            [['data', 'facility_id', 'survey_id'], RequiredValidator::class],
-            [['data', 'date_of_update', 'response_type', 'status', 'last_modified_date', 'last_modified_by'], SafeValidator::class],
+            [['data', 'facility_id', 'survey_id', 'created_date', 'created_by', 'last_modified_date', 'last_modified_by'], RequiredValidator::class],
+            [['data', 'date_of_update', 'response_type', 'status', 'last_modified_date', 'last_modified_by', 'created_date'], SafeValidator::class],
             [['facility_id'],
                 ExistValidator::class,
                 'targetRelation' => 'facility',
@@ -221,12 +235,12 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
 
     public function getStarted(): DateTimeInterface
     {
-        return new Carbon($this->created_at);
+        return new Carbon($this->created_date);
     }
 
     public function getLastUpdate(): DateTimeInterface
     {
-        return new Carbon($this->created_at);
+        return new Carbon($this->created_date);
     }
 
     public function asArray(): array

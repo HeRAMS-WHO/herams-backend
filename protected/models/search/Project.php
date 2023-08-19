@@ -44,7 +44,7 @@ class Project extends Model
             'attributes' => [
                 'id',
                 'title',
-                'created_at',
+                'created_date',
                 'workspaceCount',
                 'facilityCount',
                 'responseCount',

@@ -93,6 +93,7 @@ class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInter
                 $complex instanceof BackedEnum => $complex->value,
                 $complex instanceof UnitEnum => $complex->name,
                 $complex instanceof Enum => $complex->value,
+                $complex instanceof DatetimeValue => $complex->getValue(),
                 $complex instanceof UuidInterface => $complex->getBytes(),
                 is_iterable($complex) => toArray($complex),
                 $complex instanceof Id => $complex->getValue(),

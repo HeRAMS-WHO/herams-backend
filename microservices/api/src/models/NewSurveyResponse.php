@@ -6,6 +6,7 @@ namespace herams\api\models;
 
 use Collecthor\DataInterfaces\RecordInterface;
 use herams\common\attributes\Field;
+use herams\common\values\DatetimeValue;
 use herams\common\values\FacilityId;
 use herams\common\values\SurveyId;
 use yii\base\Model;
@@ -25,10 +26,22 @@ class NewSurveyResponse extends Model
     public $date_of_update;
     public $response_type;
 
+    #[Field('created_by')]
+    public int|null $createdBy = null;
+
+    #[Field('last_modified_by')]
+    public int|null $lastModifiedBy = null;
+
+    #[Field('created_date')]
+    public DatetimeValue|null $createdDate = null;
+
+    #[Field('last_modified_date')]
+    public DatetimeValue|null $lastModifiedDate = null;
+    
     public function rules(): array
     {
         return [
-            [['surveyId', 'facilityId', 'data'], RequiredValidator::class],
+            [['surveyId', 'facilityId', 'data', 'created_date', 'created_by', 'last_modified_date', 'last_modified_by'], RequiredValidator::class],
         ];
     }
 }

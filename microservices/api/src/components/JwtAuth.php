@@ -24,6 +24,7 @@ class JwtAuth extends AuthMethod
         if (str_starts_with($request->getHeaders()->get('Authorization', ''), 'Bearer')) {
             $bearer = trim(substr($request->getHeaders()->get('Authorization', ''), 6));
             $token = $this->configuration->parser()->parse($bearer);
+            //print_r($bearer);
             assert($token instanceof UnencryptedToken);
 
             if (! $this->configuration->validator()->validate($token, ...$this->configuration->validationConstraints())) {

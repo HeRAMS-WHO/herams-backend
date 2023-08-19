@@ -101,7 +101,7 @@ class SurveyResponseRepository
             'facility_id' => $facilityId,
             'survey_id' => $adminSurveyId,
         ])->orderBy([
-            'created_at' => SORT_DESC,
+            'created_date' => SORT_DESC,
         ]);
         $surveyResponse = null;
 
@@ -141,7 +141,7 @@ class SurveyResponseRepository
             'facility_id' => $facilityId,
             'survey_id' => $adminSurveyId,
         ])->orderBy([
-            'created_at' => SORT_DESC,
+            'created_date' => SORT_DESC,
         ])->one();
 
         if (! $surveyResponse) {
@@ -183,7 +183,7 @@ class SurveyResponseRepository
         ])
             // TODO: use the date of update here.
             ->orderBy([
-                'created_at' => SORT_DESC,
+                'created_date' => SORT_DESC,
             ])
             ->limit(1);
         return $query->one();

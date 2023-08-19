@@ -29,7 +29,7 @@ use yii\behaviors\BlameableBehavior;
 
 /**
  * Attributes
- * @property string|null $created_at
+ * @property string|null $created_date
  * @property array<string, array<string, string>> $i18n
  * @property int $id
  * @property string $title
