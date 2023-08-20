@@ -3,37 +3,34 @@ declare(strict_types=1);
 
 namespace prime\objects\enums;
 
-/**
- * @method static self ongoing()
- * @method static self baseline()
- * @method static self target()
- * @method static self emergency()
- */
-class ProjectStatus extends Enum
+class ProjectStatus
 {
+    const ONGOING = 0;
+    const BASELINE = 1;
+    const TARGET = 2;
+    const EMERGENCY = 3;
+
     /**
      * @codeCoverageIgnore
+     * @param int $statusCode
+     * @return string
      */
-    protected static function values(): array
+    public static function label(int $statusCode): string
     {
-        return [
-            'ongoing' => 0,
-            'baseline' => 1,
-            'target' => 2,
-            'emergency' => 3
-        ];
+        return self::toArray()[$statusCode] ?? '';
     }
 
     /**
      * @codeCoverageIgnore
+     * @return string[]
      */
-    protected static function labels(): array
+    public static function toArray(): array
     {
         return [
-            'ongoing' => \Yii::t('app', 'Ongoing'),
-            'baseline' => \Yii::t('app', 'Baseline'),
-            'target' => \Yii::t('app', 'Target'),
-            'emergency' => \Yii::t('app', 'Emergency specific')
+            self::ONGOING => 'Ongoing',
+            self::BASELINE => 'Baseline',
+            self::TARGET => 'Target',
+            self::EMERGENCY => 'Emergency specific'
         ];
     }
 }
