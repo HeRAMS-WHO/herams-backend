@@ -11,6 +11,7 @@ use herams\common\helpers\NormalizedArrayDataRecord;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\models\ActiveRecord;
 use herams\common\models\RequestModel;
+use herams\common\values\DatetimeValue;
 use yii\base\NotSupportedException;
 
 #[
@@ -31,6 +32,10 @@ class FacilityHydrator implements ActiveRecordHydratorInterface
         if ($source instanceof NewFacility) {
             $target->admin_data = $source->data->allData();
             $target->workspace_id = $source->workspaceId->getValue();
+            $target->created_by = $source->createdBy;
+            $target->last_modified_by = $source->lastModifiedBy;
+            $target->last_modified_date = $source->lastModifiedDate->getValue();
+            $target->created_date = $source->createdDate->getValue();
         }
     }
 
@@ -40,5 +45,9 @@ class FacilityHydrator implements ActiveRecordHydratorInterface
         assert($source instanceof Facility);
         $target->name = isset($source->i18n['name']) ? new LocalizedString($source->i18n['name']) : null;
         $target->adminData = isset($source->admin_data) ? new NormalizedArrayDataRecord($source->admin_data) : null;
+        $target->lastModifiedDate = new DatetimeValue($source->last_modified_date);
+        $target->createdBy = $source->created_by;
+        $target->createdDate = new DatetimeValue($source->created_date);
+        $target->lastModifiedBy = $source->last_modified_by;
     }
 }

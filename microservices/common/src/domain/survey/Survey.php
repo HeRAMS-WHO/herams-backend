@@ -14,9 +14,9 @@ use yii\validators\RequiredValidator;
 /**
  * Attributes
  * @property array $config
- * @property string|null $created_at
+ * @property string|null $created_date
  * @property int $id
- * @property string|null $update_at
+ * @property string|null $last_modified_date
  *
  * Virtual fields
  * @property-read string $title

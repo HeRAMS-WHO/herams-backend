@@ -28,7 +28,7 @@ x-env:
       - /tmp:rw,noexec,nosuid,uid=${UID-0}
       - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
     environment: &base-env
-      SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: ${DB_USER}
       SECRET_database/password: ${DB_PASS}
       YII_ENV: $YII_ENV
@@ -266,7 +266,7 @@ services:
     ]
     command: "run"
     environment:
-      SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
       SECRET_database/username: $DB_USER
       SECRET_database/password: $DB_PASS
       YII_ENV: $YII_ENV

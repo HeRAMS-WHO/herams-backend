@@ -46,9 +46,10 @@ final class AdminResponses extends Action
                 'date_of_update' => $surveyResponse->date_of_update,
                 //'raw' => $facility->allData()
                 'last_modified_by' => $surveyResponse->updatedUser?->name,
-                'facilityId' => $facilityId,
-                'last_modified_date' => $surveyResponse->last_modified_date,
-                'created_at' => $surveyResponse->created_at,
+                'facilityId'=> $facilityId,
+                'last_modified_date'=> $surveyResponse->last_modified_date,
+                'last_modified_by'=> $surveyResponse->last_modified_by,
+                'created_date' => $surveyResponse->created_date,
                 'created_by' => $surveyResponse->user->name,
                 'action' => $surveyResponse->id,
             ];

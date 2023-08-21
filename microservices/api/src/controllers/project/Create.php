@@ -7,6 +7,7 @@ namespace herams\api\controllers\project;
 use herams\api\domain\project\NewProject;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\enums\ProjectVisibility;
+use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\values\Visibility;
@@ -23,10 +24,11 @@ final class Create extends Action
         ProjectRepository $projectRepository,
         Request $request,
         Response $response,
+
     ) {
         $data = $request->bodyParams['data'];
+        $data = [...$data, ...CommonFieldsInTables::forCreatingHydratation()];
         $model = new NewProject();
-
         $modelHydrator->hydrateFromJsonDictionary($model, $data);
 
         // Our model is now hydrated, we should validate it.

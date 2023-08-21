@@ -22,6 +22,7 @@ use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
 use prime\objects\HeramsCodeMap;
 use SamIT\Yii2\VirtualFields\VirtualFieldBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
 use yii\db\Query;
@@ -35,14 +36,15 @@ use yii\validators\RequiredValidator;
  * Attributes
 
  * @property string $country
- * @property string|null $created_at
- * @property boolean $hidden
+ * @property string|null $created_date
+ * @property int $created_by
+ * @property string $last_modified_date
+ * @property int $last_modified_by
  * @property array<string, array<string, string>> $i18n
  * @property int $id
  * @property list<string> $languages
  * @property float $latitude
  * @property float $longitude
- * @property string|null $updated_at
  * @property string $visibility
  * @property string|null $dashboard_url
  * @property string $primary_language
@@ -114,7 +116,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             'virtualFields' => [
                 'class' => VirtualFieldBehavior::class,
                 'virtualFields' => self::virtualFields(),
-            ],
+            ]
         ];
     }
 
@@ -229,6 +231,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             'latitude' => \Yii::t('app', 'Latitude'),
             'longitude' => \Yii::t('app', 'Longitude'),
             'visibility' => \Yii::t('app', 'Visibility'),
+            'created_date' => \Yii::t('app', 'Created date')
         ]);
     }
 
@@ -245,10 +248,14 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                     'visibility',
                     'admin_survey_id',
                     'data_survey_id',
+                    'last_modified_by',
+                    'last_modified_date',
+                    'created_date',
+                    'created_by',
                 ],
                 RequiredValidator::class
             ],
-            [['latitude', 'longitude'],
+            [['latitude', 'longitude', 'created_by', 'last_modified_by'],
                 NumberValidator::class,
                 'integerOnly' => false,
             ],
