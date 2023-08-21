@@ -22,7 +22,7 @@ use yii\validators\StringValidator;
  * @property array $admin_data
  * @property string $alternative_name
  * @property bool $can_receive_situation_update
- * @property array $data
+ * @property array $situation_data
  * @property string|null $deactivated_at
  * @property string|null $deleted_at
  * @property array $i18n
@@ -102,7 +102,7 @@ class Facility extends ActiveRecord
                 'admin_data' => \Yii::t('app', 'Admin data'),
                 'alternative_name' => \Yii::t('app', 'Alternative name'),
                 'can_receive_situation_update' => \Yii::t('app', 'Can receive situation update'),
-                'data' => \Yii::t('app', 'Data'),
+                'situation_data' => \Yii::t('app', 'Data'),
                 'deactivated_at' => \Yii::t('app', 'Deactivated at'),
                 'i18n' => \Yii::t('app', 'Localization'),
                 'id' => \Yii::t('app', 'Facility ID'),

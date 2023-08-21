@@ -344,7 +344,7 @@ class SurveyResponseRepository
             ->one();
 
         if (!is_null($situationData?->data)){
-            $facility->data = $situationData->data;
+            $facility->situation_data = $situationData->data;
         }
 
         if (!is_null($adminData?->data)){

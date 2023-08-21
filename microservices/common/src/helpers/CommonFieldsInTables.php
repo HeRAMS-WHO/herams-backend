@@ -27,13 +27,13 @@ final class CommonFieldsInTables {
     public static function forUpdating(): array {
         return [
             'last_modified_by' => Yii::$app->user->identity->id,
-            'last_modified_date' => date('y-m-d h:i:s')
+            'last_modified_date' => date('Y-m-d h:i:s')
 
         ];
     }
     public static function forCreating(): array {
         $userID = Yii::$app->user->identity->id;
-        $date = date('y-m-d h:i:s');
+        $date = date('Y-m-d h:i:s');
         return [
             'created_by' => $userID,
             'last_modified_by' => $userID,

@@ -6,6 +6,7 @@ namespace herams\api\controllers\surveyResponse;
 
 use herams\api\models\NewSurveyResponse;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
+use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\interfaces\CommandHandlerInterface;
@@ -33,8 +34,10 @@ final class Create extends Action
     ) {
 
         $requestData = $request->bodyParams;
+        $requestData = [...$requestData, ...CommonFieldsInTables::forCreatingHydratation()];
         $model = new NewSurveyResponse();
-        $modelHydrator->hydrateFromJsonDictionary($model, $request->bodyParams);
+        $requestData['created_date'] = $requestData['createdDate'];
+        $modelHydrator->hydrateFromJsonDictionary($model, $requestData);
         // Our model is now hydrated, we should validate it.
         /**
          * @psalm-assert FacilityId $model->facilityId
@@ -46,7 +49,6 @@ final class Create extends Action
         // Todo: should we move this to an event that is triggered from the repository?
         $updateFacilityJob = new UpdateFacilityDataJob($model->facilityId);
 
-        $requestData = $request->bodyParams;
         $facilityid = $model->facilityId;
         $facility = $facilityRepository->retrieveForUpdate($facilityid);
         $model->status = 'Validated';

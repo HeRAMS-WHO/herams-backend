@@ -16,7 +16,7 @@ final class NewFacility extends RequestModel
 {
     public null|WorkspaceId $workspaceId = null;
 
-    public null|RecordInterface $data = null;
+    public null|RecordInterface $situationData = null;
 
     #[SourcePath(['data', 'name'])]
     public LocalizedString|null $name = null;
@@ -28,7 +28,7 @@ final class NewFacility extends RequestModel
     public function rules(): array
     {
         return [
-            [['workspaceId', 'data', 'name', 'createdBy', 'createdDate', 'lastModifiedBy', 'lastModifiedDate'], RequiredValidator::class],
+            [['workspaceId', 'situationData', 'name', 'createdBy', 'createdDate', 'lastModifiedBy', 'lastModifiedDate'], RequiredValidator::class],
         ];
     }
 }
