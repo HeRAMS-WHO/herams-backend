@@ -27,10 +27,10 @@ class ProjectStatus
     public static function toArray(): array
     {
         return [
-            self::ONGOING => 'Ongoing',
-            self::BASELINE => 'Baseline',
-            self::TARGET => 'Target',
-            self::EMERGENCY => 'Emergency specific'
+            self::ONGOING => \Yii::t('app', 'Ongoing'),
+            self::BASELINE => \Yii::t('app', 'Baseline'),
+            self::TARGET => \Yii::t('app', 'Target'),
+            self::EMERGENCY => \Yii::t('app', 'Emergency specific')
         ];
     }
 }
