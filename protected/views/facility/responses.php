@@ -27,9 +27,9 @@ use yii\web\User;
 $this->params['subject'] = $facility->getTitle();
 //$this->title = \Yii::t('app', 'Situation Updates');
 //$this->title = $tabMenuModel->getTitle();
-$editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
-$viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
-$deleteIcon = preg_replace( "/\r|\n/", "", Icon::trash() );
+$editIcon = preg_replace("/\r|\n/", "", Icon::edit());
+$viewIcon = preg_replace("/\r|\n/", "", Icon::eye());
+$deleteIcon = preg_replace("/\r|\n/", "", Icon::trash());
 $this->beginBlock('tabs');
 
 echo FacilityTabMenu::widget(
@@ -74,7 +74,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             [
                 'field' => $variable->getName(),
                 'headerName' => $variable->getTitle(\Yii::$app->language),
-                'filter' => 'agTextColumnFilter'
+                'filter' => 'agTextColumnFilter',
             ], $variables),
         // [
 
@@ -117,14 +117,14 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'last_modified_date',
             'filter' => 'agTextColumnFilter',
         ],
-        
+
         [
 
             'headerName' => \Yii::t('app', 'Last modified by'),
             'field' => 'last_modified_by',
             'filter' => 'agTextColumnFilter',
         ],
-        
+
         [
             'headerName' => \Yii::t('app', 'Action'),
             'pinned' => 'right',
@@ -174,7 +174,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'action',
             'filter' => false,
         ],
-        
+
     ],
 
 ]);

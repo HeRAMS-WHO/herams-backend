@@ -6,13 +6,13 @@ use Collecthor\DataInterfaces\VariableInterface;
 use herams\common\models\Permission;
 use prime\components\View;
 use prime\helpers\AgGridHelper;
+use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\web\User;
-use prime\helpers\Icon;
 
 /**
  * @var ActiveDataProvider $responseProvider
@@ -24,9 +24,9 @@ use prime\helpers\Icon;
 $this->title = $tabMenuModel->getTitle();
 
 
-$editIcon = preg_replace( "/\r|\n/", "", Icon::edit() );
-$viewIcon = preg_replace( "/\r|\n/", "", Icon::eye() );
-$deleteIcon = preg_replace( "/\r|\n/", "", Icon::trash() );
+$editIcon = preg_replace("/\r|\n/", "", Icon::edit());
+$viewIcon = preg_replace("/\r|\n/", "", Icon::eye());
+$deleteIcon = preg_replace("/\r|\n/", "", Icon::trash());
 
 $this->beginBlock('tabs');
 echo FacilityTabMenu::widget(
@@ -77,7 +77,7 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             [
                 'field' => $variable->getName(),
                 'headerName' => $variable->getTitle(\Yii::$app->language),
-                'filter' => 'agTextColumnFilter'
+                'filter' => 'agTextColumnFilter',
             ], $variables),
         // [
 
@@ -121,8 +121,8 @@ echo \prime\widgets\AgGrid\AgGrid::widget([
             'field' => 'last_modified_by',
             'filter' => 'agTextColumnFilter',
         ],
-        
-        
+
+
         [
             'headerName' => \Yii::t('app', 'Action'),
             'pinned' => 'right',

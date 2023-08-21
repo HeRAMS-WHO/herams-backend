@@ -58,7 +58,6 @@ final class AdminResponses extends Action
                     $surveyResponse,
                     substr(\Yii::$app->language, 0, 2)
                 )->getRawValue();
-
             }
             $data[] = $row;
         }

@@ -18,9 +18,9 @@ class Workspaces extends Action
 
         $workspaces = $workspaceRepository->retrieveForProject($projectId);
         $workspaceToArray = [];
-        foreach($workspaces as $workspace){
+        foreach ($workspaces as $workspace) {
             $tempWorkspace = $workspace->toArray();
-            if (is_null($tempWorkspace['date_of_update'])){
+            if (is_null($tempWorkspace['date_of_update'])) {
                 $tempWorkspace['date_of_update'] = '0000-00-00';
             }
             $workspaceToArray[] = $tempWorkspace;

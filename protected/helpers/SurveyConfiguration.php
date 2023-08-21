@@ -2,27 +2,28 @@
 
 namespace prime\helpers;
 
-use herams\common\domain\project\ProjectRepository;
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\ConfigurationProvider;
 use herams\common\models\Project;
-use herams\common\values\ProjectId;
 use yii\helpers\VarDumper;
 
 class SurveyConfiguration
 {
-    public static function retrieveUserLanguages(): array {
+    public static function retrieveUserLanguages(): array
+    {
         $configurationProvider = new ConfigurationProvider();
         $choices = [];
-        foreach($configurationProvider->getPlatformLocales() as $choice){
+        foreach ($configurationProvider->getPlatformLocales() as $choice) {
             $choices[] = [
                 'value' => $choice->locale,
-                'text' => $choice->label
+                'text' => $choice->label,
             ];
         }
         return $choices;
     }
-    public static function forCreatingProject(): array {
+
+    public static function forCreatingProject(): array
+    {
         return [
             "title" => "Create project",
             "pages" => [
@@ -33,14 +34,14 @@ class SurveyConfiguration
                             "type" => "localizableprojecttext",
                             "name" => "title",
                             "title" => "Project name",
-                            "isRequired" => true
+                            "isRequired" => true,
                         ],
                         [
                             "type" => "currentlanguage",
                             "name" => "lang",
                             "visible" => false,
                             "isRequired" => true,
-                            "readOnly" => true
+                            "readOnly" => true,
                         ],
                         [
                             "type" => "checkbox",
@@ -48,10 +49,10 @@ class SurveyConfiguration
                             "title" => "Project languages",
                             "description" => "These will be available for workspace & facility data",
                             "defaultValue" => [
-                                \Yii::$app->language
+                                \Yii::$app->language,
                             ],
                             "isRequired" => true,
-                            "choices" => self::retrieveUserLanguages()
+                            "choices" => self::retrieveUserLanguages(),
                         ],
                         [
                             "type" => "radiogroup",
@@ -61,21 +62,21 @@ class SurveyConfiguration
                             "isRequired" => true,
                             "choicesFromQuestion" => "languages",
                             "choicesFromQuestionMode" => "selected",
-                            "defaultValue" => \Yii::$app->language
+                            "defaultValue" => \Yii::$app->language,
                         ],
                         [
                             "type" => "projectvisibility",
                             "name" => "projectvisibility",
                             "title" => "Visibility",
                             "description" => "Visibility",
-                            "isRequired" => true
+                            "isRequired" => true,
                         ],
                         [
                             "type" => "surveypicker",
                             "name" => "adminSurveyId",
                             "title" => "Admin survey",
                             "description" => "Survey to use for facility settings",
-                            "isRequired" => true
+                            "isRequired" => true,
                         ],
                         [
                             "type" => "surveypicker",
@@ -87,28 +88,28 @@ class SurveyConfiguration
                                 [
                                     "type" => "expression",
                                     "text" => "Data and admin survey should not be the same",
-                                    "expression" => "{adminSurveyId} <> {dataSurveyId}"
-                                ]
-                            ]
+                                    "expression" => "{adminSurveyId} <> {dataSurveyId}",
+                                ],
+                            ],
                         ],
                         [
                             "name" => "country",
                             "type" => "countrypicker",
                             "title" => "Country",
                             "isRequired" => true,
-                            "defaultValue" => "XXX"
+                            "defaultValue" => "XXX",
                         ],
                         [
                             "type" => "latitude",
                             "name" => "latitude",
                             "title" => "Latitude",
-                            "isRequired" => true
+                            "isRequired" => true,
                         ],
                         [
                             "type" => "longitude",
                             "name" => "longitude",
                             "title" => "Longitude",
-                            "isRequired" => true
+                            "isRequired" => true,
                         ],
                         [
                             "type" => "text",
@@ -119,17 +120,19 @@ class SurveyConfiguration
                                 [
                                     "type" => "regex",
                                     "text" => "URL must start with https://",
-                                    "regex" => "^https://"
-                                ]
+                                    "regex" => "^https://",
+                                ],
                             ],
-                            "inputType" => "url"
-                        ]
-                    ]
-                ]
-            ]
+                            "inputType" => "url",
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
-    public static function forUpdatingProject(Project $project): array {
+
+    public static function forUpdatingProject(Project $project): array
+    {
         //VarDumper::dump($project, 10, true);
         return [
             "title" => "Create project",
@@ -142,7 +145,7 @@ class SurveyConfiguration
                             "name" => "title",
                             "title" => "Project name",
                             "isRequired" => true,
-                            "defaultValue" => $project->i18n['title']
+                            "defaultValue" => $project->i18n['title'],
                         ],
                         [
                             "type" => "currentlanguage",
@@ -150,7 +153,7 @@ class SurveyConfiguration
                             "visible" => false,
                             "isRequired" => true,
                             "readOnly" => true,
-                            "defaultValue" => $project->primary_language
+                            "defaultValue" => $project->primary_language,
                         ],
                         [
                             "type" => "checkbox",
@@ -159,7 +162,7 @@ class SurveyConfiguration
                             "description" => "These will be available for workspace & facility data",
                             "defaultValue" => $project->languages,
                             "isRequired" => true,
-                            "choices" => self::retrieveUserLanguages()
+                            "choices" => self::retrieveUserLanguages(),
                         ],
                         [
                             "type" => "radiogroup",
@@ -169,7 +172,7 @@ class SurveyConfiguration
                             "isRequired" => true,
                             "choicesFromQuestion" => "languages",
                             "choicesFromQuestionMode" => "selected",
-                            "defaultValue" => $project->primary_language
+                            "defaultValue" => $project->primary_language,
                         ],
                         [
                             "type" => "projectvisibility",
@@ -185,7 +188,7 @@ class SurveyConfiguration
                             "title" => "Admin survey",
                             "description" => "Survey to use for facility settings",
                             "isRequired" => true,
-                            "defaultValue" => $project->admin_survey_id
+                            "defaultValue" => $project->admin_survey_id,
                         ],
                         [
                             "type" => "surveypicker",
@@ -197,31 +200,31 @@ class SurveyConfiguration
                                 [
                                     "type" => "expression",
                                     "text" => "Data and admin survey should not be the same",
-                                    "expression" => "{adminSurveyId} <> {dataSurveyId}"
-                                ]
+                                    "expression" => "{adminSurveyId} <> {dataSurveyId}",
+                                ],
                             ],
-                            "defaultValue" => $project->data_survey_id
+                            "defaultValue" => $project->data_survey_id,
                         ],
                         [
                             "name" => "country",
                             "type" => "countrypicker",
                             "title" => "Country",
                             "isRequired" => true,
-                            "defaultValue" => $project->country
+                            "defaultValue" => $project->country,
                         ],
                         [
                             "type" => "latitude",
                             "name" => "latitude",
                             "title" => "Latitude",
                             "isRequired" => true,
-                            "defaultValue" => $project->latitude
+                            "defaultValue" => $project->latitude,
                         ],
                         [
                             "type" => "longitude",
                             "name" => "longitude",
                             "title" => "Longitude",
                             "isRequired" => true,
-                            "defaultValue" => $project->longitude
+                            "defaultValue" => $project->longitude,
                         ],
                         [
                             "type" => "text",
@@ -232,19 +235,15 @@ class SurveyConfiguration
                                 [
                                     "type" => "regex",
                                     "text" => "URL must start with https://",
-                                    "regex" => "^https://"
-                                ]
+                                    "regex" => "^https://",
+                                ],
                             ],
                             "inputType" => "url",
-                            "defaultValue" => $project->dashboard_url
-                        ]
-                    ]
-                ]
-            ]
+                            "defaultValue" => $project->dashboard_url,
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
-
 }
-
-
-

@@ -3,12 +3,6 @@
 declare(strict_types=1);
 
 use herams\common\domain\facility\FacilityRepository;
-use Lcobucci\Clock\SystemClock;
-use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Validation\Constraint\IssuedBy;
-use Lcobucci\JWT\Validation\Constraint\PermittedFor;
-use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
 
 return function (\herams\common\interfaces\EnvironmentInterface $env, \yii\di\Container $container) {
     $container->set(\yii\rest\Serializer::class, \herams\api\components\Serializer::class);

@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace herams\api\controllers\surveyResponse;
 
 use herams\api\models\NewSurveyResponse;
+use herams\common\domain\facility\FacilityRepository;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\interfaces\CommandHandlerInterface;
 use herams\common\jobs\UpdateFacilityDataJob;
+use herams\common\models\SurveyResponse;
+use herams\common\values\FacilityId;
 use yii\base\Action;
 use yii\helpers\Url;
+
+
 use yii\web\Request;
 use yii\web\Response;
-use herams\common\models\SurveyResponse;
-
-
-use herams\common\values\FacilityId;
-use herams\common\domain\facility\FacilityRepository;
 
 final class Create extends Action
 {
@@ -32,7 +32,6 @@ final class Create extends Action
         CommandHandlerInterface $commandHandler,
         FacilityRepository $facilityRepository,
     ) {
-
         $requestData = $request->bodyParams;
         $requestData = [...$requestData, ...CommonFieldsInTables::forCreatingHydratation()];
         $model = new NewSurveyResponse();
@@ -52,7 +51,7 @@ final class Create extends Action
         $facilityid = $model->facilityId;
         $facility = $facilityRepository->retrieveForUpdate($facilityid);
         $model->status = 'Validated';
-        $model->response_type =  $requestData['response_type']??"admin";
+        $model->response_type = $requestData['response_type'] ?? "admin";
         //$model->date_of_update = $facility->admin_data['date_of_update'] ?? null;
         $model->date_of_update = $requestData['data']['date_of_update'] ?? $requestData['data']['HSDU_DATE'] ?? $requestData['data']['SITUATION_DATE'] ?? null;
         $id = $surveyResponseRepository->save($model);
