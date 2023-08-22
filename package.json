@@ -18,9 +18,9 @@
         "popper.js": "^1.16.1",
         "pretty-checkbox": "^3.0.3",
         "survey-creator-core": "^1.9.100",
-        "survey-creator-knockout": "^1.9.74",
+        "survey-creator-knockout": "^1.9.100",
         "survey-knockout": "^1.9.100",
-        "survey-knockout-ui": "^1.9.74",
+        "survey-knockout-ui": "^1.9.100",
         "yii2-pjax": "^2.0.7"
     },
     "devDependencies": {
