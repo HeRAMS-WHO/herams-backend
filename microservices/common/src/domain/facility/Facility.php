@@ -19,21 +19,20 @@ use yii\validators\StringValidator;
 
 /**
  * Attributes
+ * @property string $situation_date
  * @property array $admin_data
- * @property string $alternative_name
  * @property bool $can_receive_situation_update
  * @property array $situation_data
- * @property string|null $deactivated_at
- * @property string|null $deleted_at
- * @property array $i18n
  * @property int $id
  * @property float $latitude
  * @property float $longitude
  * @property string $name
- * @property bool $use_in_dashboarding
- * @property bool $use_in_list
  * @property string $tier
  * @property int $workspace_id
+ * @property int $created_by
+ * @property int $last_modified_by
+ * @property string $created_date
+ * @property string $last_modified_date
  *
  * Virtual fields
  * @property-read int $adminSurveyResponseCount

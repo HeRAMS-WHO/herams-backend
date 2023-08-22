@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace herams\api\controllers\facility;
 
 use herams\api\models\NewSurveyResponse;
+use herams\common\domain\facility\Facility;
 use herams\common\domain\facility\FacilityRepository;
 use herams\common\domain\facility\NewFacility;
 use herams\common\domain\project\ProjectRepository;
@@ -14,8 +15,10 @@ use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\values\DatetimeValue;
+use herams\common\values\FacilityId;
 use herams\common\values\SurveyId;
 use herams\common\values\SurveyResponseId;
+use herams\common\values\WorkspaceId;
 use yii\base\Action;
 use yii\helpers\Url;
 use yii\web\Request;
@@ -33,7 +36,7 @@ final class Create extends Action
         SurveyResponseRepository $surveyResponseRepository,
         FacilityRepository $facilityRepository
     ): Response {
-        $facility = new NewFacility();
+
         $data = [...$request->bodyParams];
         $data['data']['date_of_update'] = $request->bodyParams['data']['HSDU_DATE'];
         $data['data'] = [...$data['data'], ...CommonFieldsInTables::forCreatingHydratation()];
@@ -41,17 +44,21 @@ final class Create extends Action
             ...$request->bodyParams,
             ...CommonFieldsInTables::forCreatingHydratation()
         ];
+        $data['adminData'] = $data['data'];
+        $data['situationDate'] = [];
         $request->setBodyParams($data);
         $requestData = $request->bodyParams;
-
-        $modelHydrator->hydrateFromJsonDictionary($facility, $request->bodyParams);
-
-        if (! $modelValidator->validateModel($facility)) {
-            return $modelValidator->renderValidationErrors($facility, $response);
-        }
-
-        $projectId = $workspaceRepository->getProjectId($facility->workspaceId);
-        $facilityId = $facilityRepository->create($facility);
+        $facility = new Facility();
+        $facility->situation_data = [];
+        $facility->admin_data = $data['data'];
+        $facility->workspace_id = $data['workspaceId'];
+        $facility->created_date = $data['data']['HSDU_DATE'];
+        $facility->created_by = $data['createdBy'];
+        $facility->last_modified_date = $data['lastModifiedDate'];
+        $facility->last_modified_by = $data['lastModifiedBy'];
+        $facility->save();
+        $facilityId = new FacilityId($facility->id);
+        $projectId = $workspaceRepository->getProjectId(new WorkspaceId($facility->workspace_id));
         $facilityModel = $facilityRepository->retrieveForUpdate($facilityId);
 
         $responseRecord = new NewSurveyResponse();
