@@ -25,6 +25,8 @@ class ValidateNew extends Action
             ...$request->bodyParams,
             ...CommonFieldsInTables::forCreatingHydratation()
         ];
+        $data['situationData'] = [];
+        $data['adminData'] = $data['data'];
         $modelHydrator->hydrateFromJsonDictionary($facility, $data);
         return $modelValidator->validateAndRenderForValidationEndpoint($facility, $response);
     }

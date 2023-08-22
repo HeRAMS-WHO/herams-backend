@@ -31,6 +31,7 @@ class FacilityHydrator implements ActiveRecordHydratorInterface
 
         if ($source instanceof NewFacility) {
             $target->admin_data = $source->data->allData();
+            $target->situation_data = $source->situationData ?? [];
             $target->workspace_id = $source->workspaceId->getValue();
             $target->created_by = $source->createdBy;
             $target->last_modified_by = $source->lastModifiedBy;
@@ -49,5 +50,6 @@ class FacilityHydrator implements ActiveRecordHydratorInterface
         $target->createdBy = $source->created_by;
         $target->createdDate = new DatetimeValue($source->created_date);
         $target->lastModifiedBy = $source->last_modified_by;
+        $target->situationData = $source?->situation_data ?? [];
     }
 }
