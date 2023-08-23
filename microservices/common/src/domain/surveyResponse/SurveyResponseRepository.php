@@ -14,6 +14,7 @@ use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\RecordInterface;
 use herams\common\models\Permission;
+use herams\common\models\Project;
 use herams\common\models\Survey;
 use herams\common\models\SurveyResponse;
 use herams\common\models\Workspace;
@@ -291,6 +292,7 @@ class SurveyResponseRepository
 
     }
     public function propagateSurveysResponses(SurveyResponseId $surveyResponseId): void {
+        $this->updateDateOnProject($surveyResponseId);
         $this->updateDateOnFacility($surveyResponseId);
         $this->updateDateOnWorkspace($surveyResponseId);
         $this->updateAnswersOnFacility($surveyResponseId);
@@ -392,6 +394,23 @@ class SurveyResponseRepository
             //->scalar();
         $facility->date_of_update = $date_of_update;
         $facility->update();
+    }
+    public function updateDateOnProject(SurveyResponseId $surveyResponseId): void {
+        $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
+        $facility = Facility::findOne(['id' => $survey->facility_id]);
+        $date_of_update = SurveyResponse::find()
+            ->select('MAX(date_of_update)')
+            ->where(['!=', "status", 'Deleted'])
+            ->andWhere(['facility_id' => $survey->facility_id])
+            ->orderBy('date_of_update DESC')
+            ->scalar();
+        //->scalar();
+        $workspace = Workspace::findOne(['id' => $facility->workspace_id]);
+        $project = Project::findOne(['id'  => $workspace->project_id]);
+        $project->date_of_update = $date_of_update;
+        $project->update();
+        var_dump($project);
+        die;
     }
 
     public function updateDateOnWorkspace(SurveyResponseId $surveyResponseId): void {

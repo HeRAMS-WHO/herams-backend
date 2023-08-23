@@ -33,6 +33,7 @@ use yii\validators\StringValidator;
  * @property int $last_modified_by
  * @property string $created_date
  * @property string $last_modified_date
+ * @property string $date_of_update
  *
  * Virtual fields
  * @property-read int $adminSurveyResponseCount

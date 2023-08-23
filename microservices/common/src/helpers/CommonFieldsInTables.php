@@ -19,12 +19,15 @@ final class CommonFieldsInTables {
         return $result;
     }
     public static function forCreatingHydratation(): array {
+        date_default_timezone_set('Europe/Paris');
         return self::convertKeysToCamelCase(self::forCreating());
     }
     public static function forUpdatingHydratation(): array {
+        date_default_timezone_set('Europe/Paris');
         return self::convertKeysToCamelCase(self::forUpdating());
     }
     public static function forUpdating(): array {
+        date_default_timezone_set('Europe/Paris');
         return [
             'last_modified_by' => Yii::$app->user->identity->id,
             'last_modified_date' => date('Y-m-d h:i:s')
@@ -32,6 +35,7 @@ final class CommonFieldsInTables {
         ];
     }
     public static function forCreating(): array {
+        date_default_timezone_set('Europe/Paris');
         $userID = Yii::$app->user->identity->id;
         $date = date('Y-m-d h:i:s');
         return [

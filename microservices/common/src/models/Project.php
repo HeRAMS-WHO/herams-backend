@@ -50,6 +50,7 @@ use yii\validators\RequiredValidator;
  * @property string $primary_language
  * @property int $admin_survey_id
  * @property int $data_survey_id
+ * @property string $date_of_update
  *
  * Virtual fields
  * @property-read int $contributorCount
