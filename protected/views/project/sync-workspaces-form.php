@@ -47,6 +47,29 @@ $this->registerCss(<<<CSS
 CSS
 );
 
+$form = ActiveForm::begin([]);
+echo Form::widget([
+    'model' => $model,
+    'form' => $form,
+    'attributes' => [
+        FormButtonsWidget::embed([
+            'buttons' => [
+                [
+                    'label' => \Yii::t('app', 'Sync all workspaces'),
+                    'type' => \prime\widgets\ButtonGroup::TYPE_SUBMIT,
+                    'style' => 'primary',
+                    'buttonOptions' => [
+                        'name' => 'syncAll',
+                        'value' => 'process',
+                        'class' => 'pull-right'
+                    ]
+                ]
+            ]
+        ])
+    ]
+]);
+ActiveForm::end();
+
 $form = ActiveForm::begin([
 
 ]);
@@ -85,7 +108,10 @@ echo Form::widget([
             'buttons' => [
                 [
                     'type' => \prime\widgets\ButtonGroup::TYPE_SUBMIT,
-                    'label' => \Yii::t('app', 'Start sync')
+                    'label' => \Yii::t('app', 'Start sync'),
+                    'buttonOptions' => [
+                        'title' => \Yii::t('app', 'Choose the desired workspaces up to 1.000 or use the Sync all workspaces button'),
+                    ]
                 ]
             ]
         ])
