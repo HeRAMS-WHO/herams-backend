@@ -9,6 +9,7 @@ use herams\common\domain\favorite\FavoriteQuery;
 use herams\common\enums\Language;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
 use herams\common\models\ActiveRecord;
+use herams\common\traits\JsonBase64EncoderTrait;
 use herams\common\validators\BackedEnumValidator;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use SamIT\abac\AuthManager;
@@ -41,7 +42,10 @@ use function iter\chain;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    use JsonBase64EncoderTrait;
     public const NAME_REGEX = '/^[\'\w\- ]+$/u';
+    private bool $excludeDateTimeFields = false;
+    private array $selectedFields;
 
     public function afterSave($insert, $changedAttributes)
     {
@@ -183,10 +187,38 @@ class User extends ActiveRecord implements IdentityInterface
         ])->inverseOf('user');
     }
 
-    public function fields()
+    public function fields(): array
     {
         $result = parent::fields();
+
+        if ($this->excludeDateTimeFields) {
+            unset($result['created_at'], $result['updated_at']);
+        }
+
+        // Only keep fields present in selectedFields if it's set
+        if ($this->selectedFields && is_array($this->selectedFields)) {
+            $result = array_intersect_key($result, array_flip($this->selectedFields));
+        }
+
         unset($result['password_hash']);
         return $result;
+    }
+
+    /**
+     * @param $exclude
+     * @return void
+     */
+    public function setExcludeDateTimeFields(bool $exclude = true)
+    {
+        $this->excludeDateTimeFields = $exclude;
+    }
+
+    /**
+     * @param $exclude
+     * @return void
+     */
+    public function setOnlyFields(array $selectedFields = [])
+    {
+        $this->selectedFields = $selectedFields;
     }
 }

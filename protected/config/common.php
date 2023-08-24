@@ -20,6 +20,7 @@ return [
     'timeZone' => 'CET',
     'vendorPath' => '@app/../vendor',
     'sourceLanguage' => 'en',
+    'class' => '\herams\common\components\Application',
     'aliases' => [
         '@prime' => '@app',
         '@views' => '@app/views',
@@ -82,7 +83,21 @@ return [
                         }
                     },
                 ],
+                'yii*' => [
+                    'class' => \herams\common\extensions\ExtendedGettextMessageSource::class,
+                    'useMoFile' => false,
+                    'basePath' => '@vendor/herams/i18n/locales',
+                    'catalog' => 'LC_MESSAGES/app',
+                    'on ' . \yii\i18n\MessageSource::EVENT_MISSING_TRANSLATION => static function (MissingTranslationEvent $event) {
+                        if (YII_DEBUG) {
+                            $event->translatedMessage = "@MISSING: {$event->category}.{$event->message} FOR LANGUAGE {$event->language} @";
+                        }
+                    },
+                ],
             ],
+        ],
+        'translator' => [
+            'class' => '\herams\common\components\TranslationComponent',
         ],
         'mailer' => static function () use ($env): Mailer {
             return \Yii::createObject([
