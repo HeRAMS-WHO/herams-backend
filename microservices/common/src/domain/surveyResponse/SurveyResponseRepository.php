@@ -406,17 +406,19 @@ class SurveyResponseRepository
     public function updateDateOnProject(SurveyResponseId $surveyResponseId): void {
         $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
         $facility = Facility::findOne(['id' => $survey->facility_id]);
-        $date_of_update = SurveyResponse::find()
-            ->select('MAX(date_of_update)')
-            ->where(['!=', "status", 'Deleted'])
-            ->andWhere(['facility_id' => $survey->facility_id])
-            ->orderBy('date_of_update DESC')
-            ->scalar();
-        //->scalar();
         $workspace = Workspace::findOne(['id' => $facility->workspace_id]);
         $project = Project::findOne(['id'  => $workspace->project_id]);
+        $query = new Query();
+        $query->select(['MAX(prime2_survey_response.date_of_update)'])
+            ->from('prime2_survey_response')
+            ->innerJoin('prime2_facility', 'prime2_survey_response.facility_id = prime2_facility.id')
+            ->innerJoin('prime2_workspace', 'prime2_workspace.id = prime2_facility.workspace_id')
+            ->innerJoin('prime2_project', 'prime2_project.id = prime2_workspace.project_id')
+            ->where(['prime2_project.id' => (int) $project->id]);
+        $date_of_update = $query->scalar();
         $project->date_of_update = $date_of_update;
-        $project->update();
+        $project->update(false);
+
 
     }
 
