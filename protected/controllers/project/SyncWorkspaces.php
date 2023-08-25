@@ -39,7 +39,7 @@ class SyncWorkspaces extends Action
         $accessCheck->requirePermission($project, Permission::PERMISSION_ADMIN);
 
         // syncAll is the first one because it doesn't have validations
-        if ($request->isPost && 'process' === $request->getBodyParam('syncAll')) {
+        if ($request->isPost && $request->getBodyParam('syncAll') === 'process') {
             $model = new SyncAllWorkspacesForm($project);
             return $this->controller->render('sync-workspaces-execute', ['project' => $project, 'model' => $model]);
         }
