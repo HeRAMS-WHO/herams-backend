@@ -48,15 +48,18 @@ final class Create extends Action
         $data['situationDate'] = [];
         $request->setBodyParams($data);
         $requestData = $request->bodyParams;
+
         $facility = new Facility();
         $facility->situation_data = [];
         $facility->admin_data = $data['data'];
         $facility->workspace_id = $data['workspaceId'];
-        $facility->created_date = $data['data']['HSDU_DATE'];
+        $facility->date_of_update = $data['data']['HSDU_DATE'];
+        $facility->created_date = $data['createdDate'];
         $facility->created_by = $data['createdBy'];
         $facility->last_modified_date = $data['lastModifiedDate'];
         $facility->last_modified_by = $data['lastModifiedBy'];
         $facility->save();
+
         $facilityId = new FacilityId($facility->id);
         $projectId = $workspaceRepository->getProjectId(new WorkspaceId($facility->workspace_id));
         $facilityModel = $facilityRepository->retrieveForUpdate($facilityId);

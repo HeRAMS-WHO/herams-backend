@@ -13,6 +13,7 @@ use herams\common\helpers\ModelValidator;
 use herams\common\interfaces\CommandHandlerInterface;
 use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\models\SurveyResponse;
+use herams\common\values\DatetimeValue;
 use herams\common\values\FacilityId;
 use yii\base\Action;
 use yii\helpers\Url;
@@ -33,7 +34,8 @@ final class Create extends Action
         FacilityRepository $facilityRepository,
     ) {
         $requestData = $request->bodyParams;
-        $requestData = [...$requestData, ...CommonFieldsInTables::forCreatingHydratation()];
+        $commonField = CommonFieldsInTables::forCreatingHydratation();
+        $requestData = [...$requestData, ...$commonField];
         $model = new NewSurveyResponse();
         $requestData['created_date'] = $requestData['createdDate'];
         $modelHydrator->hydrateFromJsonDictionary($model, $requestData);
@@ -52,6 +54,10 @@ final class Create extends Action
         $facility = $facilityRepository->retrieveForUpdate($facilityid);
         $model->status = 'Validated';
         $model->response_type = $requestData['response_type'] ?? "admin";
+        $model->createdBy = $commonField['createdBy'];
+        $model->createdDate = new DatetimeValue($commonField['createdDate']);
+        $model->lastModifiedDate = new DatetimeValue($commonField['lastModifiedDate']);
+        $model->lastModifiedBy = $commonField['lastModifiedBy'];
         //$model->date_of_update = $facility->admin_data['date_of_update'] ?? null;
         $model->date_of_update = $requestData['data']['date_of_update'] ?? $requestData['data']['HSDU_DATE'] ?? $requestData['data']['SITUATION_DATE'] ?? null;
         $id = $surveyResponseRepository->save($model);

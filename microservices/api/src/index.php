@@ -31,6 +31,8 @@ error_reporting(E_ALL & ~E_DEPRECATED);
     $containerConfigurator = require __DIR__ . '/config/api.php';
 
     $containerConfigurator($env, \Yii::$container);
+    date_default_timezone_set('Europe/Paris');
+
     $app = \Yii::$container->get(\yii\web\Application::class);
     $app->run();
 })();

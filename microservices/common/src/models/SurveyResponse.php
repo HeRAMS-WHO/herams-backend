@@ -51,6 +51,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
 
     #[Field('last_modified_date')]
     public DatetimeValue|null $lastModifiedDate = null;
+    
     public function behaviors(): array
     {
         return [
@@ -62,7 +63,12 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
                 'class' => TimestampBehavior::class,
                 'updatedAtAttribute' => 'last_modified_date',
                 'createdAtAttribute' => 'created_date',
-                'value' => fn() => Carbon::now()
+                'value' => function ($event) {
+                    $timezone = new \DateTimeZone('UTC');
+                    $currentDateTime = new \DateTime('now', $timezone);
+                    $currentDateTime->modify('+1 hour');
+                    return $currentDateTime->format('Y-m-d H:i:s');
+                }
             ],
         ];
     }
