@@ -100,6 +100,7 @@ final class FacilityController extends Controller
         $surveyResponseId = new SurveyResponseId($id);
 
         $requestData = $request->bodyParams;
+        $requestData = [...$requestData, ];
         $model = new UpdateSurveyResponse($surveyResponseId);
         $modelHydrator->hydrateFromJsonDictionary($model, $requestData);
         \Yii::debug($request->bodyParams);

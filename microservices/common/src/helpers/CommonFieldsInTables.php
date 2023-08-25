@@ -19,25 +19,29 @@ final class CommonFieldsInTables {
         return $result;
     }
     public static function forCreatingHydratation(): array {
-        date_default_timezone_set('Europe/Paris');
         return self::convertKeysToCamelCase(self::forCreating());
     }
     public static function forUpdatingHydratation(): array {
-        date_default_timezone_set('Europe/Paris');
         return self::convertKeysToCamelCase(self::forUpdating());
     }
     public static function forUpdating(): array {
-        date_default_timezone_set('Europe/Paris');
+        $timezone = new \DateTimeZone('UTC');
+        $currentDateTime = new \DateTime('now', $timezone);
+        $currentDateTime->modify('+1 hour');
+        $currentTimeUTCPlus1 = $currentDateTime->format('Y-m-d H:i:s');
         return [
             'last_modified_by' => Yii::$app->user->identity->id,
-            'last_modified_date' => date('Y-m-d h:i:s')
+            'last_modified_date' => $currentTimeUTCPlus1
 
         ];
     }
     public static function forCreating(): array {
         date_default_timezone_set('Europe/Paris');
         $userID = Yii::$app->user->identity->id;
-        $date = date('Y-m-d h:i:s');
+        $timezone = new \DateTimeZone('UTC');
+        $currentDateTime = new \DateTime('now', $timezone);
+        $currentDateTime->modify('+1 hour');
+        $date = $currentDateTime->format('Y-m-d H:i:s');
         return [
             'created_by' => $userID,
             'last_modified_by' => $userID,

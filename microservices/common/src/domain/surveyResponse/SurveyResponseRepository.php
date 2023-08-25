@@ -9,6 +9,7 @@ use herams\api\models\UpdateSurveyResponse;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\facility\FacilityTier;
 use herams\common\domain\facility\HSDUStateEnum;
+use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
@@ -19,6 +20,7 @@ use herams\common\models\Survey;
 use herams\common\models\SurveyResponse;
 use herams\common\models\Workspace;
 use herams\common\utils\tools\SurveyParserClean;
+use herams\common\values\DatetimeValue;
 use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
@@ -265,6 +267,9 @@ class SurveyResponseRepository
             ?? $request['data']['SITUATION_DATE']
             ?? $request['data']['HSDU_DATE'] ?? null;
         $record->status =  $record->status ?? 'Validated';
+        $commondFields = CommonFieldsInTables::forUpdating();
+        $record->lastModifiedDate = new DatetimeValue($commondFields['last_modified_date']);
+        $record->lastModifiedBy = $commondFields['last_modified_by'];
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         $record->update();
         $surveyId = new SurveyResponseId($record->id);
@@ -293,7 +298,7 @@ class SurveyResponseRepository
     }
     public function propagateSurveysResponses(SurveyResponseId $surveyResponseId): void {
         $this->updateDateOnProject($surveyResponseId);
-        $this->updateDateOnFacility($surveyResponseId);
+        $this->updateDatesOnFacility($surveyResponseId);
         $this->updateDateOnWorkspace($surveyResponseId);
         $this->updateAnswersOnFacility($surveyResponseId);
         $this->updateIfFacilityCanReceiveUpdates($surveyResponseId);
@@ -382,7 +387,7 @@ class SurveyResponseRepository
         }
         $facility->save();
     }
-    public function updateDateOnFacility(SurveyResponseId $surveyResponseId): void {
+    public function updateDatesOnFacility(SurveyResponseId $surveyResponseId): void {
         $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
         $facility = Facility::findOne(['id' => $survey->facility_id]);
         $date_of_update = SurveyResponse::find()
@@ -393,6 +398,9 @@ class SurveyResponseRepository
             ->scalar();
             //->scalar();
         $facility->date_of_update = $date_of_update;
+        $commonField = CommonFieldsInTables::forUpdating();
+        $facility->last_modified_by = $commonField['last_modified_by'];
+        $facility->last_modified_date = $commonField['last_modified_date'];
         $facility->update();
     }
     public function updateDateOnProject(SurveyResponseId $surveyResponseId): void {

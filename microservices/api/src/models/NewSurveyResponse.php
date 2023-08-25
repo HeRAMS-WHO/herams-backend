@@ -7,6 +7,7 @@ namespace herams\api\models;
 use Carbon\Carbon;
 use Collecthor\DataInterfaces\RecordInterface;
 use herams\common\attributes\Field;
+use herams\common\helpers\CommonFieldsInTables;
 use herams\common\values\DatetimeValue;
 use herams\common\values\FacilityId;
 use herams\common\values\SurveyId;
@@ -44,14 +45,24 @@ class NewSurveyResponse extends Model
     public DatetimeValue|null $lastModifiedDate = null;
     public function behaviors()
     {
+
         return [
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
-                'createdAtAttribute' => 'created_date', // Change the attribute name here
+                'createdAtAttribute' => 'created_date',
                 'updatedAtAttribute' => 'last_modified_date',
-                'value' => fn() => Carbon::now(),
+                'value' => new \yii\db\Expression('NOW()'),
             ],
         ];
+    }
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            $this->createdDate = new \yii\db\Expression('NOW() + INTERVAL 1 HOUR');
+        }
+        $this->lastModifiedDate = new \yii\db\Expression('NOW() + INTERVAL 1 HOUR');
+
+        return parent::beforeSave($insert);
     }
     public function rules(): array
     {
