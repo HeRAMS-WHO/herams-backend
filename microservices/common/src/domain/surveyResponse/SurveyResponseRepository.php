@@ -414,12 +414,11 @@ class SurveyResponseRepository
             ->innerJoin('prime2_facility', 'prime2_survey_response.facility_id = prime2_facility.id')
             ->innerJoin('prime2_workspace', 'prime2_workspace.id = prime2_facility.workspace_id')
             ->innerJoin('prime2_project', 'prime2_project.id = prime2_workspace.project_id')
-            ->where(['prime2_project.id' => (int) $project->id]);
+            ->where(['prime2_project.id' => (int) $project->id])
+            ->andWhere(['prime2_survey_response.status' => 'Validated']);
         $date_of_update = $query->scalar();
         $project->date_of_update = $date_of_update;
         $project->update(false);
-
-
     }
 
     public function updateDateOnWorkspace(SurveyResponseId $surveyResponseId): void {
