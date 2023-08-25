@@ -235,7 +235,17 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             'created_date' => \Yii::t('app', 'Created date')
         ]);
     }
-
+    public function validateVisibility(string $attributes, null|array $params): void {
+        $found = 0;
+        foreach(ProjectVisibility::cases() as $case){
+            if (ucfirst($case->value) === ucfirst($this->visibility)){
+                $found = 1;
+            }
+        }
+        if ($found === 0){
+            $this->addError("visibility", "Visibility {$this->visibility} is not a valid type");
+        }
+    }
     public function rules(): array
     {
         return [
@@ -273,10 +283,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                     ]));
                 }
             }],
-            [['visibility'],
-                BackedEnumValidator::class,
-                'example' => ProjectVisibility::Public,
-            ],
+            ['visibility', "validateVisibility"],
             [['admin_survey_id', 'data_survey_id'],
                 ExistValidator::class,
                 'targetClass' => Survey::class,

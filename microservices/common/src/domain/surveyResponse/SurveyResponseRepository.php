@@ -409,8 +409,7 @@ class SurveyResponseRepository
         $project = Project::findOne(['id'  => $workspace->project_id]);
         $project->date_of_update = $date_of_update;
         $project->update();
-        var_dump($project);
-        die;
+
     }
 
     public function updateDateOnWorkspace(SurveyResponseId $surveyResponseId): void {
