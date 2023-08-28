@@ -5,7 +5,6 @@ namespace prime\models\forms\project;
 
 use prime\behaviors\LocalizableWriteBehavior;
 use prime\models\ar\Project;
-use prime\objects\enums\ProjectStatus;
 use prime\objects\enums\ProjectVisibility;
 use prime\objects\LanguageSet;
 use prime\validators\ClientJsonValidator;
@@ -22,7 +21,7 @@ class Update extends Model
 {
     public string $title;
     public ProjectVisibility $visibility;
-    public ProjectStatus $status;
+    public int $status;
 
     public null|array $i18n;
 
