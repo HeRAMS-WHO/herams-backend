@@ -16,10 +16,15 @@ const FormGroup = ({ label, error, children }) => (
     </div>
 );
 
-const Profile = () => {
-    const [name, setName] = useState('Girlea Cristian');
-    const [language, setLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
-    const [newsletterSubscription, setNewsletterSubscription] = useState(false);
+const Profile = (props) => {
+
+    const decodedUserData = atob(props.user); // Decoding base64 data
+    const initialUser = JSON.parse(decodedUserData); // Assuming the base64 data was a stringified JSON
+
+    const [name, setName] = useState(initialUser.name || '');
+    const [language, setLanguage] = useState(initialUser.language || localStorage.getItem('selectedLanguage') || 'en');
+    const [newsletterSubscription, setNewsletterSubscription] = useState(initialUser.newsletter_subscription || false);
+
     const [availableLanguages, setAvailableLanguages] = useState([]); // <-- Added this state to hold available languages
     const translations = JSON.parse(localStorage.getItem('translations') || '{}');
 

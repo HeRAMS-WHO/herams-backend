@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use herams\common\domain\user\User;
-use prime\assets\ReactAsset;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
 use yii\helpers\Html;
 use yii\web\View;
+use prime\assets\ReactAsset;
 
 ReactAsset::register($this);
 
@@ -24,7 +24,7 @@ $this->endBlock();
 
 $this->title = Yii::t('app', 'Profile');
 
-$model->setOnlyFields(['id', 'email', 'name', 'language']);
+$model->setOnlyFields(['id','email','name','language','newsletter_subscription']);
 
 $userEncoded = $model->toBase64();
 
@@ -37,42 +37,4 @@ Section::begin()
 
 
 <?php
-//$form = ActiveForm::begin([
-//
-//]);
-//
-//echo Form::widget([
-//    'model' => $model,
-//    'form' => $form,
-//    'attributes' => [
-//        [
-//            'type' => Form::INPUT_RAW,
-//            'value' => $form->errorSummary($model),
-//        ],
-//        'name' => [
-//            'type' => Form::INPUT_TEXT,
-//        ],
-//        'language' => [
-//            'type' => Form::INPUT_DROPDOWN_LIST,
-//            'items' => [
-//                '' => \Yii::t('app', 'Autodetected ({language}', [
-//                    'language' => \Yii::$app->languageSelector->getPreferredLanguage(\Yii::$app->request),
-//                ]),
-//                ...Language::toLocalizedArray(),
-//            ],
-//        ],
-//        'newsletter_subscription' => [
-//            'type' => Form::INPUT_CHECKBOX,
-//        ],
-//        FormButtonsWidget::embed([
-//            'buttons' => [
-//                Html::submitButton(Yii::t('app', 'Update profile'), [
-//                    'class' => ['btn', 'btn-primary'],
-//                ]),
-//            ],
-//        ]),
-//    ],
-//]);
-//ActiveForm::end();
-
 Section::end();
