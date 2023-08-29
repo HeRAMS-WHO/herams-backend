@@ -2,15 +2,19 @@
 
 namespace prime\assets;
 
+use herams\common\helpers\ConfigurationProvider;
 use yii\web\AssetBundle;
 
 class ReactAsset extends AssetBundle
 {
     public $basePath = '@webroot/react';
     public $baseUrl = '@web/react';
+    private ConfigurationProvider $configurationProvider;
 
     public function init()
     {
+        $this->configurationProvider = \Yii::$container->get(ConfigurationProvider::class);
+
         $this->setSourceBasedOnHost();
         $this->registerLocalStorageScripts();
 
@@ -32,25 +36,39 @@ class ReactAsset extends AssetBundle
         }
     }
 
+
     private function registerLocalStorageScripts(): void
     {
         $appVersion = \Yii::$app->getAppVersion();
         $userLanguage = $this->getUserLanguage();
+        $apiProxyUrl = 'https://herams.test/api-proxy/core/';
+        $apiUrl = 'https://herams.test/';
+
+        $localizedLanguages = $this->configurationProvider->getLocalizedLanguageNames($userLanguage);
+        $languagesJson = json_encode($localizedLanguages);
 
         $script = <<<JS
-            const currentLanguage = localStorage.getItem('selectedLanguage');
-            if (currentLanguage !== '{$userLanguage}') {
-                localStorage.setItem('selectedLanguage', '{$userLanguage}');
-            }
-
-            // Check and store app version in the localStorage if it's different or missing
+            const storedLanguage = localStorage.getItem('selectedLanguage');
             const storedAppVersion = localStorage.getItem('appVersion');
+            const storedLanguages = localStorage.getItem('availableLanguages');
+            
+            if (storedLanguage !== '{$userLanguage}') {
+                localStorage.setItem('selectedLanguage', '{$userLanguage}')
+            }
+            if (!storedLanguages || storedLanguages !== '{$languagesJson}') {
+                localStorage.setItem('availableLanguages', '{$languagesJson}');
+            }
             if (!storedAppVersion || storedAppVersion !== '{$appVersion}') {
                 localStorage.setItem('appVersion', '{$appVersion}');
             }
+            
+            window.HERAMS_PROXY_API_URL = '{$apiProxyUrl}';
+            window.HERAMS_API_URL = '{$apiUrl}';
         JS;
+
         \Yii::$app->view->registerJs($script, \yii\web\View::POS_READY);
     }
+
 
     private function getUserLanguage(): string
     {

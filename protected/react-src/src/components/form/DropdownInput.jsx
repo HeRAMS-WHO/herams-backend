@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 
-class DropdownInput extends Component {
-    handleChange = (e) => {
-        this.props.onChange(e.target.value);
+const DropdownInput = ({ options = [], value, ...props }) => {
+    if (!Array.isArray(options)) {
+        console.error("DropdownInput received non-array options:", options);
+        options = []; // Reset options to an empty array
     }
 
-    render() {
-        const { name, options, value } = this.props;
-        return (
-            <select name={name} value={value} onChange={this.handleChange}>
-                {options.map((option, index) => (
-                    <option key={index} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </select>
-        );
-    }
-}
+    return (
+        <select value={value} {...props}>
+            {options.map(option => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    );
+};
+
 
 export default DropdownInput;

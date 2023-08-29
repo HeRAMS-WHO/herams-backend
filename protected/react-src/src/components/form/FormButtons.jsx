@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function FormButtons({ buttons = [] }) {
     return (
-        <div>
+        <div className={'ButtonGroup'}>
             {buttons.map((button, index) => (
                 <button key={index} type="button" className={button.class} onClick={button.onClick}>
                     {button.label}
