@@ -14,9 +14,40 @@ class ConfigurationProvider
     /**
      * @return list<Locale>
      */
-    public function getPlatformLocales(): array
+    public function getPlatformLocales(array $locales = ["en", "fr", "ar", "es", "ru", "zh"]): array
     {
-        return Locale::fromValues(["en", "fr", "ar", "es", "ru", "zh"]);
+        return Locale::fromValues($locales);
+    }
+
+    /**
+     * Checks if a given locale is valid against a list.
+     */
+    private function isValidLocale(?string $locale, array $validLocales): bool
+    {
+        return in_array($locale, $validLocales, true);
+    }
+
+    public function getLocalizedLanguageNames($lang = null, array $locales = ["en", "fr", "ar", "ru", "zh"]): array
+    {
+        // First, check if the userLocale is valid or not
+        if (is_null($lang) || !$this->isValidLocale($lang, $locales)) {
+            // Get the user's current locale
+            $lang = Locale::from(\Yii::$app->language ?? 'en');
+        }
+
+        $userLocale = Locale::from($lang);
+
+        // Get a list of locales you want to fetch
+        $locales = $this->getPlatformLocales($locales);
+
+        // Return the localized names of these locales
+        $languageNames = [];
+        foreach ($locales as $locale) {
+            $localizedArray = $locale->toLocalizedArray($userLocale);
+            $languageNames[$localizedArray['locale']] = $localizedArray['label'];
+        }
+
+        return $languageNames;
     }
 
     /**

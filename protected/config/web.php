@@ -20,6 +20,7 @@ use yii\web\UrlManager;
 
 $commonDiConfigurator = new \herams\common\config\CommonConfigurator();
 $commonDiConfigurator->configure($env, \Yii::$container);
+\Yii::$container->setSingleton(herams\common\helpers\ConfigurationProvider::class);
 $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
     'controllerNamespace' => 'prime\\controllers',
     'bootstrap' => [

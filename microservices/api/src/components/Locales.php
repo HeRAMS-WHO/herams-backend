@@ -7,7 +7,7 @@ namespace herams\api\components;
 use herams\common\helpers\Locale;
 use herams\common\interfaces\LocalizableInterface;
 
-class Serializer extends \yii\rest\Serializer
+class Locales extends \yii\rest\Serializer
 {
     public function serialize($data): mixed
     {
@@ -19,6 +19,6 @@ class Serializer extends \yii\rest\Serializer
 
     private function serializeLocalizable(LocalizableInterface $data): array
     {
-        return $data::toLocalizedArray(Locale::from(\Yii::$app->language));
+        return $data->toLocalizedArray(Locale::from(\Yii::$app->language));
     }
 }
