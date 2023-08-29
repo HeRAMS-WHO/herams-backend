@@ -24,7 +24,6 @@ final class Create extends Action
         ProjectRepository $projectRepository,
         Request $request,
         Response $response,
-
     ) {
         $data = $request->bodyParams['data'];
         $data = [...$data, ...CommonFieldsInTables::forCreatingHydratation()];

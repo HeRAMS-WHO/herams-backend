@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace herams\api\models;
 
-use Carbon\Carbon;
 use Collecthor\DataInterfaces\RecordInterface;
 use herams\common\attributes\Field;
-use herams\common\helpers\CommonFieldsInTables;
 use herams\common\values\DatetimeValue;
 use herams\common\values\FacilityId;
 use herams\common\values\SurveyId;
-use yii\base\Behavior;
 use yii\base\Model;
 use yii\behaviors\TimestampBehavior;
 use yii\validators\RequiredValidator;
@@ -43,9 +40,9 @@ class NewSurveyResponse extends Model
 
     #[Field('last_modified_date')]
     public DatetimeValue|null $lastModifiedDate = null;
+
     public function behaviors()
     {
-
         return [
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
@@ -55,6 +52,7 @@ class NewSurveyResponse extends Model
             ],
         ];
     }
+
     public function beforeSave($insert)
     {
         if ($insert) {
@@ -64,6 +62,7 @@ class NewSurveyResponse extends Model
 
         return parent::beforeSave($insert);
     }
+
     public function rules(): array
     {
         return [

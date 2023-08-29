@@ -11,7 +11,7 @@ class SurveyConfig extends JsonField
     public function __construct(object|array|string $value)
     {
         parent::__construct($value);
-        if (!isset($this->getValue()->page) || ! is_array($this->getValue()->page)){
+        if (! isset($this->getValue()->page) || ! is_array($this->getValue()->page)) {
             throw new Error('It is invalid because page property was expected');
         }
     }

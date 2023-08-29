@@ -9,7 +9,6 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
-use herams\common\models\Project;
 use herams\common\values\ProjectId;
 use herams\common\values\Visibility;
 use yii\base\Action;

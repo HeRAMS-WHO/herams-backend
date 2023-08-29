@@ -43,8 +43,11 @@ use function iter\chain;
 class User extends ActiveRecord implements IdentityInterface
 {
     use JsonBase64EncoderTrait;
+
     public const NAME_REGEX = '/^[\'\w\- ]+$/u';
+
     private bool $excludeDateTimeFields = false;
+
     private array $selectedFields;
 
     public function afterSave($insert, $changedAttributes)
@@ -204,19 +207,13 @@ class User extends ActiveRecord implements IdentityInterface
         return $result;
     }
 
-    /**
-     * @param $exclude
-     * @return void
-     */
+
     public function setExcludeDateTimeFields(bool $exclude = true)
     {
         $this->excludeDateTimeFields = $exclude;
     }
 
-    /**
-     * @param $exclude
-     * @return void
-     */
+
     public function setOnlyFields(array $selectedFields = [])
     {
         $this->selectedFields = $selectedFields;

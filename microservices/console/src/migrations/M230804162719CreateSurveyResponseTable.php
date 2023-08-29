@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162719CreateSurveyResponseTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%survey_response}}', [
@@ -29,21 +26,29 @@ class M230804162719CreateSurveyResponseTable extends Migration
         ]);
         $this->addForeignKey('fk-survey_response-facility_id-facility-id', '{{%survey_response}}', ['facility_id'], '{{%facility}}', ['id']);
         $this->addForeignKey('fk-survey_response-survey_id-survey-id', '{{%survey_response}}', ['survey_id'], '{{%survey}}', ['id']);
-        $this->addForeignKey('fk-survey_response-created_by-user-id',
-            '{{%survey_response}}', ['created_by'], '{{%user}}', ['id']);
-        $this->addForeignKey('fk-survey_response-last_modified_by-user-id',
-            '{{%survey_response}}', ['last_modified_by'], '{{%user}}', ['id']);
+        $this->addForeignKey(
+            'fk-survey_response-created_by-user-id',
+            '{{%survey_response}}',
+            ['created_by'],
+            '{{%user}}',
+            ['id']
+        );
+        $this->addForeignKey(
+            'fk-survey_response-last_modified_by-user-id',
+            '{{%survey_response}}',
+            ['last_modified_by'],
+            '{{%user}}',
+            ['id']
+        );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropForeignKey('fk-survey_response-facility_id-facility-id', '{{%survey_response}}');
         $this->dropForeignKey('fk-survey_response-survey_id-survey-id', '{{%survey_response}}');
-        $this->dropForeignKey('fk-survey_response-created_by-user-id','{{%survey_response}}');
-        $this->dropForeignKey('fk-survey_response-last_modified_by-user-id','{{%survey_response}}');
+        $this->dropForeignKey('fk-survey_response-created_by-user-id', '{{%survey_response}}');
+        $this->dropForeignKey('fk-survey_response-last_modified_by-user-id', '{{%survey_response}}');
         $this->dropTable('{{%survey_response}}');
     }
 }

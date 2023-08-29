@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162355CreatePageTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%page}}', [
@@ -20,14 +17,12 @@ class M230804162355CreatePageTable extends Migration
             'project_id' => $this->integer()->notNull(),
             'parent_id' => $this->integer(),
             'sort' => $this->integer()->notNull(),
-        ],'charset = latin1');
+        ], 'charset = latin1');
         $this->addForeignKey('page_project', '{{%page}}', ['project_id'], '{{%project}}', ['id']);
         $this->addForeignKey('page_page', '{{%page}}', ['parent_id'], '{{%page}}', ['id']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropForeignKey('page_page', '{{%page}}');

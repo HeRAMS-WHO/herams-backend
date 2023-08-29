@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162221CreateAccessRequestTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable(
@@ -32,19 +29,29 @@ class M230804162221CreateAccessRequestTable extends Migration
             ]
         );
 
-        $this->createIndex('fk-access_request-created_by-user-id',
-            '{{%access_request}}', ['created_by']);
+        $this->createIndex(
+            'fk-access_request-created_by-user-id',
+            '{{%access_request}}',
+            ['created_by']
+        );
 
-        $this->createIndex('i-access_request-target_class-target_id',
-            '{{%access_request}}', ['target_class', 'target_id']);
-        $this->addForeignKey('fk-access_request-responded_by-user-id',
-            '{{%access_request}}', ['responded_by'], '{{%user}}',
-            ['id'], 'SET NULL', 'CASCADE');
+        $this->createIndex(
+            'i-access_request-target_class-target_id',
+            '{{%access_request}}',
+            ['target_class', 'target_id']
+        );
+        $this->addForeignKey(
+            'fk-access_request-responded_by-user-id',
+            '{{%access_request}}',
+            ['responded_by'],
+            '{{%user}}',
+            ['id'],
+            'SET NULL',
+            'CASCADE'
+        );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropForeignKey('fk-access_request-responded_by-user-id', '{{%access_request}}');

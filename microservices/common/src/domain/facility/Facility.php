@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace herams\common\domain\facility;
+
 use herams\common\domain\survey\Survey;
 use herams\common\models\ActiveRecord;
 use herams\common\models\Project;
@@ -11,7 +12,6 @@ use herams\common\models\Workspace;
 use herams\common\queries\ActiveQuery;
 use herams\common\queries\FacilityQuery;
 use prime\helpers\ArrayHelper;
-use yii\db\Expression;
 use yii\validators\ExistValidator;
 use yii\validators\NumberValidator;
 use yii\validators\RequiredValidator;
@@ -48,7 +48,6 @@ use yii\validators\StringValidator;
  */
 class Facility extends ActiveRecord
 {
-
     public static function find(): FacilityQuery
     {
         return new FacilityQuery(static::class);
@@ -68,11 +67,18 @@ class Facility extends ActiveRecord
         ])
             ->via('project');
     }
-    public function getLatestSurveyResponse() {
-        return $this->hasOne(SurveyResponse::class, ['facility_id' => 'id'])
+
+    public function getLatestSurveyResponse()
+    {
+        return $this->hasOne(SurveyResponse::class, [
+            'facility_id' => 'id',
+        ])
             ->where(['!=', 'status', 'Deleted'])
-            ->addOrderBy(['date_of_update' => SORT_DESC]);
+            ->addOrderBy([
+                'date_of_update' => SORT_DESC,
+            ]);
     }
+
     public function getProject(): ActiveQuery
     {
         return $this->hasOne(Project::class, [
@@ -94,6 +100,7 @@ class Facility extends ActiveRecord
             'id' => 'workspace_id',
         ]);
     }
+
     public static function labels(): array
     {
         return ArrayHelper::merge(
@@ -116,8 +123,6 @@ class Facility extends ActiveRecord
         );
     }
 
-
-
     public function rules(): array
     {
         return [
@@ -131,5 +136,4 @@ class Facility extends ActiveRecord
             [['latitude', 'longitude'], NumberValidator::class],
         ];
     }
-
 }

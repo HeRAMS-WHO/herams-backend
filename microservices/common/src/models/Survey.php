@@ -1,6 +1,7 @@
 <?php
 
 namespace herams\common\models;
+
 use herams\common\values\SurveyConfig;
 use herams\common\values\SurveyId;
 
@@ -13,5 +14,4 @@ use herams\common\values\SurveyId;
  */
 class Survey extends ActiveRecord
 {
-
 }

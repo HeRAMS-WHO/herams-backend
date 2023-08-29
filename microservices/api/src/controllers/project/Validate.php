@@ -6,7 +6,6 @@ namespace herams\api\controllers\project;
 
 use herams\api\domain\project\NewProject;
 use herams\api\domain\project\UpdateProject;
-use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;

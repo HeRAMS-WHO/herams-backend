@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162341CreateConfigurationTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%configuration}}', [
@@ -20,9 +17,7 @@ class M230804162341CreateConfigurationTable extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropTable('{{%configuration}}');

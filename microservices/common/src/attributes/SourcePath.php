@@ -12,7 +12,8 @@ class SourcePath
     /**
      * @var list<string>
      */
-    public function __construct(public readonly array $path)
-    {
+    public function __construct(
+        public readonly array $path
+    ) {
     }
 }

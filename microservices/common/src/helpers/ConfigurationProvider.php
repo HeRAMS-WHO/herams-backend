@@ -11,6 +11,7 @@ use function iter\filter;
 class ConfigurationProvider
 {
     public const COUNTRY_UNSPECIFIED = 'XXX';
+
     /**
      * @return list<Locale>
      */
@@ -30,7 +31,7 @@ class ConfigurationProvider
     public function getLocalizedLanguageNames($lang = null, array $locales = ["en", "fr", "ar", "ru", "zh"]): array
     {
         // First, check if the userLocale is valid or not
-        if (is_null($lang) || !$this->isValidLocale($lang, $locales)) {
+        if (is_null($lang) || ! $this->isValidLocale($lang, $locales)) {
             // Get the user's current locale
             $lang = Locale::from(\Yii::$app->language ?? 'en');
         }
@@ -58,16 +59,15 @@ class ConfigurationProvider
         return [
             [
                 'alpha3' => self::COUNTRY_UNSPECIFIED,
-                'name' => \Yii::t('app', "Unspecified (training / not in list)")
+                'name' => \Yii::t('app', "Unspecified (training / not in list)"),
             ],
-            ...filter(fn(array $country) => [
+            ...filter(fn (array $country) => [
                 'alpha3' => $country['alpha3'],
-                'name' => $country['name']
+                'name' => $country['name'],
 
-            ], (new ISO3166())->all())
+            ], (new ISO3166())->all()),
 
         ];
-
     }
 
     /**
@@ -77,5 +77,4 @@ class ConfigurationProvider
     {
         return ProjectVisibility::toArray();
     }
-
 }

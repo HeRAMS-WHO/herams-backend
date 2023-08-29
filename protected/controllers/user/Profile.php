@@ -33,7 +33,7 @@ class Profile extends Action
                 'status' => 'success',
                 'translations' => $translations,
                 'languages' => $localizedLanguages,
-                'message' => \Yii::t('app', 'User updated')
+                'message' => \Yii::t('app', 'User updated'),
             ];
         }
 

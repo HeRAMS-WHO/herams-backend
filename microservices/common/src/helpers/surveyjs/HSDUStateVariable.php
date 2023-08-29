@@ -10,7 +10,6 @@ use Collecthor\DataInterfaces\RecordInterface;
 use Collecthor\DataInterfaces\StringValueInterface;
 use Collecthor\SurveyjsParser\Traits\GetRawConfiguration;
 use Collecthor\SurveyjsParser\Values\StringValue;
-use herams\common\domain\facility\FacilityTier;
 use herams\common\domain\facility\HSDUStateEnum;
 
 final class HSDUStateVariable implements ClosedVariableInterface

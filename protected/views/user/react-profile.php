@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use prime\assets\ReactAsset;
+use app\components\Form;
 
 ReactAsset::register($this);
 
 
-use app\components\Form;
 use herams\common\domain\user\User;
 use herams\common\enums\Language;
+use prime\assets\ReactAsset;
 use prime\components\ActiveForm;
 use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\UserTabMenu;
@@ -30,7 +30,7 @@ $this->endBlock();
 
 $this->title = Yii::t('app', 'Profile');
 
-$model->setOnlyFields(['id','email','name','language']);
+$model->setOnlyFields(['id', 'email', 'name', 'language']);
 
 $userEncoded = $model->toBase64();
 

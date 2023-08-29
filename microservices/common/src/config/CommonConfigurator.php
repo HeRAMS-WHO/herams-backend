@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\common\config;
@@ -10,7 +11,6 @@ use herams\common\components\RewriteRule;
 use herams\common\domain\accessRequest\AccessRequestRepository;
 use herams\common\domain\facility\FacilityHydrator;
 use herams\common\domain\favorite\FavoriteRepository;
-use herams\common\domain\project\ProjectHydrator;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
@@ -90,7 +90,6 @@ use yii\web\UrlManager;
 
 class CommonConfigurator implements ContainerConfiguratorInterface
 {
-
     public function configure(EnvironmentInterface $environment, Container $container): void
     {
         $container->set(\Lcobucci\JWT\Configuration::class, static function () use ($environment): Configuration {
@@ -121,9 +120,8 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             'queryCache' => 'cache',
             'tablePrefix' => 'prime2_',
         ]);
-        $container->set(RewriteRule::class, static function(Container $container) {
+        $container->set(RewriteRule::class, static function (Container $container) {
             $frontend = new LazyUrlFactory(Instance::of('frontendUrlManager'), $container, null);
-
 
             $api = new LazyUrlFactory(Instance::of('apiUrlManager'), $container, '/api-proxy/core');
             return new RewriteRule($api, $frontend);
@@ -134,7 +132,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             'enableStrictParsing' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => require __DIR__ . '/routes-api.php'
+            'rules' => require __DIR__ . '/routes-api.php',
         ]);
         $container->set('frontendUrlManager', [
             'class' => UrlManager::class,
@@ -142,14 +140,14 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             'enableStrictParsing' => true,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => require __DIR__ . '/routes-frontend.php'
+            'rules' => require __DIR__ . '/routes-frontend.php',
         ]);
 
         $container->set(EventDispatcherInterface::class, EventDispatcherProxy::class);
         $container->set(CacheInterface::class, FileCache::class);
         $container->set(AuditServiceInterface::class, AuditService::class);
         $container->set(WorkspaceRepository::class, WorkspaceRepository::class);
-        $container->set(AccessCheckInterface::class, static fn() => new UserAccessCheck(\Yii::$app->user));
+        $container->set(AccessCheckInterface::class, static fn () => new UserAccessCheck(\Yii::$app->user));
         $container->set(SurveyParserClean::class, SurveyParserClean::class);
         $container->set(SurveyRepository::class, SurveyRepository::class);
         $container->set(SurveyParser::class, SurveyParser::class);
@@ -168,10 +166,8 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                 new GlobalPermissionResolver(),
                 new BaseClassResolver(),
                 new ActiveRecordResolver(),
-
             );
         });
-
 
         $container->set(ModelHydratorInterface::class, ModelHydrator::class);
         $container->set(ProjectRepository::class, ProjectRepository::class);
@@ -207,9 +203,10 @@ class CommonConfigurator implements ContainerConfiguratorInterface
             },
             CommandNameExtractor::class => ClassNameExtractor::class,
             HandlerLocator::class => ContainerLocator::class,
-            ContainerInterface::class => fn(Container $container) => new class($container) implements ContainerInterface {
-                public function __construct(private readonly Container $container)
-                {
+            ContainerInterface::class => fn (Container $container) => new class($container) implements ContainerInterface {
+                public function __construct(
+                    private readonly Container $container
+                ) {
                 }
 
                 /**
@@ -225,21 +222,18 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                     return $this->container->has($id) || $this->container->hasSingleton($id);
                 }
             },
-            ContainerLocator::class => fn(Container $container) => new ContainerLocator($container->get(ContainerInterface::class), [
+            ContainerLocator::class => fn (Container $container) => new ContainerLocator($container->get(ContainerInterface::class), [
                 CreatedNotificationJob::class => CreatedNotificationHandler::class,
                 ImplicitlyGrantedNotificationJob::class => ImplicitlyGrantedNotificationHandler::class,
                 ResponseNotificationJob::class => ResponseNotificationHandler::class,
                 CheckImplicitAccessRequestGrantedJob::class => CheckImplicitAccessRequestGrantedHandler::class,
                 SyncNewsletterSubscriptionJob::class => SyncNewsletterSubscriptionHandler::class,
-                UpdateFacilityDataJob::class => UpdateFacilityDataHandler::class
+                UpdateFacilityDataJob::class => UpdateFacilityDataHandler::class,
             ]),
             MethodNameInflector::class => HandleInflector::class,
             SurveyRepositoryInterface::class => SurveyRepository::class,
         ]);
 
-        return ;
+        return;
     }
-
-
-
 }

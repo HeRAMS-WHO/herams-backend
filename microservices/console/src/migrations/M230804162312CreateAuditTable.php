@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162312CreateAuditTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%audit}}', [
@@ -24,9 +21,7 @@ class M230804162312CreateAuditTable extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropTable('{{%audit}}');

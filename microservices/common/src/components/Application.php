@@ -16,4 +16,3 @@ class Application extends \yii\web\Application
         return $this->_appVersion;
     }
 }
-

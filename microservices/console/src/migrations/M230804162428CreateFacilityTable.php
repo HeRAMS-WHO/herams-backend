@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162428CreateFacilityTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%facility}}', [
@@ -31,20 +28,28 @@ class M230804162428CreateFacilityTable extends Migration
             'tier' => "ENUM('Primary', 'Secondary', 'Tertiary', 'Other')",
         ]);
         $this->addForeignKey('workspace_id', '{{%facility}}', ['workspace_id'], '{{%workspace}}', ['id']);
-        $this->addForeignKey('fk-facility-created_by-user-id',
-            '{{%facility}}', ['created_by'], '{{%user}}', ['id']);
-        $this->addForeignKey('fk-facility-last_modified_by-user-id',
-            '{{%facility}}', ['last_modified_by'], '{{%user}}', ['id']);
+        $this->addForeignKey(
+            'fk-facility-created_by-user-id',
+            '{{%facility}}',
+            ['created_by'],
+            '{{%user}}',
+            ['id']
+        );
+        $this->addForeignKey(
+            'fk-facility-last_modified_by-user-id',
+            '{{%facility}}',
+            ['last_modified_by'],
+            '{{%user}}',
+            ['id']
+        );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropForeignKey('workspace_id', '{{%facility}}');
-        $this->dropForeignKey('fk-facility-created_by-user-id','{{%facility}}');
-        $this->dropForeignKey('fk-facility-last_modified_by-user-id','{{%facility}}');
+        $this->dropForeignKey('fk-facility-created_by-user-id', '{{%facility}}');
+        $this->dropForeignKey('fk-facility-last_modified_by-user-id', '{{%facility}}');
         $this->dropTable('{{%facility}}');
     }
 }

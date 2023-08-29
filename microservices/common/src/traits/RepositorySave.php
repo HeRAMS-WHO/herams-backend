@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\common\traits;
@@ -12,6 +13,7 @@ use yii\base\Model;
 trait RepositorySave
 {
     private readonly AccessCheckInterface $accessCheck;
+
     private readonly ActiveRecordHydratorInterface $activeRecordHydrator;
 
     private function internalSave(ActiveRecord $record, Model $model): void

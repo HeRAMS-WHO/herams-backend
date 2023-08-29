@@ -44,7 +44,7 @@ class LocalizableTextVariable implements VariableInterface
 
         if ($result === null) {
             return new MissingStringValue();
-        } elseif (is_array($result) && !array_is_list($result)) {
+        } elseif (is_array($result) && ! array_is_list($result)) {
             // We always want to include all locales.
             return new ArrayMapValue($result);
         }

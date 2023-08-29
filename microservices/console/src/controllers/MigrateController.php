@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\console\controllers;
@@ -13,18 +14,16 @@ final class MigrateController extends \yii\console\controllers\MigrateController
     protected function getMigrationHistory($limit)
     {
         $namespacedHistory = [];
-        foreach(parent::getMigrationHistory($limit) as $migrationName => $time) {
-            if (!str_contains($migrationName, '\\')
+        foreach (parent::getMigrationHistory($limit) as $migrationName => $time) {
+            if (! str_contains($migrationName, '\\')
                 && class_exists($this->migrationNamespaces[0] . '\\' . $migrationName)
             ) {
                 $namespacedHistory[$this->migrationNamespaces[0] . '\\' . $migrationName] = $time;
-                // Not namespaced
+            // Not namespaced
             } else {
                 $namespacedHistory[$migrationName] = $time;
             }
         };
         return $namespacedHistory;
     }
-
-
 }

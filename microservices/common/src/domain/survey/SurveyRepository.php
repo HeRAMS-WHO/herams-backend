@@ -8,20 +8,19 @@ use Collecthor\DataInterfaces\VariableSetInterface;
 use Collecthor\SurveyjsParser\VariableSet;
 use herams\api\models\NewSurvey;
 use herams\api\models\UpdateSurvey;
-use herams\common\models\Survey as SurveyModel;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\SurveyRepositoryInterface;
 use herams\common\models\Permission;
+use herams\common\models\Survey as SurveyModel;
 use herams\common\models\Workspace;
 use herams\common\traits\RepositorySave;
 use herams\common\values\SurveyId;
 use herams\common\values\WorkspaceId;
 use prime\helpers\HeramsVariableSet;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
-use prime\models\forms\survey\CreateForm;
 use prime\models\forms\survey\UpdateForm;
 use prime\models\survey\SurveyForSurveyJs;
 use yii\base\InvalidArgumentException;
@@ -31,6 +30,7 @@ use function iter\toArray;
 final class SurveyRepository implements SurveyRepositoryInterface
 {
     use RepositorySave;
+
     public function __construct(
         private readonly SurveyParser $surveyParser,
         private readonly AccessCheckInterface $accessCheck,
@@ -96,16 +96,22 @@ final class SurveyRepository implements SurveyRepositoryInterface
             'id' => $surveyId->getValue(),
         ])->config);
     }
-    public function getById(SurveyId $id): SurveyModel {
-        return SurveyModel::findOne(['id' =>  $id]);
+
+    public function getById(SurveyId $id): SurveyModel
+    {
+        return SurveyModel::findOne([
+            'id' => $id,
+        ]);
     }
+
     public function retrieveForUpdate(SurveyId $id): Survey
     {
         $record = Survey::findOne([
             'id' => $id,
         ]);
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
-        return $record;    }
+        return $record;
+    }
 
     /**
      * @return \Generator<int, SurveyForList>

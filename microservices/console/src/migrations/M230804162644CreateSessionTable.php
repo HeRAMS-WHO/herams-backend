@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162644CreateSessionTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%session}}', [
@@ -24,9 +21,7 @@ class M230804162644CreateSessionTable extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropTable('{{%session}}');

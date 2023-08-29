@@ -1,4 +1,5 @@
 <?php
+
 namespace herams\common\components;
 
 use herams\common\extensions\ExtendedGettextMessageSource;
@@ -29,10 +30,8 @@ class TranslationComponent extends Component
         }
         $sources = new \herams\common\extensions\ExtendedGettextMessageSource();
 
-
         $messages = $source->publicLoadMessages($category, $language);
 
         return $messages;
     }
 }
-

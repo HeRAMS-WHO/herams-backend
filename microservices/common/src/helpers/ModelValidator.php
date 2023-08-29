@@ -33,9 +33,6 @@ final class ModelValidator
      * Renders a response for use by a validation endpoint.
      * Validation endpoints differ from normal ones because their HTTP status code will be 200 even when the payload
      * has errors; this makes sense because the validation works and the result is a list of errors.
-     * @param Model $model
-     * @param Response $response
-     * @return Response
      */
     public function validateAndRenderForValidationEndpoint(Model $model, Response $response): Response
     {

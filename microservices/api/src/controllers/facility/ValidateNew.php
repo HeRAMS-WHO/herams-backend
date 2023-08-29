@@ -23,7 +23,7 @@ class ValidateNew extends Action
         $facility = new NewFacility();
         $data = [
             ...$request->bodyParams,
-            ...CommonFieldsInTables::forCreatingHydratation()
+            ...CommonFieldsInTables::forCreatingHydratation(),
         ];
         $data['situationData'] = [];
         $data['adminData'] = $data['data'];

@@ -6,8 +6,6 @@ namespace herams\common\domain\facility;
 
 use Collecthor\DataInterfaces\RecordInterface;
 use Collecthor\SurveyjsParser\ArrayDataRecord;
-use Collecthor\SurveyjsParser\ArrayRecord;
-use herams\common\domain\survey\Survey;
 use herams\common\models\ActiveRecord;
 use herams\common\models\Project;
 use herams\common\models\SurveyResponse;
@@ -44,6 +42,7 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
             ],
         ];
     }
+
     public function getDataValue(array $path): string|int|float|bool|null|array
     {
         $data = [...($this->data ?? []), ...($this->admin_data ?? [])];
@@ -71,17 +70,17 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                         'facility_id' => new Expression(self::tableName() . '.[[id]]'),
                     ])->andWhere([
                         'or',
-                           ['!=', 'status', 'Deleted'],
-                           ['IS', 'status', null]
-                        ]),
+                        ['!=', 'status', 'Deleted'],
+                        ['IS', 'status', null],
+                    ]),
                 VirtualFieldBehavior::LAZY => static fn (self $facility) => SurveyResponse::find()
                     ->where([
-                        'facility_id' => $facility->id
+                        'facility_id' => $facility->id,
                     ])->andWhere([
                         'or',
-                           ['!=', 'status', 'Deleted'],
-                           ['IS', 'status', null]
-                        ])->count(),
+                        ['!=', 'status', 'Deleted'],
+                        ['IS', 'status', null],
+                    ])->count(),
             ],
             'adminSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -91,13 +90,15 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                         'facility_id' => $facility->id,
                         'survey_id' => Project::find()->select('admin_survey_id')
                             ->where([
-                                'id' => Workspace::find()->select('project_id')->where(['id' => $facility->workspace_id])
-                            ])
+                                'id' => Workspace::find()->select('project_id')->where([
+                                    'id' => $facility->workspace_id,
+                                ]),
+                            ]),
                     ])->andWhere([
                         'or',
-                           ['!=', 'status', 'Deleted'],
-                           ['IS', 'status', null]
-                        ])->count(),
+                        ['!=', 'status', 'Deleted'],
+                        ['IS', 'status', null],
+                    ])->count(),
             ],
             'dataSurveyResponseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
@@ -107,22 +108,25 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
                         'facility_id' => $facility->id,
                         'survey_id' => Project::find()->select('data_survey_id')
                             ->where([
-                                'id' => Workspace::find()->select('project_id')->where(['id' => $facility->workspace_id])
-                            ])
+                                'id' => Workspace::find()->select('project_id')->where([
+                                    'id' => $facility->workspace_id,
+                                ]),
+                            ]),
                     ])->andWhere([
                         'or',
-                           ['!=', 'status', 'Deleted'],
-                           ['IS', 'status', null]
-                        ])->count(),
+                        ['!=', 'status', 'Deleted'],
+                        ['IS', 'status', null],
+                    ])->count(),
 
             ],
             'date_of_update' => [
-                
+
                 VirtualFieldBehavior::LAZY => static fn (self $facility) => $facility->id ?? null,
             ],
 
         ];
     }
+
     public function canReceiveSituationUpdate(): bool
     {
         return (bool) $this->can_receive_situation_update;
@@ -137,5 +141,4 @@ final class FacilityRead extends ActiveRecord implements RecordInterface
     {
         return new ArrayDataRecord($this->data ?? []);
     }
-
 }
