@@ -2,20 +2,14 @@
 
 declare(strict_types=1);
 
-use app\components\Form;
-
-ReactAsset::register($this);
-
-
 use herams\common\domain\user\User;
-use herams\common\enums\Language;
 use prime\assets\ReactAsset;
-use prime\components\ActiveForm;
-use prime\widgets\FormButtonsWidget;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
 use yii\helpers\Html;
 use yii\web\View;
+
+ReactAsset::register($this);
 
 /**
  * @var View $this
