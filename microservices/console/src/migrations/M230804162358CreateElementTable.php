@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162358CreateElementTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%element}}', [
@@ -25,12 +22,9 @@ class M230804162358CreateElementTable extends Migration
             'height' => $this->tinyInteger()->unsigned()->notNull()->defaultValue('1'),
         ], 'charset = latin1');
         $this->addForeignKey('element_page', '{{%element}}', ['page_id'], '{{%page}}', ['id']);
-
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropForeignKey('element_page', '{{%element}}');

@@ -8,7 +8,7 @@ class ExtendedGettextMessageSource extends GettextMessageSource
 {
     public function publicLoadMessages($category, $language)
     {
-        $test =  $this->loadMessages($category, $language);
+        $test = $this->loadMessages($category, $language);
         return $test;
     }
 }

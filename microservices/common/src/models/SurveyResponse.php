@@ -51,13 +51,13 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
 
     #[Field('last_modified_date')]
     public DatetimeValue|null $lastModifiedDate = null;
-    
+
     public function behaviors(): array
     {
         return [
             BlameableBehavior::class => [
                 'class' => BlameableBehavior::class,
-                'updatedByAttribute' =>  'last_modified_by',
+                'updatedByAttribute' => 'last_modified_by',
             ],
             TimestampBehavior::class => [
                 'class' => TimestampBehavior::class,
@@ -68,7 +68,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
                     $currentDateTime = new \DateTime('now', $timezone);
                     $currentDateTime->modify('+1 hour');
                     return $currentDateTime->format('Y-m-d H:i:s');
-                }
+                },
             ],
         ];
     }
@@ -191,6 +191,7 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
             'id' => 'survey_id',
         ]);
     }
+
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(User::class, [

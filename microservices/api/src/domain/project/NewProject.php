@@ -46,8 +46,11 @@ class NewProject extends RequestModel
     public string $primaryLanguage = '';
 
     public int $createdBy = 0;
+
     public null|DatetimeValue $createdDate = null;
+
     public int $lastModifiedBy = 0;
+
     public null|DatetimeValue $lastModifiedDate = null;
 
     public function __construct()

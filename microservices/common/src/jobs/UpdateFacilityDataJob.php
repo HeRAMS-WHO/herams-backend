@@ -14,6 +14,7 @@ final class UpdateFacilityDataJob implements \JsonSerializable
     {
         $this->facilityId = $facilityId instanceof FacilityId ? $facilityId : new FacilityId($facilityId);
     }
+
     public function jsonSerialize(): mixed
     {
         return [

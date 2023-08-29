@@ -17,8 +17,9 @@ class DatetimeValue
     {
         return $this->value;
     }
+
     public function __toString(): string
     {
-       return $this->getValue();
+        return $this->getValue();
     }
 }

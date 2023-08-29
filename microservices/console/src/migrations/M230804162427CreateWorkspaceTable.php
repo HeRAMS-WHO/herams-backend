@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162427CreateWorkspaceTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%workspace}}', [
@@ -26,23 +23,34 @@ class M230804162427CreateWorkspaceTable extends Migration
             'last_modified_by' => $this->integer()->notNull(),
         ], 'charset = utf8mb3');
 
-        $this->createIndex('project_id',
-            '{{%workspace}}', ['project_id']);
+        $this->createIndex(
+            'project_id',
+            '{{%workspace}}',
+            ['project_id']
+        );
         $this->addForeignKey('project_workspace', '{{%workspace}}', ['project_id'], '{{%project}}', ['id'], 'CASCADE');
-        $this->addForeignKey('fk-project_workspace-created_by-user-id',
-            '{{%workspace}}', ['created_by'], '{{%user}}', ['id']);
-        $this->addForeignKey('fk-project_workspace-last_modified_by-user-id',
-            '{{%workspace}}', ['last_modified_by'], '{{%user}}', ['id']);
+        $this->addForeignKey(
+            'fk-project_workspace-created_by-user-id',
+            '{{%workspace}}',
+            ['created_by'],
+            '{{%user}}',
+            ['id']
+        );
+        $this->addForeignKey(
+            'fk-project_workspace-last_modified_by-user-id',
+            '{{%workspace}}',
+            ['last_modified_by'],
+            '{{%user}}',
+            ['id']
+        );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropForeignKey('project_workspace', '{{%workspace}}');
-        $this->dropForeignKey('fk-project_workspace-created_by-user-id','{{%workspace}}');
-        $this->dropForeignKey('fk-project_workspace-last_modified_by-user-id','{{%workspace}}');
+        $this->dropForeignKey('fk-project_workspace-created_by-user-id', '{{%workspace}}');
+        $this->dropForeignKey('fk-project_workspace-last_modified_by-user-id', '{{%workspace}}');
         $this->dropTable('{{%workspace}}');
     }
 }

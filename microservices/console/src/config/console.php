@@ -9,7 +9,7 @@ use herams\common\interfaces\EnvironmentInterface;
 use herams\console\controllers\CacheController;
 use herams\console\controllers\MigrateController;
 
-return function(EnvironmentInterface $env, \yii\di\Container $container) : void {
+return function (EnvironmentInterface $env, \yii\di\Container $container): void {
     $commonDiConfigurator = new \herams\common\config\CommonConfigurator();
     $commonDiConfigurator->configure($env, \Yii::$container);
     $diConfigurator = require __DIR__ . '/di.php';
@@ -22,7 +22,6 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
             '@herams/console' => '@app',
             '@root' => '@app/../../../',
             '@tests' => '@root/tests',
-
         ],
         'controllerNamespace' => 'herams\\console\\controllers',
         'controllerMap' => [
@@ -30,14 +29,14 @@ return function(EnvironmentInterface $env, \yii\di\Container $container) : void 
             'migrate' => [
                 'class' => MigrateController::class,
                 'migrationNamespaces' => [
-                    'herams\\console\\migrations'
+                    'herams\\console\\migrations',
                 ],
-                'migrationPath' => null
-            ]
+                'migrationPath' => null,
+            ],
         ],
         'components' => [
             'db' => \yii\db\Connection::class,
-        ]
+        ],
     ];
 
     $container->set(\yii\console\Application::class, $config);

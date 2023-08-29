@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use herams\common\components\RewriteRule;
-use yii\di\Instance;
-use yii\web\UrlManager;
 
 return [
     [

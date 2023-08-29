@@ -20,9 +20,7 @@ use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\models\Permission;
 use herams\common\models\Project;
-use herams\common\models\Workspace;
 use herams\common\traits\RepositorySave;
-use herams\common\values\FacilityId;
 use herams\common\values\IntegerId;
 use herams\common\values\ProjectId;
 use herams\common\values\SurveyId;
@@ -37,16 +35,21 @@ use yii\web\NotFoundHttpException;
 class ProjectRepository implements ProjectLocalesRetriever
 {
     use RepositorySave;
+
     public function __construct(
         private readonly AccessCheckInterface $accessCheck,
         private readonly ActiveRecordHydratorInterface $activeRecordHydrator,
         private readonly ModelHydrator $hydrator
     ) {
     }
+
     public function retrieveById(ProjectId $projectId): Project
     {
-        return Project::findOne(['id' => $projectId->getValue()]);
+        return Project::findOne([
+            'id' => $projectId->getValue(),
+        ]);
     }
+
     public function create(NewProject $model): ProjectId
     {
         $record = new Project();
@@ -84,11 +87,14 @@ class ProjectRepository implements ProjectLocalesRetriever
         $this->accessCheck->requirePermission($record, Permission::PERMISSION_EXPORT);
         return $record;
     }
-    public function getProject(ProjectId $id): Project {
+
+    public function getProject(ProjectId $id): Project
+    {
         return Project::findOne([
-            'id' => $id
+            'id' => $id,
         ]);
     }
+
     public function retrieveForUpdate(ProjectId $id): UpdateProject
     {
         $record = Project::findOne([
@@ -110,6 +116,7 @@ class ProjectRepository implements ProjectLocalesRetriever
         $this->internalSave($record, $model);
         return new ProjectId($record->id);
     }
+
     public function emptyProject(
         ProjectId $projectId,
         WorkspaceRepository $workspaceRepository,
@@ -119,36 +126,46 @@ class ProjectRepository implements ProjectLocalesRetriever
         FavoriteRepository $favoriteRepository,
         PermissionRepository $permissionRepository,
         PageRepository $pageRepository
-    ){
+    ) {
         $workspaces = $workspaceRepository->retrieveAllWorkspacesByProjectId($projectId);
-        foreach(($workspaces ?? []) as $workspace){
+        foreach (($workspaces ?? []) as $workspace) {
             $workspaceId = new WorkspaceId($workspace->id);
             $accessRequestRepository->deleteAll([
                 'target_class' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
-                'target_id' => $workspace->id
+                'target_id' => $workspace->id,
             ]);
             $favoriteRepository->deleteAll([
                 'target_class' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
-                'target_id' => $workspace->id
+                'target_id' => $workspace->id,
             ]);
 
             $permissionRepository->deleteAll([
                 'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
-                'target_id' => $workspace->id
+                'target_id' => $workspace->id,
             ]);
             $facilities = $facilityRepository->retrieveAllByWorkspaceId($workspaceId);
-            foreach(($facilities ?? []) as $facility){
-                $surveyResponseRepository->deleteAll(['facility_id' => $facility->id]);
+            foreach (($facilities ?? []) as $facility) {
+                $surveyResponseRepository->deleteAll([
+                    'facility_id' => $facility->id,
+                ]);
             }
-            $facilityRepository->deleteAll(['workspace_id' => $workspace->id]);
-
+            $facilityRepository->deleteAll([
+                'workspace_id' => $workspace->id,
+            ]);
         }
-        $pageRepository->deleteAll(['project_id' => $projectId->getValue()]);
-        $workspaceRepository->deleteAll(['project_id' => $projectId->getValue()]);
+        $pageRepository->deleteAll([
+            'project_id' => $projectId->getValue(),
+        ]);
+        $workspaceRepository->deleteAll([
+            'project_id' => $projectId->getValue(),
+        ]);
     }
-    public function deleteAll(array $condition): void {
+
+    public function deleteAll(array $condition): void
+    {
         Project::deleteAll($condition);
     }
+
     public function retrieveForExternalDashboard(ProjectId $id): ProjectForExternalDashboard
     {
         $record = ProjectRead::findOne([

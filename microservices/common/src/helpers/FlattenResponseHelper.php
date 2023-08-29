@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\common\helpers;
@@ -10,7 +11,9 @@ use prime\models\project\ProjectLocales;
 
 class FlattenResponseHelper implements FlattenResponseInterface
 {
-    /** @var array<string, VariableInterface> */
+    /**
+     * @var array<string, VariableInterface>
+     */
     private readonly array $variableIndexMap;
 
     public function __construct(
@@ -19,12 +22,9 @@ class FlattenResponseHelper implements FlattenResponseInterface
         private ?string $locale = null,
         private bool $answersAsText = true,
         bool $keysAsText = false,
-
-
-
     ) {
         $map = [];
-        foreach($variables->getVariables() as $variable) {
+        foreach ($variables->getVariables() as $variable) {
             $map[$keysAsText ? $variable->getTitle($this->locale) : $variable->getName()] = $variable;
         }
         $this->variableIndexMap = $map;
@@ -32,16 +32,14 @@ class FlattenResponseHelper implements FlattenResponseInterface
 
     public function flattenAll(iterable $records): iterable
     {
-
         foreach ($records as $record) {
             $flattened = [];
-            foreach ($this->variableIndexMap as $key => $variable)
-            {
+            foreach ($this->variableIndexMap as $key => $variable) {
                 $value = $this->answersAsText ? $variable->getDisplayValue($record, $this->locale) : $variable->getValue($record);
                 $rawValue = $value->getRawValue();
-                if (is_array($rawValue) && !array_is_list($rawValue)) {
+                if (is_array($rawValue) && ! array_is_list($rawValue)) {
                     // We should make # an illegal character for use in question names, otherwise we could have collisions.
-                    foreach($this->projectLocales->getLocales() as $locale) {
+                    foreach ($this->projectLocales->getLocales() as $locale) {
                         $flattened["{$key}#{$locale->locale}"] = $rawValue[$locale->locale] ?? "";
                     }
                 } elseif (is_scalar($rawValue)) {

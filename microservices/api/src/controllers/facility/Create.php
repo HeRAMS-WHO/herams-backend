@@ -7,7 +7,6 @@ namespace herams\api\controllers\facility;
 use herams\api\models\NewSurveyResponse;
 use herams\common\domain\facility\Facility;
 use herams\common\domain\facility\FacilityRepository;
-use herams\common\domain\facility\NewFacility;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
@@ -16,7 +15,6 @@ use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
 use herams\common\values\DatetimeValue;
 use herams\common\values\FacilityId;
-use herams\common\values\SurveyId;
 use herams\common\values\SurveyResponseId;
 use herams\common\values\WorkspaceId;
 use yii\base\Action;
@@ -36,13 +34,12 @@ final class Create extends Action
         SurveyResponseRepository $surveyResponseRepository,
         FacilityRepository $facilityRepository
     ): Response {
-
         $data = [...$request->bodyParams];
         $data['data']['date_of_update'] = $request->bodyParams['data']['HSDU_DATE'];
         $data['data'] = [...$data['data'], ...CommonFieldsInTables::forCreatingHydratation()];
         $data = [
             ...$request->bodyParams,
-            ...CommonFieldsInTables::forCreatingHydratation()
+            ...CommonFieldsInTables::forCreatingHydratation(),
         ];
         $data['adminData'] = $data['data'];
         $data['situationDate'] = [];
@@ -67,7 +64,9 @@ final class Create extends Action
         $responseRecord = new NewSurveyResponse();
         $responseRecord->surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
         $responseRecord->facilityId = $facilityId;
-        $modelHydrator->hydrateFromJsonDictionary($responseRecord, $data
+        $modelHydrator->hydrateFromJsonDictionary(
+            $responseRecord,
+            $data
         );
 
         $responseRecord->status = 'Validated';

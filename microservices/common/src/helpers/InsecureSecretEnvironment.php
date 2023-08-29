@@ -46,5 +46,4 @@ class InsecureSecretEnvironment implements EnvironmentInterface
         }
         return $default;
     }
-
 }

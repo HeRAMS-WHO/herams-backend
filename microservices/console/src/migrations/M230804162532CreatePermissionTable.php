@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162532CreatePermissionTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%permission}}', [
@@ -24,9 +21,7 @@ class M230804162532CreatePermissionTable extends Migration
         ], 'charset = utf8mb3');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropTable('{{%permission}}');

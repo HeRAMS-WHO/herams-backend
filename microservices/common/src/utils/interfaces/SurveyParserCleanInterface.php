@@ -1,14 +1,15 @@
 <?php
-    declare(strict_types=1);
 
-    namespace herams\common\utils\interfaces;
+declare(strict_types=1);
 
-    use herams\common\models\Survey;
+namespace herams\common\utils\interfaces;
 
-    interface SurveyParserCleanInterface {
-        public static function findQuestionInfo(
-            Survey $survey,
-            string $questionIdentifier
-        ): array;
-    }
+use herams\common\models\Survey;
 
+interface SurveyParserCleanInterface
+{
+    public static function findQuestionInfo(
+        Survey $survey,
+        string $questionIdentifier
+    ): array;
+}

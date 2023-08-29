@@ -11,17 +11,14 @@ class JsonField implements JsonFieldInterface
 {
     private object|array $value;
 
-    /**
-     * @param array|string|object $value
-     */
+
     public function __construct(array|string|object $value)
     {
         try {
-            if (is_string($value)){
+            if (is_string($value)) {
                 $value = json_decode($value);
             }
-        }
-        catch (Error $error){
+        } catch (Error $error) {
             throw new Error('The provided value does not have a valid JSON format');
         }
         $this->value = $value;
@@ -36,5 +33,4 @@ class JsonField implements JsonFieldInterface
     {
         return json_encode($this->value);
     }
-
 }

@@ -7,7 +7,6 @@ namespace herams\console\controllers;
 use herams\common\domain\facility\Facility;
 use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\values\FacilityId;
-use JCIT\jobqueue\interfaces\JobQueueInterface;
 use League\Tactician\CommandBus;
 use prime\components\MaintenanceMode;
 use yii\caching\CacheInterface;
@@ -52,8 +51,8 @@ class MaintenanceController extends Controller
     }
 
     public function actionUpdateAllFacilities(
-        CommandBus $commandBus): void
-    {
+        CommandBus $commandBus
+    ): void {
         /** @var Facility $facility */
         foreach (Facility::find()->each() as $facility) {
             $commandBus->handle(new UpdateFacilityDataJob(FacilityId::fromFacility($facility)));

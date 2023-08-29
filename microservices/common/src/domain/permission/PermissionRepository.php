@@ -21,9 +21,12 @@ class PermissionRepository
         private ModelHydrator $hydrator
     ) {
     }
-    public function deleteAll(array $condition): void {
+
+    public function deleteAll(array $condition): void
+    {
         Permission::deleteAll($condition);
     }
+
     public function retrieve(int $id): Permission
     {
         $result = Permission::findOne([
@@ -59,9 +62,8 @@ class PermissionRepository
             'target_id' => $target->getId(),
             'source' => $source->getAuthName(),
             'source_id' => $source->getId(),
-            'permission' => $grant->getPermission()
+            'permission' => $grant->getPermission(),
         ])->select('id')->one();
         return new PermissionId($permission->id);
-
     }
 }

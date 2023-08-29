@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162447CreateFavoriteTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%favorite}}', [
@@ -19,12 +16,10 @@ class M230804162447CreateFavoriteTable extends Migration
             'user_id' => $this->integer()->notNull(),
             'target_class' => $this->string()->notNull(),
             'target_id' => $this->integer()->notNull(),
-        ],'charset = latin1');
+        ], 'charset = latin1');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropTable('{{%favorite}}');

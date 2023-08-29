@@ -33,5 +33,4 @@ abstract class ResponseModel extends Model
     {
         return [];
     }
-
 }

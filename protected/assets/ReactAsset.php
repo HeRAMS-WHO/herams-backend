@@ -8,7 +8,9 @@ use yii\web\AssetBundle;
 class ReactAsset extends AssetBundle
 {
     public $basePath = '@webroot/react';
+
     public $baseUrl = '@web/react';
+
     private ConfigurationProvider $configurationProvider;
 
     public function init()
@@ -35,7 +37,6 @@ class ReactAsset extends AssetBundle
             $this->css = $this->getReactCssFiles();
         }
     }
-
 
     private function registerLocalStorageScripts(): void
     {
@@ -68,7 +69,6 @@ class ReactAsset extends AssetBundle
 
         \Yii::$app->view->registerJs($script, \yii\web\View::POS_READY);
     }
-
 
     private function getUserLanguage(): string
     {

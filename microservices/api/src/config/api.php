@@ -17,8 +17,6 @@ use SamIT\abac\interfaces\RuleEngine;
 use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\abac\values\Authorizable;
 use SamIT\Yii2\abac\AccessChecker;
-use yii\i18n\GettextMessageSource;
-use yii\i18n\I18N;
 use yii\i18n\MissingTranslationEvent;
 
 return function (EnvironmentInterface $env, \yii\di\Container $container): void {

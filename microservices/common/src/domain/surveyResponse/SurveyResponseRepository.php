@@ -33,12 +33,6 @@ use yii\web\NotFoundHttpException;
 
 class SurveyResponseRepository
 {
-    /**
-     * @param AccessCheckInterface $accessCheck
-     * @param ActiveRecordHydratorInterface $activeRecordHydrator
-     * @param ModelHydrator $hydrator
-     * @param SurveyParserClean $surveyParserClean
-     */
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private ActiveRecordHydratorInterface $activeRecordHydrator,
@@ -46,13 +40,15 @@ class SurveyResponseRepository
         private SurveyParserClean $surveyParserClean
     ) {
     }
-    public function deleteAll(array $condition): void {
+
+    public function deleteAll(array $condition): void
+    {
         SurveyResponse::deleteAll($condition);
     }
+
     public function create(
         CreateForm $model
     ): SurveyResponseId {
-
         $record = new SurveyResponse();
         $record->survey_id = $model->getSurveyId()->getValue();
         $record->facility_id = $model->getFacilityId()->getValue();
@@ -212,8 +208,6 @@ class SurveyResponseRepository
         return $query->one();
     }
 
-
-
     /**
      * @return SurveyResponse
      */
@@ -233,16 +227,16 @@ class SurveyResponseRepository
     {
         return SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
-            'survey_id' => $surveyId
+            'survey_id' => $surveyId,
         ])->andWhere([
-        'or',
-           ['!=', 'status', 'Deleted'],
-           ['IS', 'status', null]
+            'or',
+            ['!=', 'status', 'Deleted'],
+            ['IS', 'status', null],
         ])->orderBy([
             'date_of_update' => SORT_DESC,
-          ])->all();
-
+        ])->all();
     }
+
     /**
      * @return SurveyResponse
      */
@@ -261,12 +255,12 @@ class SurveyResponseRepository
             'id' => $model->id,
         ]);
         \Yii::debug($model->attributes);
-        $record->response_type =  $request['response_type'];
+        $record->response_type = $request['response_type'];
         //$record->date_of_update = $facility->admin_data['date_of_update'] ?? $record->date_of_update;
         $record->date_of_update = $request['data']['date_of_update']
             ?? $request['data']['SITUATION_DATE']
             ?? $request['data']['HSDU_DATE'] ?? null;
-        $record->status =  $record->status ?? 'Validated';
+        $record->status = $record->status ?? 'Validated';
         $commondFields = CommonFieldsInTables::forUpdating();
         $record->lastModifiedDate = new DatetimeValue($commondFields['last_modified_date']);
         $record->lastModifiedBy = $commondFields['last_modified_by'];
@@ -275,6 +269,7 @@ class SurveyResponseRepository
         $surveyId = new SurveyResponseId($record->id);
         $this->propagateSurveysResponses($surveyId);
     }
+
     public function deleteSurveyResponse(UpdateSurveyResponse $model): void
     {
         $record = SurveyResponse::findOne($model->id);
@@ -284,88 +279,127 @@ class SurveyResponseRepository
         $this->propagateSurveysResponses($surveyResponseId);
         //return $this->redirect(\Yii::$app->request->referrer);
     }
-    public function updateSurveyDateToWorkspace($surveyId,$adminSuserveyId){
 
+    public function updateSurveyDateToWorkspace($surveyId, $adminSuserveyId)
+    {
         $surveyResponse = SurveyResponse::find()
-        ->where(['survey_id' => $surveyId])
-        ->orWhere(['survey_id' => $adminSuserveyId])
-        ->orderBy('date_of_update DESC')->limit(1)->one();
-        
+            ->where([
+                'survey_id' => $surveyId,
+            ])
+            ->orWhere([
+                'survey_id' => $adminSuserveyId,
+            ])
+            ->orderBy('date_of_update DESC')->limit(1)->one();
+
         $surveyResponse->facility->workspace->date_of_update = $surveyResponse->date_of_update;
 
         $surveyResponse->facility->workspace->update();
-
     }
-    public function propagateSurveysResponses(SurveyResponseId $surveyResponseId): void {
+
+    public function propagateSurveysResponses(SurveyResponseId $surveyResponseId): void
+    {
         $this->updateDateOnProject($surveyResponseId);
         $this->updateDatesOnFacility($surveyResponseId);
         $this->updateDateOnWorkspace($surveyResponseId);
         $this->updateAnswersOnFacility($surveyResponseId);
         $this->updateIfFacilityCanReceiveUpdates($surveyResponseId);
     }
-    public function updateIfFacilityCanReceiveUpdates(SurveyResponseId $surveyResponseId): void {
-        $surveyResponse = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
-        $survey = Survey::findOne(['id' => $surveyResponse->survey_id]);
-        $facility = Facility::findOne(['id' => $surveyResponse->facility_id]);
+
+    public function updateIfFacilityCanReceiveUpdates(SurveyResponseId $surveyResponseId): void
+    {
+        $surveyResponse = SurveyResponse::findOne([
+            'id' => $surveyResponseId->getValue(),
+        ]);
+        $survey = Survey::findOne([
+            'id' => $surveyResponse->survey_id,
+        ]);
+        $facility = Facility::findOne([
+            'id' => $surveyResponse->facility_id,
+        ]);
         $adminData = SurveyResponse::find()
             ->select('data')
             ->where(['!=', 'status', 'Deleted'])
-            ->andWhere(['facility_id' => $surveyResponse->facility_id])
-            ->andWhere(['response_type' => 'admin'])
-            ->orderBy(['date_of_update' => SORT_DESC])
+            ->andWhere([
+                'facility_id' => $surveyResponse->facility_id,
+            ])
+            ->andWhere([
+                'response_type' => 'admin',
+            ])
+            ->orderBy([
+                'date_of_update' => SORT_DESC,
+            ])
             ->one();
         $state = $adminData->data['HSDU_DATE'];
-        $surveyData = Survey::findOne(['id' => $adminData->survey_id]);
+        $surveyData = Survey::findOne([
+            'id' => $adminData->survey_id,
+        ]);
         $hsduStatusData = $this->surveyParserClean::findQuestionInfo($survey, 'HSDU_STATUS');
         $statusInSurvey = $adminData->data['HSDU_STATUS'];
         $status = HSDUStateEnum::acceptUpdates;
-        foreach($hsduStatusData['choices'] ?? [] as $statusInfo){
-            if ($statusInfo['value'] === $statusInSurvey){
-                $status = HSDUStateEnum::from((int)$statusInfo['hsdu_state']);
+        foreach ($hsduStatusData['choices'] ?? [] as $statusInfo) {
+            if ($statusInfo['value'] === $statusInSurvey) {
+                $status = HSDUStateEnum::from((int) $statusInfo['hsdu_state']);
                 break;
             }
         }
         $facility->can_receive_situation_update = $status === HSDUStateEnum::acceptUpdates;
         $facility->save();
     }
+
     public function updateAnswersOnFacility(
         SurveyResponseId $surveyResponseId
-
     ): void {
-        $surveyResponse = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
-        $survey = Survey::findOne(['id' => $surveyResponse->survey_id]);
-        $facility = Facility::findOne(['id' => $surveyResponse->facility_id]);
+        $surveyResponse = SurveyResponse::findOne([
+            'id' => $surveyResponseId->getValue(),
+        ]);
+        $survey = Survey::findOne([
+            'id' => $surveyResponse->survey_id,
+        ]);
+        $facility = Facility::findOne([
+            'id' => $surveyResponse->facility_id,
+        ]);
         $adminData = SurveyResponse::find()
             ->select('data')
             ->where(['!=', 'status', 'Deleted'])
-            ->andWhere(['facility_id' => $surveyResponse->facility_id])
-            ->andWhere(['response_type' => 'admin'])
-            ->orderBy(['date_of_update' => SORT_DESC])
+            ->andWhere([
+                'facility_id' => $surveyResponse->facility_id,
+            ])
+            ->andWhere([
+                'response_type' => 'admin',
+            ])
+            ->orderBy([
+                'date_of_update' => SORT_DESC,
+            ])
             ->one();
         $situationData = SurveyResponse::find()
             ->select('data')
             ->where(['!=', 'status', 'Deleted'])
-            ->andWhere(['facility_id' => $surveyResponse->facility_id])
-            ->andWhere(['response_type' => 'situation'])
-            ->orderBy(['date_of_update' => SORT_DESC])
+            ->andWhere([
+                'facility_id' => $surveyResponse->facility_id,
+            ])
+            ->andWhere([
+                'response_type' => 'situation',
+            ])
+            ->orderBy([
+                'date_of_update' => SORT_DESC,
+            ])
             ->one();
 
-        if (!is_null($situationData?->data)){
+        if (! is_null($situationData?->data)) {
             $facility->situation_data = $situationData->data;
         }
 
-        if (!is_null($adminData?->data)){
+        if (! is_null($adminData?->data)) {
             $tierData = $this->surveyParserClean::findQuestionInfo($survey, 'HSDU_TYPE');
             $tier = 'Other';
             try {
-                foreach($tierData['choices'] ?? [] as $tierInfo){
-                    if ($tierInfo['value'] === ($adminData->data['HSDU_TYPE'] ?? $adminData?->data['HSDU_TYPE'] ?? $adminData->data['HSDU_TYPE'] ?? [])){
-                        $tier = FacilityTier::from((int)$tierInfo['tier'])->label('en');
+                foreach ($tierData['choices'] ?? [] as $tierInfo) {
+                    if ($tierInfo['value'] === ($adminData->data['HSDU_TYPE'] ?? $adminData?->data['HSDU_TYPE'] ?? $adminData->data['HSDU_TYPE'] ?? [])) {
+                        $tier = FacilityTier::from((int) $tierInfo['tier'])->label('en');
                         break;
                     }
                 }
-            }
-            catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $tier = 'Unknown';
             }
 
@@ -373,12 +407,10 @@ class SurveyResponseRepository
             try {
                 $facility->latitude = $adminData->data['HSDU_COORDINATES']['HSDU_LATITUDE'];
                 $facility->longitude = $adminData->data['HSDU_COORDINATES']['HSDU_LONGITUDE'];
-            }
-            catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $facility->longitude = null;
                 $facility->latitude = null;
-            }
-            catch (\Error $error){
+            } catch (\Error $error) {
                 $facility->longitude = null;
                 $facility->latitude = null;
             }
@@ -387,43 +419,70 @@ class SurveyResponseRepository
         }
         $facility->save();
     }
-    public function updateDatesOnFacility(SurveyResponseId $surveyResponseId): void {
-        $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
-        $facility = Facility::findOne(['id' => $survey->facility_id]);
+
+    public function updateDatesOnFacility(SurveyResponseId $surveyResponseId): void
+    {
+        $survey = SurveyResponse::findOne([
+            'id' => $surveyResponseId->getValue(),
+        ]);
+        $facility = Facility::findOne([
+            'id' => $survey->facility_id,
+        ]);
         $date_of_update = SurveyResponse::find()
             ->select('MAX(date_of_update)')
             ->where(['!=', "status", 'Deleted'])
-            ->andWhere(['facility_id' => $survey->facility_id])
+            ->andWhere([
+                'facility_id' => $survey->facility_id,
+            ])
             ->orderBy('date_of_update DESC')
             ->scalar();
-            //->scalar();
+        //->scalar();
         $facility->date_of_update = $date_of_update;
         $commonField = CommonFieldsInTables::forUpdating();
         $facility->last_modified_by = $commonField['last_modified_by'];
         $facility->last_modified_date = $commonField['last_modified_date'];
         $facility->update();
     }
-    public function updateDateOnProject(SurveyResponseId $surveyResponseId): void {
-        $survey = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
-        $facility = Facility::findOne(['id' => $survey->facility_id]);
-        $workspace = Workspace::findOne(['id' => $facility->workspace_id]);
-        $project = Project::findOne(['id'  => $workspace->project_id]);
+
+    public function updateDateOnProject(SurveyResponseId $surveyResponseId): void
+    {
+        $survey = SurveyResponse::findOne([
+            'id' => $surveyResponseId->getValue(),
+        ]);
+        $facility = Facility::findOne([
+            'id' => $survey->facility_id,
+        ]);
+        $workspace = Workspace::findOne([
+            'id' => $facility->workspace_id,
+        ]);
+        $project = Project::findOne([
+            'id' => $workspace->project_id,
+        ]);
         $query = new Query();
         $query->select(['MAX(prime2_survey_response.date_of_update)'])
             ->from('prime2_survey_response')
             ->innerJoin('prime2_facility', 'prime2_survey_response.facility_id = prime2_facility.id')
             ->innerJoin('prime2_workspace', 'prime2_workspace.id = prime2_facility.workspace_id')
             ->innerJoin('prime2_project', 'prime2_project.id = prime2_workspace.project_id')
-            ->where(['prime2_project.id' => (int) $project->id])
-            ->andWhere(['prime2_survey_response.status' => 'Validated']);
+            ->where([
+                'prime2_project.id' => (int) $project->id,
+            ])
+            ->andWhere([
+                'prime2_survey_response.status' => 'Validated',
+            ]);
         $date_of_update = $query->scalar();
         $project->date_of_update = $date_of_update;
         $project->update(false);
     }
 
-    public function updateDateOnWorkspace(SurveyResponseId $surveyResponseId): void {
-        $surveyResponse = SurveyResponse::findOne(['id' => $surveyResponseId->getValue()]);
-        $facility = Facility::findOne(['id' => $surveyResponse->facility_id]);
+    public function updateDateOnWorkspace(SurveyResponseId $surveyResponseId): void
+    {
+        $surveyResponse = SurveyResponse::findOne([
+            'id' => $surveyResponseId->getValue(),
+        ]);
+        $facility = Facility::findOne([
+            'id' => $surveyResponse->facility_id,
+        ]);
 
         $query = new Query();
         $workspaceTableName = Workspace::tableName();
@@ -434,10 +493,14 @@ class SurveyResponseRepository
             ->from($workspaceTableName)
             ->innerJoin($facilityTableName, "$facilityTableName.workspace_id = $workspaceTableName.id")
             ->innerJoin($surveyResponseTableName, "$facilityTableName.id = $surveyResponseTableName.facility_id")
-            ->where([$workspaceTableName . '.id' => $facility->workspace_id])
+            ->where([
+                $workspaceTableName . '.id' => $facility->workspace_id,
+            ])
             ->andWhere(['!=', "$surveyResponseTableName.status", 'Deleted'])
             ->scalar();
-        $workspace = Workspace::findOne(['id' => $facility->workspace_id]);
+        $workspace = Workspace::findOne([
+            'id' => $facility->workspace_id,
+        ]);
         $workspace->date_of_update = $date_of_update;
         $workspace->update();
     }

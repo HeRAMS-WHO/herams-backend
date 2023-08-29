@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace herams\common\models;
+
 /**
  * Attributes
  * @property int $id
@@ -16,13 +18,8 @@ namespace herams\common\models;
  * @property string $responded_at
  * @property string $expires_at
  *
- *
- *
- *
- *
  * Relations
- *
  */
-final class AccessRequest extends ActiveRecord{
-
+final class AccessRequest extends ActiveRecord
+{
 }

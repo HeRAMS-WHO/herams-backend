@@ -9,9 +9,6 @@ use yii\db\Migration;
  */
 class M230804162353CreateSurveyTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->createTable('{{%survey}}', [
@@ -20,9 +17,7 @@ class M230804162353CreateSurveyTable extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         $this->dropTable('{{%survey}}');

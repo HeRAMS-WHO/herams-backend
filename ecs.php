@@ -11,10 +11,10 @@ return static function (ECSConfig $ecsConfig): void {
 
     $ecsConfig->sets([
         // run and fix, one by one
-         SetList::SPACES,
-         SetList::ARRAY,
-         SetList::DOCBLOCK,
-         SetList::PSR_12,
+        SetList::SPACES,
+        SetList::ARRAY,
+        SetList::DOCBLOCK,
+        SetList::PSR_12,
     ]);
 
     $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
@@ -22,5 +22,4 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     $ecsConfig->rule(\PhpCsFixer\Fixer\Import\NoUnusedImportsFixer::class);
-
 };

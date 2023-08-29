@@ -19,7 +19,6 @@ use yii\base\Event;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\db\AfterSaveEvent;
-use yii\db\Connection;
 use yii\web\Application;
 
 final class AuditService implements BootstrapInterface, AuditServiceInterface
@@ -30,6 +29,7 @@ final class AuditService implements BootstrapInterface, AuditServiceInterface
      * @var list<array{0: NewAuditEntryInterface, 1: UserId}>
      */
     private array $entries = [];
+
     public function __construct(
         private readonly CommandFactoryInterface $commandFactory,
         private readonly EventDispatcherInterface $eventDispatcher,
@@ -79,6 +79,7 @@ final class AuditService implements BootstrapInterface, AuditServiceInterface
             $this->userIdProvider->getUserId(),
         ];
     }
+
     public function bootstrap($app): void
     {
         if (! $app instanceof Application) {
@@ -108,7 +109,6 @@ final class AuditService implements BootstrapInterface, AuditServiceInterface
                 $userId->getValue(),
             ];
         }
-
 
         try {
             $this->commandFactory->createCommand()->batchInsert(

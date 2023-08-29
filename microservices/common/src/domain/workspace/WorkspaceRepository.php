@@ -19,14 +19,14 @@ use herams\common\values\WorkspaceId;
 use prime\interfaces\WorkspaceForTabMenu;
 use yii\web\NotFoundHttpException;
 
-class WorkspaceRepository {
+class WorkspaceRepository
+{
     public function __construct(
         private AccessCheckInterface $accessCheck,
         private ActiveRecordHydratorInterface $activeRecordHydrator,
         private ModelHydratorInterface $modelHydrator
     ) {
     }
-
 
     private function workspaceQuery(ProjectId $projectId): WorkspaceQuery
     {
@@ -36,10 +36,11 @@ class WorkspaceRepository {
                 'project_id' => $projectId->getValue(),
             ])->andWhere([
                 'or',
-                   ['!=', 'status', 'Deleted'],
-                   ['IS', 'status', null]
-                ]);
+                ['!=', 'status', 'Deleted'],
+                ['IS', 'status', null],
+            ]);
     }
+
     private function workspaceQueryComplete(ProjectId $projectId): WorkspaceQuery
     {
         return Workspace::find()
@@ -48,9 +49,12 @@ class WorkspaceRepository {
                 'project_id' => $projectId->getValue(),
             ]);
     }
-    public function deleteAll(array $condition): void {
+
+    public function deleteAll(array $condition): void
+    {
         Workspace::deleteAll($condition);
     }
+
     /**
      * @return list<Workspace>
      */
@@ -62,6 +66,7 @@ class WorkspaceRepository {
         $this->accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
         return $this->workspaceQueryComplete($id)->all();
     }
+
     /**
      * @return list<Workspace>
      */
@@ -94,6 +99,7 @@ class WorkspaceRepository {
 
         return $record;
     }
+
     public function retrieveForTabMenu(WorkspaceId $id): WorkspaceForTabMenu
     {
         $record = Workspace::find()
@@ -113,13 +119,14 @@ class WorkspaceRepository {
         $record = Workspace::findOne([
             'id' => $workspaceId->getValue(),
         ]);
-        if (!isset($record)) {
+        if (! isset($record)) {
             throw new NotFoundHttpException();
         }
         $model = new UpdateWorkspace($workspaceId);
         $this->activeRecordHydrator->hydrateRequestModel($record, $model);
         return $model;
     }
+
     public function update(UpdateWorkspace $model): void
     {
         $record = Workspace::findOne([
@@ -132,12 +139,14 @@ class WorkspaceRepository {
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
     }
+
     public function updateTitles(
         WorkspaceId $workspaceId,
         array $titles
-    )
-    {
-        $workspace = Workspace::findOne(['id' => $workspaceId->getValue()]);
+    ) {
+        $workspace = Workspace::findOne([
+            'id' => $workspaceId->getValue(),
+        ]);
         $workspace->i18n = $titles;
         $workspace->save();
     }
