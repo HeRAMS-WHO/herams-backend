@@ -19,6 +19,6 @@ class Serializer extends \yii\rest\Serializer
 
     private function serializeLocalizable(LocalizableInterface $data): array
     {
-        return $data::toLocalizedArray(Locale::from(\Yii::$app->language));
+        return $data->toLocalizedArray(Locale::from(\Yii::$app->language));
     }
 }
