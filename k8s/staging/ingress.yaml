@@ -43,3 +43,13 @@ spec:
               number: 80
         pathType: Prefix
         path: /
+  - host: api.herams-staging.org
+    http:
+      paths:
+        - backend:
+            service:
+              name: v1api-service
+              port:
+                number: 80
+          pathType: Prefix
+          path: /
