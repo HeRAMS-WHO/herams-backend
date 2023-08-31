@@ -9,7 +9,7 @@ class ChartBundle extends AssetBundle
 {
     public $sourcePath = __DIR__ . '/assets';
     public $js = [
-        'center-text.js'
+        'center-text.js',
     ];
 
     public $depends = [

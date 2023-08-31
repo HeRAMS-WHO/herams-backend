@@ -89,7 +89,7 @@ class Project extends ActiveRecord implements Linkable
 
     public function getStatusText(): string
     {
-        return ProjectStatus::make($this->status)->label;
+        return ProjectStatus::label($this->status);
     }
 
     public function isHidden(): bool
@@ -209,7 +209,7 @@ class Project extends ActiveRecord implements Linkable
             [['hidden'], BooleanValidator::class],
             [['latitude', 'longitude'], NumberValidator::class, 'integerOnly' => false],
             [['typemapAsJson', 'overridesAsJson'], SafeValidator::class],
-            [['status'], EnumValidator::class, 'enumClass' => ProjectStatus::class],
+            [['status'], RequiredValidator::class],
             [['visibility'], EnumValidator::class, 'enumClass' => ProjectVisibility::class],
             [['country'], function () {
                 $data = new ISO3166();
