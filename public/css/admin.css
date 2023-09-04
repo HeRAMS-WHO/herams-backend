@@ -526,3 +526,44 @@ body[data-modal]:after {
 div.ag-filter-from.ag-filter-date-from {
     display: none;
 }
+
+div[data-name="HSDU_TYPE"] input[type="radio"], div[data-name="HSDU_STATUS"] input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(3 * var(--sjs-base-unit, var(--base-unit, 8px)));
+    height: calc(3 * var(--sjs-base-unit, var(--base-unit, 8px)));
+    box-sizing: border-box;
+    background-color: var(--sjs-editorpanel-backcolor, var(--sjs-editor-background, var(--sjs-general-backcolor-dim-light, var(--background-dim-light, #f9f9f9))));
+    box-shadow: var(--sjs-shadow-inner, inset 0px 1px 2px 0px rgba(0, 0, 0, 0.15));
+    border: none;
+    flex-shrink: 0;
+    border-radius:50%;
+    margin-top: calc(((1.5 * var(--sjs-font-editorfont-size, calc(1 * var(--sjs-font-size, var(--sjs-font-size, 16px))))) - (3 * var(--sjs-base-unit, var(--base-unit, 8px))))/2);
+}
+div[data-name="HSDU_TYPE"] input[type="radio"]:checked, div[data-name="HSDU_STATUS"] input[type="radio"]:checked {
+    background: var(--sjs-primary-backcolor, var(--primary, #19b394));
+}
+div[data-name="HSDU_TYPE"] input[type="radio"]:checked::after, div[data-name="HSDU_STATUS"] input[type="radio"]:checked::after {
+    content: " ";
+    display: block;
+    width: calc(1 * var(--sjs-base-unit, var(--base-unit, 8px)));
+    height: calc(1 * var(--sjs-base-unit, var(--base-unit, 8px)));
+    border-radius: 50%;
+    background-color: var(--sjs-primary-forecolor, var(--primary-foreground, #fff));
+}
+
+div[data-name="HSDU_TYPE"] label, div[data-name="HSDU_STATUS"] label{
+    display: inline-flex;
+    position: relative;
+    gap: calc(1 * var(--sjs-base-unit, var(--base-unit, 8px)));
+    vertical-align: top;
+    padding: calc(1.5 * var(--sjs-base-unit, var(--base-unit, 8px))) 0;
+}
+
+div[data-name="HSDU_TYPE"] fieldset, div[data-name="HSDU_STATUS"] fieldset {
+    border-color:white;
+}
