@@ -46,7 +46,7 @@ Section::begin()
             ]),
             'icon' => Icon::add(),
             'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
-                return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(Permission::PERMISSION_WRITE);
+                return $facility->canCurrentUser(Permission::PERMISSION_WRITE);
             },
         ],
     ])
