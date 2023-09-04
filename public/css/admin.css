@@ -526,7 +526,9 @@ body[data-modal]:after {
 div.ag-filter-from.ag-filter-date-from {
     display: none;
 }
-
+div[data-name="HSDU_TYPE"], div[data-name="HSDU_STATUS"]{
+    white-space: unset !important;
+}
 div[data-name="HSDU_TYPE"] input[type="radio"], div[data-name="HSDU_STATUS"] input[type="radio"] {
     -webkit-appearance: none;
     -moz-appearance: none;
