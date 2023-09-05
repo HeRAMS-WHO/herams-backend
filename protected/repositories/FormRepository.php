@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace prime\repositories;
 
 use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
+use herams\common\models\Workspace;
 use herams\common\values\ProjectId;
 use herams\common\values\WorkspaceId;
 use prime\helpers\SurveyConfiguration;
@@ -14,6 +16,7 @@ use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 use yii\helpers\Url;
 
+
 /**
  * A repository for platform forms. Forms are SurveyJS surveys that are stored as code.
  * They are used for platform operations like creating a new project.
@@ -22,7 +25,8 @@ class FormRepository
 {
     public function __construct(
         private UriFactoryInterface $uriFactory,
-        private ProjectRepository $projectRepository
+        private ProjectRepository $projectRepository,
+        private WorkspaceRepository $workspaceRepository
     ) {
     }
 
@@ -76,11 +80,11 @@ class FormRepository
 
     public function getUpdateWorkspaceForm(WorkspaceId $id, ProjectId $projectId = null): SurveyFormInterface
     {
+        $localization = Workspace::find(['id' => $id->getValue()])->one()->toArray()['i18n']['title'];
         return new SurveyForm(
             submitRoute: $this->createUri('/api/workspace/update', id: $id),
-            dataRoute: $this->createUri('/api/workspace/view', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate', id: $id),
-            configuration: $this->loadDefinition('createUpdateWorkspace'),
+            configuration: SurveyConfiguration::forUpdatingWorkspace($localization),
             localeEndpoint: isset($projectId) ? $this->createUri('/api/project/view', id: $projectId) : null,
             extraData: [
                 'id' => $id,
