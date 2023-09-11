@@ -80,7 +80,9 @@ class FormRepository
 
     public function getUpdateWorkspaceForm(WorkspaceId $id, ProjectId $projectId = null): SurveyFormInterface
     {
-        $localization = Workspace::find(['id' => $id->getValue()])->one()->toArray()['i18n']['title'];
+
+        $localization = Workspace::findOne(['id' => $id->getValue()])->toArray()['i18n']['title'];
+
         return new SurveyForm(
             submitRoute: $this->createUri('/api/workspace/update', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate', id: $id),
