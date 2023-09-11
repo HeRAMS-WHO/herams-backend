@@ -55,6 +55,7 @@ class FormRepository
         $project = $this->projectRepository->retrieveById($id);
         return new SurveyForm(
             submitRoute: $this->createUri('/api/project/update', id: $id),
+            redirectRoute: $this->createUri('/project/update', id: $id?->getValue()),
             dataRoute: $this->createUri('/api/project/view', id: $id),
             serverValidationRoute: $this->createUri('/api/project/validate', id: $id),
             configuration: SurveyConfiguration::forUpdatingProject($project),
@@ -80,12 +81,11 @@ class FormRepository
 
     public function getUpdateWorkspaceForm(WorkspaceId $id, ProjectId $projectId = null): SurveyFormInterface
     {
-
         $localization = Workspace::findOne(['id' => $id->getValue()])->toArray()['i18n']['title'];
-
         return new SurveyForm(
             submitRoute: $this->createUri('/api/workspace/update', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate', id: $id),
+            redirectRoute: $this->createUri('/project/workspaces', id: $projectId?->getValue()),
             configuration: SurveyConfiguration::forUpdatingWorkspace($localization),
             localeEndpoint: isset($projectId) ? $this->createUri('/api/project/view', id: $projectId) : null,
             extraData: [
