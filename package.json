@@ -18,7 +18,7 @@
         "normalize.css": "^8.0.1",
         "popper.js": "^1.16.1",
         "pretty-checkbox": "^3.0.3",
-        "survey-creator-core": "^1.9.100",
+        "survey-creator-core": "^1.9.104",
         "survey-creator-knockout": "^1.9.100",
         "survey-knockout": "^1.9.100",
         "survey-knockout-ui": "^1.9.100",
