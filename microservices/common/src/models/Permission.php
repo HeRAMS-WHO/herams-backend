@@ -155,7 +155,7 @@ class Permission extends ActiveRecord
 
     public static function tableName(): string
     {
-        return '{{%permission}}';
+        return '{{permission_old}}';
     }
 
     public function sourceAuthorizable(): Authorizable

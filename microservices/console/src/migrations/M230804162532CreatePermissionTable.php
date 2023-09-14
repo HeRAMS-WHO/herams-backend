@@ -5,7 +5,7 @@ namespace herams\console\migrations;
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%permission}}`.
+ * Handles the creation of table `{{permission_old}}`.
  */
 class M230804162532CreatePermissionTable extends Migration
 {
