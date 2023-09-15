@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Collecthor\DataInterfaces\VariableInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\helpers\AgGridHelper;
 use prime\helpers\Icon;
 use prime\widgets\menu\WorkspaceTabMenu;
@@ -40,7 +40,7 @@ Section::begin([
                 'facility/create',
                 'workspaceId' => $tabMenuModel->id(),
             ],
-            'permission' => Permission::
+            'permission' => PermissionOld::
 PERMISSION_CREATE_FACILITY,
         ],
     ],

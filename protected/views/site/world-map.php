@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\widgets\map\Map;
 use prime\widgets\menu\SideMenu;
 use yii\helpers\Html;
@@ -62,7 +62,7 @@ $menu = SideMenu::begin([
     'footer' => $this->render('//footer'),
 ]);
 
-if (app()->user->can(Permission::PERMISSION_CREATE_PROJECT)) {
+if (app()->user->can(PermissionOld::PERMISSION_CREATE_PROJECT)) {
     echo Html::a('New project', ['project/create'], [
         'style' => [
             'color' => '#737373',

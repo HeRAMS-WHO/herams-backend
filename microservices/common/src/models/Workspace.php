@@ -72,11 +72,11 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                 'virtualFields' => [
                     'leadNames' => [
                         VirtualFieldBehavior::GREEDY => (function () {
-                            $permissionQuery = Permission::find()->andWhere([
+                            $permissionQuery = PermissionOld::find()->andWhere([
                                 'target' => self::class,
                                 'target_id' => new Expression(self::tableName() . '.[[id]]'),
                                 'source' => User::class,
-                                'permission' => Permission::ROLE_LEAD,
+                                'permission' => PermissionOld::ROLE_LEAD,
                             ]);
 
                             return User::find()->andWhere([
@@ -151,12 +151,12 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                     ],
                     'contributorCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Permission::find()->where([
+                        VirtualFieldBehavior::GREEDY => PermissionOld::find()->where([
                             'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                             'target_id' => new Expression(self::tableName() . '.[[id]]'),
                         ])->select('count(distinct [[source_id]])'),
                         VirtualFieldBehavior::LAZY => static function (self $model): int {
-                            return (int) Permission::find()->where([
+                            return (int) PermissionOld::find()->where([
                                 'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                                 'target_id' => $model->id,
                             ])->count('distinct [[source_id]]');
@@ -164,7 +164,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
                     ],
                     'permissionSourceCount' => [
                         VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                        VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
+                        VirtualFieldBehavior::GREEDY => PermissionOld::find()->limit(1)->select('count(distinct source_id)')
                             ->where([
                                 'source' => User::class,
                                 'target' => self::class,
@@ -227,11 +227,11 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
      */
     public function getLeads(): array
     {
-        $permissionQuery = Permission::find()->andWhere([
+        $permissionQuery = PermissionOld::find()->andWhere([
             'target' => self::class,
             'target_id' => $this->id,
             'source' => User::class,
-            'permission' => Permission::ROLE_LEAD,
+            'permission' => PermissionOld::ROLE_LEAD,
         ]);
 
         $result = User::find()->andWhere([
@@ -243,7 +243,7 @@ class Workspace extends ActiveRecord implements RequestableInterface, Conditiona
 
     public function getPermissions(): ActiveQuery
     {
-        return $this->hasMany(Permission::class, [
+        return $this->hasMany(PermissionOld::class, [
             'target_id' => 'id',
         ])
             ->andWhere([

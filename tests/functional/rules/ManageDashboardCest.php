@@ -7,7 +7,7 @@ namespace prime\tests\functional\rules;
 use herams\common\domain\element\Element;
 use herams\common\domain\user\User;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
@@ -24,7 +24,7 @@ class ManageDashboardCest
         $manager = \Yii::$app->abacManager;
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
-        $manager->grant($user, $project, Permission::PERMISSION_MANAGE_DASHBOARD);
+        $manager->grant($user, $project, PermissionOld::PERMISSION_MANAGE_DASHBOARD);
 
         $page = new Page([
             'title' => 'test',
@@ -32,7 +32,7 @@ class ManageDashboardCest
         ]);
         $I->save($page);
 
-        $I->assertTrue($manager->check($user, $page, Permission::PERMISSION_WRITE));
+        $I->assertTrue($manager->check($user, $page, PermissionOld::PERMISSION_WRITE));
 
         $element = new Element([
             'sort' => 1,
@@ -42,8 +42,8 @@ class ManageDashboardCest
         ]);
         $I->save($element);
 
-        $I->assertTrue($manager->check($user, $element, Permission::PERMISSION_WRITE));
-        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_WRITE, $element));
+        $I->assertTrue($manager->check($user, $element, PermissionOld::PERMISSION_WRITE));
+        $I->assertTrue(\Yii::$app->user->can(PermissionOld::PERMISSION_WRITE, $element));
         $I->amOnPage([
             'element/update',
             'id' => $element->id,

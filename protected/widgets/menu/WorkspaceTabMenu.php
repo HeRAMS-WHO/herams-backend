@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\helpers\Icon;
 use prime\interfaces\WorkspaceForTabMenu;
 
@@ -23,7 +23,7 @@ class WorkspaceTabMenu extends TabMenu
         $this->tabs = [];
 
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_LIST_FACILITIES,
+            'permission' => PermissionOld::PERMISSION_LIST_FACILITIES,
             'url' => [
                 "workspace/facilities",
                 'id' => $this->workspace->id(),
@@ -32,7 +32,7 @@ class WorkspaceTabMenu extends TabMenu
 ",
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_ADMIN,
+            'permission' => PermissionOld::PERMISSION_ADMIN,
             'url' => [
                 "workspace/update",
                 'id' => $this->workspace->id(),
@@ -51,7 +51,7 @@ class WorkspaceTabMenu extends TabMenu
                 'n' => $this->workspace->getPermissionSourceCount(),
             ]),
             'permission' =>
-Permission::PERMISSION_SHARE,
+PermissionOld::PERMISSION_SHARE,
         ];
         $this->tabs[] = [
             'title' => Icon::broken() . \Yii::t('app', 'Export data'),
@@ -59,7 +59,7 @@ Permission::PERMISSION_SHARE,
                 'workspace/export',
                 'id' => $this->workspace->id(),
             ],
-            'permission' => Permission::
+            'permission' => PermissionOld::
 PERMISSION_EXPORT,
         ];
         return parent::renderMenu();

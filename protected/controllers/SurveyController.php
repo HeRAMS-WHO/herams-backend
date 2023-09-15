@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\Controller;
 use prime\controllers\survey\Create;
 use prime\controllers\survey\Index;
@@ -42,7 +42,7 @@ class SurveyController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'roles' => [Permission::PERMISSION_ADMIN],
+                            'roles' => [PermissionOld::PERMISSION_ADMIN],
                         ],
                     ],
                 ],

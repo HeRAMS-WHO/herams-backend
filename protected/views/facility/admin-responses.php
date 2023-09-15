@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Collecthor\DataInterfaces\VariableInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\View;
 use prime\helpers\AgGridHelper;
 use prime\helpers\Icon;
@@ -46,7 +46,7 @@ Section::begin()
             ]),
             'icon' => Icon::add(),
             'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
-                return $facility->canCurrentUser(Permission::PERMISSION_WRITE);
+                return $facility->canCurrentUser(PermissionOld::PERMISSION_WRITE);
             },
         ],
     ])

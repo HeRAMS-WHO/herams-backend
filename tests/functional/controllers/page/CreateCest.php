@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\page;
 
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 
 /**
@@ -15,8 +15,8 @@ class CreateCest
 {
     public function _before(FunctionalTester $I)
     {
-        $I->assertTrue(\Yii::$app->authManager->checkAccess(TEST_ADMIN_ID, Permission::PERMISSION_ADMIN));
-        $I->assertFalse(\Yii::$app->authManager->checkAccess(TEST_USER_ID, Permission::PERMISSION_ADMIN));
+        $I->assertTrue(\Yii::$app->authManager->checkAccess(TEST_ADMIN_ID, PermissionOld::PERMISSION_ADMIN));
+        $I->assertFalse(\Yii::$app->authManager->checkAccess(TEST_USER_ID, PermissionOld::PERMISSION_ADMIN));
     }
 
     public function testAccessControl(FunctionalTester $I)

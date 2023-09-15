@@ -6,7 +6,7 @@ namespace prime\controllers\page;
 
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\NotificationService;
 use yii\base\Action;
 use yii\web\NotFoundHttpException;
@@ -27,7 +27,7 @@ class Update extends Action
             throw new NotFoundHttpException();
         }
 
-        $accessCheck->requirePermission($page, Permission::PERMISSION_WRITE);
+        $accessCheck->requirePermission($page, PermissionOld::PERMISSION_WRITE);
 
         if ($request->isPut) {
             if ($page->load($request->bodyParams) && $page->save()) {

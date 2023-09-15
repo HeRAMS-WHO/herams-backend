@@ -5,7 +5,7 @@ declare(strict_types=1);
 use app\components\Form;
 use herams\common\domain\element\Element;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use kartik\form\ActiveForm;
 use kartik\grid\GridView;
 use kartik\helpers\Html;
@@ -171,7 +171,7 @@ echo GridView::widget([
             'template' => '{update} {remove}',
             'buttons' => [
                 'update' => function ($url, Element $model, $key) {
-                    if (app()->user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $model->page->project)) {
+                    if (app()->user->can(PermissionOld::PERMISSION_MANAGE_DASHBOARD, $model->page->project)) {
                         return Html::a(
                             Icon::edit(),
                             [
@@ -182,7 +182,7 @@ echo GridView::widget([
                     }
                 },
                 'remove' => function ($url, Element $model, $key) {
-                    if (app()->user->can(Permission::PERMISSION_DELETE, $model)) {
+                    if (app()->user->can(PermissionOld::PERMISSION_DELETE, $model)) {
                         return Html::a(
                             Icon::trash(),
                             [

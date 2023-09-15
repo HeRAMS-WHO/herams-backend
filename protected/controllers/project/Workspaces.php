@@ -6,7 +6,7 @@ namespace prime\controllers\project;
 
 use herams\common\domain\project\ProjectRepository;
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\ProjectId;
 use prime\actions\FrontendAction;
 use prime\components\BreadcrumbService;
@@ -31,7 +31,7 @@ final class Workspaces extends FrontendAction
 
         $projectId = new ProjectId($id);
         $project = $projectRepository->retrieveForRead($projectId);
-        $accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
+        $accessCheck->requirePermission($project, PermissionOld::PERMISSION_LIST_WORKSPACES);
 
         $this->controller->view->breadcrumbCollection->add(
             ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())

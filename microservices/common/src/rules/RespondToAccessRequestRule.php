@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace herams\common\rules;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\models\ar\AccessRequest;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -16,7 +16,7 @@ class RespondToAccessRequestRule implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_RESPOND,
+            PermissionOld::PERMISSION_RESPOND,
         ];
     }
 
@@ -49,6 +49,6 @@ class RespondToAccessRequestRule implements Rule
             && $target instanceof AccessRequest
             && $target->created_by !== $source->id
             && isset($target->target)
-            && $accessChecker->check($source, $target->target, Permission::PERMISSION_SHARE);
+            && $accessChecker->check($source, $target->target, PermissionOld::PERMISSION_SHARE);
     }
 }

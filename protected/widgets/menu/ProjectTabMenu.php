@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\widgets\menu;
 
 use herams\common\interfaces\ProjectForTabMenuInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 
 /**
  * Class Menu
@@ -40,7 +40,7 @@ class ProjectTabMenu extends TabMenu
                 'project/update',
                 'id' => $projectId,
             ],
-            'permission' => Permission::PERMISSION_WRITE,
+            'permission' => PermissionOld::PERMISSION_WRITE,
             'title' => \Yii::t(
                 'app',
                 'Project settings'
@@ -51,7 +51,7 @@ class ProjectTabMenu extends TabMenu
                 'project/pages',
                 'id' => $projectId,
             ],
-            'permission' => Permission::PERMISSION_MANAGE_DASHBOARD,
+            'permission' => PermissionOld::PERMISSION_MANAGE_DASHBOARD,
             'title' => \Yii::t('app', 'Dashboard settings'),
             'active' => \Yii::$app->requestedRoute === 'project/import-dashboard',
         ];
@@ -64,10 +64,10 @@ class ProjectTabMenu extends TabMenu
                 'n' => $this->project->getPermissionSourceCount(),
             ]),
             'permission' =>
-             Permission::PERMISSION_SHARE,
+             PermissionOld::PERMISSION_SHARE,
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_EXPORT,
+            'permission' => PermissionOld::PERMISSION_EXPORT,
             'url' => [
                 'project/export',
                 'id' => $projectId,

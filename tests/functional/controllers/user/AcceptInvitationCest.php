@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\user;
 
 use Carbon\Carbon;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\tests\FunctionalTester;
 use SamIT\abac\interfaces\Resolver;
@@ -19,7 +19,7 @@ class AcceptInvitationCest
     private function getSignedUrl(
         string $email,
         Project $project,
-        array $permissions = [Permission::PERMISSION_READ],
+        array $permissions = [PermissionOld::PERMISSION_READ],
     ) {
         /** @var UrlSigner $urlSigner */
         $urlSigner = \Yii::$app->urlSigner;

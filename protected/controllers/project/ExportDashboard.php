@@ -2,7 +2,7 @@
 
 namespace prime\controllers\project;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
@@ -24,7 +24,7 @@ class ExportDashboard extends Action
         if (! isset($project)) {
             throw new NotFoundHttpException('Project not found');
         }
-        if (! $user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
+        if (! $user->can(PermissionOld::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\project;
 
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
@@ -27,7 +27,7 @@ class Pages extends Action
         ]);
 
         $projectId = new ProjectId($id);
-        $accessCheck->requirePermission($model, Permission::PERMISSION_MANAGE_DASHBOARD);
+        $accessCheck->requirePermission($model, PermissionOld::PERMISSION_MANAGE_DASHBOARD);
         $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator()));
         return $this->controller->render('pages', [
             'project' => $model,

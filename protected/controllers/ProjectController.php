@@ -7,7 +7,7 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\surveyResponse\SurveyResponseRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\values\ProjectId;
 use herams\common\values\WorkspaceId;
@@ -156,7 +156,7 @@ class ProjectController extends Controller
                             'actions' => [
                                 'create',
                             ],
-                            'roles' => [Permission::PERMISSION_CREATE_PROJECT],
+                            'roles' => [PermissionOld::PERMISSION_CREATE_PROJECT],
                         ],
                     ],
                 ],

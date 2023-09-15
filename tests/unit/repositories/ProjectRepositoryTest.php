@@ -9,7 +9,7 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\values\ProjectId;
 use prime\modules\Api\models\UpdateProject;
@@ -50,7 +50,7 @@ class ProjectRepositoryTest extends Unit
         // Test that permission is checked
         $accessChecker->expects($this->once())->method('requirePermission')->willReturnCallback(function ($subject, $permission) use ($project) {
             $this->assertTrue($project->equals($subject));
-            $this->assertSame(Permission::PERMISSION_WRITE, $permission);
+            $this->assertSame(PermissionOld::PERMISSION_WRITE, $permission);
         });
 
         $modelHydrator = $this->getMockBuilder(ModelHydrator::class)->disableOriginalConstructor()->getMock();

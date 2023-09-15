@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\rules;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
@@ -27,11 +27,11 @@ class CreateFacilityCest
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
 
-        $I->assertFalse($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
+        $I->assertFalse($manager->check($user, $workspace, PermissionOld::PERMISSION_CREATE_FACILITY));
 
-        $manager->grant($user, $workspace, Permission::PERMISSION_MANAGE_WORKSPACES);
+        $manager->grant($user, $workspace, PermissionOld::PERMISSION_MANAGE_WORKSPACES);
 
-        $I->assertFalse($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
+        $I->assertFalse($manager->check($user, $workspace, PermissionOld::PERMISSION_CREATE_FACILITY));
     }
 
     public function testProjectManageImpliesCreateEnabled(FunctionalTester $I)
@@ -47,9 +47,9 @@ class CreateFacilityCest
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
 
-        $I->assertFalse($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
+        $I->assertFalse($manager->check($user, $workspace, PermissionOld::PERMISSION_CREATE_FACILITY));
 
-        $manager->grant($user, $workspace, Permission::PERMISSION_SURVEY_DATA);
-        $I->assertTrue($manager->check($user, $workspace, Permission::PERMISSION_CREATE_FACILITY));
+        $manager->grant($user, $workspace, PermissionOld::PERMISSION_SURVEY_DATA);
+        $I->assertTrue($manager->check($user, $workspace, PermissionOld::PERMISSION_CREATE_FACILITY));
     }
 }

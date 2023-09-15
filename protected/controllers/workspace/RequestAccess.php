@@ -6,7 +6,7 @@ namespace prime\controllers\workspace;
 
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\WorkspaceId;
 use prime\components\Controller;
 use prime\components\NotificationService;
@@ -37,7 +37,7 @@ class RequestAccess extends Action
 
         $accessCheck->requirePermission(
             $workspace->project,
-            Permission::PERMISSION_SUMMARY,
+            PermissionOld::PERMISSION_SUMMARY,
             \Yii::t('app', 'You are not allowed to request access to this workspace')
         );
         $model = new RequestAccessForm(

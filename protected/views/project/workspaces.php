@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\helpers\AgGridHelper;
 use prime\helpers\Icon;
@@ -44,7 +44,7 @@ Section::begin(
                     'workspace/create',
                     'project_id' => $project->id,
                 ],
-                'permission' => Permission::PERMISSION_MANAGE_WORKSPACES,
+                'permission' => PermissionOld::PERMISSION_MANAGE_WORKSPACES,
             ],
         ],
     ]

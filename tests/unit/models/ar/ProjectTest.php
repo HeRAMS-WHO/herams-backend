@@ -7,7 +7,7 @@ namespace prime\tests\unit\models\ar;
 use herams\common\enums\Language;
 use herams\common\enums\ProjectVisibility;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 
 /**
  * @covers \herams\common\models\Project
@@ -121,6 +121,6 @@ class ProjectTest extends ActiveRecordTest
 
     public function testGetPermissions(): void
     {
-        $this->testRelation('permissions', Permission::class);
+        $this->testRelation('permissions', PermissionOld::class);
     }
 }

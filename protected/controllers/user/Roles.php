@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\Controller;
 use SamIT\abac\AuthManager;
 use SamIT\abac\values\Grant;
@@ -22,7 +22,7 @@ class Roles extends Action
         int $id
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_CONTENT;
-        if (! $user->can(Permission::PERMISSION_ADMIN)) {
+        if (! $user->can(PermissionOld::PERMISSION_ADMIN)) {
             throw new ForbiddenHttpException();
         }
         $model = \herams\common\domain\user\User::findOne([
@@ -61,9 +61,9 @@ class Roles extends Action
                     },
                 ],
                 [
-                    'label' => 'Permission',
+                    'label' => 'PermissionOld',
                     'value' => function (Grant $grant) {
-                        return Permission::permissionLabels()[$grant->getPermission()] ?? $grant->getPermission();
+                        return PermissionOld::permissionLabels()[$grant->getPermission()] ?? $grant->getPermission();
                     },
                 ],
 

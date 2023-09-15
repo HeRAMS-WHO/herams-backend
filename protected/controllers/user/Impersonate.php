@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\controllers\user;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\MethodNotAllowedHttpException;
@@ -24,7 +24,7 @@ class Impersonate extends Action
             throw new MethodNotAllowedHttpException();
         }
 
-        if (! $user->can(Permission::PERMISSION_ADMIN)) {
+        if (! $user->can(PermissionOld::PERMISSION_ADMIN)) {
             throw new ForbiddenHttpException();
         }
 

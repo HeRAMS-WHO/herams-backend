@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace herams\common\rules;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\models\Workspace;
 use SamIT\abac\interfaces\AccessChecker;
@@ -16,7 +16,7 @@ class ProjectImplicitReadViaExplicitWorkspacePermission implements Rule
 {
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_READ];
+        return [PermissionOld::PERMISSION_READ];
     }
 
     public function getTargetNames(): array
@@ -43,8 +43,8 @@ class ProjectImplicitReadViaExplicitWorkspacePermission implements Rule
     ): bool {
         return $source instanceof User
             && $target instanceof Project
-            && $permission === Permission::PERMISSION_READ
-            && Permission::find()
+            && $permission === PermissionOld::PERMISSION_READ
+            && PermissionOld::find()
                 ->andWhere([
                     'source_id' => $source->getId(),
                     'source' => User::class,

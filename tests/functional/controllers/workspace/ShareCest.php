@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\workspace;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use yii\mail\MessageInterface;
 
@@ -31,7 +31,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        $I->grantCurrentUser($workspace, Permission::PERMISSION_WRITE);
+        $I->grantCurrentUser($workspace, PermissionOld::PERMISSION_WRITE);
 
         $I->amOnPage([
             'workspace/share',
@@ -56,7 +56,7 @@ class ShareCest
         $I->see(\Yii::t('app', 'Workspace owner'));
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->grantCurrentUser($workspace, Permission::ROLE_LEAD);
+        $I->grantCurrentUser($workspace, PermissionOld::ROLE_LEAD);
         $I->amOnPage([
             'project/workspaces',
             'id' => $workspace->project->id,
@@ -69,7 +69,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($workspace->project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage([
             'workspace/share',
@@ -85,7 +85,7 @@ class ShareCest
             'form',
             [
                 'Share[userIdsAndEmails][]' => $toUser->email,
-                'Share[permissions][]' => Permission::PERMISSION_SHARE,
+                'Share[permissions][]' => PermissionOld::PERMISSION_SHARE,
             ]
         );
         $I->seeResponseCodeIs(200);
@@ -115,7 +115,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($workspace->project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage([
             'workspace/share',
@@ -128,7 +128,7 @@ class ShareCest
             'form',
             [
                 'Share[userIdsAndEmails][]' => $toEmail,
-                'Share[permissions][]' => Permission::PERMISSION_SUPER_SHARE,
+                'Share[permissions][]' => PermissionOld::PERMISSION_SUPER_SHARE,
             ]
         );
         $I->seeResponseCodeIs(200);
@@ -144,7 +144,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $workspace = $I->haveWorkspace();
-        $I->grantCurrentUser($workspace->project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($workspace->project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage([
             'workspace/share',
@@ -160,7 +160,7 @@ class ShareCest
             'form',
             [
                 'Share[userIdsAndEmails][]' => $toUser->email,
-                'Share[permissions][]' => Permission::PERMISSION_EXPORT,
+                'Share[permissions][]' => PermissionOld::PERMISSION_EXPORT,
             ]
         );
         $I->seeResponseCodeIs(200);

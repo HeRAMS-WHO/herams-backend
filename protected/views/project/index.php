@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\helpers\Icon;
 use prime\widgets\AgGrid\AgGrid;
 use prime\widgets\Section;
@@ -20,7 +20,7 @@ Section::begin([
             'label' => \Yii::t('app', 'Create project'),
             'link' => ['project/create'],
             'icon' => Icon::add(),
-            'permission' => Permission::PERMISSION_CREATE_PROJECT,
+            'permission' => PermissionOld::PERMISSION_CREATE_PROJECT,
         ],
     ],
 ])->withHeader($this->title);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\WorkspaceId;
 use prime\components\View;
 use prime\helpers\Icon;
@@ -53,7 +53,7 @@ echo Html::tag('p', Html::tag('em', \Yii::t('app', 'Are you ABSOLUTELY SURE you 
 echo ButtonGroup::widget([
     'buttons' => [
         [
-            'visible' => \Yii::$app->user->can(Permission::PERMISSION_DELETE, $workspaceId),
+            'visible' => \Yii::$app->user->can(PermissionOld::PERMISSION_DELETE, $workspaceId),
             'icon' => Icon::trash(),
             'type' => ButtonGroup::TYPE_DELETE_BUTTON,
             'label' => \Yii::t('app', 'Delete'),

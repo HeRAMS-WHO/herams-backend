@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 
 /**
  * Class Menu
@@ -16,17 +16,17 @@ class AdminTabMenu extends TabMenu
     protected function renderMenu(): string
     {
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_ADMIN,
+            'permission' => PermissionOld::PERMISSION_ADMIN,
             'url' => ['admin/dashboard'],
             'title' => \Yii::t('app', 'Dashboard'),
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_ADMIN,
+            'permission' => PermissionOld::PERMISSION_ADMIN,
             'url' => ['user/index'],
             'title' => \Yii::t('app', 'Users'),
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_ADMIN,
+            'permission' => PermissionOld::PERMISSION_ADMIN,
             'url' => ['admin/share'],
             'title' => \Yii::t('app', 'Global permissions'),
         ];

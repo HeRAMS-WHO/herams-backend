@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\accessRequest;
 
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\components\NotificationService;
 use prime\models\ar\AccessRequest;
@@ -30,7 +30,7 @@ class Respond extends Action
             'id' => $id,
         ]);
 
-        $accessCheck->requirePermission($accessRequest, Permission::PERMISSION_RESPOND);
+        $accessCheck->requirePermission($accessRequest, PermissionOld::PERMISSION_RESPOND);
         $model = new RespondFormModel(
             $accessRequest,
             $abacManager,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\accessRequest;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\models\ar\AccessRequest;
 use prime\tests\FunctionalTester;
@@ -50,9 +50,9 @@ final class RespondCest
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
-        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_ADMIN);
 
-        $I->dontSeeRecord(Permission::class, [
+        $I->dontSeeRecord(PermissionOld::class, [
             'source' => User::class,
             'source_id' => TEST_USER_ID,
             'target' => $project::class,
@@ -71,7 +71,7 @@ final class RespondCest
         $accessRequest->refresh();
         $I->assertFalse((bool) $accessRequest->accepted);
 
-        $I->dontSeeRecord(Permission::class, [
+        $I->dontSeeRecord(PermissionOld::class, [
             'source' => User::class,
             'source_id' => TEST_USER_ID,
             'target' => $project::class,
@@ -86,9 +86,9 @@ final class RespondCest
         $accessRequest = $this->createAccessRequest($I, $project);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
-        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_ADMIN);
 
-        $I->dontSeeRecord(Permission::class, [
+        $I->dontSeeRecord(PermissionOld::class, [
             'source' => User::class,
             'source_id' => TEST_USER_ID,
             'target' => $project::class,
@@ -108,7 +108,7 @@ final class RespondCest
         $accessRequest->refresh();
         $I->assertTrue((bool) $accessRequest->accepted);
 
-        $I->seeRecord(Permission::class, [
+        $I->seeRecord(PermissionOld::class, [
             'source' => User::class,
             'source_id' => TEST_USER_ID,
             'target' => $project::class,

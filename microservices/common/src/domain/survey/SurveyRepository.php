@@ -13,7 +13,7 @@ use herams\common\helpers\surveyjs\SurveyParser;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\SurveyRepositoryInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Survey as SurveyModel;
 use herams\common\models\Workspace;
 use herams\common\traits\RepositorySave;
@@ -42,7 +42,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
     public function create(NewSurvey $model): SurveyId
     {
         $record = new Survey();
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_CREATE);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_CREATE);
         $this->hydrator->hydrateActiveRecord($model, $record);
         if (! $record->save()) {
             throw new InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
@@ -109,7 +109,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
         $record = Survey::findOne([
             'id' => $id,
         ]);
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_WRITE);
         return $record;
     }
 
@@ -120,7 +120,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
     {
         /** @var Survey $survey */
         foreach (Survey::find()->all() as $survey) {
-            if ($this->accessCheck->checkPermission($survey, Permission::PERMISSION_READ)) {
+            if ($this->accessCheck->checkPermission($survey, PermissionOld::PERMISSION_READ)) {
                 yield $this->hydrator->hydrateConstructor($survey, SurveyForList::class);
             }
         }
@@ -131,7 +131,7 @@ final class SurveyRepository implements SurveyRepositoryInterface
         $record = Survey::findOne([
             'id' => $model->getSurveyId(),
         ]);
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_WRITE);
         $this->hydrator->hydrateActiveRecord($model, $record);
         if (! $record->save()) {
             throw new InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));

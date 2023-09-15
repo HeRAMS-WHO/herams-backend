@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\project;
 
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
@@ -41,7 +41,7 @@ class Share extends Action
             'id' => $id,
         ]);
         $projectId = new ProjectId($id);
-        $accessCheck->requirePermission($project, Permission::PERMISSION_SHARE, \Yii::t('app', 'You are not allowed to share this project'));
+        $accessCheck->requirePermission($project, PermissionOld::PERMISSION_SHARE, \Yii::t('app', 'You are not allowed to share this project'));
 
         $this->controller->view->breadcrumbCollection->add(
             ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())
@@ -56,18 +56,18 @@ class Share extends Action
                 $mailer,
                 $urlSigner,
                 [
-                    Permission::PERMISSION_READ,
-                    Permission::PERMISSION_SURVEY_DATA,
-                    Permission::PERMISSION_CREATE_FACILITY,
-                    Permission::PERMISSION_EXPORT,
-                    Permission::PERMISSION_MANAGE_WORKSPACES,
-                    Permission::PERMISSION_SHARE,
-                    Permission::PERMISSION_MANAGE_DASHBOARD,
-                    Permission::PERMISSION_WRITE,
-                    Permission::PERMISSION_SUPER_SHARE,
-                    Permission::PERMISSION_SURVEY_BACKEND,
+                    PermissionOld::PERMISSION_READ,
+                    PermissionOld::PERMISSION_SURVEY_DATA,
+                    PermissionOld::PERMISSION_CREATE_FACILITY,
+                    PermissionOld::PERMISSION_EXPORT,
+                    PermissionOld::PERMISSION_MANAGE_WORKSPACES,
+                    PermissionOld::PERMISSION_SHARE,
+                    PermissionOld::PERMISSION_MANAGE_DASHBOARD,
+                    PermissionOld::PERMISSION_WRITE,
+                    PermissionOld::PERMISSION_SUPER_SHARE,
+                    PermissionOld::PERMISSION_SURVEY_BACKEND,
 
-                    Permission::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
+                    PermissionOld::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
                 ]
             );
         } catch (NoGrantablePermissions $e) {

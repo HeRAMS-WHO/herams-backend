@@ -2,7 +2,7 @@
 
 namespace prime\actions;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\NotificationService;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
@@ -20,7 +20,7 @@ class DeleteAction extends Action
     /**
      * @var string|\Closure
      */
-    public $permission = Permission::PERMISSION_DELETE;
+    public $permission = PermissionOld::PERMISSION_DELETE;
 
     public $redirect;
 

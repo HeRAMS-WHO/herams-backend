@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\accessRequest;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\models\ar\AccessRequest;
 use prime\tests\FunctionalTester;
@@ -39,7 +39,7 @@ class IndexCest
         $I->amOnPage(['access-request/index']);
         $I->dontSee($accessRequest->subject);
 
-        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage(['access-request/index']);
         $I->see($project->title);
@@ -58,7 +58,7 @@ class IndexCest
         $I->amOnPage(['access-request/index']);
         $I->dontSee($accessRequest->subject);
 
-        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_ADMIN);
         $I->amOnPage(['access-request/index']);
         $I->see($project->title);
         $I->see(User::findOne([

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\workspace;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use prime\models\ar\AccessRequest;
 use prime\tests\FunctionalTester;
@@ -22,7 +22,7 @@ class RequestAccessCest
 
         $workspace = $I->haveWorkspace();
 
-        $I->assertUserCan($workspace->project, Permission::PERMISSION_SUMMARY);
+        $I->assertUserCan($workspace->project, PermissionOld::PERMISSION_SUMMARY);
         $I->amOnPage([
             'workspace/request-access',
             'id' => $workspace->id,

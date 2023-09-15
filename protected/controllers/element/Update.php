@@ -6,7 +6,7 @@ namespace prime\controllers\element;
 
 use herams\common\domain\element\Element;
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\PageId;
 use herams\common\values\ProjectId;
 use prime\models\ar\elements\Svelte;
@@ -39,7 +39,7 @@ class Update extends Action
             'id' => $id,
         ])->one();
 
-        $accessCheck->requirePermission($element, Permission::PERMISSION_WRITE);
+        $accessCheck->requirePermission($element, PermissionOld::PERMISSION_WRITE);
 
         return $this->handleSurveyJs($request, $element);
     }

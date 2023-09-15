@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\rules;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -41,8 +41,8 @@ class ManageWorkspaceRule implements Rule
     ): bool {
         return $target instanceof Workspace
             // This permission is handled in a separate rule
-            && $permission !== Permission::PERMISSION_CREATE_FACILITY
-            && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_WORKSPACES)
+            && $permission !== PermissionOld::PERMISSION_CREATE_FACILITY
+            && $accessChecker->check($source, $target->project, PermissionOld::PERMISSION_MANAGE_WORKSPACES)
         ;
     }
 }

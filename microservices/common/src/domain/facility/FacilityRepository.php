@@ -13,7 +13,7 @@ use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\SurveyRepositoryInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\SurveyResponse;
 use herams\common\models\Workspace;
 use herams\common\values\FacilityId;
@@ -74,7 +74,7 @@ final class FacilityRepository
         $record = Facility::findOne([
             'id' => $id,
         ]);
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_WRITE);
         return $record;
     }
 
@@ -105,7 +105,7 @@ final class FacilityRepository
         $workspace = Workspace::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
+        $this->accessCheck->checkPermission($workspace, PermissionOld::PERMISSION_LIST_FACILITIES);
         $query = FacilityReadRecord::find()
             ->inWorkspace($id);
         return $query->all();
@@ -119,7 +119,7 @@ final class FacilityRepository
         $workspace = Workspace::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
+        $this->accessCheck->checkPermission($workspace, PermissionOld::PERMISSION_LIST_FACILITIES);
         $query = FacilityReadRecord::find()->andWhere([
             'or',
             ['!=', 'status', 'Deleted'],
@@ -142,7 +142,7 @@ final class FacilityRepository
         $workspace = Workspace::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->checkPermission($workspace, Permission::PERMISSION_LIST_FACILITIES);
+        $this->accessCheck->checkPermission($workspace, PermissionOld::PERMISSION_LIST_FACILITIES);
         return FacilityModel::find()->where([
             'workspace_id' => $id->getValue(),
         ])

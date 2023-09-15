@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\project;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 
@@ -34,7 +34,7 @@ class WorkspacesCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_MANAGE_WORKSPACES);
+        ]), $project, PermissionOld::PERMISSION_MANAGE_WORKSPACES);
         $I->amOnPage([
             'project/workspaces',
             'id' => $project->id,

@@ -9,7 +9,7 @@ use herams\common\domain\facility\FacilityRepository;
 use herams\common\interfaces\HeramsVariableSetRepositoryInterface;
 use herams\common\interfaces\PageInterface;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
@@ -48,7 +48,7 @@ class ViewForSurveyJs extends Action
             throw new NotFoundHttpException();
         }
 
-        if (! $user->can(Permission::PERMISSION_READ, $project)) {
+        if (! $user->can(PermissionOld::PERMISSION_READ, $project)) {
             throw new ForbiddenHttpException();
         }
 

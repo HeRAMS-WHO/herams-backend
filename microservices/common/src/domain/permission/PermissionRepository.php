@@ -7,7 +7,7 @@ namespace herams\common\domain\permission;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\PermissionId;
 use SamIT\abac\interfaces\Grant;
 use SamIT\abac\values\Authorizable;
@@ -24,30 +24,30 @@ class PermissionRepository
 
     public function deleteAll(array $condition): void
     {
-        Permission::deleteAll($condition);
+        PermissionOld::deleteAll($condition);
     }
 
-    public function retrieve(int $id): Permission
+    public function retrieve(int $id): PermissionOld
     {
-        $result = Permission::findOne([
+        $result = PermissionOld::findOne([
             'id' => $id,
         ]);
 
         if (! $result) {
-            throw new InvalidArgumentException('No such Permission.');
+            throw new InvalidArgumentException('No such PermissionOld.');
         }
 
         return $result;
     }
 
     /**
-     * @return list<Permission>
+     * @return list<PermissionOld>
      */
     public function retrieveForTarget(Authorizable $target): array
     {
-        $this->accessCheck->requirePermission($target, Permission::PERMISSION_SHARE);
+        $this->accessCheck->requirePermission($target, PermissionOld::PERMISSION_SHARE);
         // Criteria are not secure.
-        return Permission::find()->andWhere([
+        return PermissionOld::find()->andWhere([
             'target' => $target->getAuthName(),
             'target_id' => $target->getId(),
         ])->all();
@@ -57,7 +57,7 @@ class PermissionRepository
     {
         $target = $grant->getTarget();
         $source = $grant->getSource();
-        $permission = Permission::find()->andWhere([
+        $permission = PermissionOld::find()->andWhere([
             'target' => $target->getAuthName(),
             'target_id' => $target->getId(),
             'source' => $source->getAuthName(),

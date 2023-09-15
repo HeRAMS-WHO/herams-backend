@@ -6,7 +6,7 @@ namespace prime\tests\functional\controllers\user;
 
 use Carbon\Carbon;
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\tests\FunctionalTester;
 use SamIT\abac\interfaces\Resolver;
@@ -20,7 +20,7 @@ class ConfirmInvitationCest
     private function getSignedUrl(
         string $email,
         Project $project,
-        array $permissions = [Permission::PERMISSION_READ],
+        array $permissions = [PermissionOld::PERMISSION_READ],
     ) {
         /** @var UrlSigner $urlSigner */
         $urlSigner = \Yii::$app->urlSigner;
@@ -44,7 +44,7 @@ class ConfirmInvitationCest
         $page = $I->havePage();
         \Yii::$app->user->logout();
         $email = 'email@test.com';
-        $url = $this->getSignedUrl($email, $page->project, [Permission::PERMISSION_READ, PERMISSION::PERMISSION_WRITE]);
+        $url = $this->getSignedUrl($email, $page->project, [PermissionOld::PERMISSION_READ, PermissionOld::PERMISSION_WRITE]);
         $I->dontSeeRecord(User::class, [
             'email' => $email,
         ]);
@@ -71,6 +71,6 @@ class ConfirmInvitationCest
         ]);
         $I->seeResponseCodeIs(200);
 
-        $I->assertUserCan($page->project, Permission::PERMISSION_WRITE);
+        $I->assertUserCan($page->project, PermissionOld::PERMISSION_WRITE);
     }
 }

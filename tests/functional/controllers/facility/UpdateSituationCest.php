@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\facility;
 
 use herams\common\domain\facility\Facility;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
 
@@ -18,7 +18,7 @@ class UpdateSituationCest
     {
         $facility = $I->haveFacility();
         $workspace = $facility->workspace;
-        $I->grantCurrentUser($workspace, Permission::PERMISSION_SURVEY_DATA);
+        $I->grantCurrentUser($workspace, PermissionOld::PERMISSION_SURVEY_DATA);
 
         return $facility;
     }

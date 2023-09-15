@@ -9,7 +9,7 @@ use herams\api\domain\workspace\UpdateWorkspace;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\ModelHydratorInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\models\Workspace;
 use herams\common\queries\WorkspaceQuery;
@@ -63,7 +63,7 @@ class WorkspaceRepository
         $project = Project::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
+        $this->accessCheck->requirePermission($project, PermissionOld::PERMISSION_LIST_WORKSPACES);
         return $this->workspaceQueryComplete($id)->all();
     }
 
@@ -75,7 +75,7 @@ class WorkspaceRepository
         $project = Project::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->requirePermission($project, Permission::PERMISSION_LIST_WORKSPACES);
+        $this->accessCheck->requirePermission($project, PermissionOld::PERMISSION_LIST_WORKSPACES);
         return $this->workspaceQuery($id)->all();
     }
 
@@ -95,7 +95,7 @@ class WorkspaceRepository
             'id' => $id,
         ]);
 
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_READ);
 
         return $record;
     }
@@ -159,7 +159,7 @@ class WorkspaceRepository
         if (! isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        $this->accessCheck->requirePermission($workspace, Permission::PERMISSION_READ);
+        $this->accessCheck->requirePermission($workspace, PermissionOld::PERMISSION_READ);
 
         return $workspace->getProjectId();
     }
