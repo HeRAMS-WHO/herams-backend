@@ -15,15 +15,17 @@ class M230913153819CreatePermissionsTable extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%permissions}}', [
-            'code' => $this->string()->notNull()->unique(),
-            'name' => $this->string()->notNull()->unique(),
-            'parent' => $this->string()->check("parent IN ('Admin', 'Homepage', 'Global', 'Project', 'Workspace', 'HSDU', 'HSDU responses')"),
-            'created_date' => $this->dateTime(),
-            'created_by' => $this->integer(),
-            'last_modified_date' => $this->dateTime(),
-            'last_modified_by' => $this->integer(),
-        ]);
+        $this->execute("CREATE TABLE `prime2_permissions` (
+                `code` VARCHAR(255) NOT NULL UNIQUE,
+                `name` VARCHAR(255) NOT NULL UNIQUE,
+                `parent` VARCHAR(255) CHECK (parent IN ('Admin', 'Homepage', 'Global', 'Project', 'Workspace', 'HSDU', 'HSDU responses')),
+                `created_date` DATETIME,
+                `created_by` INT(11),
+                `last_modified_date` DATETIME,
+                `last_modified_by` INT(11),
+                PRIMARY KEY (`code`)
+            )
+        ");
 
         // Add foreign key constraint to the created_by column
         $this->addForeignKey(
@@ -42,7 +44,6 @@ class M230913153819CreatePermissionsTable extends Migration
             '{{%user}}',
             'id'
         );
-        $this->addPrimaryKey('pk-permissions-code', '{{%permissions}}', 'code');
     }
 
     /**
