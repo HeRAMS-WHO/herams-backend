@@ -21,7 +21,7 @@
         "survey-creator-core": "^1.9.100",
         "survey-creator-knockout": "^1.9.100",
         "survey-knockout": "^1.9.100",
-        "survey-knockout-ui": "^1.9.100",
+        "survey-knockout-ui": "^1.9.104",
         "yii2-pjax": "^2.0.7"
     },
     "devDependencies": {
