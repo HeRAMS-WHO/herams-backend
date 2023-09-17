@@ -18,7 +18,7 @@ use herams\common\helpers\Locale;
 use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\traits\RepositorySave;
 use herams\common\values\IntegerId;
@@ -74,7 +74,7 @@ class ProjectRepository implements ProjectLocalesRetriever
             'id' => $id,
         ]);
 
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_READ);
 
         return $record;
     }
@@ -84,7 +84,7 @@ class ProjectRepository implements ProjectLocalesRetriever
         $record = Project::findOne([
             'id' => $id,
         ]);
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_EXPORT);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_EXPORT);
         return $record;
     }
 
@@ -101,7 +101,7 @@ class ProjectRepository implements ProjectLocalesRetriever
             'id' => $id,
         ]);
 
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_WRITE);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_WRITE);
 
         $update = new UpdateProject($id);
         $this->activeRecordHydrator->hydrateRequestModel($record, $update);
@@ -175,7 +175,7 @@ class ProjectRepository implements ProjectLocalesRetriever
             throw new NotFoundHttpException();
         };
 
-        $this->accessCheck->requirePermission($record, Permission::PERMISSION_READ);
+        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_READ);
 
         return new ProjectForExternalDashboard($record->getTitle(), $dashboard);
     }
@@ -213,7 +213,7 @@ class ProjectRepository implements ProjectLocalesRetriever
             throw new NotFoundHttpException();
         }
 
-        $this->accessCheck->requirePermission($project, Permission::PERMISSION_READ);
+        $this->accessCheck->requirePermission($project, PermissionOld::PERMISSION_READ);
         return new ProjectLocales(...Locale::fromValues($project->languages ?? []));
     }
 }

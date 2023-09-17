@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\project;
 
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\Controller;
 use prime\models\ar\read\Project;
 use yii\base\Action;
@@ -24,7 +24,7 @@ class ImportDashboard extends Action
             'id' => $id,
         ]);
 
-        $accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_DASHBOARD);
+        $accessCheck->requirePermission($project, PermissionOld::PERMISSION_MANAGE_DASHBOARD);
 
         $model = new \prime\models\forms\ImportDashboard($project);
 

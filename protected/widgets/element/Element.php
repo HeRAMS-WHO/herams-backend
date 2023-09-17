@@ -2,7 +2,7 @@
 
 namespace prime\widgets\element;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\helpers\Icon;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -42,7 +42,7 @@ class Element extends Widget
         ]);
         $result = Html::beginTag('div', $options);
 
-        if (isset($this->element->id, $this->element->page->project) && \Yii::$app->user->can(Permission::PERMISSION_WRITE, $this->element)) {
+        if (isset($this->element->id, $this->element->page->project) && \Yii::$app->user->can(PermissionOld::PERMISSION_WRITE, $this->element)) {
             $result .= Html::a(Icon::edit(), [
                 '/element/update',
                 'id' => $this->element->id,

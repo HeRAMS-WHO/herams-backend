@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 
 $debug = [];
 if (class_exists(\yii\debug\Module::class)) {
@@ -14,7 +14,7 @@ if (class_exists(\yii\debug\Module::class)) {
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => [Permission::PERMISSION_DEBUG_TOOLBAR],
+                        'roles' => [PermissionOld::PERMISSION_DEBUG_TOOLBAR],
                     ],
                     [
                         'allow' => true,

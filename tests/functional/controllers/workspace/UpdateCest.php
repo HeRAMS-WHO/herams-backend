@@ -3,7 +3,7 @@
 namespace prime\tests\functional\controllers\workspace;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 
 /**
@@ -39,7 +39,7 @@ class UpdateCest
         $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_WRITE);
+        ]), $project, PermissionOld::PERMISSION_WRITE);
 
         $I->amOnPage([
             'workspace/update',
@@ -55,7 +55,7 @@ class UpdateCest
         $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_ADMIN);
+        ]), $project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage([
             'workspace/update',
@@ -70,7 +70,7 @@ class UpdateCest
         $workspace = $I->haveWorkspace();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $workspace, Permission::PERMISSION_ADMIN);
+        ]), $workspace, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage([
             'workspace/update',

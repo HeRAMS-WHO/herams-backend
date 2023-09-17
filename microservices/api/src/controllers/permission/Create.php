@@ -39,9 +39,9 @@ class Create extends Action
 
         if (! $abacManager->getRepository()->check($permission)) {
             $abacManager->getRepository()->grant($permission);
-            $response->setStatusCode(204, \Yii::t('app', 'Permission granted'));
+            $response->setStatusCode(204, \Yii::t('app', 'PermissionOld granted'));
         } else {
-            $response->setStatusCode(303, \Yii::t('app', 'Permission already exists'));
+            $response->setStatusCode(303, \Yii::t('app', 'PermissionOld already exists'));
         }
         $id = $permissionRepository->retrieveId($permission);
         $response->headers->add('Location', Url::to([

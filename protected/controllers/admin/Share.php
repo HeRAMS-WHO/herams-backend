@@ -4,7 +4,7 @@ namespace prime\controllers\admin;
 
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\models\GlobalPermission;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\Controller;
 use prime\components\NotificationService;
 use prime\models\forms\Share as ShareForm;
@@ -29,16 +29,16 @@ class Share extends Action
         User $user
     ) {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        $accessCheck->requireGlobalPermission(Permission::PERMISSION_ADMIN);
+        $accessCheck->requireGlobalPermission(PermissionOld::PERMISSION_ADMIN);
         $permissions = [
-            Permission::PERMISSION_EXPORT,
-            Permission::PERMISSION_MANAGE_WORKSPACES,
-            Permission::PERMISSION_SURVEY_DATA,
-            Permission::PERMISSION_READ,
-            Permission::PERMISSION_SHARE,
-            Permission::PERMISSION_CREATE_PROJECT,
-            Permission::PERMISSION_DEBUG_TOOLBAR,
-            Permission::PERMISSION_ADMIN,
+            PermissionOld::PERMISSION_EXPORT,
+            PermissionOld::PERMISSION_MANAGE_WORKSPACES,
+            PermissionOld::PERMISSION_SURVEY_DATA,
+            PermissionOld::PERMISSION_READ,
+            PermissionOld::PERMISSION_SHARE,
+            PermissionOld::PERMISSION_CREATE_PROJECT,
+            PermissionOld::PERMISSION_DEBUG_TOOLBAR,
+            PermissionOld::PERMISSION_ADMIN,
         ];
         $model = new ShareForm(
             new GlobalPermission(),

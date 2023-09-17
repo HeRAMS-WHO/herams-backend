@@ -6,7 +6,7 @@ namespace herams\common\rules;
 
 use herams\common\domain\user\User;
 use herams\common\models\GlobalPermission;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -17,10 +17,10 @@ class GlobalImpliesProject implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_SHARE,
-            Permission::PERMISSION_EXPORT,
-            Permission::PERMISSION_SURVEY_DATA,
-            Permission::PERMISSION_ADMIN,
+            PermissionOld::PERMISSION_SHARE,
+            PermissionOld::PERMISSION_EXPORT,
+            PermissionOld::PERMISSION_SURVEY_DATA,
+            PermissionOld::PERMISSION_ADMIN,
         ];
     }
 

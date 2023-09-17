@@ -6,7 +6,7 @@ namespace herams\common\domain\page;
 
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\values\PageId;
 use herams\common\values\ProjectId;
@@ -57,7 +57,7 @@ class PageRepository
         $project = Project::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->requirePermission($project, Permission::PERMISSION_MANAGE_DASHBOARD);
+        $this->accessCheck->requirePermission($project, PermissionOld::PERMISSION_MANAGE_DASHBOARD);
         return Page::find()->andWhere([
             'project_id' => $id,
         ])->all();

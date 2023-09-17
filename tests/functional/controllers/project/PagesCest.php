@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\project;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 
 /**
@@ -16,7 +16,7 @@ class PagesCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $page = $I->havePage();
-        $I->grantCurrentUser($page->project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($page->project, PermissionOld::PERMISSION_ADMIN);
         $I->amOnPage([
             'project/pages',
             'id' => $page->project_id,

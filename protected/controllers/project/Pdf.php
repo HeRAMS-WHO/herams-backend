@@ -4,7 +4,7 @@ namespace prime\controllers\project;
 
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\exceptions\SurveyDoesNotExist;
 use prime\models\forms\ResponseFilter;
@@ -27,7 +27,7 @@ class Pdf extends Action
         //        $project = Project::findOne([
         //            'id' => $id,
         //        ]);
-        //        $accessCheck->requirePermission($project, Permission::PERMISSION_READ);
+        //        $accessCheck->requirePermission($project, PermissionOld::PERMISSION_READ);
         //        try {
         //            $survey = $project->getSurvey();
         //        } catch (SurveyDoesNotExist $e) {

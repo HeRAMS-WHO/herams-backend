@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use prime\helpers\Icon;
@@ -24,17 +24,17 @@ $this->beginBlock('tabs');
 echo TabMenu::widget([
     'tabs' => [
         [
-            'permission' => Permission::PERMISSION_ADMIN,
+            'permission' => PermissionOld::PERMISSION_ADMIN,
             'url' => ['admin/dashboard'],
             'title' => \Yii::t('app', 'Dashboard'),
         ],
         [
-            'permission' => Permission::PERMISSION_ADMIN,
+            'permission' => PermissionOld::PERMISSION_ADMIN,
             'url' => ['user/index'],
             'title' => \Yii::t('app', 'Users'),
         ],
         [
-            'permission' => Permission::PERMISSION_ADMIN,
+            'permission' => PermissionOld::PERMISSION_ADMIN,
             'url' => ['admin/share'],
             'title' => \Yii::t('app', 'Global permissions'),
         ],
@@ -73,7 +73,7 @@ echo GridView::widget([
             ],
             'buttons' => [
                 'delete' => function ($url, $model) {
-                    if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
+                    if (\Yii::$app->user->can(PermissionOld::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
                         return Html::a(Icon::trash(), [
                             '/user/delete',
                             'id' => $model->id,
@@ -85,7 +85,7 @@ echo GridView::widget([
                     }
                 },
                 'impersonate' => function ($url, $model) {
-                    if (\Yii::$app->user->can(Permission::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
+                    if (\Yii::$app->user->can(PermissionOld::PERMISSION_ADMIN) && $model->id != Yii::$app->user->id) {
                         return Html::a(Icon::user(), [
                             '/user/impersonate',
                             'id' => $model->id,

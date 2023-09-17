@@ -6,7 +6,7 @@ namespace prime\tests\functional\rules;
 
 use herams\common\domain\permission\ProposedGrant;
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
@@ -24,26 +24,26 @@ class WorkspaceOwnerCest
 
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
-        $manager->grant($user, $workspace, Permission::PERMISSION_SURVEY_DATA);
-        $manager->grant($user, $workspace, Permission::PERMISSION_EXPORT);
-        $manager->grant($user, $workspace, Permission::PERMISSION_SHARE);
+        $manager->grant($user, $workspace, PermissionOld::PERMISSION_SURVEY_DATA);
+        $manager->grant($user, $workspace, PermissionOld::PERMISSION_EXPORT);
+        $manager->grant($user, $workspace, PermissionOld::PERMISSION_SHARE);
 
         foreach (
             [
-                Permission::PERMISSION_EXPORT => true,
-                Permission::PERMISSION_SURVEY_DATA => true,
-                Permission::PERMISSION_SHARE => false,
-                Permission::PERMISSION_WRITE => false,
-                Permission::PERMISSION_READ => true,
-                Permission::PERMISSION_ADMIN => false,
-                Permission::PERMISSION_MANAGE_WORKSPACES => false,
-                Permission::PERMISSION_MANAGE_DASHBOARD => false,
+                PermissionOld::PERMISSION_EXPORT => true,
+                PermissionOld::PERMISSION_SURVEY_DATA => true,
+                PermissionOld::PERMISSION_SHARE => false,
+                PermissionOld::PERMISSION_WRITE => false,
+                PermissionOld::PERMISSION_READ => true,
+                PermissionOld::PERMISSION_ADMIN => false,
+                PermissionOld::PERMISSION_MANAGE_WORKSPACES => false,
+                PermissionOld::PERMISSION_MANAGE_DASHBOARD => false,
             ] as $permission => $result
         ) {
             $proposedGrant = new ProposedGrant(User::findOne([
                 'id' => TEST_OTHER_USER_ID,
             ]), $workspace, $permission);
-            $I->assertSame($result, $manager->check($user, $proposedGrant, Permission::PERMISSION_CREATE), $result ? "Permission $permission not allowed" : "Permission $permission allowed");
+            $I->assertSame($result, $manager->check($user, $proposedGrant, PermissionOld::PERMISSION_CREATE), $result ? "PermissionOld $permission not allowed" : "PermissionOld $permission allowed");
         }
     }
 }

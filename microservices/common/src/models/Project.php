@@ -153,11 +153,11 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
      */
     public function getLeads(): array
     {
-        $permissionQuery = Permission::find()->andWhere([
+        $permissionQuery = PermissionOld::find()->andWhere([
             'target' => self::class,
             'target_id' => $this->id,
             'source' => User::class,
-            'permission' => Permission::ROLE_LEAD,
+            'permission' => PermissionOld::ROLE_LEAD,
         ]);
 
         return User::find()->andWhere([
@@ -195,7 +195,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
 
     public function getPermissions(): ActiveQuery
     {
-        return $this->hasMany(Permission::class, [
+        return $this->hasMany(PermissionOld::class, [
             'target_id' => 'id',
         ])
             ->andWhere([
@@ -385,7 +385,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             ],
             'permissionSourceCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => Permission::find()->limit(1)->select('count(distinct source_id)')
+                VirtualFieldBehavior::GREEDY => PermissionOld::find()->limit(1)->select('count(distinct source_id)')
                     ->where([
                         'source' => User::class,
                         'target' => self::class,
@@ -397,7 +397,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
             ],
             'contributorPermissionCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = Permission::find()->where([
+                VirtualFieldBehavior::GREEDY => $contributorPermissionCountGreedy = PermissionOld::find()->where([
                     'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                     'target_id' => Workspace::find()->select('id')
                         ->where([
@@ -405,7 +405,7 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
                         ]),
                 ])->select('count(distinct [[source_id]])'),
                 VirtualFieldBehavior::LAZY => static function (self $model): int {
-                    return (int) Permission::find()->where([
+                    return (int) PermissionOld::find()->where([
                         'target' => UserPermissions::CAN_ACCESS_TO_WORKSPACE->value,
                         'target_id' => $model->getWorkspaces()->select('id'),
                         'source' => User::class,

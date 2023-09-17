@@ -6,7 +6,7 @@ namespace herams\common\rules;
 
 use herams\common\domain\permission\ProposedGrant;
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
@@ -15,7 +15,7 @@ class SuperShareRule implements Rule
 {
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_CREATE];
+        return [PermissionOld::PERMISSION_CREATE];
     }
 
     public function getTargetNames(): array
@@ -43,8 +43,8 @@ class SuperShareRule implements Rule
         return in_array(get_class($target), $this->getTargetNames())
             && in_array($permission, $this->getPermissions())
             // This rule will only grant someone permission to create a grant with the share permission
-            && $target->getPermission() === Permission::PERMISSION_SHARE
+            && $target->getPermission() === PermissionOld::PERMISSION_SHARE
             // To share the share permission you must have super share permissions
-            && $accessChecker->check($source, $target->getTarget(), Permission::PERMISSION_SUPER_SHARE);
+            && $accessChecker->check($source, $target->getTarget(), PermissionOld::PERMISSION_SUPER_SHARE);
     }
 }

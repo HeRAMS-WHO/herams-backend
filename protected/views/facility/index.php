@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use kartik\grid\GridView;
 use prime\components\View;
 use prime\widgets\Section;
@@ -30,7 +30,7 @@ echo GridView::widget([
                     'href' => Url::to(['create']),
                     'class' => 'btn-default',
                 ],
-                'visible' => app()->user->can(Permission::PERMISSION_ADMIN),
+                'visible' => app()->user->can(PermissionOld::PERMISSION_ADMIN),
             ],
         ],
     ]),

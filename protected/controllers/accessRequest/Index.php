@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\accessRequest;
 
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\models\ar\AccessRequest;
 use prime\models\search\AccessRequest as AccessRequestSearch;
 use yii\base\Action;
@@ -28,7 +28,7 @@ class Index extends Action
                     'created_at' => SORT_DESC,
                 ]),
             $user->identity,
-            static fn (AccessRequest $model) => $accessCheck->checkPermission($model, Permission::PERMISSION_RESPOND),
+            static fn (AccessRequest $model) => $accessCheck->checkPermission($model, PermissionOld::PERMISSION_RESPOND),
         );
 
         $closedAccessRequestsSearchModel = new AccessRequestSearch(
@@ -38,7 +38,7 @@ class Index extends Action
                 ])
                 ->withResponse(),
             $user->identity,
-            static fn (AccessRequest $model) => $accessCheck->checkPermission($model, Permission::PERMISSION_RESPOND),
+            static fn (AccessRequest $model) => $accessCheck->checkPermission($model, PermissionOld::PERMISSION_RESPOND),
         );
 
         return $this->controller->render(

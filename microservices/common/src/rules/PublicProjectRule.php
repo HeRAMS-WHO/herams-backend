@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\rules;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -14,7 +14,7 @@ class PublicProjectRule implements Rule
 {
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_READ];
+        return [PermissionOld::PERMISSION_READ];
     }
 
     public function getTargetNames(): array

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\admin;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use yii\mail\MessageInterface;
 
@@ -33,7 +33,7 @@ class ShareCest
             'form',
             [
                 'Share[userIdsAndEmails]' => [$toEmail, TEST_USER_ID],
-                'Share[permissions][]' => Permission::PERMISSION_ADMIN,
+                'Share[permissions][]' => PermissionOld::PERMISSION_ADMIN,
             ]
         );
         $I->seeResponseCodeIs(200);

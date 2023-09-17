@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\rules\AdminRule;
 use herams\common\rules\AdminShareRule;
 use herams\common\rules\DashboardRule;
@@ -21,38 +21,38 @@ use SamIT\abac\rules\ImpliedPermission;
 
 return [
     new AdminRule(),
-    new SelfRule([Permission::PERMISSION_MANAGE_FAVORITES]),
+    new SelfRule([PermissionOld::PERMISSION_MANAGE_FAVORITES]),
     new GrantRule(),
     new ProjectSummaryRule(),
     new RevokeRule(),
     new DashboardRule(),
     new SuperShareRule(),
     new AdminShareRule(),
-    new ImpliedPermission(Permission::PERMISSION_ADMIN, [
-        Permission::PERMISSION_SHARE,
-        Permission::PERMISSION_WRITE,
-        Permission::PERMISSION_DELETE,
-        Permission::PERMISSION_EXPORT,
-        Permission::PERMISSION_SURVEY_DATA,
-        Permission::PERMISSION_MANAGE_WORKSPACES,
-        Permission::PERMISSION_MANAGE_DASHBOARD,
-        Permission::PERMISSION_DELETE_ALL_WORKSPACES,
-        Permission::PERMISSION_CREATE_FACILITY,
+    new ImpliedPermission(PermissionOld::PERMISSION_ADMIN, [
+        PermissionOld::PERMISSION_SHARE,
+        PermissionOld::PERMISSION_WRITE,
+        PermissionOld::PERMISSION_DELETE,
+        PermissionOld::PERMISSION_EXPORT,
+        PermissionOld::PERMISSION_SURVEY_DATA,
+        PermissionOld::PERMISSION_MANAGE_WORKSPACES,
+        PermissionOld::PERMISSION_MANAGE_DASHBOARD,
+        PermissionOld::PERMISSION_DELETE_ALL_WORKSPACES,
+        PermissionOld::PERMISSION_CREATE_FACILITY,
     ]),
-    new ImpliedPermission(Permission::PERMISSION_WRITE, [
-        Permission::PERMISSION_READ,
+    new ImpliedPermission(PermissionOld::PERMISSION_WRITE, [
+        PermissionOld::PERMISSION_READ,
     ]),
-    new ImpliedPermission(Permission::PERMISSION_SURVEY_DATA, [
-        Permission::PERMISSION_READ,
+    new ImpliedPermission(PermissionOld::PERMISSION_SURVEY_DATA, [
+        PermissionOld::PERMISSION_READ,
     ]),
-    new ImpliedPermission(Permission::PERMISSION_READ, [
-        Permission::PERMISSION_LIST_WORKSPACES,
-        Permission::PERMISSION_LIST_FACILITIES,
+    new ImpliedPermission(PermissionOld::PERMISSION_READ, [
+        PermissionOld::PERMISSION_LIST_WORKSPACES,
+        PermissionOld::PERMISSION_LIST_FACILITIES,
     ]),
-    new ImpliedPermission(Permission::PERMISSION_EXPORT, [
-        Permission::PERMISSION_LIST_WORKSPACES,
-        Permission::PERMISSION_READ,
-        Permission::PERMISSION_LIST_FACILITIES,
+    new ImpliedPermission(PermissionOld::PERMISSION_EXPORT, [
+        PermissionOld::PERMISSION_LIST_WORKSPACES,
+        PermissionOld::PERMISSION_READ,
+        PermissionOld::PERMISSION_LIST_FACILITIES,
     ]),
     new ProjectImplicitReadViaExplicitWorkspacePermission(),
     new PublicProjectRule(),

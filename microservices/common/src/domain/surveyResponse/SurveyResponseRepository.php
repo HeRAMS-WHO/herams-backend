@@ -14,7 +14,7 @@ use herams\common\helpers\ModelHydrator;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\RecordInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\models\Survey;
 use herams\common\models\SurveyResponse;
@@ -160,7 +160,7 @@ class SurveyResponseRepository
         $surveyResponse = SurveyResponse::find()->andWhere([
             'id' => $id,
         ])->one();
-        $this->accessCheck->requirePermission($surveyResponse, Permission::PERMISSION_READ);
+        $this->accessCheck->requirePermission($surveyResponse, PermissionOld::PERMISSION_READ);
         return new SurveyResponseForSurveyJs(
             $surveyResponse->data,
             new SurveyId($surveyResponse->survey_id),
@@ -174,7 +174,7 @@ class SurveyResponseRepository
         $facility = Facility::findOne([
             'id' => $facilityId->getValue(),
         ]);
-        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
+        $this->accessCheck->checkPermission($facility, PermissionOld::PERMISSION_LIST_ADMIN_RESPONSES);
         $adminSurveyId = $facility->workspace->project->admin_survey_id;
         $query = SurveyResponse::find()->andWhere([
             'facility_id' => $facilityId,
@@ -193,7 +193,7 @@ class SurveyResponseRepository
         $facility = Facility::findOne([
             'id' => $facilityId->getValue(),
         ]);
-        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
+        $this->accessCheck->checkPermission($facility, PermissionOld::PERMISSION_LIST_DATA_RESPONSES);
 
         $dataSurveyId = $facility->workspace->project->data_survey_id;
         $query = SurveyResponse::find()->andWhere([
@@ -216,7 +216,7 @@ class SurveyResponseRepository
         $facility = Facility::findOne([
             'id' => $facilityId->getValue(),
         ]);
-        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_DATA_RESPONSES);
+        $this->accessCheck->checkPermission($facility, PermissionOld::PERMISSION_LIST_DATA_RESPONSES);
         return $this->retrieveData($facilityId, $facility->workspace->project->getDataSurveyId());
     }
 
@@ -245,7 +245,7 @@ class SurveyResponseRepository
         $facility = Facility::findOne([
             'id' => $facilityId->getValue(),
         ]);
-        $this->accessCheck->checkPermission($facility, Permission::PERMISSION_LIST_ADMIN_RESPONSES);
+        $this->accessCheck->checkPermission($facility, PermissionOld::PERMISSION_LIST_ADMIN_RESPONSES);
         return $this->retrieveData($facilityId, $facility->workspace->project->getAdminSurveyId());
     }
 

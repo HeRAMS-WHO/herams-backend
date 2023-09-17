@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\helpers\Icon;
 use prime\widgets\AgGrid\AgGrid;
@@ -63,7 +63,7 @@ Section::begin([
                 'project/view',
                 'id' => $project->id,
             ],
-            'permission' => Permission::PERMISSION_READ,
+            'permission' => PermissionOld::PERMISSION_READ,
             'visible' => $project->
 pageCount >
 0,

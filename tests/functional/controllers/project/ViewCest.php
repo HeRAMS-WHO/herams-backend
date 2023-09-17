@@ -7,7 +7,7 @@ namespace prime\tests\functional\controllers\project;
 use Codeception\Scenario;
 use herams\common\domain\user\User;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 
 /**
@@ -33,7 +33,7 @@ class ViewCest
         $project = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
         $I->amOnPage([
             'project/view',
             'id' => $project->id,
@@ -51,7 +51,7 @@ class ViewCest
         $I->save($page);
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
         $I->amOnPage([
             'project/view',
             'id' => $project->id,
@@ -73,7 +73,7 @@ class ViewCest
         $I->save($page);
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
         $I->amOnPage([
             'project/view',
             'id' => $project->id,
@@ -92,7 +92,7 @@ class ViewCest
         $I->save($page);
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
         $I->amOnPage([
             'project/view',
             'id' => $project->id,
@@ -107,7 +107,7 @@ class ViewCest
         $project = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
 
         $page = new Page();
         $page->title = 'Main page';
@@ -134,7 +134,7 @@ class ViewCest
         $project = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
 
         $page = new Page();
         $page->title = 'Main page';

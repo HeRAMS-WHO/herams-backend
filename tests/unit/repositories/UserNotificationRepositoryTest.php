@@ -6,7 +6,7 @@ namespace prime\tests\unit\repositories;
 
 use Codeception\Test\Unit;
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\models\ar\AccessRequest;
 use prime\queries\AccessRequestQuery;
 use prime\repositories\AccessRequestRepository;
@@ -46,7 +46,7 @@ class UserNotificationRepositoryTest extends Unit
         $abacManager = $this->getMockBuilder(AuthManager::class)->disableOriginalConstructor()->getMock();
         $abacManager->expects($this->once())
             ->method('check')
-            ->with($user, $accessRequest, Permission::PERMISSION_RESPOND)
+            ->with($user, $accessRequest, PermissionOld::PERMISSION_RESPOND)
             ->willReturn($canRespond);
 
         $userNotificationRepository = new UserNotificationRepository(

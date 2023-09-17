@@ -7,7 +7,7 @@ namespace prime\models\forms\accessRequest;
 use Carbon\Carbon;
 use herams\common\domain\permission\ProposedGrant;
 use herams\common\jobs\accessRequests\ResponseNotificationJob;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\models\Workspace;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
@@ -70,7 +70,7 @@ class Respond extends Model
                     $permission
                 );
 
-                if ($this->abacManager->check($this->identity, $grant, Permission::PERMISSION_CREATE)) {
+                if ($this->abacManager->check($this->identity, $grant, PermissionOld::PERMISSION_CREATE)) {
                     $this->abacManager->grant(
                         $this->accessRequest->createdByUser,
                         $this->accessRequest->target,
@@ -106,27 +106,27 @@ class Respond extends Model
         $this->permissionOptions = [];
         $defaultPermissionOptions = [
             Project::class => [
-                Permission::PERMISSION_READ,
-                Permission::PERMISSION_SURVEY_DATA,
-                Permission::PERMISSION_EXPORT,
-                Permission::PERMISSION_MANAGE_WORKSPACES,
-                Permission::PERMISSION_CREATE_FACILITY,
-                Permission::PERMISSION_MANAGE_DASHBOARD,
-                Permission::PERMISSION_WRITE,
-                Permission::PERMISSION_SHARE,
-                Permission::PERMISSION_SURVEY_BACKEND,
-                Permission::PERMISSION_SUPER_SHARE,
+                PermissionOld::PERMISSION_READ,
+                PermissionOld::PERMISSION_SURVEY_DATA,
+                PermissionOld::PERMISSION_EXPORT,
+                PermissionOld::PERMISSION_MANAGE_WORKSPACES,
+                PermissionOld::PERMISSION_CREATE_FACILITY,
+                PermissionOld::PERMISSION_MANAGE_DASHBOARD,
+                PermissionOld::PERMISSION_WRITE,
+                PermissionOld::PERMISSION_SHARE,
+                PermissionOld::PERMISSION_SURVEY_BACKEND,
+                PermissionOld::PERMISSION_SUPER_SHARE,
 
-                Permission::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
+                PermissionOld::ROLE_LEAD => \Yii::t('app', 'Project coordinator'),
             ],
             Workspace::class => [
-                Permission::PERMISSION_SURVEY_DATA,
-                Permission::PERMISSION_CREATE_FACILITY,
-                Permission::PERMISSION_EXPORT,
-                Permission::PERMISSION_SHARE,
-                Permission::PERMISSION_SUPER_SHARE,
+                PermissionOld::PERMISSION_SURVEY_DATA,
+                PermissionOld::PERMISSION_CREATE_FACILITY,
+                PermissionOld::PERMISSION_EXPORT,
+                PermissionOld::PERMISSION_SHARE,
+                PermissionOld::PERMISSION_SUPER_SHARE,
 
-                Permission::ROLE_LEAD => \Yii::t('app', 'Workspace owner'),
+                PermissionOld::ROLE_LEAD => \Yii::t('app', 'Workspace owner'),
             ],
         ];
 
@@ -135,10 +135,10 @@ class Respond extends Model
         foreach ($permissionOptions as $permission => $label) {
             if (is_numeric($permission)) {
                 $permission = $label;
-                $label = Permission::permissionLabels()[$permission] ?? $permission;
+                $label = PermissionOld::permissionLabels()[$permission] ?? $permission;
             }
             $grant = new ProposedGrant($this->getAccessRequest()->createdByUser, $this->accessRequest->target, $permission);
-            if ($this->abacManager->check($this->identity, $grant, Permission::PERMISSION_CREATE)) {
+            if ($this->abacManager->check($this->identity, $grant, PermissionOld::PERMISSION_CREATE)) {
                 $this->permissionOptions[$permission] = $label;
             }
         }

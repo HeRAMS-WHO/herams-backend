@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use kartik\grid\GridView;
 use prime\components\View;
@@ -60,7 +60,7 @@ echo GridView::widget([
                     'id' => $workspace->id,
                 ];
             },
-            'permission' => Permission::PERMISSION_SURVEY_DATA,
+            'permission' => PermissionOld::PERMISSION_SURVEY_DATA,
             'attribute' => 'title',
         ],
         [

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\interfaces\CanCurrentUser;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -61,7 +61,7 @@ class Section extends Widget
     public function forAdministrativeAction(): self
     {
         Html::addCssClass($this->options, ['administrative']);
-        return $this->withPermission(Permission::PERMISSION_ADMIN);
+        return $this->withPermission(PermissionOld::PERMISSION_ADMIN);
     }
 
     public function withActions(array $actions): self

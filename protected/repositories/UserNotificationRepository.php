@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\repositories;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\models\ar\AccessRequest;
 use prime\objects\UserNotification;
 use SamIT\abac\AuthManager;
@@ -36,7 +36,7 @@ class UserNotificationRepository extends Component
 
         /** @var AccessRequest $accessRequest */
         foreach ($this->accessRequestRepository->find()->notExpired()->withoutResponse()->each() as $accessRequest) {
-            if ($this->abacManager->check($user, $accessRequest, Permission::PERMISSION_RESPOND)) {
+            if ($this->abacManager->check($user, $accessRequest, PermissionOld::PERMISSION_RESPOND)) {
                 $result[] = new UserNotification(
                     \Yii::t('app', 'There are open access requests that you can respond to.'),
                     ['access-request/index']

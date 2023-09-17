@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use herams\common\domain\permission\ProposedGrant;
 use herams\common\domain\user\User;
 use herams\common\models\ActiveRecord;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use kartik\builder\Form;
 use kartik\select2\Select2;
@@ -84,7 +84,7 @@ class Share extends Model
                 foreach ($this->permissions as $permission) {
                     $grant = new ProposedGrant($user, $this->model, $permission);
 
-                    if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+                    if ($this->abacManager->check($this->currentUser, $grant, PermissionOld::PERMISSION_CREATE)) {
                         $this->abacManager->grant($user, $this->model, $permission);
                     } else {
                         throw new \RuntimeException('You are not allowed to create this grant');
@@ -97,7 +97,7 @@ class Share extends Model
                 foreach ($this->permissions as $permission) {
                     $grant = new ProposedGrant(new User(), $this->model, $permission);
 
-                    if (! $this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+                    if (! $this->abacManager->check($this->currentUser, $grant, PermissionOld::PERMISSION_CREATE)) {
                         throw new \RuntimeException('You are not allowed to create this grant');
                     }
                 }
@@ -331,13 +331,13 @@ class Share extends Model
     private function setPermissionOptions(?array $options)
     {
         // Add labels if needed.
-        foreach ($options ?? Permission::permissionLabels() as $permission => $label) {
+        foreach ($options ?? PermissionOld::permissionLabels() as $permission => $label) {
             if (is_numeric($permission)) {
                 $permission = $label;
-                $label = Permission::permissionLabels()[$permission] ?? $permission;
+                $label = PermissionOld::permissionLabels()[$permission] ?? $permission;
             }
             $grant = new ProposedGrant($this->currentUser, $this->model, $permission);
-            if ($this->abacManager->check($this->currentUser, $grant, Permission::PERMISSION_CREATE)) {
+            if ($this->abacManager->check($this->currentUser, $grant, PermissionOld::PERMISSION_CREATE)) {
                 $this->permissionOptions[$permission] = $label;
             }
         }

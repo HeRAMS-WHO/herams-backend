@@ -6,7 +6,7 @@ namespace herams\common\rules;
 
 use herams\common\domain\permission\ProposedGrant;
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
@@ -16,7 +16,7 @@ class GrantRule implements Rule
 {
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_CREATE];
+        return [PermissionOld::PERMISSION_CREATE];
     }
 
     public function getTargetNames(): array
@@ -42,11 +42,11 @@ class GrantRule implements Rule
         AccessChecker $accessChecker
     ): bool {
         return $target instanceof ProposedGrant
-            && ($permission === Permission::PERMISSION_CREATE)
+            && ($permission === PermissionOld::PERMISSION_CREATE)
             // This rule will never grant someone permission to create a grant with a share permission
-            && ! in_array($target->getPermission(), [Permission::PERMISSION_SHARE, Permission::PERMISSION_SUPER_SHARE])
+            && ! in_array($target->getPermission(), [PermissionOld::PERMISSION_SHARE, PermissionOld::PERMISSION_SUPER_SHARE])
             // To share you must have share permissions
-            && $accessChecker->check($source, $target->getTarget(), Permission::PERMISSION_SHARE)
+            && $accessChecker->check($source, $target->getTarget(), PermissionOld::PERMISSION_SHARE)
             // To share you must have the permission that you are giving
             && $accessChecker->check($source, $target->getTarget(), $target->getPermission());
     }

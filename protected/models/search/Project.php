@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\models\search;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\FilteredActiveDataProvider;
 use prime\models\ar\read\Project as ProjectRead;
 use yii\base\Model;
@@ -32,7 +32,7 @@ class Project extends Model
             ->withFields('contributorCount', 'workspaceCount', 'responseCount', 'pageCount', 'facilityCount');
         $dataProvider = new FilteredActiveDataProvider([
             'filter' => function (\herams\common\models\Project $project) use ($user) {
-                return ! $project->isHidden() || $user->can(Permission::PERMISSION_READ, $project);
+                return ! $project->isHidden() || $user->can(PermissionOld::PERMISSION_READ, $project);
             },
             'query' => $query,
             'pagination' => [

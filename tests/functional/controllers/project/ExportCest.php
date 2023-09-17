@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\project;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 
 /**
@@ -29,7 +29,7 @@ class ExportCest
         $workspace = $I->haveProject();
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $workspace, Permission::PERMISSION_EXPORT);
+        ]), $workspace, PermissionOld::PERMISSION_EXPORT);
 
         $I->amOnPage([
             'project/export',

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace herams\common\rules\roles;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -16,8 +16,8 @@ class WorkspaceContributorRole implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_SURVEY_DATA,
-            Permission::PERMISSION_EXPORT,
+            PermissionOld::PERMISSION_SURVEY_DATA,
+            PermissionOld::PERMISSION_EXPORT,
         ];
     }
 
@@ -46,6 +46,6 @@ class WorkspaceContributorRole implements Rule
         return in_array(get_class($target), $this->getTargetNames())
             && in_array(get_class($source), $this->getSourceNames())
             && in_array($permission, $this->getPermissions())
-            && $accessChecker->check($source, $target, Permission::ROLE_WORKSPACE_CONTRIBUTOR);
+            && $accessChecker->check($source, $target, PermissionOld::ROLE_WORKSPACE_CONTRIBUTOR);
     }
 }

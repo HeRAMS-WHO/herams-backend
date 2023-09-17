@@ -6,12 +6,12 @@ namespace prime\tests\unit\models\ar;
 
 use herams\common\domain\user\User;
 use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 
 /**
- * @covers \herams\common\models\Permission
+ * @covers \herams\common\models\PermissionOld
  */
 class PermissionTest extends ActiveRecordTest
 {
@@ -27,7 +27,7 @@ class PermissionTest extends ActiveRecordTest
 
     public function testGetSourceAuthorizable(): void
     {
-        $permission = new Permission();
+        $permission = new PermissionOld();
         $permission->source_id = "1";
         $permission->source = 'source';
         $this->assertSame($permission->source_id, $permission->sourceAuthorizable()->getId());
@@ -36,7 +36,7 @@ class PermissionTest extends ActiveRecordTest
 
     public function testGetTargetAuthorizable(): void
     {
-        $permission = new Permission();
+        $permission = new PermissionOld();
         $permission->target_id = "1";
         $permission->target = 'target';
         $this->assertSame($permission->target_id, $permission->targetAuthorizable()->getId());
@@ -45,7 +45,7 @@ class PermissionTest extends ActiveRecordTest
 
     public function testGetGrant(): void
     {
-        $permission = new Permission();
+        $permission = new PermissionOld();
         $permission->source_id = "1";
         $permission->source = 'source';
         $permission->target_id = "2";
@@ -62,7 +62,7 @@ class PermissionTest extends ActiveRecordTest
 
     public function testPermissionLabels(): void
     {
-        $this->assertNotEmpty(Permission::permissionLabels());
+        $this->assertNotEmpty(PermissionOld::permissionLabels());
     }
 
     public function testCheckImplicitAccessRequestGrantedJobAfterInsert()
@@ -82,12 +82,12 @@ class PermissionTest extends ActiveRecordTest
         $project->base_survey_eid = 12345;
         $project->save();
 
-        $permission = new Permission([
+        $permission = new PermissionOld([
             'source' => User::class,
             'source_id' => TEST_USER_ID,
             'target' => $project::class,
             'target_id' => $project->id,
-            'permission' => Permission::PERMISSION_WRITE,
+            'permission' => PermissionOld::PERMISSION_WRITE,
         ]);
         $this->assertTrue($permission->save());
     }

@@ -8,7 +8,7 @@ use herams\common\domain\project\ProjectRepository;
 use herams\common\domain\survey\SurveyRepository;
 use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\WorkspaceId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
@@ -28,7 +28,7 @@ final class Create extends Action
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
 
         $workspaceId = new WorkspaceId($workspaceId);
-        $accessCheck->requirePermission($workspaceId, Permission::PERMISSION_CREATE_FACILITY);
+        $accessCheck->requirePermission($workspaceId, PermissionOld::PERMISSION_CREATE_FACILITY);
 
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $this->controller->view->breadcrumbCollection->add(...toArray($breadcrumbService->retrieveForWorkspace($workspaceId)->getIterator()));

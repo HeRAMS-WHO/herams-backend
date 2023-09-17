@@ -7,7 +7,7 @@ namespace herams\common\rules;
 use herams\common\domain\element\Element;
 use herams\common\domain\user\User;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -18,8 +18,8 @@ class DashboardRule implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_DELETE,
-            Permission::PERMISSION_WRITE,
+            PermissionOld::PERMISSION_DELETE,
+            PermissionOld::PERMISSION_WRITE,
         ];
     }
 
@@ -54,7 +54,7 @@ class DashboardRule implements Rule
             && ($target instanceof Element || $target instanceof Page)
             && in_array($permission, $this->getPermissions())
             && $target->project instanceof Project
-            && $accessChecker->check($source, $target->project, Permission::PERMISSION_MANAGE_DASHBOARD)
+            && $accessChecker->check($source, $target->project, PermissionOld::PERMISSION_MANAGE_DASHBOARD)
         ;
     }
 }

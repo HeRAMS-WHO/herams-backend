@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use app\components\Form;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\ActiveForm;
 use prime\components\View;
 use prime\models\ar\AccessRequest;
@@ -49,7 +49,7 @@ echo Form::widget([
             'type' => Form::INPUT_STATIC,
             'label' => \Yii::t('app', 'Requested permissions'),
             'staticValue' => Html::ul(map(static fn ($permission) =>
-                Permission::permissionLabels()[AccessRequest::permissionMap($model->getAccessRequest()->target)[$permission] ?? null] ?? $model->getAccessRequest()->permissionOptions()[$permission], $model->getAccessRequest()->permissions), [
+                PermissionOld::permissionLabels()[AccessRequest::permissionMap($model->getAccessRequest()->target)[$permission] ?? null] ?? $model->getAccessRequest()->permissionOptions()[$permission], $model->getAccessRequest()->permissions), [
                     'style' => [
                         'margin-top' => 0,
                         'padding-left' => '17px',

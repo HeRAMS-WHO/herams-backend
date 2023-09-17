@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\project;
 
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\components\NotificationService;
 use yii\base\Action;
@@ -22,7 +22,7 @@ class DeleteWorkspaces extends Action
         $project = Project::findOne([
             'id' => $id,
         ]);
-        $accessCheck->requirePermission($project, Permission::PERMISSION_DELETE_ALL_WORKSPACES);
+        $accessCheck->requirePermission($project, PermissionOld::PERMISSION_DELETE_ALL_WORKSPACES);
 
         $skipped = 0;
         $success = 0;

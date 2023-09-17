@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace herams\common\rules;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\models\Workspace;
 use SamIT\abac\interfaces\AccessChecker;
@@ -17,12 +17,12 @@ class ProjectImpliesWorkspace implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_SHARE,
-            Permission::PERMISSION_EXPORT,
-            Permission::PERMISSION_SURVEY_DATA,
-            Permission::PERMISSION_ADMIN,
-            Permission::PERMISSION_DELETE,
-            Permission::PERMISSION_CREATE_FACILITY,
+            PermissionOld::PERMISSION_SHARE,
+            PermissionOld::PERMISSION_EXPORT,
+            PermissionOld::PERMISSION_SURVEY_DATA,
+            PermissionOld::PERMISSION_ADMIN,
+            PermissionOld::PERMISSION_DELETE,
+            PermissionOld::PERMISSION_CREATE_FACILITY,
         ];
     }
 

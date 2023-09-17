@@ -6,7 +6,7 @@ namespace herams\api\controllers\user;
 
 use herams\common\domain\favorite\Favorite;
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use yii\base\Action;
 use yii\db\IntegrityException;
@@ -26,7 +26,7 @@ class Workspaces extends Action
         $userModel = User::findOne([
             'id' => $id,
         ]);
-        if (! $user->can(Permission::PERMISSION_MANAGE_FAVORITES, $userModel)) {
+        if (! $user->can(PermissionOld::PERMISSION_MANAGE_FAVORITES, $userModel)) {
             throw new ForbiddenHttpException();
         }
 

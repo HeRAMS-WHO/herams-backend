@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Collecthor\DataInterfaces\VariableInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\components\View;
 use prime\helpers\AgGridHelper;
 use prime\helpers\Icon;
@@ -46,7 +46,7 @@ Section::begin()
             'icon' => Icon::add(),
             'link' => Url::to($updateSituationUrl),
             'permission' => function (FacilityForTabMenu $facility, User $userComponent) {
-                return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(Permission::PERMISSION_SURVEY_DATA);
+                return $facility->canReceiveSituationUpdate() && $facility->canCurrentUser(PermissionOld::PERMISSION_SURVEY_DATA);
             },
         ],
     ])

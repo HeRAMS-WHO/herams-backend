@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\tests\functional\controllers\user;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\models\ar\AccessRequest;
 use prime\tests\FunctionalTester;
 
@@ -34,7 +34,7 @@ class NotificationsCest
         $I->save($accessRequest);
 
         $I->amLoggedInAs(TEST_OTHER_USER_ID);
-        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage(['user/notifications']);
         $I->see('There are open access requests that you can respond to');

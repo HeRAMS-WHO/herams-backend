@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace herams\console\controllers;
 
+use yii\helpers\Console;
+
 final class MigrateController extends \yii\console\controllers\MigrateController
 {
     protected function includeMigrationFile($class)
@@ -25,5 +27,8 @@ final class MigrateController extends \yii\console\controllers\MigrateController
             }
         };
         return $namespacedHistory;
+    }
+    protected function Seeder(){
+        Console::stdout("Enter the name of the migration to seed: ");
     }
 }

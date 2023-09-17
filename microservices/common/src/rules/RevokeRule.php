@@ -6,7 +6,7 @@ namespace herams\common\rules;
 
 use herams\common\domain\permission\ProposedGrant;
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
@@ -15,7 +15,7 @@ class RevokeRule implements Rule
 {
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_DELETE];
+        return [PermissionOld::PERMISSION_DELETE];
     }
 
     public function getTargetNames(): array
@@ -44,9 +44,9 @@ class RevokeRule implements Rule
             && $source instanceof User
             && ($proposedSource = $target->getSource()) instanceof User
             && $source->id !== $proposedSource->id
-            && ($permission === Permission::PERMISSION_DELETE)
+            && ($permission === PermissionOld::PERMISSION_DELETE)
             // To share or revoke you must have share permissions
-            && $accessChecker->check($source, $target->getTarget(), Permission::PERMISSION_SHARE)
+            && $accessChecker->check($source, $target->getTarget(), PermissionOld::PERMISSION_SHARE)
             // To share you must have the permission that you are giving
             && $accessChecker->check($source, $target->getTarget(), $target->getPermission());
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\rules;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -14,7 +14,7 @@ class ProjectSummaryRule implements Rule
 {
     public function getPermissions(): array
     {
-        return [Permission::PERMISSION_SUMMARY];
+        return [PermissionOld::PERMISSION_SUMMARY];
     }
 
     public function getTargetNames(): array
@@ -41,6 +41,6 @@ class ProjectSummaryRule implements Rule
     ): bool {
         return $target instanceof Project
             && in_array($permission, $this->getPermissions())
-            && (! $target->isHidden() || $accessChecker->check($source, $target, Permission::PERMISSION_READ));
+            && (! $target->isHidden() || $accessChecker->check($source, $target, PermissionOld::PERMISSION_READ));
     }
 }

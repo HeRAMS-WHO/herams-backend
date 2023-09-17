@@ -11,7 +11,7 @@ use herams\common\domain\user\User;
 use herams\common\jobHandlers\jobHandlers\permissions\CheckImplicitAccessRequestGrantedHandler;
 use herams\common\jobs\accessRequests\ImplicitlyGrantedNotificationJob;
 use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use prime\models\ar\AccessRequest;
@@ -49,7 +49,7 @@ class CheckImplicitAccessRequestGrantedHandlerTest extends Unit
         $resolver->expects($this->once())
             ->method('toSubject')
             ->willReturn($project);
-        $permission = $this->getMockBuilder(Permission::class)->getMock();
+        $permission = $this->getMockBuilder(PermissionOld::class)->getMock();
         $permission->expects($this->once())
             ->method('targetAuthorizable')
             ->willReturn(new Authorizable((string) $projectId, Project::class));
@@ -116,7 +116,7 @@ class CheckImplicitAccessRequestGrantedHandlerTest extends Unit
         $resolver->expects($this->once())
             ->method('toSubject')
             ->willReturn($element);
-        $permission = $this->getMockBuilder(Permission::class)->getMock();
+        $permission = $this->getMockBuilder(PermissionOld::class)->getMock();
         $permission->expects($this->once())
             ->method('targetAuthorizable')
             ->willReturn(new Authorizable((string) $elementId, Element::class));

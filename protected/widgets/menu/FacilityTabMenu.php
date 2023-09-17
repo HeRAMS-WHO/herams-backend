@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace prime\widgets\menu;
 
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\interfaces\FacilityForTabMenu;
 
 class FacilityTabMenu extends TabMenu
@@ -22,7 +22,7 @@ class FacilityTabMenu extends TabMenu
         $this->tabs = [];
 
         // $this->tabs[] = [
-        //     'permission' => Permission::PERMISSION_READ,
+        //     'permission' => PermissionOld::PERMISSION_READ,
         //     'title' => \Yii::t('app', 'Current situation'),
         //     'url' => [
         //         'facility/view',
@@ -32,7 +32,7 @@ class FacilityTabMenu extends TabMenu
         // ];
 
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_LIST_DATA_RESPONSES,
+            'permission' => PermissionOld::PERMISSION_LIST_DATA_RESPONSES,
             'title' => \Yii::t('app', 'Situation Updates ({n})', [
                 'n' => $this->facility->getResponseCount(),
             ]),
@@ -43,7 +43,7 @@ class FacilityTabMenu extends TabMenu
             ],
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_LIST_ADMIN_RESPONSES,
+            'permission' => PermissionOld::PERMISSION_LIST_ADMIN_RESPONSES,
             'title' => \Yii::t('app', 'HSDU updates ({n})', [
                 'n' => $this->facility->getAdminResponseCount(),
             ]),
@@ -54,7 +54,7 @@ class FacilityTabMenu extends TabMenu
             ],
         ];
         $this->tabs[] = [
-            'permission' => Permission::PERMISSION_WRITE,
+            'permission' => PermissionOld::PERMISSION_WRITE,
             'title' => \Yii::t('app', 'Delete HSDU'),
             'url' => [
                 "facility/update",

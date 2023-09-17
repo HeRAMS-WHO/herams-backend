@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\facility;
 
 use herams\common\domain\facility\Facility;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
@@ -18,8 +18,8 @@ class CreateCest
     private function getWorkspace(FunctionalTester $I): Workspace
     {
         $workspace = $I->haveWorkspace();
-        $I->grantCurrentUser($workspace, Permission::PERMISSION_SURVEY_DATA);
-        $I->grantCurrentUser($workspace, Permission::PERMISSION_CREATE_FACILITY);
+        $I->grantCurrentUser($workspace, PermissionOld::PERMISSION_SURVEY_DATA);
+        $I->grantCurrentUser($workspace, PermissionOld::PERMISSION_CREATE_FACILITY);
         return $workspace;
     }
 

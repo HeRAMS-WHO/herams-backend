@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\project;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
@@ -31,14 +31,14 @@ class DeleteCest
         ]));
         $I->seeResponseCodeIs(403);
 
-        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_READ);
+        \Yii::$app->abacManager->grant($user, $project, PermissionOld::PERMISSION_READ);
         $I->sendDELETE(Url::to([
             '/project/delete',
             'id' => $project->id,
         ]));
         $I->seeResponseCodeIs(403);
 
-        \Yii::$app->abacManager->grant($user, $project, Permission::PERMISSION_WRITE);
+        \Yii::$app->abacManager->grant($user, $project, PermissionOld::PERMISSION_WRITE);
         $I->sendDELETE(Url::to([
             '/project/delete',
             'id' => $project->id,
@@ -53,13 +53,13 @@ class DeleteCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_DELETE);
+        ]), $project, PermissionOld::PERMISSION_DELETE);
 
         $I->stopFollowingRedirects();
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));
 
-        $I->assertTrue(\Yii::$app->user->can(Permission::PERMISSION_DELETE, $project));
+        $I->assertTrue(\Yii::$app->user->can(PermissionOld::PERMISSION_DELETE, $project));
         $I->sendDELETE(Url::to([
             '/project/delete',
             'id' => $project->id,
@@ -80,7 +80,7 @@ class DeleteCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_ADMIN);
+        ]), $project, PermissionOld::PERMISSION_ADMIN);
 
         $I->createAndSetCsrfCookie('abc');
         $I->haveHttpHeader(Request::CSRF_HEADER, \Yii::$app->security->maskToken('abc'));

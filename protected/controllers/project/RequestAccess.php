@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\project;
 
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\components\Controller;
 use prime\components\NotificationService;
@@ -37,7 +37,7 @@ class RequestAccess extends Action
 
         $accessCheck->requirePermission(
             $project,
-            Permission::PERMISSION_SUMMARY,
+            PermissionOld::PERMISSION_SUMMARY,
             \Yii::t('app', 'You are not allowed to request access to this project')
         );
 

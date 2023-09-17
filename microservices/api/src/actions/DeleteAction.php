@@ -6,7 +6,7 @@ namespace herams\api\actions;
 
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ConditionallyDeletable;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\queries\ActiveQuery;
 use yii\base\Action;
 use yii\base\InvalidConfigException;
@@ -37,7 +37,7 @@ class DeleteAction extends Action
     {
         $model = $this->findModel($id);
 
-        $this->accessCheck->requirePermission($model, Permission::PERMISSION_DELETE);
+        $this->accessCheck->requirePermission($model, PermissionOld::PERMISSION_DELETE);
 
         if ($model instanceof ConditionallyDeletable && ! $model->canBeDeleted()) {
             throw new ConflictHttpException(\Yii::t('app', 'This model can not currently be deleted'));

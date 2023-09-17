@@ -10,7 +10,7 @@ use herams\common\attributes\TriggersJob;
 use herams\common\domain\user\User;
 use herams\common\jobs\accessRequests\CreatedNotificationJob;
 use herams\common\models\ActiveRecord;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\models\Workspace;
 use herams\common\queries\ActiveQuery;
@@ -196,16 +196,16 @@ class AccessRequest extends ActiveRecord
     {
         if ($target instanceof Project) {
             return [
-                self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
-                self::PERMISSION_READ => Permission::PERMISSION_READ,
-                self::PERMISSION_WRITE => Permission::PERMISSION_SURVEY_DATA,
+                self::PERMISSION_EXPORT => PermissionOld::PERMISSION_EXPORT,
+                self::PERMISSION_READ => PermissionOld::PERMISSION_READ,
+                self::PERMISSION_WRITE => PermissionOld::PERMISSION_SURVEY_DATA,
             ];
         } else {
             return [
-                self::PERMISSION_CONTRIBUTE => Permission::PERMISSION_SURVEY_DATA,
-                self::PERMISSION_EXPORT => Permission::PERMISSION_EXPORT,
-                self::PERMISSION_READ => Permission::PERMISSION_READ,
-                self::PERMISSION_WRITE => Permission::PERMISSION_WRITE,
+                self::PERMISSION_CONTRIBUTE => PermissionOld::PERMISSION_SURVEY_DATA,
+                self::PERMISSION_EXPORT => PermissionOld::PERMISSION_EXPORT,
+                self::PERMISSION_READ => PermissionOld::PERMISSION_READ,
+                self::PERMISSION_WRITE => PermissionOld::PERMISSION_WRITE,
             ];
         }
     }

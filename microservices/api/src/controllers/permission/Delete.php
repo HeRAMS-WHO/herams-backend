@@ -7,7 +7,7 @@ namespace herams\api\controllers\permission;
 use herams\common\domain\permission\PermissionRepository;
 use herams\common\domain\permission\ProposedGrant;
 use herams\common\interfaces\AccessCheckInterface;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\values\Authorizable;
@@ -42,10 +42,10 @@ class Delete extends Action
         $targetObject = $abacResolver->toSubject(new Authorizable($permission->target_id, $permission->target));
 
         $proposedGrant = new ProposedGrant($sourceObject, $targetObject, $permission->permission);
-        $accessCheck->requirePermission($proposedGrant, Permission::PERMISSION_DELETE);
+        $accessCheck->requirePermission($proposedGrant, PermissionOld::PERMISSION_DELETE);
         $abacManager->revoke($sourceObject, $targetObject, $permission->permission);
-        $response->headers->add('x-status-text', \Yii::t('app', 'Permission revoked'));
-        $response->setStatusCode(204, \Yii::t('app', 'Permission revoked'));
+        $response->headers->add('x-status-text', \Yii::t('app', 'PermissionOld revoked'));
+        $response->setStatusCode(204, \Yii::t('app', 'PermissionOld revoked'));
 
         return $response;
     }

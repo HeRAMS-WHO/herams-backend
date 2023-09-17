@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace herams\api\controllers\project;
 
 use herams\api\models\ProjectSummary;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use yii\base\Action;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -25,7 +25,7 @@ final class Summary extends Action
             throw new NotFoundHttpException();
         }
 
-        if (! $user->can(Permission::PERMISSION_SUMMARY, $project)) {
+        if (! $user->can(PermissionOld::PERMISSION_SUMMARY, $project)) {
             throw new ForbiddenHttpException();
         }
         return $this->controller->asJson($project->toArray([], [

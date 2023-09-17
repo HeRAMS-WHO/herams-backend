@@ -47,7 +47,7 @@ use herams\common\jobs\accessRequests\ResponseNotificationJob;
 use herams\common\jobs\permissions\CheckImplicitAccessRequestGrantedJob;
 use herams\common\jobs\UpdateFacilityDataJob;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\services\UserAccessCheck;
 use herams\common\utils\tools\SurveyParserClean;
 use Http\Factory\Guzzle\UriFactory;
@@ -181,7 +181,7 @@ class CommonConfigurator implements ContainerConfiguratorInterface
                 return new CachedReadRepository($container->get(ActiveRecordRepository::class));
             },
             ActiveRecordRepository::class => static function () {
-                return new ActiveRecordRepository(Permission::class, [
+                return new ActiveRecordRepository(PermissionOld::class, [
                     ActiveRecordRepository::SOURCE_ID => ActiveRecordRepository::SOURCE_ID,
                     ActiveRecordRepository::SOURCE_NAME => 'source',
                     ActiveRecordRepository::TARGET_ID => ActiveRecordRepository::TARGET_ID,

@@ -6,7 +6,7 @@ namespace prime\tests\functional\controllers\project;
 
 use herams\common\domain\user\User;
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\tests\FunctionalTester;
 use yii\helpers\Url;
@@ -62,7 +62,7 @@ class IndexCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
@@ -89,7 +89,7 @@ class IndexCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
@@ -101,7 +101,7 @@ class IndexCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_WRITE);
+        ]), $project, PermissionOld::PERMISSION_WRITE);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [
@@ -128,7 +128,7 @@ class IndexCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_READ);
+        ]), $project, PermissionOld::PERMISSION_READ);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
@@ -140,7 +140,7 @@ class IndexCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_WRITE);
+        ]), $project, PermissionOld::PERMISSION_WRITE);
         $I->amOnPage(['project/index']);
 
         $I->dontSeeElement('a', [
@@ -152,7 +152,7 @@ class IndexCest
 
         \Yii::$app->abacManager->grant(User::findOne([
             'id' => TEST_USER_ID,
-        ]), $project, Permission::PERMISSION_ADMIN);
+        ]), $project, PermissionOld::PERMISSION_ADMIN);
         $I->amOnPage(['project/index']);
 
         $I->seeElement('a', [

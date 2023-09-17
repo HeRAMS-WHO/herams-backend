@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\helpers\Icon;
 use prime\repositories\UserNotificationRepository;
 use yii\helpers\Html;
@@ -47,7 +47,7 @@ $lang = \Yii::$app->language;
 if (strpos($lang, '-')) {
     $lang = explode('-', $lang)[0];
 }
-if (app()->user->can(Permission::PERMISSION_ADMIN)) {
+if (app()->user->can(PermissionOld::PERMISSION_ADMIN)) {
     echo Html::a(Icon::level(), ['/admin']);
 }
 echo Html::a(Icon::home(), ['/'], [

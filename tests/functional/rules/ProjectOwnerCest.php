@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\rules;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use SamIT\abac\AuthManager;
 
@@ -23,9 +23,9 @@ class ProjectOwnerCest
         $manager = \Yii::$app->abacManager;
         $user = \Yii::$app->user->identity;
         $I->assertInstanceOf(User::class, $user);
-        $manager->grant($user, $project, Permission::PERMISSION_SURVEY_DATA);
+        $manager->grant($user, $project, PermissionOld::PERMISSION_SURVEY_DATA);
 
-        $I->assertUserCan($workspace, Permission::PERMISSION_SURVEY_DATA);
+        $I->assertUserCan($workspace, PermissionOld::PERMISSION_SURVEY_DATA);
         $I->amOnPage([
             'workspace/facilities',
             'id' => $workspace->id,

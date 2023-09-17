@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace herams\common\rules;
 
 use herams\common\domain\facility\Facility;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
 use SamIT\abac\interfaces\Rule;
@@ -15,8 +15,8 @@ class FacilityListResponsesRule implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::PERMISSION_LIST_ADMIN_RESPONSES,
-            Permission::PERMISSION_LIST_DATA_RESPONSES,
+            PermissionOld::PERMISSION_LIST_ADMIN_RESPONSES,
+            PermissionOld::PERMISSION_LIST_DATA_RESPONSES,
         ];
     }
 
@@ -47,6 +47,6 @@ class FacilityListResponsesRule implements Rule
         if (! ($target instanceof Facility && in_array($permission, $this->getPermissions()))) {
             return false;
         }
-        return $accessChecker->check($source, $target->workspace, Permission::PERMISSION_SURVEY_DATA);
+        return $accessChecker->check($source, $target->workspace, PermissionOld::PERMISSION_SURVEY_DATA);
     }
 }

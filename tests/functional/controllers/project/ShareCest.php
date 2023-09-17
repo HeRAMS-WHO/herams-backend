@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\tests\functional\controllers\project;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use prime\tests\FunctionalTester;
 use yii\mail\MessageInterface;
 
@@ -30,7 +30,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        $I->grantCurrentUser($project, Permission::PERMISSION_WRITE);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_WRITE);
 
         $I->amOnPage([
             'project/share',
@@ -55,7 +55,7 @@ class ShareCest
         $I->see(\Yii::t('app', 'Project coordinator'));
 
         $I->amLoggedInAs(TEST_USER_ID);
-        $I->grantCurrentUser($project, Permission::ROLE_LEAD);
+        $I->grantCurrentUser($project, PermissionOld::ROLE_LEAD);
         $I->amOnPage(['project/index']);
         $I->seeResponseCodeIs(200);
         $I->see($user->name, 'table tr td');
@@ -65,7 +65,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage([
             'project/share',
@@ -78,7 +78,7 @@ class ShareCest
             'form',
             [
                 'Share[userIdsAndEmails][]' => $toEmail,
-                'Share[permissions][]' => Permission::PERMISSION_SUPER_SHARE,
+                'Share[permissions][]' => PermissionOld::PERMISSION_SUPER_SHARE,
             ]
         );
         $I->seeResponseCodeIs(200);
@@ -94,7 +94,7 @@ class ShareCest
     {
         $I->amLoggedInAs(TEST_USER_ID);
         $project = $I->haveProject();
-        $I->grantCurrentUser($project, Permission::PERMISSION_ADMIN);
+        $I->grantCurrentUser($project, PermissionOld::PERMISSION_ADMIN);
 
         $I->amOnPage([
             'project/share',
@@ -110,7 +110,7 @@ class ShareCest
             'form',
             [
                 'Share[userIdsAndEmails][]' => $toUser->email,
-                'Share[permissions][]' => Permission::PERMISSION_SHARE,
+                'Share[permissions][]' => PermissionOld::PERMISSION_SHARE,
             ]
         );
         $I->seeResponseCodeIs(200);

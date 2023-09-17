@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace herams\common\rules\roles;
 
 use herams\common\domain\user\User;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Workspace;
 use SamIT\abac\interfaces\AccessChecker;
 use SamIT\abac\interfaces\Environment;
@@ -16,8 +16,8 @@ class WorkspaceOwnerRole implements Rule
     public function getPermissions(): array
     {
         return [
-            Permission::ROLE_WORKSPACE_CONTRIBUTOR,
-            Permission::PERMISSION_SHARE,
+            PermissionOld::ROLE_WORKSPACE_CONTRIBUTOR,
+            PermissionOld::PERMISSION_SHARE,
         ];
     }
 
@@ -46,6 +46,6 @@ class WorkspaceOwnerRole implements Rule
         return in_array(get_class($target), $this->getTargetNames())
             && in_array(get_class($source), $this->getSourceNames())
             && in_array($permission, $this->getPermissions())
-            && $accessChecker->check($source, $target, Permission::ROLE_WORKSPACE_OWNER);
+            && $accessChecker->check($source, $target, PermissionOld::ROLE_WORKSPACE_OWNER);
     }
 }

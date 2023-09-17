@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace prime\controllers\workspace;
 
 use herams\common\domain\workspace\WorkspaceRepository;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\values\WorkspaceId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
@@ -50,13 +50,13 @@ final class Share extends Action
                 $mailer,
                 $urlSigner,
                 [
-                    Permission::PERMISSION_SURVEY_DATA,
-                    Permission::PERMISSION_CREATE_FACILITY,
-                    Permission::PERMISSION_EXPORT,
-                    Permission::PERMISSION_SHARE,
-                    Permission::PERMISSION_SUPER_SHARE,
+                    PermissionOld::PERMISSION_SURVEY_DATA,
+                    PermissionOld::PERMISSION_CREATE_FACILITY,
+                    PermissionOld::PERMISSION_EXPORT,
+                    PermissionOld::PERMISSION_SHARE,
+                    PermissionOld::PERMISSION_SUPER_SHARE,
 
-                    Permission::ROLE_LEAD => \Yii::t('app', 'Workspace owner'),
+                    PermissionOld::ROLE_LEAD => \Yii::t('app', 'Workspace owner'),
                 ]
             );
         } catch (NoGrantablePermissions $e) {

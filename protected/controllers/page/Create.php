@@ -3,7 +3,7 @@
 namespace prime\controllers\page;
 
 use herams\common\models\Page;
-use herams\common\models\Permission;
+use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use prime\components\NotificationService;
 use yii\base\Action;
@@ -27,7 +27,7 @@ class Create extends Action
             throw new NotFoundHttpException();
         }
 
-        if (! $user->can(Permission::PERMISSION_MANAGE_DASHBOARD, $project)) {
+        if (! $user->can(PermissionOld::PERMISSION_MANAGE_DASHBOARD, $project)) {
             throw new ForbiddenHttpException();
         }
 
