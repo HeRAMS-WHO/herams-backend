@@ -7112,7 +7112,7 @@
         },
         {
             "name": "herams/common",
-            "version": "dev-bugfix/security_fix_update_yii2_apps_to_last_version",
+            "version": "dev-snyk-hotfixes",
             "dist": {
                 "type": "path",
                 "url": "microservices/common",
