@@ -19,7 +19,7 @@ use yii\web\View;
  * @var iterable<VariableInterface> $variables
  */
 echo "<script> const updateSituationContent = `" . Icon::add() . \Yii::t('app', 'Update Situation') . "`</script>";
-echo "<script> const closedFacility = `" . Icon::close() . \Yii::t('app', 'Facility closed') . "`</script>";
+echo "<script> const closedFacility = `" . Icon::close() . \Yii::t('app', 'No updates expected') . "`</script>";
 
 $this->title = $tabMenuModel->title();
 
