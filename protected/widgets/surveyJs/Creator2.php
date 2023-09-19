@@ -26,22 +26,31 @@ final class Creator2 extends Widget
     ];
 
     public null|SurveyId $surveyId = null;
+    private string $result;
+    private string $config;
 
     private function registerAssetBundles(): void
     {
         $this->view->registerAssetBundle(SurveyJsCreator2Bundle::class);
     }
 
-    public function run(): string
+    public function getConfig(): string
     {
-        $this->registerAssetBundles();
+        return $this->config;
+    }
+
+    public function getResult(): string
+    {
+        return $this->result;
+    }
+
+    public function setConfig(){
         $htmlOptions = [
             'id' => $this->getId(),
             ...$this->options,
         ];
-        $result = Html::tag('div', '', $htmlOptions);
-
-        $config = Json::encode([
+        $this->result = Html::tag('div', '', $htmlOptions);
+        $this->config = Json::encode([
             'creatorOptions' => $this->clientOptions,
             'createUrl' => Url::to(['/api/survey/create']),
             'dataUrl' => isset($this->surveyId) ? Url::to([
@@ -57,10 +66,19 @@ final class Creator2 extends Widget
                 true
             ),
         ]);
+    }
+
+    public function run(): string
+    {
+        $this->registerAssetBundles();
+        $this->setConfig();
+
+
+
         $this->view->registerJs(
             <<<JS
             console.profile('creator');
-            const config = {$config}
+            const config = {$this->getConfig()}
             
             // This is the function for updating.
             const updateSurvey = async (saveNo, callback) => {
@@ -109,6 +127,6 @@ final class Creator2 extends Widget
             View::POS_HERAMS_INIT
         );
 
-        return $result;
+        return $this->result;
     }
 }

@@ -3,9 +3,9 @@ import TextInput from './form/TextInput';
 import DropdownInput from './form/DropdownInput';
 import CheckboxInput from './form/CheckboxInput';
 import FormButtons from './form/FormButtons';
-import { formatObjectToValueLabel } from './../utils/objectUtils';
+import { formatObjectToValueLabel } from '../utils/objectUtils';
 import * as apiService from './../services/apiService';
-import { saveTranslations, __, clearTranslations } from './../utils/translationsUtility';
+import { saveTranslations, __, clearTranslations } from '../utils/translationsUtility';
 
 // A FormGroup to encapsulate input components with labels and errors.
 const FormGroup = ({ label, error, children }) => (

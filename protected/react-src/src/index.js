@@ -1,13 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/Profile';
+import SurveyCreatorWidget from "./components/SurveyCreatorWidget";
 import reportWebVitals from "./reportWebVitals";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
-    'Profile': Profile
+    'Profile': Profile,
+    'SurveyCreatorWidget': SurveyCreatorWidget
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
@@ -17,8 +19,7 @@ for (const [componentName, Component] of Object.entries(componentsMap)) {
     if (root) {
         // Spread the dataset for props
         const props = {...root.dataset};
-        const reactRoot = ReactDOM.createRoot(root);
-        reactRoot.render(<Component {...props} />);
+        createRoot(root).render(<Component {...props} />);
     }
 }
 
