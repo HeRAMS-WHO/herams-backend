@@ -7,6 +7,7 @@ namespace prime\controllers;
 use prime\components\Controller;
 use prime\controllers\admin\Dashboard;
 use prime\controllers\admin\Share;
+use prime\controllers\admin\Roles;
 use yii\helpers\ArrayHelper;
 
 class AdminController extends Controller
@@ -20,6 +21,7 @@ class AdminController extends Controller
         return [
             'dashboard' => Dashboard::class,
             'share' => Share::class,
+            'roles' => Roles::class,
         ];
     }
 

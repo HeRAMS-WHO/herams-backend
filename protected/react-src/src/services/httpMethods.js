@@ -1,5 +1,8 @@
+
 export const get = async (url, params = {}, headers = {}) => {
-    const fullUrl = new URL(url);
+    const baseUrl = window.location.origin;
+    const apiUrl = `${baseUrl}/api-proxy/core/${url}`;
+    const fullUrl = new URL(apiUrl)
     Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
     const response = await fetch(fullUrl, {
         method: 'GET',

@@ -17,7 +17,6 @@ $this->beginPage();
 
 $this->registerAssetBundle(\prime\assets\AppAsset::class);
 $this->registerAssetBundle(AdminBundle::class);
-
 ?>
 <!DOCTYPE html>
 <html lang="<?= \Yii::$app->language ?>">
@@ -64,6 +63,7 @@ echo Html::endTag('header');
 echo Html::beginTag('div', [
     'class' => "main layout-{$this->context->layout} controller-{$this->context->id} action-{$this->context->action->id}",
 ]);
+
 echo $content;
 echo Html::endTag('div');
 

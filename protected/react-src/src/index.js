@@ -1,13 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/Profile';
+import Roles from './components/Roles.jsx';
 import reportWebVitals from "./reportWebVitals";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
-    'Profile': Profile
+    'Profile': Profile,
+    'Roles': Roles
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
@@ -17,7 +19,7 @@ for (const [componentName, Component] of Object.entries(componentsMap)) {
     if (root) {
         // Spread the dataset for props
         const props = {...root.dataset};
-        const reactRoot = ReactDOM.createRoot(root);
+        const reactRoot = createRoot(root);
         reactRoot.render(<Component {...props} />);
     }
 }
