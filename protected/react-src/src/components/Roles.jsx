@@ -2,15 +2,17 @@ import React, {useEffect} from 'react';
 import Table from "./Table";
 import { fetchRoles} from "../services/apiProxyService";
 
+import { __ } from './../utils/translationsUtility';
+
 const CustomLinkRenderer = (params) => {
-    const link = `/roles/${params.data.id}`;
+    const link = `/role/${params.data.id}/update`;
     return (
         <a href={link} className={"agGridAnkur"}>{params.data.name}</a>
     );
 };
 const columnDefs = [
     {
-        headerName: 'Id',
+        headerName: __('Id'),
         field: 'id',
         checkboxSelection: false,
         filter: true,
@@ -18,7 +20,7 @@ const columnDefs = [
         pinned: 'left'
     },
     {
-        headerName: 'Name',
+        headerName: __('Name'),
         checkboxSelection: false,
         filter: true,
         width: 300,
@@ -26,21 +28,21 @@ const columnDefs = [
         cellRenderer: CustomLinkRenderer
     },
     {
-        headerName: 'Scope',
+        headerName: __('Scope'),
         field: 'scope',
         checkboxSelection: false,
         filter: true,
         width: 100
     },
     {
-        headerName: 'Type',
+        headerName: __('Type'),
         field: 'type',
         checkboxSelection: false,
         filter: true,
         width: 100
     },
     {
-        headerName: 'Project',
+        headerName: __('Project'),
         checkboxSelection: false,
         filter: true,
         cellRenderer: function(params) {
@@ -52,13 +54,13 @@ const columnDefs = [
         width: 120
     },
     {
-        headerName: 'Created Date',
+        headerName: __('Created Date'),
         field: 'created_date',
         checkboxSelection: false,
         filter: true
     },
     {
-        headerName: 'Created By',
+        headerName: __('Created By'),
         checkboxSelection: false,
         filter: true,
         valueGetter: function(params) {
@@ -66,13 +68,13 @@ const columnDefs = [
         }
     },
     {
-        headerName: 'Last Modified Date',
+        headerName: __('Last Modified Date'),
         field: 'last_modified_date',
         checkboxSelection: false,
         filter: true
     },
     {
-        headerName: 'Last Modified By',
+        headerName: __('Last Modified By'),
         field: 'last_modified_by',
         checkboxSelection: false,
         filter: true,
@@ -81,7 +83,7 @@ const columnDefs = [
         }
     },
     {
-        headerName: 'Actions',
+        headerName: __('Actions'),
         field: 'actions',
         checkboxSelection: false,
         filter: true,

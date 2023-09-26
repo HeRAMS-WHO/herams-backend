@@ -32,7 +32,7 @@ class AdminTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'permission' => PermissionOld::PERMISSION_ADMIN,
-            'url' => ['admin/roles'],
+            'url' => ['/role'],
             'title' => \Yii::t('app', 'Roles'),
         ];
         return parent::renderMenu();
