@@ -1,13 +1,58 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.form-group .col-md-3 {
+  word-break: break-word;
+  margin-right: 0px;
+  width: 180px;
+}
+.control-label {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 600;
+  min-width: 30%;
+}
+.has-star:not(.custom-control-label):not(.custom-file-label)::after, .is-required::after {
+  content: "*";
+  margin-left: 3px;
+  font-weight: normal;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: tomato;
+}
+label.has-star::after {
+  content: '*';
+  color: red;
+}
+
+*:before, *:after {
+  box-sizing: inherit;
+}
+.form-group .col-md-9 {
+  width: calc(100% - 180px);
+}
+
+.form-horizontal .row .form-group {
+  display: flex;
+  align-items: flex-start;
+}
+.align-baseline {
+  display: flex;
+  align-items: baseline;
+
+}
+.container-scrollable-700x400{
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: -moz-scrollbars-none;
+  border: 1px solid #ccc;
+  padding: 20px;
+  overflow-x: hidden;
+  max-width: 700px;
+}
+.Section {
+  overflow-x: hidden;
+}
+

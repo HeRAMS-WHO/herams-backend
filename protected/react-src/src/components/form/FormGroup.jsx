@@ -1,8 +1,13 @@
-const FormGroup = ({ label, error, children }) => (
+const FormGroup = ({ label, hasStar = false, error, children }) => (
     <div className="form-group highlight-addon row">
-        {label && <label className="control-label has-star col-md-3 ">{label}</label>}
-        <div className='col-md-9'>{children}</div>
-        {error && <div className="help-block help-block-error">{error}</div>}
+        <div className='form-group col-md-3'>
+            {label && <label className={`control-label ${hasStar ? 'has-star' : ''}`}>{label}</label>}
+        </div>
+        <div className='form-group col-md-5'>
+            {children}
+        </div>
+
+        {error && <div className="col-12 help-block help-block-error">{error}</div>}
     </div>
 );
 export default FormGroup;

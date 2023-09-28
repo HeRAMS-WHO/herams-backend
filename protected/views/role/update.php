@@ -18,7 +18,7 @@ echo AdminTabMenu::widget([
 
 ]);
 $this->endBlock();
-Section::begin([]);
+Section::begin([])
 ?>
 <div id="RoleEdit" data-role-id="<?= $id;?>"></div>
 

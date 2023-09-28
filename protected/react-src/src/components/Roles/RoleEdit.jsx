@@ -28,23 +28,22 @@ const RoleEdit = ({roleId}) => {
 
     return (
         <>
-            <h1>{__('Roles Edit')}</h1>
-            {JSON.stringify(roleData)}
-            <FormGroup label={__('Role name')}>
+            <h2>{__('Roles Edit')}</h2>
+            <FormGroup label={__('Role name')} hasStar={true}>
                 <TextInput
                     className="form-control"
                     value={roleData.name}
                     onChange={(e) => setRoleProperty('name', e.target.value)}
                 />
             </FormGroup>
-            <FormGroup label={__('Scope')}>
+            <FormGroup label={__('Scope')} hasStar={true}>
                 <DropdownInput
                     className="form-control"
                     value={roleData.scope}
                     options={roleScopes}
                     onChange={(e) => setRoleProperty('scope', e.target.value)} />
             </FormGroup>
-            <FormGroup label={__('Type')}>
+            <FormGroup label={__('Type')} hasStar={true}>
                 <DropdownInput
                     className="form-control"
                     options={roleTypes}
@@ -52,7 +51,7 @@ const RoleEdit = ({roleId}) => {
                     onChange={(e) => setRoleProperty('role', e.target.value)} />
             </FormGroup>
             {roleData.scope === 'project' &&
-                <FormGroup label={__('Custom role project')}>
+                <FormGroup label={__('Custom role project')} hasStar={true}>
                     <DropdownInput
                         className="form-control"
                         options={projects}
@@ -90,13 +89,27 @@ const RoleEdit = ({roleId}) => {
                     disabled={true}
                 />
             </FormGroup>
-            <h4 className="mt-3">
+            <h2 className="mt-3">
                 {__('Permissions')}
-            </h4>
-            <div className="row">
+            </h2>
+            <div className="container-scrollable-700x400">
                 <CheckboxesGroup
                     options={rolesPermissions}
                     onChange={(e) => { console.log(e.target.value); }} />
+            </div>
+            <div className="row">
+                <div className="col-12">
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => history.back()}>
+                        {__('Cancel')}
+                    </button>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => updatePermissionInRole()}>
+                        {__('Save')}
+                    </button>
+                </div>
             </div>
         </>
     );
