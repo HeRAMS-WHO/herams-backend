@@ -3,13 +3,16 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/Profile';
-import Roles from './components/Roles.jsx';
+import RolesList from './components/Roles/RolesList.jsx';
+import RolesEdit from "./components/Roles/RoleEdit";
+
 import reportWebVitals from "./reportWebVitals";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
     'Profile': Profile,
-    'Roles': Roles
+    'RolesList': RolesList,
+    'RoleEdit': RolesEdit
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {

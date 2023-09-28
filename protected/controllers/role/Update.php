@@ -10,6 +10,8 @@ class Update extends Action
     public function run(int $id)
     {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
-        return $this->controller->render('update');
+        return $this->controller->render('update', [
+            'id' => $id
+        ]);
     }
 }

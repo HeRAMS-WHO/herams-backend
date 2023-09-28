@@ -3,9 +3,9 @@
 "VIEW_USER";"View users";;"x";;;;;;;;;;;;;
 "CREATE_USER";"Add users";;"x";;;;;;;;;;;;;
 "DELETE_USER";"Delete users";;"x";;;;;;;;;;;;;
-"VIEW_ROLE";"View Roles";;"x";;;;;;;;;;;;;
-"CREATE_STD_ROLE";"Add Standard Roles";;"x";;;;;;;;;;;;;
-"CREATE_CUS_ROLE";"Add Custom Roles";;"x";;;;;;;;;;;;;
+"VIEW_ROLE";"View RolesList";;"x";;;;;;;;;;;;;
+"CREATE_STD_ROLE";"Add Standard RolesList";;"x";;;;;;;;;;;;;
+"CREATE_CUS_ROLE";"Add Custom RolesList";;"x";;;;;;;;;;;;;
 "DELETE_ROLE";"Delete roles";;"x";;;;;;;;;;;;;
 "ASSIGN_GLOBAL_ROLE";"Assign global roles to user";;"x";;;;;;;;;;;;;
 "IMPERSONATE_USER";"Impersonate user";;"x";;;;;;;;;;;;;

@@ -20,7 +20,7 @@ echo AdminTabMenu::widget([
 $this->endBlock();
 Section::begin([]);
 ?>
-<div id="Roles"></div>
+<div id="RolesList"></div>
 
 <?php
 Section::end();

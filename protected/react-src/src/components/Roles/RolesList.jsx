@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
-import Table from "./Table";
-import { fetchRoles} from "../services/apiProxyService";
+import Table from "../Table";
+import { fetchRoles} from "../../services/apiProxyService";
 
-import { __ } from './../utils/translationsUtility';
+import { __ } from '../../utils/translationsUtility';
+
 
 const CustomLinkRenderer = (params) => {
     const link = `/role/${params.data.id}/update`;
@@ -91,7 +92,7 @@ const columnDefs = [
     }
 
 ];
-const Roles = () => {
+const RolesList = () => {
     return (
         <>
             <Table
@@ -102,4 +103,4 @@ const Roles = () => {
 
 };
 
-export default Roles;
+export default RolesList;

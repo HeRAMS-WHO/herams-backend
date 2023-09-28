@@ -29,4 +29,7 @@ class Role extends ActiveRecord {
     public function getCreatorUserInfo(): \yii\db\ActiveQuery {
         return $this->hasOne(User::class, ['id' => 'created_by']);
     }
+    public function getRolePermissions(): \yii\db\ActiveQuery {
+        return $this->hasMany(RolePermission::class, ['role_id' => 'id']);
+    }
 }

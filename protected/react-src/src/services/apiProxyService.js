@@ -13,3 +13,15 @@ export const updateProfile = (data, headers) => {
 export const fetchRoles = (params, headers) => {
     return get(`${BASE_URL}/roles/index`, params, headers);
 }
+
+export const fetchRole = (id, params, headers) => {
+    return get(`${BASE_URL}/roles/${id}/view`, params, headers);
+}
+
+export const fetchPermissions = (params, headers) => {
+    return get(`${BASE_URL}/permissions/index`, params, headers);
+}
+
+export const fetchRolePermissions = (id, params, headers) => {
+    return get(`${BASE_URL}/roles/${id}/permissions`, params, headers);
+}

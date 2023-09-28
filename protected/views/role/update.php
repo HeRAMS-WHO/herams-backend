@@ -20,7 +20,7 @@ echo AdminTabMenu::widget([
 $this->endBlock();
 Section::begin([]);
 ?>
-<div id="RoleEdition"></div>
+<div id="RoleEdit" data-role-id="<?= $id;?>"></div>
 
 <?php
 Section::end();
