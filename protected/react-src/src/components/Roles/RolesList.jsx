@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
-import Table from "../Table";
-import { fetchRoles} from "../../services/apiProxyService";
 
+import {BASE_URL, fetchRoles} from "../../services/apiProxyService";
 import { __ } from '../../utils/translationsUtility';
+import deletionProps from "../../utils/deletionProps";
 
+import Table from "../Table";
+import {AddIcon, DeleteIcon} from "../IconsSet";
 
 const CustomLinkRenderer = (params) => {
     const link = `/role/${params.data.id}/update`;
@@ -11,6 +13,17 @@ const CustomLinkRenderer = (params) => {
         <a href={link} className={"agGridAnkur"}>{params.data.name}</a>
     );
 };
+
+const CustomRoleDeleteButton = (params) => {
+    const confirmationText = __('Are you sure you want to delete the role {}?').replace('{}', params.data.name);
+    const actionEndpoint = `${BASE_URL}/roles/${params.data.id}/delete`;
+    const redirectionEndpoint = window.location.href;
+    return (
+        <button style={{backgroundColor:'transparent', borderColor:'transparent', cursor:'pointer', fontSize:'14px'}}{...deletionProps(confirmationText, actionEndpoint, redirectionEndpoint)} >
+            <DeleteIcon />
+        </button>
+    )
+}
 const columnDefs = [
     {
         headerName: __('Id'),
@@ -23,24 +36,31 @@ const columnDefs = [
     {
         headerName: __('Name'),
         checkboxSelection: false,
+        field: 'name',
         filter: true,
         width: 300,
         pinned: 'left',
-        cellRenderer: CustomLinkRenderer
+        cellRenderer: CustomLinkRenderer,
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b)
     },
     {
         headerName: __('Scope'),
         field: 'scope',
         checkboxSelection: false,
         filter: true,
-        width: 100
+        width: 100,
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b)
     },
     {
         headerName: __('Type'),
         field: 'type',
         checkboxSelection: false,
         filter: true,
-        width: 100
+        width: 100,
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b),
     },
     {
         headerName: __('Project'),
@@ -52,13 +72,17 @@ const columnDefs = [
                 return title[params.data.projectInfo.primary_language];
             }
         },
-        width: 120
+        width: 120,
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b),
     },
     {
         headerName: __('Created Date'),
         field: 'created_date',
         checkboxSelection: false,
-        filter: true
+        filter: true,
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b),
     },
     {
         headerName: __('Created By'),
@@ -66,13 +90,17 @@ const columnDefs = [
         filter: true,
         valueGetter: function(params) {
             return params.data.creatorUserInfo?.name;
-        }
+        },
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b),
     },
     {
         headerName: __('Last Modified Date'),
         field: 'last_modified_date',
         checkboxSelection: false,
-        filter: true
+        filter: true,
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b),
     },
     {
         headerName: __('Last Modified By'),
@@ -81,20 +109,33 @@ const columnDefs = [
         filter: true,
         valueGetter: function(params) {
             return params.data.updaterUserInfo?.name;
-        }
+        },
+        sortable: true,
+        comparator: (a, b) => a.localeCompare(b),
     },
     {
         headerName: __('Actions'),
         field: 'actions',
         checkboxSelection: false,
         filter: true,
-        pinned: 'right'
+        pinned: 'right',
+        cellRenderer:CustomRoleDeleteButton
     }
 
 ];
 const RolesList = () => {
     return (
         <>
+            <div className="row mt-4 d-flex text-right">
+                <div className="col-2 offset-10">
+                    <button
+                        className="btn btn-default"
+                        onClick={() => { window.location.href='role/0/update' }}>
+                        <AddIcon />
+                        {__('Create new role')}
+                    </button>
+                </div>
+            </div>
             <Table
                 columnDefs={columnDefs}
                 dataRetriever={fetchRoles} /> {/* This dataRetriever should be on ../services/apiProxyService.js */}

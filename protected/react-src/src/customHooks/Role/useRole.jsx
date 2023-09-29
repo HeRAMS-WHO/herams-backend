@@ -16,6 +16,28 @@ function useRole(roleId = null){
         lastModifiedDate: '',
         lastModifiedBy: '',
     });
+    const [roleErrors, setError] = useState({});
+    const validateRole = () => {
+        const errors = {};
+        if (!roleData.name) {
+            errors.name = 'Role name is required';
+        }
+
+        if (!roleData.scope || !['global', 'project', 'workspace'].includes(roleData.scope)) {
+            errors.scope = 'Role scope is required and must be one of: global, project, workspace';
+        }
+
+        if (!roleData.type || !['standard', 'custom'].includes(roleData.type)) {
+            errors.type = 'Role type is required and must be one of: standard, custom';
+        }
+
+        if (roleData.scope === 'project' && !roleData.projectId) {
+            errors.projectId = 'Project is required when scope is project';
+        }
+        setError(errors);
+        return Object.keys(errors).length === 0;
+    }
+
     useEffect(() => {
         if (!roleId) {
             return;
@@ -49,7 +71,9 @@ function useRole(roleId = null){
     }
     return {
         roleData,
-        setRoleProperty
+        setRoleProperty,
+        validateRole,
+        roleErrors
     }
 }
 

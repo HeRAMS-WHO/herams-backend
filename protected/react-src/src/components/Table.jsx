@@ -10,7 +10,8 @@ import
 import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
-import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import {__} from "../utils/translationsUtility"; // Optional theme CSS
 
 const Table = ({columnDefs, dataRetriever}) => {
     const gridRef = useRef();
@@ -28,17 +29,27 @@ const Table = ({columnDefs, dataRetriever}) => {
     // Example load data from server
     useEffect(() => {
         dataRetriever().then(data => setRowData(data));
+
     }, []);
 
     // Example using Grid's API
     const buttonListener = useCallback( e => {
-        gridRef.current.api.deselectAll();
+        gridRef.current.columnApi.resetColumnState();
+
     }, []);
 
     return (
         <div>
             {/* Example using Grid's API */}
-            <button onClick={buttonListener}>Push Me</button>
+            <div className="row mt-2 d-flex text-right">
+                <div className="col-2 offset-10">
+                    <button
+                        className="btn btn-secondary "
+                        onClick={buttonListener}>
+                        {__('Reset grid')}
+                    </button>
+                </div>
+            </div>
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
             <div className="ag-theme-alpine" style={{width: '100%', height: 500}}>
                 <AgGridReact

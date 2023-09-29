@@ -1,7 +1,6 @@
 import {get, post, postYii} from './httpMethods';
 
-const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
-
+export const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
 const getFormData = object => Object.keys(object).reduce((formData, key) => {
     formData.append(key, JSON.stringify(object[key]));
     return formData;

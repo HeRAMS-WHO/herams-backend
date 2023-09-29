@@ -20,7 +20,9 @@ import CheckboxesGroup from "../CheckboxesGroup";
 const RoleEdit = ({roleId = 0}) => {
     const {
         roleData,
-        setRoleProperty
+        setRoleProperty,
+        validateRole,
+        roleErrors
     } = useRole(roleId);
 
     const {
@@ -32,6 +34,9 @@ const RoleEdit = ({roleId = 0}) => {
     const { projects } = useProjects();
 
     const updateRole = async () => {
+        if (!validateRole()) {
+            return;
+        }
         const filteredPermissions = rolesPermissions.filter((permission) => permission.checked);
         const data = {
             ...roleData,
@@ -44,22 +49,22 @@ const RoleEdit = ({roleId = 0}) => {
     }
     return (
         <>
-            <h2>{__('Roles Edit')}</h2>
-            <FormGroup label={__('Role name')} hasStar={true}>
+            {Number(roleId) !== 0 ? <h2>{__('Roles Edit')}</h2> : <h2>{__('Roles Create')}</h2>}
+            <FormGroup label={__('Role name')} hasStar={true} error={roleErrors?.name}>
                 <TextInput
                     className="form-control"
                     value={roleData.name}
                     onChange={(e) => setRoleProperty('name', e.target.value)}
                 />
             </FormGroup>
-            <FormGroup label={__('Scope')} hasStar={true}>
+            <FormGroup label={__('Scope')} hasStar={true} error={roleErrors?.scope}>
                 <DropdownInput
                     className="form-control"
                     value={roleData.scope}
                     options={roleScopes}
                     onChange={(e) => setRoleProperty('scope', e.target.value)} />
             </FormGroup>
-            <FormGroup label={__('Type')} hasStar={true}>
+            <FormGroup label={__('Type')} hasStar={true} error={roleErrors?.type}>
                 <DropdownInput
                     className="form-control"
                     options={roleTypes}
@@ -67,7 +72,7 @@ const RoleEdit = ({roleId = 0}) => {
                     onChange={(e) => setRoleProperty('type', e.target.value)} />
             </FormGroup>
             {(projects.length > 0 && roleData.scope === 'project' &&
-                <FormGroup label={__('Custom role project')} hasStar={true}>
+                <FormGroup label={__('Custom role project')} hasStar={true} error={roleErrors?.projectId}>
                     <DropdownInput
                         className="form-control"
                         options={projects}

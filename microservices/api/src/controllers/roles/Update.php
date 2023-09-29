@@ -31,8 +31,10 @@ class Update extends Action
         if (!$id){
           $role->created_date = $commonFields['created_date'];
           $role->created_by = $commonFields['created_by'];
+          $role->last_modified_by = $commonFields['last_modified_by'];
+          $role->last_modified_date = $commonFields['last_modified_date'];
         }
-        if (strtolower($role->type) <> 'project'){
+        if (strtolower($role->scope) <> 'project'){
           $role->project_id = null;
         }
         $role->last_modified_by = $commonFields['last_modified_by'];
