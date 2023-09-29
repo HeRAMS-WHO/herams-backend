@@ -125,9 +125,31 @@ class Herams {
         'Content-Type': 'application/json',
       },
       success: function (data) {
+
         if (data !== true){
+          //matches por delete uri for eachone in project, role, user, and userrole, with a regex which includes id
+          // in this format resource/id/delete
+          const matches = [
+            {
+              'regex': 'project/[0-9]+/delete',
+              'message': 'This project is not empty, and cannot be deleted. Please make sure the project is empty before deleting it',
+            },
+            {
+                'regex': 'roles/[0-9]+/delete',
+                'message': 'This role is not empty, and cannot be deleted. Please make sure the role is empty before deleting it',
+            }
+          ]
+          //check where the uri matches
+          let message = '';
+          for (let i = 0; i < matches.length; i++) {
+            const regex = new RegExp(matches[i].regex); // Convert string to regular expression
+            if (regex.test(uri)) { // Use .test() to check for a match
+              message = matches[i].message;
+              break;
+            }
+          }
           iziToast.show({
-            message: 'This project is not empty, and cannot be deleted. Please make sure the project is empty before deleting it',
+            message: message || 'An error occurred',
             overlay: true,
             overlayClose: true,
             color: 'red',

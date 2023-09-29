@@ -30,7 +30,11 @@ class AdminTabMenu extends TabMenu
             'url' => ['admin/share'],
             'title' => \Yii::t('app', 'Global permissions'),
         ];
-
+        $this->tabs[] = [
+            'permission' => PermissionOld::PERMISSION_ADMIN,
+            'url' => ['/role'],
+            'title' => \Yii::t('app', 'Roles'),
+        ];
         return parent::renderMenu();
     }
 }

@@ -1,13 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+
 import './index.css';
+import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/Profile';
+import RolesList from './components/Roles/RolesList.jsx';
+import RolesEdit from "./components/Roles/RoleEdit";
+
 import reportWebVitals from "./reportWebVitals";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
-    'Profile': Profile
+    'Profile': Profile,
+    'RolesList': RolesList,
+    'RoleEdit': RolesEdit
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
@@ -17,7 +24,7 @@ for (const [componentName, Component] of Object.entries(componentsMap)) {
     if (root) {
         // Spread the dataset for props
         const props = {...root.dataset};
-        const reactRoot = ReactDOM.createRoot(root);
+        const reactRoot = createRoot(root);
         reactRoot.render(<Component {...props} />);
     }
 }
