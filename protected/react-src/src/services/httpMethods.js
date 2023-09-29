@@ -1,6 +1,5 @@
 
 export const get = async (url, params = {}, headers = {}) => {
-    console.log(url)
     const fullUrl = new URL(url)
     Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
     const response = await fetch(fullUrl, {
@@ -34,6 +33,11 @@ export const post = async (url, data) => {
     }
 };
 
+export const postYii = (url, data) => {
+    return $.post(url, data, function (response) {
+        return response;
+    })
+}
 
 const handleResponse = (response) => {
     if (!response.ok) {

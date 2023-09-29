@@ -55,4 +55,10 @@ label.has-star::after {
 .Section {
   overflow-x: hidden;
 }
+.text-right {
+  text-align: right;
+}
 
+.w-100 {
+  width: 100%;
+}

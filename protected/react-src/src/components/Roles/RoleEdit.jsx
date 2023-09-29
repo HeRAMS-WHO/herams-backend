@@ -4,16 +4,20 @@ import {
     roleScopes,
     roleTypes
 } from '../../enums/RoleEnums';
+import {
+    updateRoleAndPermissions
+} from "../../services/apiProxyService";
 
 import useRole from "../../customHooks/Role/useRole";
 import useRolePermissions from "../../customHooks/Role/useRolePermissions";
+import useProjects from "../../customHooks/Project/useProjects";
 
 import FormGroup from "../form/FormGroup";
 import TextInput from "../form/TextInput";
 import DropdownInput from "../form/DropdownInput";
 import CheckboxesGroup from "../CheckboxesGroup";
 
-const RoleEdit = ({roleId}) => {
+const RoleEdit = ({roleId = 0}) => {
     const {
         roleData,
         setRoleProperty
@@ -22,10 +26,22 @@ const RoleEdit = ({roleId}) => {
     const {
         rolesPermissions,
         setRolesPermissions,
-        updatePermissionInRole
+        updatePermissionInRole,
+        updateAllChildren
     } = useRolePermissions(roleId);
+    const { projects } = useProjects();
 
-
+    const updateRole = async () => {
+        const filteredPermissions = rolesPermissions.filter((permission) => permission.checked);
+        const data = {
+            ...roleData,
+            permissions: filteredPermissions
+        }
+        const response = await updateRoleAndPermissions(roleId, data);
+        if (response.id) {
+            window.location.href = '../../role';
+        }
+    }
     return (
         <>
             <h2>{__('Roles Edit')}</h2>
@@ -47,17 +63,17 @@ const RoleEdit = ({roleId}) => {
                 <DropdownInput
                     className="form-control"
                     options={roleTypes}
-                    value={roleData.role}
-                    onChange={(e) => setRoleProperty('role', e.target.value)} />
+                    value={roleData.type}
+                    onChange={(e) => setRoleProperty('type', e.target.value)} />
             </FormGroup>
-            {roleData.scope === 'project' &&
+            {(projects.length > 0 && roleData.scope === 'project' &&
                 <FormGroup label={__('Custom role project')} hasStar={true}>
                     <DropdownInput
                         className="form-control"
                         options={projects}
-                        value={roleData.project}
-                        onChange={(e) => setRoleProperty('project', e.target.value)} />
-                </FormGroup>
+                        value={roleData.projectId}
+                        onChange={(e) => setRoleProperty('projectId', e.target.value)} />
+                </FormGroup>) || null
             }
             <br/>
             <br/>
@@ -95,19 +111,23 @@ const RoleEdit = ({roleId}) => {
             <div className="container-scrollable-700x400">
                 <CheckboxesGroup
                     options={rolesPermissions}
-                    onChange={(e) => { console.log(e.target.value); }} />
+                    changeChildren={updateAllChildren}
+                    onChange={updatePermissionInRole} />
             </div>
-            <div className="row">
-                <div className="col-12">
+            <div className="row mt-4 d-flex text-right">
+                <div className="col-2 offset-8">
                     <button
-                        className="btn btn-secondary"
-                        onClick={() => history.back()}>
+                        className="w-100 btn btn-secondary "
+                        onClick={() => window.location.href='../../role'}>
                         {__('Cancel')}
                     </button>
+                </div>
+                <div className="col-2">
                     <button
-                        className="btn btn-primary"
-                        onClick={() => updatePermissionInRole()}>
-                        {__('Save')}
+                        className="w-100 btn btn-default"
+                        onClick={updateRole}>
+                        <i className="fa fa-save" />
+                        {__('Save changes')}
                     </button>
                 </div>
             </div>

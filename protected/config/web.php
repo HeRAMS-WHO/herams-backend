@@ -95,7 +95,7 @@ $config = yii\helpers\ArrayHelper::merge(require(__DIR__ . '/common.php'), [
             'scriptFile' => realpath(__DIR__ . '/../../public/index.php'),
             'scriptUrl' => '/',
             'parsers' => [
-                'application/json' => yii\web\JsonParser::class,
+                'application/json' => 'yii\web\JsonParser',
             ],
         ],
         'response' => [

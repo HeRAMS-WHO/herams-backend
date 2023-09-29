@@ -29,10 +29,20 @@ const useRolePermissions = (roleId) => {
         tempPermissions[permissionIndex].checked = checked;
         setRolesPermissions(tempPermissions);
     }
+    const updateAllChildren = (parent, checked) => {
+        const tempPermissions = [...rolesPermissions];
+        const children = tempPermissions.filter((permission) => permission.parent === parent);
+        children.forEach((child) => {
+            const childIndex = tempPermissions.findIndex((permission) => permission.value === child.value);
+            tempPermissions[childIndex].checked = checked;
+        });
+        setRolesPermissions(tempPermissions);
+    }
     return {
         rolesPermissions,
         setRolesPermissions,
-        updatePermissionInRole
+        updatePermissionInRole,
+        updateAllChildren
     }
 }
 export default useRolePermissions;

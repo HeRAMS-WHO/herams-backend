@@ -11,7 +11,9 @@ use yii\base\Action;
 class View extends Action
 {
     public function run( int $id): array  {
-
+        if (!$id){
+            return [];
+        }
         return Role::find()
             ->where(['id' => $id])
             ->with([

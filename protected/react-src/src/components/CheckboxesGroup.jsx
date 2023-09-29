@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-const CheckboxesGroup = ({options, onChange}) => {
+const CheckboxesGroup = ({options, onChange, changeChildren}) => {
     const [groupOptions, setGroupOptions] = useState([]);
     useEffect(() => {
         const checkboxesForGrouping = [];
@@ -17,7 +17,10 @@ const CheckboxesGroup = ({options, onChange}) => {
                 return (
                     <div key={parent} className="form-horizontal form-group align-baseline w-90">
                         <div className='form-group col-md-3'>
-                            <input type="checkbox" /> <label className="control-label" >{parent}</label>
+                            <input
+                                onChange={e => changeChildren(parent, e.target.checked)}
+                                type="checkbox"/>
+                            <label className="control-label" >{parent}</label>
                         </div>
                         <div className='form-group col-md-5'>
                             {options.map((option) => {
@@ -28,7 +31,7 @@ const CheckboxesGroup = ({options, onChange}) => {
                                                 value={option.value}
                                                 type="checkbox"
                                                 checked={option.checked}
-                                                onChange={onChange} />
+                                                onChange={e => onChange(option.value, !option.checked)} />
                                             <label style={{fontStyle:'14px', marginLeft:'4px'}}>{option.label}</label>
                                         </div>
                                     );

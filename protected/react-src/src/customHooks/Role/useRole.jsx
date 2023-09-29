@@ -9,8 +9,8 @@ function useRole(roleId = null){
         id: roleId,
         name: '',
         scope: '',
-        project: '',
-        role: '',
+        projectId: '',
+        type: '',
         createdDate: '',
         createdBy: '',
         lastModifiedDate: '',
@@ -26,12 +26,12 @@ function useRole(roleId = null){
                 id: roleResponse.id,
                 name: roleResponse.name,
                 scope: roleResponse.scope,
-                project: roleResponse.project,
-                role: roleResponse.role,
+                projectId: roleResponse.project_id || '',
+                type: roleResponse.type || '',
                 createdDate: roleResponse.created_date,
-                createdBy: roleResponse.creatorUserInfo?.name,
+                createdBy: roleResponse.creatorUserInfo?.name || '',
                 lastModifiedDate: roleResponse.last_modified_date,
-                lastModifiedBy: roleResponse.updaterUserInfo?.name
+                lastModifiedBy: roleResponse.updaterUserInfo?.name || ''
             }
             setRoleData(roleData);
         }
