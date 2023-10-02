@@ -19,7 +19,8 @@ for (const [componentName, Component] of Object.entries(componentsMap)) {
     if (root) {
         // Spread the dataset for props
         const props = {...root.dataset};
-        createRoot(root).render(<Component {...props} />);
+        const reactRoot = createRoot(root);
+        reactRoot.render(<Component {...props} />);
     }
 }
 

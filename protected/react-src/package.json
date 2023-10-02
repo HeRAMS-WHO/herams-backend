@@ -12,6 +12,7 @@
     "survey-core": "^1.9.107",
     "survey-creator": "^1.9.107",
     "survey-creator-react": "^1.9.107",
+    "survey-react": "^1.9.107",
     "survey-react-ui": "^1.9.107",
     "web-vitals": "^2.1.4"
   },

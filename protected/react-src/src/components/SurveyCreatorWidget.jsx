@@ -1,8 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
+import { Serializer } from "survey-core";
 
+// import {Model} from "survey-core";
+// import './surveyjs/survey-modifications';
+// import './surveyjs/HSDUStateQuestion';
+// import './surveyjs/LocalizableProjectTextQuestion';
+// import { registerProjectVisibility } from './surveyjs/registerProjectVisibility'
+// import './surveyjs/ProjectVisibilityQuestion';
+import {registerProjectVisibility} from "./surveyjs/ProjectVisibilityQuestion";
+
+registerProjectVisibility();
 const SurveyCreatorWidget = (props) => {
     const [creator, setCreator] = useState(null);
 
@@ -35,7 +45,7 @@ const SurveyCreatorWidget = (props) => {
                 const surveyUrl = await response.text();
                 config.dataUrl = surveyUrl;
                 const id = surveyUrl.match(/\d+/)[0];
-                history.replaceState({}, '', config.updateUrl.replace('10101010', id));
+                // history.replaceState({}, '', config.updateUrl.replace('10101010', id));
                 callback(saveNo, true);
             } catch (e) {
                 console.error(e);
@@ -47,6 +57,7 @@ const SurveyCreatorWidget = (props) => {
 
         surveyCreator.saveSurveyFunc = (saveNo, callback) => config.dataUrl ? updateSurvey(saveNo, callback) : createSurvey(saveNo, callback);
 
+        console.log(config);
         if (config.dataUrl) {
             fetch(config.dataUrl)
                 .then(response => response.json())

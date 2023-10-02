@@ -36,7 +36,7 @@ $config = $creator->getConfig();
 
 ?>
     <!-- Mount point for the React component -->
-    <div id="SurveyCreatorWidget" data-config="<?= Html::encode(base64_encode($config)) ?>">0
+    <div id="SurveyCreatorWidget" data-config="<?= Html::encode(base64_encode($config)) ?>">
     </div>
 
 
