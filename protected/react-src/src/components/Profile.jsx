@@ -1,20 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import TextInput from './form/TextInput';
-import DropdownInput from './form/DropdownInput';
-import CheckboxInput from './form/CheckboxInput';
-import FormButtons from './form/FormButtons';
+import {
+    useEffect,
+    useState
+} from 'react';
+
 import { formatObjectToValueLabel } from '../utils/objectUtils';
 import * as apiService from './../services/apiService';
 import { saveTranslations, __, clearTranslations } from '../utils/translationsUtility';
 
-// A FormGroup to encapsulate input components with labels and errors.
-const FormGroup = ({ label, error, children }) => (
-    <div className="form-group highlight-addon">
-        {label && <label className="form-label has-star">{label}</label>}
-        {children}
-        {error && <div className="help-block help-block-error">{error}</div>}
-    </div>
-);
+import TextInput from './form/TextInput';
+import DropdownInput from './form/DropdownInput';
+import FormButtons from './form/FormButtons';
+import FormGroup from './form/FormGroup';
+
 
 const Profile = (props) => {
 

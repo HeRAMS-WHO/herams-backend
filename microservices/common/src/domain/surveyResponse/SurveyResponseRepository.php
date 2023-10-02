@@ -234,7 +234,9 @@ class SurveyResponseRepository
             ['IS', 'status', null],
         ])->orderBy([
             'date_of_update' => SORT_DESC,
-        ])->all();
+        ])
+            ->with('updatedBy')
+            ->all();
     }
 
     /**

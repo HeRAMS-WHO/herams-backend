@@ -1,15 +1,22 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+
 import './index.css';
+import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/Profile';
+import RolesList from './components/Roles/RolesList.jsx';
+import RolesEdit from "./components/Roles/RoleEdit";
 import SurveyCreatorWidget from "./components/SurveyCreatorWidget";
+
 import reportWebVitals from "./reportWebVitals";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
     'Profile': Profile,
-    'SurveyCreatorWidget': SurveyCreatorWidget
+    'RolesList': RolesList,
+    'RoleEdit': RolesEdit,
+    'SurveyCreatorWidget': SurveyCreatorWidget,
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
