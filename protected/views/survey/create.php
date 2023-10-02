@@ -28,8 +28,8 @@ CSS
 Section::begin()
     ->withHeader($this->title);
 
-echo Creator2::widget([
-]);
+//echo Creator2::widget([
+//]);
 $creator = new Creator2();
 $creator->setConfig();
 $config = $creator->getConfig();

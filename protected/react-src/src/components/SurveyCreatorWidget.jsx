@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
+import {CustomWidgetCollection, Serializer} from "survey-core";
 
 // import {Model} from "survey-core";
 // import './surveyjs/survey-modifications';
@@ -11,7 +12,13 @@ import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
 // import './surveyjs/ProjectVisibilityQuestion';
 
 import { applySurveyConfigurations } from './surveyjs/survey-modifications';
+import {applyHSDUStateQuestion} from "./surveyjs/HSDUStateQuestion";
+import {applyFacilityTypeQuestion} from "./surveyjs/FacilityTypeQuestion";
+
 applySurveyConfigurations();
+applyHSDUStateQuestion();
+applyFacilityTypeQuestion();
+
 
 const SurveyCreatorWidget = (props) => {
     const [creator, setCreator] = useState(null);

@@ -1,22 +1,22 @@
-'use strict';
-((Survey) =>
-  Survey.CustomWidgetCollection.Instance.add({
+import {CustomWidgetCollection, Serializer} from "survey-core";
+export function applyFacilityTypeQuestion() {
+  CustomWidgetCollection.Instance.add({
     name: 'facilitytype',
     title: 'Facility Type',
     iconName: 'icon-radiogroup',
     category: 'HeRAMS',
-    isFit (question) {
+    isFit(question) {
       return question.getType() === this.name
     },
     isDefaultRender: true,
 
-    widgetIsLoaded () {
+    widgetIsLoaded() {
       return true
     },
 
-    init () {
-      Survey.Serializer.addClass(this.name + 'value', [], null, 'itemvalue')
-      Survey.Serializer.addProperty(this.name + 'value', {
+    init() {
+      Serializer.addClass(this.name + 'value', [], null, 'itemvalue')
+      Serializer.addProperty(this.name + 'value', {
         name: 'tier',
         displayName: 'Tier',
         // choices: ['primary', 'secondary', 'tertiary'],
@@ -26,12 +26,12 @@
           {value: 1, text: "Primary"},
           {value: 2, text: "Secondary"},
           {value: 3, text: "Tertiary"},
-          { value: 4, text: "Other"},
-          { value: 5, text: "Unknow"}
+          {value: 4, text: "Other"},
+          {value: 5, text: "Unknow"}
         ],
         default: 5,
       })
-      Survey.Serializer.addClass(this.name, [
+      Serializer.addClass(this.name, [
         {
           name: 'choices',
           type: this.name + 'value[]',
@@ -77,8 +77,9 @@
         },
       ], null, 'radiogroup')
     },
-    afterRender (question, el) {
+    afterRender(question, el) {
 
     },
 
-  }, 'customtype'))(Survey)
+  }, 'customtype')
+}

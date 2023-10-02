@@ -1,22 +1,23 @@
-'use strict';
-((Survey) =>
-  Survey.CustomWidgetCollection.Instance.add({
+import {CustomWidgetCollection, Serializer} from "survey-core";
+
+export function applyHSDUStateQuestion() {
+  CustomWidgetCollection.Instance.add({
     name: 'hsdu_state',
     title: 'HSDU State',
     iconName: 'icon-radiogroup',
     category: 'HeRAMS',
-    isFit (question) {
+    isFit(question) {
       return question.getType() === this.name
     },
     isDefaultRender: true,
 
-    widgetIsLoaded () {
+    widgetIsLoaded() {
       return true
     },
 
-    init () {
-      Survey.Serializer.addClass(this.name + 'value', [], null, 'itemvalue')
-      Survey.Serializer.addProperty(this.name + 'value', {
+    init() {
+      Serializer.addClass(this.name + 'value', [], null, 'itemvalue')
+      Serializer.addProperty(this.name + 'value', {
         name: 'hsdu_state',
         displayName: 'HSDU State',
         // choices: ['primary', 'secondary', 'tertiary'],
@@ -29,7 +30,7 @@
         ],
         default: 2,
       })
-      Survey.Serializer.addClass(this.name, [
+      Serializer.addClass(this.name, [
         {
           name: 'choices',
           type: this.name + 'value[]',
@@ -75,8 +76,8 @@
         },
       ], null, 'radiogroup')
     },
-    afterRender (question, el) {
-
+    afterRender(question, el) {
     },
 
-  }, 'customtype'))(Survey)
+  }, 'customtype')
+}
