@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
-import { Serializer } from "survey-core";
 
 // import {Model} from "survey-core";
 // import './surveyjs/survey-modifications';
@@ -10,9 +9,10 @@ import { Serializer } from "survey-core";
 // import './surveyjs/LocalizableProjectTextQuestion';
 // import { registerProjectVisibility } from './surveyjs/registerProjectVisibility'
 // import './surveyjs/ProjectVisibilityQuestion';
-import {registerProjectVisibility} from "./surveyjs/ProjectVisibilityQuestion";
 
-registerProjectVisibility();
+import { applySurveyConfigurations } from './surveyjs/survey-modifications';
+applySurveyConfigurations();
+
 const SurveyCreatorWidget = (props) => {
     const [creator, setCreator] = useState(null);
 
@@ -55,9 +55,12 @@ const SurveyCreatorWidget = (props) => {
 
         const surveyCreator = new SurveyCreator(config.creatorOptions);
 
+
+        //Refresh survey and reset property grid to let it handle onShowingProperty event
+        surveyCreator.JSON = {};
+
         surveyCreator.saveSurveyFunc = (saveNo, callback) => config.dataUrl ? updateSurvey(saveNo, callback) : createSurvey(saveNo, callback);
 
-        console.log(config);
         if (config.dataUrl) {
             fetch(config.dataUrl)
                 .then(response => response.json())

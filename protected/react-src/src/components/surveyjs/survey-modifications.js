@@ -1,6 +1,11 @@
-'use strict';
+import {ComponentCollection, defaultV2Css, Serializer, StylesManager} from "survey-core";
 
-((surveyCreator) => {
+
+// ... [the rest of the code]
+
+// Export a function that applies these configurations.
+export function applySurveyConfigurations() {
+
   [
     'navigateToUrl',
     'navigateToUrlOnCondition',
@@ -36,31 +41,28 @@
     // "firstPageIsStarted",
     // "progressText"
 
-  ].forEach((property) => surveyCreator.Serializer.removeProperty('survey', property));
+  ].forEach((property) => Serializer.removeProperty('survey', property));
   [
     'storeOthersAsComment',
     'mode',
     'sendResultOnPageNext',
     'showCompletedPage',
-  ].forEach((property) => surveyCreator.Serializer.findProperty('survey', property).visible = false)
+  ].forEach((property) => Serializer.findProperty('survey', property).visible = false)
 
-  /**
-   * Todo:
-   * sendResultOnPageNext --> should be forced to true
-   */
-  surveyCreator.Serializer.addClass('coloritemvalue', [
-    {
-      name: 'text',
-      visible: false,
-    },
-    {
-      name: 'color',
-      type: 'color',
-    },
-  ],
-  null,
-  'itemvalue')
-  surveyCreator.Serializer.addProperty('survey', {
+  Serializer.addClass('coloritemvalue', [
+        {
+          name: 'text',
+          visible: false,
+        },
+        {
+          name: 'color',
+          type: 'color',
+        },
+      ],
+      null,
+      'itemvalue');
+
+  Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     default: [
       {
@@ -77,10 +79,9 @@
     type: 'coloritemvalue[]',
     name: 'colors',
     displayName: 'Color Dictionary',
+  });
 
-  })
-
-  surveyCreator.ComponentCollection.Instance.add({
+  ComponentCollection.Instance.add({
     iconName: 'icon-language',
     name: 'platformlanguagepicker',
     title: 'Platform language picker',
@@ -108,10 +109,9 @@
     onInit () {
       console.log(this)
     },
-
   })
 
-  surveyCreator.ComponentCollection.Instance.add({
+  ComponentCollection.Instance.add({
     name: 'currentlanguage',
     title: 'Current Language',
     category: 'HeRAMS',
@@ -126,7 +126,7 @@
     },
   })
 
-  surveyCreator.ComponentCollection.Instance.add({
+  ComponentCollection.Instance.add({
     iconName: 'icon-dropdown',
     name: 'countrypicker',
     title: 'Country picker',
@@ -148,7 +148,7 @@
     },
   })
 
-  surveyCreator.ComponentCollection.Instance.add({
+  ComponentCollection.Instance.add({
     iconName: 'icon-arrow-right',
     name: 'longitude',
     title: 'Longitude',
@@ -167,7 +167,7 @@
     },
   })
 
-  surveyCreator.ComponentCollection.Instance.add({
+  ComponentCollection.Instance.add({
     iconName: 'icon-keyboard-dragging',
     name: 'latitude',
     title: 'Latitude',
@@ -186,7 +186,7 @@
     },
   })
 
-  surveyCreator.ComponentCollection.Instance.add({
+  ComponentCollection.Instance.add({
     iconName: 'icon-dropdown',
     name: 'surveypicker',
     title: 'Survey picker',
@@ -207,8 +207,9 @@
       // debugger;
     },
   })
-  // Add expression properties to survey
-  surveyCreator.Serializer.addProperty('survey', {
+
+// Add expression properties to survey
+  Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     name: 'canReceiveSituationUpdate',
     displayName: 'Can receive a situation update (expression)',
@@ -217,7 +218,7 @@
     default: '0',
   })
 
-  surveyCreator.Serializer.addProperty('survey', {
+  Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     name: 'locales',
     visible: false,
@@ -225,7 +226,7 @@
     type: 'string[]',
   })
 
-  surveyCreator.Serializer.addProperty('survey', {
+  Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     name: 'platformUseInList',
     displayName: 'Use for list (expression)',
@@ -234,7 +235,7 @@
     default: '0',
   })
 
-  surveyCreator.Serializer.addProperty('survey', {
+  Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     name: 'platformUseInDashboarding',
     displayName: 'Use in dashboarding (expression)',
@@ -243,7 +244,7 @@
     default: '0',
   })
 
-  surveyCreator.Serializer.addProperty('survey', {
+  Serializer.addProperty('survey', {
     category: 'Reporting & Dashboarding',
     name: 'platformUseForSituationUpdate',
     displayName: 'Use in situation update (expression)',
@@ -251,7 +252,7 @@
     type: 'string',
   })
 
-  surveyCreator.Serializer.addProperty('question', {
+  Serializer.addProperty('question', {
     category: 'Reporting & Dashboarding',
     name: 'showInResponseList',
     displayName: 'Show this question in the response list',
@@ -260,7 +261,7 @@
     // default: false,
   })
 
-  surveyCreator.Serializer.addProperty('question', {
+  Serializer.addProperty('question', {
     category: 'Reporting & Dashboarding',
     name: 'showInFacilityList',
     displayName: 'Show this question in the facility list',
@@ -269,16 +270,18 @@
     // default: false,
   })
 
-  surveyCreator.defaultV2Css.saveData.success = 'success'
-  surveyCreator.defaultV2Css.saveData.root = 'savedata'
-  surveyCreator.StylesManager.applyTheme('defaultV2')
-})(surveyCreator)
 
-window.__herams_init_callbacks = window.__herams_init_callbacks ?? []
-window.__herams_init_callbacks.unshift(async () => {
-  if (typeof window.Survey === 'undefined') {
-    throw new Error('SurveyJS not (yet) loaded')
-  }
+  defaultV2Css.saveData.success = 'success'
+  defaultV2Css.saveData.root = 'savedata'
+  StylesManager.applyTheme('defaultV2')
+}
+
+
+// window.__herams_init_callbacks = window.__herams_init_callbacks ?? []
+// window.__herams_init_callbacks.unshift(async () => {
+//   if (typeof window.Survey === 'undefined') {
+//     throw new Error('SurveyJS not (yet) loaded')
+//   }
 
   // surveyCreator.Serializer.removeProperty('selectBase', 'choicesByUrl')
   // [
@@ -306,4 +309,4 @@ window.__herams_init_callbacks.unshift(async () => {
   // })
 
   // New question type for facility type:
-})
+// })

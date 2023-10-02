@@ -9,6 +9,7 @@ import { saveTranslations, __, clearTranslations } from '../utils/translationsUt
 
 import TextInput from './form/TextInput';
 import DropdownInput from './form/DropdownInput';
+import CheckboxInput from './form/CheckboxInput';
 import FormButtons from './form/FormButtons';
 import FormGroup from './form/FormGroup';
 
