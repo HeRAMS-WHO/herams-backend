@@ -50,7 +50,7 @@ const Profile = (props) => {
     const handleModifyProfile = async () => {
         const data = new URLSearchParams();
         data.append('User[name]', name);
-        data.append('User[language]', language);
+        data.append('User[language]0', language);
         data.append('User[newsletter_subscription]', newsletterSubscription ? '1' : '0');
 
         try {
