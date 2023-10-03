@@ -35,3 +35,7 @@ export const fetchPermissions = (params, headers) => {
 export const fetchRolePermissions = (id, params, headers) => {
     return get(`${BASE_URL}/roles/${id}/permissions`, params, headers);
 }
+export const fetchProjectVisibilityChoices = (data, headers) => {
+    const lang = document.documentElement.lang;
+    return get(`${BASE_URL}/configuration/visibilities?_lang=${lang}`, data, headers);
+};
