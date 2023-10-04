@@ -2,6 +2,7 @@ name: Push messages to i18n repo
 on:
   push:
     branches: [ v1 ]
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
