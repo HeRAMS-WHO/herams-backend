@@ -1,6 +1,6 @@
 name: Push messages to i18n repo
 on:
-  workflow_dispatch
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
