@@ -28,6 +28,7 @@ jobs:
         with:
           php-version: '8.1'
       - run: composer install --ignore-platform-reqs
+      - run: composer update herams/i18n --ignore-platform-reqs
       - name: Extract translations
         run: protected/yiic message/extract protected/config/i18n.php --message-path .
       - name: Dump messages line count
