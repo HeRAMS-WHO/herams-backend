@@ -631,12 +631,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/HeRAMS-WHO/herams-i18n.git",
-                "reference": "ffe6ae5d71bcf9d978e62d7a93c1a2d38f71f606"
+                "reference": "908cadbe18932a345efd52e85371e2d48f55668a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/ffe6ae5d71bcf9d978e62d7a93c1a2d38f71f606",
-                "reference": "ffe6ae5d71bcf9d978e62d7a93c1a2d38f71f606",
+                "url": "https://api.github.com/repos/HeRAMS-WHO/herams-i18n/zipball/908cadbe18932a345efd52e85371e2d48f55668a",
+                "reference": "908cadbe18932a345efd52e85371e2d48f55668a",
                 "shasum": ""
             },
             "default-branch": true,
@@ -654,7 +654,7 @@
             "support": {
                 "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master"
             },
-            "time": "2023-06-22T10:57:24+00:00"
+            "time": "2023-09-20T13:46:27+00:00"
         },
         {
             "name": "jc-it/yii2-job-queue",
