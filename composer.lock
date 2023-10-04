@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ef99afaf1afc79005ab7341db98f17c",
+    "content-hash": "b0245685262eb03c1397ee3b55b5929d",
     "packages": [
         {
             "name": "brick/math",
@@ -443,16 +443,16 @@
         },
         {
             "name": "foxy/foxy",
-            "version": "v1.2.1",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fxpio/foxy.git",
-                "reference": "c4154031e18ff404f07608c6778c30bd9afe9966"
+                "reference": "9b835b9fd02f81a9fc4d3de777bd08385509a5e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fxpio/foxy/zipball/c4154031e18ff404f07608c6778c30bd9afe9966",
-                "reference": "c4154031e18ff404f07608c6778c30bd9afe9966",
+                "url": "https://api.github.com/repos/fxpio/foxy/zipball/9b835b9fd02f81a9fc4d3de777bd08385509a5e3",
+                "reference": "9b835b9fd02f81a9fc4d3de777bd08385509a5e3",
                 "shasum": ""
             },
             "require": {
@@ -466,7 +466,7 @@
             "extra": {
                 "class": "Foxy\\Foxy",
                 "branch-alias": {
-                    "dev-1.2": "1.2-dev"
+                    "dev-main": "1.2-dev"
                 }
             },
             "autoload": {
@@ -487,7 +487,7 @@
                     "email": "francois.pluchino@gmail.com"
                 }
             ],
-            "description": "Fast, reliable, and secure NPM/Yarn bridge for Composer",
+            "description": "Fast, reliable, and secure NPM/Yarn/pnpm bridge for Composer",
             "homepage": "https://github.com/fxpio/foxy",
             "keywords": [
                 "Bridge",
@@ -501,7 +501,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fxpio/foxy/issues",
-                "source": "https://github.com/fxpio/foxy/tree/v1.2.1"
+                "source": "https://github.com/fxpio/foxy/tree/v1.3.0"
             },
             "funding": [
                 {
@@ -513,7 +513,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-17T15:36:56+00:00"
+            "time": "2023-03-28T19:17:52+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
