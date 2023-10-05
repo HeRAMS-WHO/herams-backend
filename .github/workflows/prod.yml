@@ -35,7 +35,7 @@ jobs:
   
       # Use $LATEST_2_2_VERSION in subsequent steps as needed
       - name: Update Composer to the fetched version
-        run: composer self-update $LATEST_2_2_VERSION
+        run: composer self-update $LATEST_2_2_VERSION      
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       - run: composer install --ignore-platform-reqs
       - run: docker-compose build
