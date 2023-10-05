@@ -28,8 +28,14 @@ jobs:
         uses: shivammathur/setup-php@2.9.0
         with:
           php-version: '8.1'
-      - name: Downgrade Composer to desired version
-        run: composer self-update 2.2.22
+      - name: Update Composer to latest 2.2.* version
+        run: |
+          LATEST_2_2_VERSION=$(composer show --all --available | grep 'versions : \* ' | awk -F' ' '{print $4}' | grep '^2.2.' | head -n 1)
+          if [ "$LATEST_2_2_VERSION" != "" ]; then
+            composer self-update $LATEST_2_2_VERSION
+          else
+            echo "No 2.2.* version found"
+          fi
       - name: Display Composer Version
         run: composer --version
       - name: install composer
