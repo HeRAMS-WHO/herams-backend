@@ -74,6 +74,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+      - name: Downgrade/Update Composer to latest 2.2.* version
+        run: composer self-update 2.2.*
       - run: composer install --ignore-platform-reqs
       - uses: docker/login-action@v1
         with:
