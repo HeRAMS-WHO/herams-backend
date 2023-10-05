@@ -28,14 +28,19 @@ jobs:
         uses: shivammathur/setup-php@2.9.0
         with:
           php-version: '8.1'
-      - name: Update Composer to latest 2.2.* version
+      - name: Fetch highest stable version of Composer 2.2.*
         run: |
-          LATEST_2_2_VERSION=$(composer show --all --available | grep 'versions : \* ' | awk -F' ' '{print $4}' | grep '^2.2.' | head -n 1)
-          if [ "$LATEST_2_2_VERSION" != "" ]; then
-            composer self-update $LATEST_2_2_VERSION
-          else
-            echo "No 2.2.* version found"
-          fi
+          LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "
+  import sys, json
+  versions = [v for v in json.load(sys.stdin)['package']['versions'].keys() if v.startswith('2.2.') and '-dev' not in v and '-alpha' not in v and '-beta' not in v and '-RC' not in v]
+  versions.sort(key=lambda s: list(map(int, s.split('.'))))
+  print(versions[-1])
+  ")
+          echo "LATEST_2_2_VERSION=$LATEST_2_2_VERSION" >> $GITHUB_ENV
+  
+      # Use $LATEST_2_2_VERSION in subsequent steps as needed
+      - name: Update Composer to the fetched version
+        run: composer self-update $LATEST_2_2_VERSION
       - name: Display Composer Version
         run: composer --version
       - name: install composer
