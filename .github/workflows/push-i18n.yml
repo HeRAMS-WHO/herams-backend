@@ -2,6 +2,7 @@ name: Push messages to i18n repo
 on:
   push:
     branches: [ v1 ]
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +28,25 @@ jobs:
         uses: shivammathur/setup-php@2.9.0
         with:
           php-version: '8.1'
-      - run: composer install --ignore-platform-reqs
+      - name: Fetch highest stable version of Composer 2.2.*
+        run: |
+          LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "
+          import sys, json
+          versions = [v for v in json.load(sys.stdin)['package']['versions'].keys() if v.startswith('2.2.') and '-dev' not in v and '-alpha' not in v and '-beta' not in v and '-RC' not in v]
+          versions.sort(key=lambda s: list(map(int, s.split('.'))))
+          print(versions[-1])
+          ")
+          echo "LATEST_2_2_VERSION=$LATEST_2_2_VERSION" >> $GITHUB_ENV
+  
+      # Use $LATEST_2_2_VERSION in subsequent steps as needed
+      - name: Update Composer to the fetched version
+        run: composer self-update $LATEST_2_2_VERSION
+      - name: Display Composer Version
+        run: composer --version
+      - name: install composer
+        run: composer install --ignore-platform-reqs
+      - name: update herams repository
+        run: composer update herams/i18n --ignore-platform-reqs
       - name: Extract translations
         run: protected/yiic message/extract protected/config/i18n.php --message-path .
       - name: Dump messages line count
