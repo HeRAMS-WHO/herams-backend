@@ -64,6 +64,12 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.9.0
+        with:
+          php-version: '8.0' # Modify this according to your required PHP version.
+          extensions: mbstring, dom, ctype, iconv, zip, curl
+          coverage: xdebug
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
