@@ -1,5 +1,5 @@
 import React, {Component, useEffect, useState} from 'react';
-import { __ } from '../../utils/translationsUtility';
+import { __ } from '../../../utils/translationsUtility';
 
 const DropdownInput = ({ options = [], value, ...props }) => {
     if (!Array.isArray(options)) {

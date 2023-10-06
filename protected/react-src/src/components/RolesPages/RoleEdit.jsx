@@ -8,14 +8,14 @@ import {
     updateRoleAndPermissions
 } from "../../services/apiProxyService";
 
-import useRole from "../../customHooks/Role/useRole";
-import useRolePermissions from "../../customHooks/Role/useRolePermissions";
-import useProjects from "../../customHooks/Project/useProjects";
+import useRole from "../../hooks/useRole/useRole";
+import useRolePermissions from "../../hooks/useRole/useRolePermissions";
+import useProjects from "../../hooks/Project/useProjects";
 
-import FormGroup from "../form/FormGroup";
-import TextInput from "../form/TextInput";
-import DropdownInput from "../form/DropdownInput";
-import CheckboxesGroup from "../CheckboxesGroup";
+import FormGroup from "../common/form/FormGroup";
+import TextInput from "../common/form/TextInput";
+import DropdownInput from "../common/form/DropdownInput";
+import CheckboxesGroup from "../common/form/CheckboxesGroup";
 
 const RoleEdit = ({roleId = 0}) => {
     const {

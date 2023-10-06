@@ -3,15 +3,15 @@ import {
     useState
 } from 'react';
 
-import { formatObjectToValueLabel } from '../utils/objectUtils';
-import * as apiService from './../services/apiService';
-import { saveTranslations, __, clearTranslations } from '../utils/translationsUtility';
+import { formatObjectToValueLabel } from '../../utils/objectUtils';
+import * as apiService from '../../services/apiService';
+import { saveTranslations, __, clearTranslations } from '../../utils/translationsUtility';
 
-import TextInput from './form/TextInput';
-import DropdownInput from './form/DropdownInput';
-import CheckboxInput from './form/CheckboxInput';
-import FormButtons from './form/FormButtons';
-import FormGroup from './form/FormGroup';
+import TextInput from '../common/form/TextInput';
+import DropdownInput from '../common/form/DropdownInput';
+import CheckboxInput from '../common/form/CheckboxInput';
+import FormButtons from '../common/form/FormButtons';
+import FormGroup from '../common/form/FormGroup';
 
 
 const Profile = (props) => {

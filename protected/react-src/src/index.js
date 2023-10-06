@@ -4,9 +4,9 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 // import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import DemoComponent from './components/DemoComponent';
-import Profile from './components/Profile';
-import RolesList from './components/Roles/RolesList.jsx';
-import RolesEdit from "./components/Roles/RoleEdit";
+import Profile from './components/ProfilePage/Profile';
+import RolesList from './components/RolesPages/RolesList.jsx';
+import RolesEdit from "./components/RolesPages/RoleEdit";
 import SurveyCreatorWidget from "./components/SurveyCreatorWidget";
 
 import reportWebVitals from "./reportWebVitals";

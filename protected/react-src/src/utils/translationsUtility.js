@@ -11,6 +11,7 @@ export const saveTranslations = (translations) => {
 
 export const getTranslation = (key) => {
     try {
+
         const serializedTranslations = localStorage.getItem(TRANSLATIONS_KEY);
         if (!serializedTranslations) return key; // No translations found
 
