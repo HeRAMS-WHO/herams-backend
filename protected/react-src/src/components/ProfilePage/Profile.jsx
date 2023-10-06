@@ -3,14 +3,15 @@ import {
     useState
 } from 'react';
 
-import { formatObjectToValueLabel } from '../utils/objectUtils';
-import * as apiService from './../services/apiService';
-import { saveTranslations, __, clearTranslations } from '../utils/translationsUtility';
+import { formatObjectToValueLabel } from '../../utils/objectUtils';
+import * as apiService from '../../services/apiService';
+import { saveTranslations, __, clearTranslations } from '../../utils/translationsUtility';
 
-import TextInput from './form/TextInput';
-import DropdownInput from './form/DropdownInput';
-import FormButtons from './form/FormButtons';
-import FormGroup from './form/FormGroup';
+import TextInput from '../common/form/TextInput';
+import DropdownInput from '../common/form/DropdownInput';
+import CheckboxInput from '../common/form/CheckboxInput';
+import FormButtons from '../common/form/FormButtons';
+import FormGroup from '../common/form/FormGroup';
 
 
 const Profile = (props) => {
@@ -50,7 +51,7 @@ const Profile = (props) => {
     const handleModifyProfile = async () => {
         const data = new URLSearchParams();
         data.append('User[name]', name);
-        data.append('User[language]', language);
+        data.append('User[language]0', language);
         data.append('User[newsletter_subscription]', newsletterSubscription ? '1' : '0');
 
         try {

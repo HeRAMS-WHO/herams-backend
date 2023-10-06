@@ -1,4 +1,3 @@
-import {useEffect, useState} from 'react';
 import { __ } from '../../utils/translationsUtility';
 import {
     roleScopes,
@@ -7,15 +6,16 @@ import {
 import {
     updateRoleAndPermissions
 } from "../../services/apiProxyService";
+import styles from './RoleEdit.module.css';
+import useRole from "../../hooks/useRole/useRole";
+import useRolePermissions from "../../hooks/useRole/useRolePermissions";
+import useProjects from "../../hooks/Project/useProjects";
 
-import useRole from "../../customHooks/Role/useRole";
-import useRolePermissions from "../../customHooks/Role/useRolePermissions";
-import useProjects from "../../customHooks/Project/useProjects";
-
-import FormGroup from "../form/FormGroup";
-import TextInput from "../form/TextInput";
-import DropdownInput from "../form/DropdownInput";
-import CheckboxesGroup from "../CheckboxesGroup";
+import FormGroup from "../common/form/FormGroup";
+import TextInput from "../common/form/TextInput";
+import DropdownInput from "../common/form/DropdownInput";
+import CheckboxesGroup from "../common/form/CheckboxesGroup";
+import FormButtons from "../common/form/FormButtons";
 
 const RoleEdit = ({roleId = 0}) => {
     const {
@@ -119,22 +119,25 @@ const RoleEdit = ({roleId = 0}) => {
                     changeChildren={updateAllChildren}
                     onChange={updatePermissionInRole} />
             </div>
-            <div className="row mt-4 d-flex text-right">
-                <div className="col-2 offset-8">
-                    <button
-                        className="w-100 btn btn-secondary "
-                        onClick={() => window.location.href='../../role'}>
-                        {__('Cancel')}
-                    </button>
-                </div>
-                <div className="col-2">
-                    <button
-                        className="w-100 btn btn-default"
-                        onClick={updateRole}>
-                        <i className="fa fa-save" />
-                        {__('Save changes')}
-                    </button>
-                </div>
+            <div className={`${styles.dFlex} ${styles.gap1} ${styles.mt4} ${styles.placeEnd}`}>
+                    <FormButtons
+                        buttons={[
+                            {
+                                label: __("Cancel"),
+                                class: `btn btn-secondary ${styles.w200px}`,
+                                onClick: () => window.location.href='../../role'
+                            }
+                        ]}
+                    />
+                    <FormButtons
+                        buttons={[
+                            {
+                                label: <> <i className="fa fa-save" /> {__('Save changes')}</>,
+                                class: `btn btn-default ${styles.w200px}`,
+                                onClick: updateRole
+                            }
+                        ]}
+                    />
             </div>
         </>
     );

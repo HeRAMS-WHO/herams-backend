@@ -11,11 +11,11 @@ import { AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import {__} from "../utils/translationsUtility"; // Optional theme CSS
+import {__} from "../../../utils/translationsUtility"; // Optional theme CSS
 
-const Table = ({columnDefs, dataRetriever}) => {
+const Table = ({columnDefs, data}) => {
+
     const gridRef = useRef();
-    const [rowData, setRowData] = useState();
     // DefaultColDef sets props common to all Columns
     const defaultColDef = useMemo( ()=> ({
         sortable: true
@@ -26,11 +26,6 @@ const Table = ({columnDefs, dataRetriever}) => {
         console.log('cellClicked', event);
     }, []);
 
-    // Example load data from server
-    useEffect(() => {
-        dataRetriever().then(data => setRowData(data));
-
-    }, []);
 
     // Example using Grid's API
     const buttonListener = useCallback( e => {
@@ -40,7 +35,6 @@ const Table = ({columnDefs, dataRetriever}) => {
 
     return (
         <div>
-            {/* Example using Grid's API */}
             <div className="row mt-2 d-flex text-right">
                 <div className="col-2 offset-10">
                     <button
@@ -54,7 +48,7 @@ const Table = ({columnDefs, dataRetriever}) => {
             <div className="ag-theme-alpine" style={{width: '100%', height: 500}}>
                 <AgGridReact
                     ref={gridRef} // Ref for accessing Grid's API
-                    rowData={rowData} // Row Data for Rows
+                    rowData={data} // Row Data for Rows
                     columnDefs={columnDefs} // Column Defs for Columns
                     defaultColDef={defaultColDef} // Default Column Properties
                     animateRows={true} // Optional - set to 'true' to have rows animate when sorted

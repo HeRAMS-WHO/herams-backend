@@ -1,11 +1,5 @@
-import React, {useEffect} from 'react';
-
-import {BASE_URL, fetchRoles} from "../../services/apiProxyService";
-import { __ } from '../../utils/translationsUtility';
-import deletionProps from "../../utils/deletionProps";
-
-import Table from "../Table";
-import {AddIcon, DeleteIcon} from "../IconsSet";
+import {__} from "../../utils/translationsUtility";
+import DeleteButton from "../common/button/DeleteButton";
 
 const CustomLinkRenderer = (params) => {
     const link = `/role/${params.data.id}/update`;
@@ -14,17 +8,9 @@ const CustomLinkRenderer = (params) => {
     );
 };
 
-const CustomRoleDeleteButton = (params) => {
-    const confirmationText = __('Are you sure you want to delete the role {}?').replace('{}', params.data.name);
-    const actionEndpoint = `${BASE_URL}/roles/${params.data.id}/delete`;
-    const redirectionEndpoint = window.location.href;
-    return (
-        <button style={{backgroundColor:'transparent', borderColor:'transparent', cursor:'pointer', fontSize:'14px'}}{...deletionProps(confirmationText, actionEndpoint, redirectionEndpoint)} >
-            <DeleteIcon />
-        </button>
-    )
-}
-const columnDefs = [
+
+
+const RoleListHeader = ({deleteYesCallback}) => [
     {
         headerName: __('Id'),
         field: 'id',
@@ -119,29 +105,18 @@ const columnDefs = [
         checkboxSelection: false,
         filter: true,
         pinned: 'right',
-        cellRenderer:CustomRoleDeleteButton
+        cellRenderer:function (params) {
+            const confirmationText = __('Are you sure you want to delete the role {}?').replace('{}', params.data.name);
+            return <DeleteButton
+                    title={__('Delete Role')}
+                    html={confirmationText}
+                    confirmButtonText={__('Delete')}
+                    cancelButtonText={__('Cancel')}
+                    yesCallback={() => deleteYesCallback(params.data.id)} />
+        },
+
     }
 
 ];
-const RolesList = () => {
-    return (
-        <>
-            <div className="row mt-4 d-flex text-right">
-                <div className="col-2 offset-10">
-                    <button
-                        className="btn btn-default"
-                        onClick={() => { window.location.href='role/0/update' }}>
-                        <AddIcon />
-                        {__('Create new role')}
-                    </button>
-                </div>
-            </div>
-            <Table
-                columnDefs={columnDefs}
-                dataRetriever={fetchRoles} /> {/* This dataRetriever should be on ../services/apiProxyService.js */}
-        </>
-    )
 
-};
-
-export default RolesList;
+export default RoleListHeader;
