@@ -2,6 +2,7 @@ import React, {Component, useEffect, useState} from 'react';
 import { __ } from '../../../utils/translationsUtility';
 
 const DropdownInput = ({ options = [], value, ...props }) => {
+
     if (!Array.isArray(options)) {
         console.error("DropdownInput received non-array options:", options);
         options = []; // Reset options to an empty array

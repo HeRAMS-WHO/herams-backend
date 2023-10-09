@@ -20,9 +20,9 @@ const CheckboxesGroup = ({options, onChange, changeChildren}) => {
                             <input
                                 onChange={e => changeChildren(parent, e.target.checked)}
                                 type="checkbox"/>
-                            <label className="control-label" >{parent}</label>
+                            <label className="control-label ml-2" >{parent}</label>
                         </div>
-                        <div className='form-group col-md-5'>
+                        <div className='form-group col-md-9'>
                             {options.map((option) => {
                                 if (option.parent === parent) {
                                     return (

@@ -132,7 +132,7 @@ const RoleEdit = ({roleId = 0}) => {
                     <FormButtons
                         buttons={[
                             {
-                                label: <> <i className="fa fa-save" /> {__('Save changes')}</>,
+                                label:  __('Save changes'),
                                 class: `btn btn-default ${styles.w200px}`,
                                 onClick: updateRole
                             }
