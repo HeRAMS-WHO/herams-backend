@@ -16,7 +16,7 @@ const RolesList = () => {
 
     return (
         <>
-            <div className="row mt-4 d-flex text-right">
+            <div className="row mt-4 d-flex place-content-end">
                 <div className="col-2 offset-10">
                     <button
                         className="btn btn-default"

@@ -35,8 +35,8 @@ const Table = ({columnDefs, data}) => {
 
     return (
         <div>
-            <div className="row mt-2 d-flex text-right">
-                <div className="col-2 offset-10">
+            <div className="row mt-2 d-flex text-right place-content-end">
+                <div className="col-2 offset-10 display-flex ">
                     <button
                         className="btn btn-secondary "
                         onClick={buttonListener}>

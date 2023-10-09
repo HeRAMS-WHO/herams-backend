@@ -92,14 +92,26 @@ label.has-star::after {
 .text-right {
   text-align: right;
 }
-
+.offset-10{
+  margin-left: 83.33333%;
+}
 .w-100 {
   width: 100%;
 }
-
+.place-items-end{
+  place-items: end;
+}
 input:disabled{
     background-color: #e9ecef;
 }
-.place-items-end {
-  place-items: end;
+.place-content-end {
+  place-content: end;
+}
+.col-md-2{
+    flex: 0 0 16.66667%;
+    max-width: 16.66667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
 }
