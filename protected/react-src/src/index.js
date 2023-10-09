@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import './index.css';
 // import 'bootstrap/dist/css/bootstrap-grid.min.css';
+import './index.css'
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
