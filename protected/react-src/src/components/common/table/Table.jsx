@@ -18,7 +18,8 @@ const Table = ({columnDefs, data}) => {
     const gridRef = useRef();
     // DefaultColDef sets props common to all Columns
     const defaultColDef = useMemo( ()=> ({
-        sortable: true
+        sortable: true,
+
     }));
 
     // Example of consuming Grid Event
@@ -45,8 +46,10 @@ const Table = ({columnDefs, data}) => {
                 </div>
             </div>
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine" style={{width: '100%', height: 500}}>
+            <div className="ag-theme-alpine" style={{width: '100%', height:'550px'}}>
                 <AgGridReact
+                    pagination={true}
+                    paginationPageSize={10}
                     ref={gridRef} // Ref for accessing Grid's API
                     rowData={data} // Row Data for Rows
                     columnDefs={columnDefs} // Column Defs for Columns
