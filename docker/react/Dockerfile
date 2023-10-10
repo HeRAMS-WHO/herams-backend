@@ -11,6 +11,9 @@ RUN if getent passwd nodeuser ; then deluser nodeuser; fi && \
     addgroup --gid $GROUP_ID nodeuser && \
     adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID nodeuser
 
+# Create .npm directory and grant permissions
+RUN mkdir -p /.npm && chown $USER_ID:$GROUP_ID /.npm
+
 # Set working directory in the container
 WORKDIR /app
 

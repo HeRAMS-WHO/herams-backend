@@ -1,4 +1,3 @@
-
 export const get = async (url, params = {}, headers = {}) => {
     const fullUrl = new URL(url)
     Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
@@ -12,7 +11,7 @@ export const get = async (url, params = {}, headers = {}) => {
     return handleResponse(response);
 };
 
-export const postForm = async (url, data) => {
+export const post = async (url, data) => {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -31,18 +30,6 @@ export const postForm = async (url, data) => {
         console.error('Error during POST request:', error);
         throw error;  // re-throw the error so it's caught in updateProfile as well
     }
-};
-
-export const post = async (url, data) => {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-
-    return response.json();
 };
 
 const handleResponse = (response) => {
