@@ -42,22 +42,9 @@ const RoleEdit = ({roleId = 0}) => {
             ...roleData,
             permissions: filteredPermissions
         }
-        const form = new URLSearchParams();
-        for (const key in data) {
-            if (Array.isArray(data[key])) {
-                // If the property is an array, loop through it
-                for (let i = 0; i < data[key].length; i++) {
-                    for (const subKey in data[key][i]) {
-                        form.append(`${key}[${i}][${subKey}]`, data[key][i][subKey]);
-                    }
-                }
-            } else {
-                form.append(key, data[key]);
-            }
-        }
 
-        const response = await updateRoleAndPermissions(roleId, form);
-        if (response.id) {
+        const response = await updateRoleAndPermissions(roleId, data);
+        if (response.ok) {
             window.location.href = '../../role';
         }
     }
