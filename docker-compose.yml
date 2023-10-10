@@ -211,8 +211,14 @@ services:
       - devproxy2
       - default
     volumes:
-      - ./protected/react-src:/app/protected/react-src
-      - /app/protected/react-src/node_modules
+      - type: bind
+        source: ./protected/react-src
+        target: /app/protected/react-src
+        consistency: cached
+      - type: bind
+        source: ./protected/react-src/node_modules
+        target: /app/protected/react-src/node_modules
+        consistency: delegated
     environment:
       - CHOKIDAR_USEPOLLING=true
       - HOST=react.herams.test
@@ -226,6 +232,7 @@ services:
       - traefik.http.routers.react-app.entrypoints=websecure
       - traefik.http.routers.react-app.tls=true
       - traefik.http.services.react-app.loadbalancer.server.port=3000
+    user: ${UID-0}:${GID-0}
   cli:
     << : *base
     depends_on:

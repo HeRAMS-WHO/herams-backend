@@ -24,14 +24,14 @@ const Profile = (props) => {
     const [newsletterSubscription, setNewsletterSubscription] = useState(initialUser.newsletter_subscription || false);
 
     const [availableLanguages, setAvailableLanguages] = useState([]); // <-- Added this state to hold available languages
-    const translations = JSON.parse(localStorage.getItem('translations') || '{}');
+    // const translations = JSON.parse(localStorage.getItem('translations') || '{}');
 
 
     useEffect(() => {
         fetchAndSetAvailableLanguages();
     }, []);
 
-    const fetchAndSetAvailableLanguages = async (responseData = null) => {
+    const fetchAndSetAvailableLanguages = (responseData = null) => {
         let availableLangs = {};
 
         if (responseData && responseData.languages) {
@@ -51,11 +51,15 @@ const Profile = (props) => {
     const handleModifyProfile = async () => {
         const data = new URLSearchParams();
         data.append('User[name]', name);
-        data.append('User[language]0', language);
+        data.append('User[language]', language);
         data.append('User[newsletter_subscription]', newsletterSubscription ? '1' : '0');
 
         try {
-            const response = await apiService.updateProfile(data);
+            let headers = {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',  // Ensure you have the correct content type
+            };
+            const response = await apiService.updateProfile(data, headers);
+
             const responseData = await response.json();
 
             if (responseData.status === 'success') {

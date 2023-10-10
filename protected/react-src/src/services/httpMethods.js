@@ -12,7 +12,7 @@ export const get = async (url, params = {}, headers = {}) => {
     return handleResponse(response);
 };
 
-export const post = async (url, data) => {
+export const postForm = async (url, data) => {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -33,11 +33,17 @@ export const post = async (url, data) => {
     }
 };
 
-export const postYii = (url, data) => {
-    return $.post(url, data, function (response) {
-        return response;
-    })
-}
+export const post = async (url, data) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    return response.json();
+};
 
 const handleResponse = (response) => {
     if (!response.ok) {

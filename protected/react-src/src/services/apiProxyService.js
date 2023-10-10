@@ -1,4 +1,4 @@
-import {get, post, postYii} from './httpMethods';
+import {get, post, postForm} from './httpMethods';
 
 export const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
 
@@ -7,11 +7,11 @@ export const fetchProfile = (params, headers) => {
 };
 
 export const updateProfile = (data, headers) => {
-    return post(`${BASE_URL}/user/profile`, data, headers);
+    return postForm(`${BASE_URL}/user/profile`, data, headers);
 };
 
 export const updateRoleAndPermissions = (id, data) => {
-    return postYii(`${BASE_URL}/roles/${id}/update`, data);
+    return post(`${BASE_URL}/roles/${id}/update`, data);
 }
 export const fetchRoles = (params, headers) => {
     return get(`${BASE_URL}/roles/index`, params, headers);
