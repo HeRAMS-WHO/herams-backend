@@ -9,6 +9,7 @@
     "ag-grid-community": "30.1.0",
     "ag-grid-react": "30.1.0",
     "bootstrap": "3.3.6",
+    "eslint": "^8.51.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -44,5 +45,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.22.11"
   }
 }
