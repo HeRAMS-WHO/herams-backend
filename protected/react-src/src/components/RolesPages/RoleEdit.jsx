@@ -85,7 +85,7 @@ const RoleEdit = ({roleId = 0}) => {
                     value={roleData.type}
                     onChange={(e) => setRoleProperty('type', e.target.value)} />
             </FormGroup>
-            {(projects.length > 0 && roleData.scope === 'project' &&
+            {(projects.length > 0 && roleData.scope === 'project' && roleData.type === 'custom'&&
                 <FormGroup label={__('Custom role project')} hasStar={true} error={roleErrors?.projectId}>
                     <DropdownInput
                         className="form-control"

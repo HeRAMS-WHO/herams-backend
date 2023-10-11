@@ -31,8 +31,8 @@ function useRole(roleId = null){
             errors.type = 'Role type is required and must be one of: standard, custom';
         }
 
-        if (roleData.scope === 'project' && !roleData.projectId) {
-            errors.projectId = 'Project is required when scope is project';
+        if (roleData.scope === 'project' && !roleData.projectId && roleData.type === 'custom') {
+            errors.projectId = 'Project is required when scope is project and type is custom';
         }
         setError(errors);
         return Object.keys(errors).length === 0;
@@ -64,8 +64,12 @@ function useRole(roleId = null){
             })
     }, [roleId]);
     const setRoleProperty = (property, value) => {
+        const prevState = {...roleData};
+        if (property === 'scope' && value !== 'project' || property === 'type' && value !== 'custom') {
+            prevState.projectId = '';
+        }
         setRoleData({
-            ...roleData,
+            ...prevState,
             [property]: value
         });
     }
