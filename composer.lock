@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0245685262eb03c1397ee3b55b5929d",
+    "content-hash": "acc699c4d078b59a3a983b2dfe3bf4b2",
     "packages": [
         {
             "name": "brick/math",
@@ -655,6 +655,52 @@
                 "source": "https://github.com/HeRAMS-WHO/herams-i18n/tree/master"
             },
             "time": "2023-09-20T13:46:27+00:00"
+        },
+        {
+            "name": "herams/ls2-jsonrpc-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/HeRAMS-WHO/ls2-jsonrpc-client.git",
+                "reference": "a9b01ab66f5ea6b6b8f380b90161466d9a7979d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HeRAMS-WHO/ls2-jsonrpc-client/zipball/a9b01ab66f5ea6b6b8f380b90161466d9a7979d2",
+                "reference": "a9b01ab66f5ea6b6b8f380b90161466d9a7979d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">7.1",
+                "sam-it/ls-interfaces": "^0.5.0"
+            },
+            "suggest": {
+                "nesbot/carbon": "To get dates and times as objects that implement __toString()"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SamIT\\LimeSurvey\\JsonRpc\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Mousa",
+                    "email": "sam@mousa.nl"
+                }
+            ],
+            "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
+            "support": {
+                "source": "https://github.com/HeRAMS-WHO/ls2-jsonrpc-client/tree/master"
+            },
+            "time": "2023-10-12T10:20:13+00:00"
         },
         {
             "name": "jc-it/yii2-job-queue",
@@ -2572,53 +2618,6 @@
                 "source": "https://github.com/SAM-IT/ls-interfaces/tree/master"
             },
             "time": "2016-06-03T08:36:17+00:00"
-        },
-        {
-            "name": "sam-it/ls2-jsonrpc-client",
-            "version": "v1.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SAM-IT/ls2-jsonrpc-client.git",
-                "reference": "d6f8501d5efeccca516d2286c5fe776cd2de017d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SAM-IT/ls2-jsonrpc-client/zipball/d6f8501d5efeccca516d2286c5fe776cd2de017d",
-                "reference": "d6f8501d5efeccca516d2286c5fe776cd2de017d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">7.1",
-                "sam-it/ls-interfaces": "^0.5.0"
-            },
-            "suggest": {
-                "nesbot/carbon": "To get dates and times as objects that implement __toString()"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "SamIT\\LimeSurvey\\JsonRpc\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sam Mousa",
-                    "email": "sam@mousa.nl"
-                }
-            ],
-            "description": "Implementation of ls-interfaces and jsonRPC for LS2.x",
-            "support": {
-                "issues": "https://github.com/SAM-IT/ls2-jsonrpc-client/issues",
-                "source": "https://github.com/SAM-IT/ls2-jsonrpc-client/tree/v1.2.4"
-            },
-            "time": "2020-03-30T12:08:21+00:00"
         },
         {
             "name": "sam-it/yii2-abac",
@@ -8618,6 +8617,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "herams/ls2-jsonrpc-client": 20,
         "herams/i18n": 20,
         "viest/php-ext-xlswriter-ide-helper": 20
     },
