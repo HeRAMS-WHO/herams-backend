@@ -34,7 +34,7 @@
         "nesbot/carbon": "^2.0.0",
         "nikic/iter": "^2.0",
         "psr/http-message": "^1.0",
-        "sam-it/ls2-jsonrpc-client": "^1.2.4",
+        "herams/ls2-jsonrpc-client": "dev-master",
         "sam-it/abac": "^3.1.0",
         "sam-it/yii2-abac": "^1.0.4",
         "sam-it/yii2-urlsigner": "^2.0",
@@ -105,6 +105,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/HeRAMS-WHO/herams-i18n"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/HeRAMS-WHO/ls2-jsonrpc-client"
         }
     ],
     "scripts": {
