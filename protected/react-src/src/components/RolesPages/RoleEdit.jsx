@@ -48,9 +48,18 @@ const RoleEdit = ({roleId = 0}) => {
             window.location.href = '../../role';
         }
     }
+
+    function isEditing() {
+        return Number(roleId) !== 0;
+    }
+
+    function hasToAssignARole() {
+        return projects.length > 0 && roleData.scope === 'project' && roleData.type === 'custom';
+    }
+
     return (
         <>
-            {Number(roleId) !== 0 ? <h2>{__('Roles Edit')}</h2> : <h2>{__('Roles Create')}</h2>}
+            {isEditing() ? <h2>{__('Roles Edit')}</h2> : <h2>{__('Roles Create')}</h2>}
             <FormGroup label={__('Role name')} hasStar={true} error={roleErrors?.name}>
                 <TextInput
                     className="form-control"
@@ -72,7 +81,7 @@ const RoleEdit = ({roleId = 0}) => {
                     value={roleData.type}
                     onChange={(e) => setRoleProperty('type', e.target.value)} />
             </FormGroup>
-            {(projects.length > 0 && roleData.scope === 'project' && roleData.type === 'custom'&&
+            {(hasToAssignARole() &&
                 <FormGroup label={__('Custom role project')} hasStar={true} error={roleErrors?.projectId}>
                     <DropdownInput
                         className="form-control"

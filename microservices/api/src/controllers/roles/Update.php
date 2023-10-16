@@ -34,7 +34,7 @@ class Update extends Action
           $role->last_modified_by = $commonFields['last_modified_by'];
           $role->last_modified_date = $commonFields['last_modified_date'];
         }
-        if (strtolower($role->scope) <> 'project' || strtolower($role->type) <> 'custom') {
+        if (!$this->mustHaveAProjectAssigned($role)) {
             $role->project_id = null;
         }
         
@@ -53,5 +53,14 @@ class Update extends Action
             $rolePermission->save();
         }
         return $role->toArray();
+    }
+
+    /**
+     * @param Role|null $role
+     * @return bool
+     */
+    private function mustHaveAProjectAssigned(?Role $role): bool
+    {
+        return strtolower($role->scope) === 'project' && strtolower($role->type) === 'custom';
     }
 }

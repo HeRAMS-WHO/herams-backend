@@ -31,7 +31,11 @@ function useRole(roleId = null){
             errors.type = 'Role type is required and must be one of: standard, custom';
         }
 
-        if (roleData.scope === 'project' && !roleData.projectId && roleData.type === 'custom') {
+        function hasToAssignARole() {
+            return roleData.scope === 'project' && !roleData.projectId && roleData.type === 'custom';
+        }
+
+        if (hasToAssignARole()) {
             errors.projectId = 'Project is required when scope is project and type is custom';
         }
         setError(errors);
