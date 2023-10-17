@@ -53,7 +53,7 @@ const RoleEdit = ({roleId = 0}) => {
         return Number(roleId) !== 0;
     }
 
-    function hasToAssignARole() {
+    function hasToAssignAProjectId() {
         return projects.length > 0 && roleData.scope === 'project' && roleData.type === 'custom';
     }
 
@@ -81,7 +81,7 @@ const RoleEdit = ({roleId = 0}) => {
                     value={roleData.type}
                     onChange={(e) => setRoleProperty('type', e.target.value)} />
             </FormGroup>
-            {(hasToAssignARole() &&
+            {(hasToAssignAProjectId() &&
                 <FormGroup label={__('Custom role project')} hasStar={true} error={roleErrors?.projectId}>
                     <DropdownInput
                         className="form-control"
