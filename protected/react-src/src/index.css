@@ -115,3 +115,7 @@ input:disabled{
     padding-right: 15px;
     padding-left: 15px;
 }
+.px-2{
+    padding-right: 0.5rem!important;
+    padding-left: 0.5rem!important;
+}

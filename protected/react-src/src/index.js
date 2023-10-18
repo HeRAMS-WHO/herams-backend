@@ -9,6 +9,7 @@ import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
 import SurveyCreatorWidget from "./components/SurveyCreatorWidget";
+import ProjectUsers from "./components/ProjectUser/ProjectUsers";
 
 import reportWebVitals from "./reportWebVitals";
 
@@ -18,6 +19,7 @@ const componentsMap = {
     'RolesList': RolesList,
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
+    'ProjectUsers': ProjectUsers,
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {

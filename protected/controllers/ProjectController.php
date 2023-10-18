@@ -26,6 +26,7 @@ use prime\controllers\project\Pdf;
 use prime\controllers\project\RequestAccess;
 use prime\controllers\project\Share;
 use prime\controllers\project\Update;
+use prime\controllers\project\Users;
 use prime\controllers\project\ViewForSurveyJs;
 use prime\controllers\project\Workspaces;
 use yii\filters\PageCache;
@@ -59,7 +60,7 @@ class ProjectController extends Controller
             'pages' => Pages::class,
             'pdf' => Pdf::class,
             'request-access' => RequestAccess::class,
-            'share' => Share::class,
+            'users' => Users::class,
             'update' => Update::class,
             'view' => ViewForSurveyJs::class,
             'workspaces' => Workspaces::class,

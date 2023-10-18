@@ -21,3 +21,4 @@ c3.php
 docker-compose.override.yml
 /tests/_data/db/50_prime2_session.sql
 /lsp/
+.vscode/
