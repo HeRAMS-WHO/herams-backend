@@ -49,10 +49,15 @@ const Profile = (props) => {
 
 
     const handleModifyProfile = async () => {
-        const data = new URLSearchParams();
-        data.append('User[name]', name);
-        data.append('User[language]', language);
-        data.append('User[newsletter_subscription]', newsletterSubscription ? '1' : '0');
+        const User = {
+            name,
+            language,
+            newsletter_subscription: newsletterSubscription ? '1' : '0'
+        }
+        const data = {
+            User
+        }
+
 
         try {
             let headers = {

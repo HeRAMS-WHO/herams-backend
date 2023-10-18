@@ -1,3 +1,5 @@
+import {getCsrfToken} from "../utils/csrfTokenUtility";
+
 export const get = async (url, params = {}, headers = {}) => {
     const fullUrl = new URL(url)
     Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
@@ -11,14 +13,17 @@ export const get = async (url, params = {}, headers = {}) => {
     return handleResponse(response);
 };
 
+
 export const post = async (url, data) => {
     try {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',  // Ensure you have the correct content type
+                'Content-Type': 'application/json',
+                'X-Csrf-Token': getCsrfToken(),
+                'X-Requested-With': 'XMLHttpRequest'
             },
-            body: data,
+            body: JSON.stringify(data),
         });
 
         if (!response.ok) {
