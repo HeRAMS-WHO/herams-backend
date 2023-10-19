@@ -42,7 +42,6 @@ class M230804162719CreateSurveyResponseTable extends Migration
         );
     }
 
-
     public function safeDown()
     {
         $this->dropForeignKey('fk-survey_response-facility_id-facility-id', '{{%survey_response}}');

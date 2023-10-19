@@ -21,7 +21,6 @@ class M230804162312CreateAuditTable extends Migration
         ]);
     }
 
-
     public function safeDown()
     {
         $this->dropTable('{{%audit}}');

@@ -11,7 +11,7 @@ class Update extends Action
     {
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         return $this->controller->render('update', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }

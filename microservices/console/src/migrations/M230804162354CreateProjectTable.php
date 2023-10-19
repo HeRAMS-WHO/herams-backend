@@ -48,7 +48,6 @@ class M230804162354CreateProjectTable extends Migration
         );
     }
 
-
     public function safeDown()
     {
         $this->dropForeignKey('project_admin_survey', '{{%project}}');

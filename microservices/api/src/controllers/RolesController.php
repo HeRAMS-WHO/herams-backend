@@ -7,15 +7,11 @@ namespace herams\api\controllers;
 use herams\api\controllers\roles\Delete;
 use herams\api\controllers\roles\Index;
 use herams\api\controllers\roles\Permissions;
-use herams\api\controllers\roles\View;
 use herams\api\controllers\roles\Update;
-
-use yii\web\Request;
-use yii\web\Response;
+use herams\api\controllers\roles\View;
 
 final class RolesController extends Controller
 {
-
     public function actions()
     {
         return [

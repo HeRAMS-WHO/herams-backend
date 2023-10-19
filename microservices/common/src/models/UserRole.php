@@ -15,11 +15,12 @@ namespace herams\common\models;
  * @property int|null $created_by
  * @property string $last_modified_date
  * @property int|null $last_modified_by
- *
  */
 
-class UserRole extends ActiveRecord {
-    public static function tableName(): string {
+class UserRole extends ActiveRecord
+{
+    public static function tableName(): string
+    {
         return '{{%user_role}}';
     }
 }

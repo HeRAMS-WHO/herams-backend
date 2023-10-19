@@ -22,7 +22,6 @@ class M230804162355CreatePageTable extends Migration
         $this->addForeignKey('page_page', '{{%page}}', ['parent_id'], '{{%page}}', ['id']);
     }
 
-
     public function safeDown()
     {
         $this->dropForeignKey('page_page', '{{%page}}');

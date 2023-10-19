@@ -207,12 +207,10 @@ class User extends ActiveRecord implements IdentityInterface
         return $result;
     }
 
-
     public function setExcludeDateTimeFields(bool $exclude = true)
     {
         $this->excludeDateTimeFields = $exclude;
     }
-
 
     public function setOnlyFields(array $selectedFields = [])
     {

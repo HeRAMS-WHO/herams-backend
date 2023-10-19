@@ -19,7 +19,6 @@ class M230804162447CreateFavoriteTable extends Migration
         ], 'charset = latin1');
     }
 
-
     public function safeDown()
     {
         $this->dropTable('{{%favorite}}');

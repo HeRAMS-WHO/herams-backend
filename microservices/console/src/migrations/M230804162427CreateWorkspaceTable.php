@@ -45,7 +45,6 @@ class M230804162427CreateWorkspaceTable extends Migration
         );
     }
 
-
     public function safeDown()
     {
         $this->dropForeignKey('project_workspace', '{{%workspace}}');

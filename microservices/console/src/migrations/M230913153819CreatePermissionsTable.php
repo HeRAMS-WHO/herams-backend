@@ -2,7 +2,6 @@
 
 namespace herams\console\migrations;
 
-
 use yii\db\Migration;
 
 /**
@@ -10,9 +9,6 @@ use yii\db\Migration;
  */
 class M230913153819CreatePermissionsTable extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->execute("CREATE TABLE `prime2_permissions` (
@@ -46,9 +42,6 @@ class M230913153819CreatePermissionsTable extends Migration
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         // Drop foreign key constraints first

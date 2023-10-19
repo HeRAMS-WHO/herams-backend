@@ -11,7 +11,6 @@ class JsonField implements JsonFieldInterface
 {
     private object|array $value;
 
-
     public function __construct(array|string|object $value)
     {
         try {
