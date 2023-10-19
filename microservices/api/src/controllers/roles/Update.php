@@ -37,10 +37,10 @@ class Update extends Action
             $role->last_modified_by = $commonFields['last_modified_by'];
             $role->last_modified_date = $commonFields['last_modified_date'];
         }
-        if (! $this->mustHaveAProjectAssigned($role)) {
+        if (!$this->mustHaveAProjectAssigned($role)) {
             $role->project_id = null;
         }
-
+        
         $role->last_modified_by = $commonFields['last_modified_by'];
         $role->last_modified_date = $commonFields['last_modified_date'];
         $role->save();
