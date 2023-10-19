@@ -18,8 +18,6 @@ class UpdateSurveyResponse extends RequestModel
         parent::__construct();
     }
 
-   // public LocalizedString|null $response_type = null;
-
     public RecordInterface|null $data = null;
 
     public function rules(): array
