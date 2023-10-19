@@ -26,7 +26,9 @@ final class Creator2 extends Widget
     ];
 
     public null|SurveyId $surveyId = null;
+
     private string $result;
+
     private string $config;
 
     public function setSurveyId(null|SurveyId $surveyId)
@@ -49,8 +51,9 @@ final class Creator2 extends Widget
         return $this->result;
     }
 
-    public function setConfig($surveyId = null){
-        if(!is_null($surveyId)){
+    public function setConfig($surveyId = null)
+    {
+        if (! is_null($surveyId)) {
             $this->setSurveyId($surveyId);
         }
         $htmlOptions = [
@@ -80,8 +83,6 @@ final class Creator2 extends Widget
     {
         $this->registerAssetBundles();
         $this->setConfig();
-
-
 
         $this->view->registerJs(
             <<<JS

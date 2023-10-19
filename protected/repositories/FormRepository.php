@@ -16,7 +16,6 @@ use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
 use yii\helpers\Url;
 
-
 /**
  * A repository for platform forms. Forms are SurveyJS surveys that are stored as code.
  * They are used for platform operations like creating a new project.
@@ -81,7 +80,9 @@ class FormRepository
 
     public function getUpdateWorkspaceForm(WorkspaceId $id, ProjectId $projectId = null): SurveyFormInterface
     {
-        $localization = Workspace::findOne(['id' => $id->getValue()])->toArray()['i18n']['title'];
+        $localization = Workspace::findOne([
+            'id' => $id->getValue(),
+        ])->toArray()['i18n']['title'];
         return new SurveyForm(
             submitRoute: $this->createUri('/api/workspace/update', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate', id: $id),

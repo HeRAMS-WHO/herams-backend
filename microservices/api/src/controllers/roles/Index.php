@@ -13,9 +13,9 @@ class Index extends Action
     ) {
         return Role::find()
             ->with([
-                'projectInfo' => fn($query) => $query->select(['id', 'primary_language', 'i18n']),
-                'updaterUserInfo' => fn($query) => $query->select(['id', 'name']),
-                'creatorUserInfo'=> fn($query) => $query->select(['id', 'name']),
+                'projectInfo' => fn ($query) => $query->select(['id', 'primary_language', 'i18n']),
+                'updaterUserInfo' => fn ($query) => $query->select(['id', 'name']),
+                'creatorUserInfo' => fn ($query) => $query->select(['id', 'name']),
             ])
             ->asArray()
             ->all();

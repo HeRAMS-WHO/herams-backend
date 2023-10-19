@@ -51,7 +51,6 @@ class M230804162221CreateAccessRequestTable extends Migration
         );
     }
 
-
     public function safeDown()
     {
         $this->dropForeignKey('fk-access_request-responded_by-user-id', '{{%access_request}}');

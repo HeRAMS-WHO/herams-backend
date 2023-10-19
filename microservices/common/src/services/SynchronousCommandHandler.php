@@ -10,6 +10,5 @@ class SynchronousCommandHandler implements CommandHandlerInterface
 {
     public function handle(object $command): void
     {
-        
     }
 }

@@ -17,7 +17,6 @@ class M230804162353CreateSurveyTable extends Migration
         ]);
     }
 
-
     public function safeDown()
     {
         $this->dropTable('{{%survey}}');

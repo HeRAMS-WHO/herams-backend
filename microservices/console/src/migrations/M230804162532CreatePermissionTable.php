@@ -21,7 +21,6 @@ class M230804162532CreatePermissionTable extends Migration
         ], 'charset = utf8mb3');
     }
 
-
     public function safeDown()
     {
         $this->dropTable('{{%permission}}');

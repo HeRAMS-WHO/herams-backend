@@ -1,10 +1,14 @@
 <?php
+
 namespace herams\console\migrations;
+
 use yii\db\Migration;
+
 /**
  * Handles the creation of table `{{%role}}`.
  */
-class M230913153821CreateRolePermissionTable extends Migration {
+class M230913153821CreateRolePermissionTable extends Migration
+{
     public function safeUp()
     {
         // Create your table
@@ -59,9 +63,7 @@ class M230913153821CreateRolePermissionTable extends Migration {
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function safeDown()
     {
         // Drop foreign key constraints first

@@ -16,20 +16,38 @@ namespace herams\common\models;
  * @property string $last_modified_date
  * @property int|null $last_modified_by
  */
-class Role extends ActiveRecord {
-    public static function tableName(): string {
+class Role extends ActiveRecord
+{
+    public static function tableName(): string
+    {
         return '{{%role}}';
     }
-    public function getProjectInfo(): \yii\db\ActiveQuery {
-        return $this->hasOne(Project::class, ['id' => 'project_id']);
+
+    public function getProjectInfo(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(Project::class, [
+            'id' => 'project_id',
+        ]);
     }
-    public function getUpdaterUserInfo(): \yii\db\ActiveQuery {
-        return $this->hasOne(User::class, ['id' => 'last_modified_by']);
+
+    public function getUpdaterUserInfo(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(User::class, [
+            'id' => 'last_modified_by',
+        ]);
     }
-    public function getCreatorUserInfo(): \yii\db\ActiveQuery {
-        return $this->hasOne(User::class, ['id' => 'created_by']);
+
+    public function getCreatorUserInfo(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(User::class, [
+            'id' => 'created_by',
+        ]);
     }
-    public function getRolePermissions(): \yii\db\ActiveQuery {
-        return $this->hasMany(RolePermission::class, ['role_id' => 'id']);
+
+    public function getRolePermissions(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(RolePermission::class, [
+            'role_id' => 'id',
+        ]);
     }
 }

@@ -44,7 +44,6 @@ class M230804162428CreateFacilityTable extends Migration
         );
     }
 
-
     public function safeDown()
     {
         $this->dropForeignKey('workspace_id', '{{%facility}}');

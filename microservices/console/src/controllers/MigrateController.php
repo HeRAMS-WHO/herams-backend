@@ -28,7 +28,9 @@ final class MigrateController extends \yii\console\controllers\MigrateController
         };
         return $namespacedHistory;
     }
-    protected function Seeder(){
+
+    protected function Seeder()
+    {
         Console::stdout("Enter the name of the migration to seed: ");
     }
 }

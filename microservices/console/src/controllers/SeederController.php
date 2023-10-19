@@ -1,6 +1,6 @@
 <?php
-namespace herams\console\controllers;
 
+namespace herams\console\controllers;
 
 use herams\console\seeders\SeederBase;
 use yii\console\Controller;
@@ -17,7 +17,9 @@ class SeederController extends Controller
 
     public function optionAliases()
     {
-        return ['seed' => 'seed'];
+        return [
+            'seed' => 'seed',
+        ];
     }
 
     public function actionIndex()
@@ -39,5 +41,4 @@ class SeederController extends Controller
             Console::output("Seeder class does not exist");
         }
     }
-
 }

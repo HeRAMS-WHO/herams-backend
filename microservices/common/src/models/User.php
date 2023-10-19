@@ -15,11 +15,15 @@ namespace herams\common\models;
  * @property string $created_at
  * @property int|null $updated_at
  */
-class User extends ActiveRecord {
-    public static function tableName(): string {
+class User extends ActiveRecord
+{
+    public static function tableName(): string
+    {
         return '{{%user}}';
     }
-    public function fields(): array {
+
+    public function fields(): array
+    {
         $fields = parent::fields();
         unset($fields['password_hash']);
         return $fields;
