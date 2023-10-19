@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace herams\api\models;
 
 use Collecthor\DataInterfaces\RecordInterface;
-use herams\common\helpers\LocalizedString;
 use herams\common\models\RequestModel;
 use herams\common\values\SurveyResponseId;
 use yii\validators\RequiredValidator;
