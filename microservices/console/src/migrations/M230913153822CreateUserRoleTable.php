@@ -52,7 +52,6 @@ class M230913153822CreateUserRoleTable extends Migration
         );
     }
 
-
     public function safeDown()
     {
         // Drop foreign key constraints first

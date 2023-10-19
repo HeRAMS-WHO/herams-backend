@@ -42,7 +42,6 @@ class M230913153819CreatePermissionsTable extends Migration
         );
     }
 
-
     public function safeDown()
     {
         // Drop foreign key constraints first
