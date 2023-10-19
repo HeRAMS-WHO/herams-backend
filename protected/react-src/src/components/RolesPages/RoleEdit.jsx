@@ -54,7 +54,7 @@ const RoleEdit = ({roleId = 0}) => {
     }
 
     function hasToAssignAProjectId() {
-        return projects.length > 0 && roleData.scope === 'project' && roleData.type === 'custom';
+        return projects.length > 0 && roleData.type === 'custom';
     }
 
     return (
