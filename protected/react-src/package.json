@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "HOST=0.0.0.0 react-scripts start",
-    "build": "react-scripts build && rm -rf ../../public/react/* && mv build/* ../../public/react/",
+    "build": "CI=true ESLINT_NO_DEV_ERRORS=true react-scripts build && rm -rf ../../public/react/* && mv build/* ../../public/react/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
