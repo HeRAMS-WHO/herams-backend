@@ -12,6 +12,7 @@ use herams\api\controllers\project\Index;
 use herams\api\controllers\project\LatestData;
 use herams\api\controllers\project\Locales;
 use herams\api\controllers\project\Pages;
+use herams\api\controllers\project\Roles;
 use herams\api\controllers\project\Summary;
 use herams\api\controllers\project\Update;
 use herams\api\controllers\project\Validate;
@@ -50,6 +51,7 @@ class ProjectController extends Controller
             'locales' => Locales::class,
             'pages' => Pages::class,
             'workspaces' => Workspaces::class,
+            'roles' => Roles::class,
             'delete-workspaces' => DeleteWorkspace::class,
             'delete-project' => Delete::class,
             'permissions' => [

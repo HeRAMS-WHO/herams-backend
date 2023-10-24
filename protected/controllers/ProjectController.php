@@ -24,7 +24,6 @@ use prime\controllers\project\Index;
 use prime\controllers\project\Pages;
 use prime\controllers\project\Pdf;
 use prime\controllers\project\RequestAccess;
-use prime\controllers\project\Share;
 use prime\controllers\project\Update;
 use prime\controllers\project\Users;
 use prime\controllers\project\ViewForSurveyJs;

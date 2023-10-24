@@ -31,17 +31,22 @@ final class Create extends Action
         $modelHydrator->hydrateFromJsonDictionary($model, $data);
 
         // Our model is now hydrated, we should validate it.
-        if (! $modelValidator->validateModel($model)) {
+        if (!$modelValidator->validateModel($model)) {
             return $modelValidator->renderValidationErrors($model, $response);
         }
-        $visibility = ProjectVisibility::getValueFromLabel($data['projectvisibility']) ?? 'public';
+        $visibility = ProjectVisibility::getValueFromLabel(
+                $data['projectvisibility']
+            ) ?? 'public';
         $model->visibility = new Visibility($visibility);
         $id = $projectRepository->create($model);
         $response->setStatusCode(204);
-        $response->headers->add('Location', Url::to([
-            '/api/project/view',
-            'id' => $id,
-        ]));
+        $response->headers->add(
+            'Location',
+            Url::to([
+                '/api/project/view',
+                'id' => $id,
+            ])
+        );
 
         return $response;
     }

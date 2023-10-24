@@ -43,7 +43,6 @@ final class ApiProxyController extends Controller
         Request $request
     ): Response {
         $userId = new UserId($user->getId());
-
         session_abort();
         header_remove();
         \Yii::beginProfile('request');

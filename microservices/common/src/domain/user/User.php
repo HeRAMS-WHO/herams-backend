@@ -48,7 +48,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     private bool $excludeDateTimeFields = false;
 
-    private array $selectedFields;
+    private array $selectedFields = [];
 
     public function afterSave($insert, $changedAttributes)
     {

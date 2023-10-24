@@ -7,8 +7,8 @@ import {
     updateRoleAndPermissions
 } from "../../services/apiProxyService";
 import styles from './RoleEdit.module.css';
-import useRole from "../../hooks/useRole/useRole";
-import useRolePermissions from "../../hooks/useRole/useRolePermissions";
+import useRole from "../../hooks/Role/useRole";
+import useRolePermissions from "../../hooks/Role/useRolePermissions";
 import useProjects from "../../hooks/Project/useProjects";
 
 import FormGroup from "../common/form/FormGroup";

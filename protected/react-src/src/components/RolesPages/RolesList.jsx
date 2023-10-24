@@ -1,7 +1,7 @@
 import { __ } from '../../utils/translationsUtility';
 import Table from "../common/table/Table";
 import {AddIcon} from "../common/icon/IconsSet";
-import useRoleList from "../../hooks/useRole/useRoleList";
+import useRoleList from "../../hooks/Role/useRoleList";
 import RoleListHeader from "./RoleListHeader";
 import {fetchDeleteRole} from "../../services/apiProxyService";
 
