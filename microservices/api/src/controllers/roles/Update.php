@@ -27,17 +27,20 @@ class Update extends Action
         unset($data['lastUpdatedBy']);
         unset($data['lastUpdatedDate']);
         $commonFields = CommonFieldsInTables::forCreating();
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value)
+        {
             $snake = BaseInflector::underscore($key);
             $role->$snake = $value;
         }
-        if (! $id) {
+        if (! $id)
+        {
             $role->created_date = $commonFields['created_date'];
             $role->created_by = $commonFields['created_by'];
             $role->last_modified_by = $commonFields['last_modified_by'];
             $role->last_modified_date = $commonFields['last_modified_date'];
         }
-        if (! $this->mustHaveAProjectAssigned($role)) {
+        if (! $this->mustHaveAProjectAssigned($role))
+        {
             $role->project_id = null;
         }
 
@@ -45,7 +48,8 @@ class Update extends Action
         $role->last_modified_date = $commonFields['last_modified_date'];
         $role->save();
 
-        foreach ($permissions as $permission) {
+        foreach ($permissions as $permission)
+        {
             $rolePermission = new RolePermission();
             $rolePermission->role_id = $role->id;
             $rolePermission->permission_code = $permission['value'];
@@ -60,6 +64,6 @@ class Update extends Action
 
     private function mustHaveAProjectAssigned(?Role $role): bool
     {
-        return strtolower($role->scope) === 'project' && strtolower($role->type) === 'custom';
+        return strtolower($role->type) === 'custom';
     }
 }
