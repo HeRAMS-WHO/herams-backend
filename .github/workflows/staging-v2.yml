@@ -44,13 +44,12 @@ jobs:
           cache: 'npm'
       - name: Install frontend dependencies
         run: npm ci --ignore-scripts --legacy-peer-deps
-      - name: Navigate to React App directory
-        run: cd ./protected/react-src/
       - name: Install React App dependencies
+        working-directory: ./protected/react-src/
         run: npm install
       - name: Build React App
-        run: npm run build
-      - name: Cache React App node modules
+        working-directory: ./protected/react-src/
+        run: npm run buildnode modules
         uses: actions/cache@v3
         with:
           path: ./protected/react-src/node_modules
