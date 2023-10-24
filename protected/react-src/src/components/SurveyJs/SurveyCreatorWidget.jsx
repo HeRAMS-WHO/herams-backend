@@ -2,18 +2,10 @@ import { useEffect, useState } from "react";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
-import {CustomWidgetCollection, Serializer} from "survey-core";
 
-// import {Model} from "survey-core";
-// import './surveyjs/survey-modifications';
-// import './surveyjs/HSDUStateQuestion';
-// import './surveyjs/LocalizableProjectTextQuestion';
-// import { registerProjectVisibility } from './surveyjs/registerProjectVisibility'
-// import './surveyjs/ProjectVisibilityQuestion';
-
-import { applySurveyConfigurations } from './surveyjs/survey-modifications';
-import {applyHSDUStateQuestion} from "./surveyjs/HSDUStateQuestion";
-import {applyFacilityTypeQuestion} from "./surveyjs/FacilityTypeQuestion";
+import { applySurveyConfigurations } from './custom/survey-modifications';
+import {applyHSDUStateQuestion} from "./custom/HSDUStateQuestion";
+import {applyFacilityTypeQuestion} from "./custom/FacilityTypeQuestion";
 
 applySurveyConfigurations();
 applyHSDUStateQuestion();
