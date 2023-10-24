@@ -8,7 +8,7 @@ import DemoComponent from './components/DemoComponent';
 import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
-import SurveyCreatorWidget from "./components/SurveyCreatorWidget";
+import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 
 import reportWebVitals from "./reportWebVitals";
 
