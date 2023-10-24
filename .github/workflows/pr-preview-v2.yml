@@ -87,10 +87,19 @@ jobs:
         with:
           cache: 'npm'
       - run: npm ci --ignore-scripts --legacy-peer-deps
+      - name: Navigate to React App directory
+        run: cd ./protected/react-src/
+      - name: Install React App dependencies
+        run: npm install
       - name: Build React App
-        run: |
-          cd ./protected/react-src/
-          npm run build
+        run: npm run build
+      - name: Cache React App node modules
+        uses: actions/cache@v3
+        with:
+          path: ./protected/react-src/node_modules
+          key: ${{ runner.os }}-react-node-modules-${{ hashFiles('./protected/react-src/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-react-node-modules-
       - uses: docker/login-action@v2.1.0
         with:
           registry: ghcr.io
