@@ -49,7 +49,8 @@ jobs:
         run: npm install
       - name: Build React App
         working-directory: ./protected/react-src/
-        run: npm run buildnode modules
+        run: npm run build
+      - name: Cache React App node modules
         uses: actions/cache@v3
         with:
           path: ./protected/react-src/node_modules
