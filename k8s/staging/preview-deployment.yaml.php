@@ -88,7 +88,7 @@ spec:
               mountPath: /var/www/html
             - name: nginx-config-volume
               mountPath: /config
-<?php if (env('NEEDS_DATABASE') == "true") : ?>
+<?php if (env('NEEDS_DATABASE') == "true" && 5 == 10) : ?>
         - name: mysql
           image: mysql
           command:
