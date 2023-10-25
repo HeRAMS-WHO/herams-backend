@@ -88,14 +88,14 @@ spec:
               mountPath: /var/www/html
             - name: nginx-config-volume
               mountPath: /config
-<?php if (env('NEEDS_DATABASE') == "true" && 5 == 10) : ?>
+<?php if (env('NEEDS_DATABASE') == "true") : ?>
         - name: mysql
           image: mysql
           command:
             - /bin/sh
             - "-x"
             - "-c"
-            - "until test -f /docker-entrypoint-initdb.d/10_table-structure.sql; do sleep 5; done; sleep 5"
+            - "until test -f /docker-entrypoint-initdb.d/10_table-structure.sql; do sleep 5; done; sleep 5; exec /entrypoint.sh mysqld"
           volumeMounts:
             - name: database-seed
               mountPath: /docker-entrypoint-initdb.d
