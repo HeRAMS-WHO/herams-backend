@@ -19,6 +19,10 @@ const ProjectUsers = ({projectId}) => {
     const [scope, setScope] = useState('project')
     const {rolesList} = useRoleList(projectId)
 
+    useEffect(() => {
+        setSelectedRoles([])
+    }, [scope])
+
     function addUserToProject() {
         const data = {
             users: selectedUsers.map(({value}) => value),

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace herams\common\domain\userRole;
 
+use herams\common\attributes\Field;
 use herams\common\models\RequestModel;
-use herams\common\values\userRole\UserRoleCreatedBy;
-use herams\common\values\userRole\UserRoleCreatedDate;
+use herams\common\values\userRole\RoleCreatedBy;
+use herams\common\values\userRole\RoleCreatedDate;
 use herams\common\values\userRole\UserRoleId;
 use herams\common\values\userRole\UserRoleLastModifiedBy;
 use herams\common\values\userRole\UserRoleLastModifiedDate;
@@ -22,13 +23,21 @@ final class UserRoleRequest extends RequestModel
     public null|UserRoleId $id = null;
     //Put a path anotation
 
+    #[Field('user_id')]
     public null|UserRoleUserId $userId = null;
+    #[Field('role_id')]
     public null|UserRoleRoleId $roleId = null;
+    #[Field('target')]
     public null|UserRoleTargetEnum $target = null;
+    #[Field('target_id')]
     public null|UserRoleTargetId $targetId = null;
-    public null|UserRoleCreatedDate $createdDate = null;
-    public null|UserRoleCreatedBy $createdBy = null;
+    #[Field('created_date')]
+    public null|RoleCreatedDate $createdDate = null;
+    #[Field('created_by')]
+    public null|RoleCreatedBy $createdBy = null;
+    #[Field('last_modified_date')]
     public null|UserRoleLastModifiedDate $lastModifiedDate = null;
+    #[Field('last_modified_by')]
     public null|UserRoleLastModifiedBy $lastModifiedBy = null;
 
     public function rules(): array

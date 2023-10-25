@@ -9,8 +9,8 @@ use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\models\ActiveRecord;
 use herams\common\models\RequestModel;
 use herams\common\models\UserRole;
-use herams\common\values\userRole\UserRoleCreatedBy;
-use herams\common\values\userRole\UserRoleCreatedDate;
+use herams\common\values\userRole\RoleCreatedBy;
+use herams\common\values\userRole\RoleCreatedDate;
 use herams\common\values\userRole\UserRoleId;
 use herams\common\values\userRole\UserRoleLastModifiedBy;
 use herams\common\values\userRole\UserRoleLastModifiedDate;
@@ -56,8 +56,8 @@ class UserRoleHydrator implements ActiveRecordHydratorInterface
         $target->roleId = new UserRoleRoleId($source->role_id);
         $target->target = UserRoleTargetEnum::getEnumValue($source->target);
         $target->targetId = new UserRoleTargetId($source->target_id);
-        $target->createdDate = new UserRoleCreatedDate($source->created_date);
-        $target->createdBy = new UserRoleCreatedBy($source->created_by);
+        $target->createdDate = new RoleCreatedDate($source->created_date);
+        $target->createdBy = new RoleCreatedBy($source->created_by);
         $target->lastModifiedDate = new UserRoleLastModifiedDate(
             $source->last_modified_date
         );

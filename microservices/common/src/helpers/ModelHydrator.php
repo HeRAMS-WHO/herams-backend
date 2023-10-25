@@ -64,7 +64,6 @@ class ModelHydrator
         foreach ($model->attributes as $key => $value) {
             $field = $key;
             if ($reflectionClass->hasProperty($key)) {
-                var_dump($prope);
                 $reflectionProperty = $reflectionClass->getProperty($key);
                 // Field renaming via PHP8 attributes
                 $field = ($reflectionProperty->getAttributes(Field::class)[0] ??

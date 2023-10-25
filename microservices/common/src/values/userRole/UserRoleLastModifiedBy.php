@@ -6,6 +6,6 @@ namespace herams\common\values\userRole;
 
 use herams\common\values\IntegerId;
 
-class UserRoleLastModifiedBy extends IntegerId
+final class UserRoleLastModifiedBy extends IntegerId
 {
 }

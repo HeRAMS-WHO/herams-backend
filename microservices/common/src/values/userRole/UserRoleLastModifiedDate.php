@@ -6,6 +6,6 @@ namespace herams\common\values\userRole;
 
 use herams\common\values\DatetimeValue;
 
-class UserRoleLastModifiedDate extends DatetimeValue
+final class UserRoleLastModifiedDate extends DatetimeValue
 {
 }
