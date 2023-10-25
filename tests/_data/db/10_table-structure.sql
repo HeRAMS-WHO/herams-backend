@@ -489,6 +489,10 @@ CREATE TABLE `prime2_workspace` (
   `closed` date DEFAULT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(35) DEFAULT NULL,
+  `last_sync_date` datetime DEFAULT NULL,
+  `last_sync_by` varchar(255) DEFAULT NULL,
+  `sync_status` varchar(255) DEFAULT NULL,
+  `sync_error` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `token` (`tool_id`,`token`),
   CONSTRAINT `project_workspace` FOREIGN KEY (`tool_id`) REFERENCES `prime2_project` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
