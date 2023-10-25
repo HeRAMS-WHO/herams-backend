@@ -6,8 +6,8 @@ namespace herams\common\domain\userRole;
 
 use herams\common\attributes\Field;
 use herams\common\models\RequestModel;
-use herams\common\values\userRole\RoleCreatedBy;
-use herams\common\values\userRole\RoleCreatedDate;
+use herams\common\values\role\RoleCreatedBy;
+use herams\common\values\role\RoleCreatedDate;
 use herams\common\values\userRole\UserRoleId;
 use herams\common\values\userRole\UserRoleLastModifiedBy;
 use herams\common\values\userRole\UserRoleLastModifiedDate;
@@ -45,7 +45,6 @@ final class UserRoleRequest extends RequestModel
         return [
             [
                 [
-                    'id',
                     'userId',
                     'roleId',
                     'target',

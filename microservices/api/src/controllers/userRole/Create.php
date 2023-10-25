@@ -9,6 +9,7 @@ use herams\common\domain\userRole\UserRoleRepository;
 use herams\common\domain\userRole\UserRoleRequest;
 use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
+use herams\common\helpers\ModelValidator;
 use herams\common\values\role\RoleTypeEnum;
 use herams\common\values\userRole\UserRoleTargetEnum;
 use InvalidArgumentException;
@@ -19,6 +20,18 @@ use yii\web\Response;
 
 final class Create extends Action
 {
+    private ModelValidator $modelValidator;
+
+    public function __construct(
+        $id,
+        $controller,
+        ModelValidator $modelValidator,
+        $config = []
+    ) {
+        parent::__construct($id, $controller, $config);
+        $this->modelValidator = $modelValidator;
+    }
+
     public function run(
         UserRoleRepository $userRoleRepository,
         RoleRepository $roleRepository,
@@ -142,6 +155,7 @@ final class Create extends Action
             $requestModel,
             $jsonDictionary
         );
+        $this->modelValidator->checkIfOkay($requestModel);
         $userRoleRepository->create($requestModel);
     }
 
