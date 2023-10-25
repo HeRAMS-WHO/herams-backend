@@ -38,6 +38,7 @@ class Survey extends Widget
     private bool $displayMode = false;
 
     private int $haveToDeleteDate = 0;
+    private string $surveySettings;
 
     public function init(): void
     {
@@ -103,9 +104,9 @@ class Survey extends Widget
         return $this;
     }
 
-    public function run(): string
+    public function setSurveySettings()
     {
-        $config = Json::encode([
+        $this->surveySettings = Json::encode([
             'structure' => $this->config,
             'data' => $this->data ?? [],
             'extraData' => $this->extraData ?? null,
@@ -118,11 +119,28 @@ class Survey extends Widget
             'displayMode' => $this->displayMode,
             'localeEndpoint' => $this->localeEndpoint,
         ]);
+        return $this;
+    }
+
+    public function getSurveySettings(): string
+    {
+        return $this->surveySettings;
+    }
+
+    public function getHaveToDeleteData(): int
+    {
+        return $this->haveToDeleteDate;
+    }
+
+    public function run(): string
+    {
+        $this->setSurveySettings();
+
         $this->view->registerJs(
             <<<JS
         // await new Promise((resolve) => setTimeout(resolve, 5000));
-            const config = {$config};
-            const haveToDeleteDate = {$this->haveToDeleteDate};
+            const config = {$this->getSurveySettings()};
+            const haveToDeleteDate = {$this->getHaveToDeleteData()};
             const surveyStructure = config.structure;
             
             if (config.localeEndpoint) {
