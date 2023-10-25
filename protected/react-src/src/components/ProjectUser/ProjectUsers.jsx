@@ -5,6 +5,7 @@ import {createUserRole, fetchProjectWorkspaces, fetchUsers} from "../../services
 import useRoleList from "../../hooks/Role/useRoleList";
 import FormButtons from "../common/form/FormButtons";
 import ReactTagsWrapper from "../common/form/ReactTagsWrapper";
+import {toastr} from "../../utils/modal";
 
 const ProjectUsers = ({projectId}) => {
     const labelScopeProject = useId()
@@ -31,8 +32,15 @@ const ProjectUsers = ({projectId}) => {
             scope,
             project_id: projectId,
         }
-        createUserRole(data).then((response) => {
-            console.log(response)
+        createUserRole(data).then(() => {
+            toastr({
+                icon: 'success',
+                timer: 1000,
+                title: __('Users roles added successfully')
+            })
+            setSelectedUsers([])
+            setSelectedRoles([])
+            setSelectedWorkspaces([])
         })
 
     }
