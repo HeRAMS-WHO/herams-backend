@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace prime\models\ar;
 
+use Carbon\Carbon;
 use prime\components\ActiveQuery as ActiveQuery;
 use prime\components\LimesurveyDataProvider;
 use prime\interfaces\HeramsResponseInterface;
@@ -46,6 +47,12 @@ use yii\validators\UniqueValidator;
  */
 class Workspace extends ActiveRecord
 {
+    const CRON_NAME = 'cronjob';
+    const SYNC_OK = 'OK';
+    const SYNC_PARTIALLY_OK = 'PARTIALLY OK';
+    const SYNC_FAILED = 'FAILED';
+    const SYNC_CHECK = 'CHECK';
+
     /**
      * @var WritableTokenInterface
      */
@@ -147,7 +154,11 @@ class Workspace extends ActiveRecord
             'token' => \Yii::t('app.model.workspace', 'Token'),
             'contributorCount' => \Yii::t('app.model.workspace', 'Contributors'),
             'facilityCount' => \Yii::t('app.model.workspace', 'Facilities'),
-            'responseCount' => \Yii::t('app.model.workspace', 'Responses')
+            'responseCount' => \Yii::t('app.model.workspace', 'Responses'),
+            'last_sync_date' => \Yii::t('app.model.workspace', 'Last sync date'),
+            'last_sync_by' => \Yii::t('app.model.workspace', 'Last sync by User id'),
+            'sync_status' => \Yii::t('app.model.workspace', 'Sync status'),
+            'sync_error' => \Yii::t('app.model.workspace', 'Sync error'),
         ]);
     }
 
@@ -273,5 +284,22 @@ class Workspace extends ActiveRecord
         asort($result);
 
         return array_merge(['' => \Yii::t('app', 'Create new token')], $result);
+    }
+
+    /**
+     * last_sync_by is 'cronjob' or loggedUser.id
+     * @param $last_sync_by
+     * @param string $sync_status
+     * @param string|null $sync_error
+     * @return bool
+     */
+    public function logWorkspaceSync($last_sync_by, string $sync_status, ?string $sync_error = null)
+    {
+        $this->setAttribute('last_sync_date', Carbon::now());
+        $this->setAttribute('last_sync_by', $last_sync_by);
+        $this->setAttribute('sync_status', $sync_status);
+        $this->setAttribute('sync_error', $sync_error);
+
+        return $this->save();
     }
 }
