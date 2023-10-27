@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 
 import './index.css';
 // import 'bootstrap/dist/css/bootstrap-grid.min.css';
@@ -9,7 +9,7 @@ import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
 import SurveyCreatorWidget from "./components/SurveyCreatorWidget";
-import ProjectUsers from "./components/ProjectUser/ProjectUsers";
+import UserRoles from "./components/UserRoles/UserRoles";
 
 import reportWebVitals from "./reportWebVitals";
 
@@ -19,7 +19,7 @@ const componentsMap = {
     'RolesList': RolesList,
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
-    'ProjectUsers': ProjectUsers,
+    'UserRoles': UserRoles,
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {

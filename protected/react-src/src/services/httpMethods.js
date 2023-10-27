@@ -7,6 +7,8 @@ export const get = async (url, params = {}, headers = {}) => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'X-Csrf-Token': getCsrfToken(),
+            'X-Requested-With': 'XMLHttpRequest',
             ...headers
         },
     });

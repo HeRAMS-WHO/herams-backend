@@ -57,15 +57,66 @@ final class UserRoleRepository
         foreach ($workspaces as $workspace) {
             $workspacesIds[] = $workspace->id;
         }
-        return UserRole::find()
-            ->where([
-                'target'    => UserRoleTargetEnum::project->value,
-                'target_id' => $projectId->getValue(),
+        $userRolesOfProjects = UserRole::find()
+            ->where(
+                [
+                    'target'    => UserRoleTargetEnum::project->value,
+                    'target_id' => $projectId->getValue()
+                ]
+            )
+            ->with([
+                'roleInfo'           => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'lastModifiedByInfo' => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'createdByInfo'      => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'userInfo'           => fn($query) => $query->select(
+                    ['id', 'name', 'email']
+                ),
+                'projectInfo'        => fn($query) => $query->select(
+                    ['id', 'primary_language', 'i18n']
+                ),
             ])
-            ->orWhere([
-                'target'    => UserRoleTargetEnum::workspace->value,
-                'target_id' => $workspacesIds,
-            ])
+            ->asArray()
             ->all();
+        $userRolesOfWorkspaces = UserRole::find()
+            ->where(
+                [
+                    'target'    => UserRoleTargetEnum::workspace->value,
+                    'target_id' => $workspacesIds
+                ],
+            )
+            ->with([
+                'roleInfo'           => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'lastModifiedByInfo' => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'createdByInfo'      => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'userInfo'           => fn($query) => $query->select(
+                    ['id', 'name', 'email']
+                ),
+                'workspaceInfo'      => fn($query) => $query->select(
+                    ['id', 'i18n']
+                ),
+            ])
+            ->asArray()
+            ->all();
+        foreach ($userRolesOfWorkspaces as &$userRoleOfWorkspace) {
+            $userRoleOfWorkspace['projectInfo'] = null;
+        }
+        foreach ($userRolesOfProjects as &$userRoleOfProject) {
+            $userRoleOfProject['workspaceInfo'] = null;
+        }
+        $userRoles = array_merge($userRolesOfProjects, $userRolesOfWorkspaces);
+        usort($userRoles, fn($a, $b) => $a['id'] <=> $b['id']);
+        return $userRoles;
     }
 }

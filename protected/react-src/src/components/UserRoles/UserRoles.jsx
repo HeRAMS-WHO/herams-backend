@@ -1,71 +1,30 @@
-import {useEffect, useId, useMemo, useState} from "react"
+import {useId} from "react"
 import {__} from '../../utils/translationsUtility';
 import FormGroup from "../common/form/FormGroup";
-import {createUserRole, fetchProjectWorkspaces, fetchUsers} from "../../services/apiProxyService";
-import useRoleList from "../../hooks/Role/useRoleList";
 import FormButtons from "../common/form/FormButtons";
 import ReactTagsWrapper from "../common/form/ReactTagsWrapper";
-import {toastr} from "../../utils/modal";
+import useUserRoles from "../../hooks/userRoles/useUserRoles";
+import Table from "../common/table/Table";
+import UserRolesTableHeader from "./UserRolesTableHeader";
 
-const ProjectUsers = ({projectId}) => {
+const UserRoles = ({projectId}) => {
     const labelScopeProject = useId()
     const labelScopeWorkspace = useId()
-    const [usersInPlatform, setUsersInPlatform] = useState([])
-    const [projectUsers, setProjectUsers] = useState([])
-    const [selectedUsers, setSelectedUsers] = useState([])
-    const [workspacesInProject, setWorkspacesInProject] = useState([])
-    const [selectedWorkspaces, setSelectedWorkspaces] = useState([])
-    const [rolesInRoles, setRolesInProject] = useState([])
-    const [selectedRoles, setSelectedRoles] = useState([])
-    const [scope, setScope] = useState('project')
-    const {rolesList} = useRoleList(projectId)
-
-    useEffect(() => {
-        setSelectedRoles([])
-    }, [scope])
-
-    function addUserToProject() {
-        const data = {
-            users: selectedUsers.map(({value}) => value),
-            roles: selectedRoles.map(({value}) => value),
-            workspaces: scope.toLowerCase() !== 'project' ? selectedWorkspaces.map(({value}) => value) : [],
-            scope,
-            project_id: projectId,
-        }
-        createUserRole(data).then(() => {
-            toastr({
-                icon: 'success',
-                timer: 1000,
-                title: __('Users roles added successfully')
-            })
-            setSelectedUsers([])
-            setSelectedRoles([])
-            setSelectedWorkspaces([])
-        })
-
-    }
-
-    const filteredRolesByScope = useMemo(() => {
-        return rolesList.filter((role) => role.scope.toLowerCase() === scope.toLowerCase())
-            .map(({id: value, name: label}) => ({value, label}))
-    }, [rolesList, scope])
-
-
-    useEffect(() => {
-        fetchUsers().then((response) => {
-            const users = response.map(({id: value, email: label}) => ({value, label}))
-            setUsersInPlatform(users)
-        })
-    }, [])
-
-    useEffect(() => {
-        fetchProjectWorkspaces(projectId).then((response) => {
-            const workspaces = response.map(({id: value, name: label}) => ({value, label}))
-            setWorkspacesInProject(workspaces)
-        })
-    }, [projectId])
-
-
+    const {
+        usersInPlatform,
+        selectedUsers,
+        setSelectedUsers,
+        workspacesInProject,
+        selectedWorkspaces,
+        setSelectedWorkspaces,
+        selectedRoles,
+        setSelectedRoles,
+        scope,
+        setScope,
+        addUserToProject,
+        projectUsers,
+        filteredRolesByScope
+    } = useUserRoles(projectId);
     return (
         <div className="container-fluid px-2">
             <div className="row mt-2">
@@ -138,8 +97,14 @@ const ProjectUsers = ({projectId}) => {
                     ]}
                 />
             </div>
+            <Table
+                columnDefs={UserRolesTableHeader({
+                    deleteYesCallback: () => {
+                    }
+                })}
+                data={projectUsers}/>
         </div>
     );
 }
 
-export default ProjectUsers;
+export default UserRoles;
