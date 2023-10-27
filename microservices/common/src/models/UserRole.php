@@ -18,18 +18,12 @@ use yii\db\ActiveQuery;
  * @property int|null $created_by
  * @property string $last_modified_date
  * @property int|null $last_modified_by
- * <<<<<<< HEAD
  *
  * Relations
  * @property User $userInfo
  * @property Role $roleInfo
  * @property Project|Workspace|null $targetInfo
  */
-======
-= */
-
->>>>>>>
-v2
 class UserRole extends ActiveRecord
 {
     public static function tableName(): string
