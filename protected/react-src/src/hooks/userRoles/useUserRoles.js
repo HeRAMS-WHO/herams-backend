@@ -18,6 +18,7 @@ function useUserRoles(projectId) {
     const [selectedRoles, setSelectedRoles] = useState([])
     const [scope, setScope] = useState('project')
     const {rolesList} = useRoleList(projectId)
+    const [errors, setErrors] = useState({})
 
     useEffect(() => {
         setSelectedRoles([])
@@ -38,21 +39,39 @@ function useUserRoles(projectId) {
     }
 
     function generateDataForAddingUserRolesToProject() {
-        const data = {
+        return {
             users: selectedUsers.map(({value}) => value),
             roles: selectedRoles.map(({value}) => value),
             workspaces: scope.toLowerCase() !== 'project' ? selectedWorkspaces.map(({value}) => value) : [],
             scope,
             project_id: projectId,
         }
-        return data;
+    }
+
+    const validateUserRoles = () => {
+        const errors = {};
+        if (selectedUsers.length === 0) {
+            errors.users = 'Users are required';
+        }
+        if (selectedRoles.length === 0) {
+            errors.roles = 'Roles are required';
+        }
+        if (scope.toLowerCase() === 'workspace' && selectedWorkspaces.length === 0) {
+            errors.workspaces = 'Workspaces are required';
+        }
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
     }
 
     function addUserRolesToProject() {
         const data = generateDataForAddingUserRolesToProject();
+        if (!validateUserRoles()) {
+            return;
+        }
         createUserRole(data).then(() => {
             userRolesAddedCorrectly();
             clearInputs();
+            refreshUserRolesInProject();
         })
 
     }
@@ -77,10 +96,13 @@ function useUserRoles(projectId) {
         })
     }, [projectId])
 
-    useEffect(() => {
+    const refreshUserRolesInProject = () => {
         fetchUserRolesInProject(projectId).then((response) => {
             setProjectUsers(response)
         })
+    }
+    useEffect(() => {
+        refreshUserRolesInProject()
     }, [projectId])
     return {
         usersInPlatform,
@@ -95,7 +117,9 @@ function useUserRoles(projectId) {
         setScope,
         projectUsers,
         addUserToProject: addUserRolesToProject,
-        filteredRolesByScope
+        filteredRolesByScope,
+        refreshUserRolesInProject,
+        errors
     };
 }
 

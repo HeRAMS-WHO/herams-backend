@@ -1,4 +1,4 @@
-import {get, post} from './httpMethods';
+import {deleteRequest, get, post} from './httpMethods';
 
 export const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
 
@@ -32,6 +32,10 @@ export const fetchProjects = (params, headers) => {
 
 export const fetchRole = (id, params, headers) => {
     return get(`${BASE_URL}/roles/${id}/view`, params, headers);
+}
+
+export const deleteUserRole = (id, params, headers) => {
+    return deleteRequest(`${BASE_URL}/user-role/${id}`, params, headers);
 }
 
 export const fetchPermissions = (params, headers) => {

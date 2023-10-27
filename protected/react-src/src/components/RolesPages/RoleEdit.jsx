@@ -1,11 +1,6 @@
-import { __ } from '../../utils/translationsUtility';
-import {
-    roleScopes,
-    roleTypes
-} from '../../enums/RoleEnums';
-import {
-    updateRoleAndPermissions
-} from "../../services/apiProxyService";
+import {__} from '../../utils/translationsUtility';
+import {roleScopes, roleTypes} from '../../enums/RoleEnums';
+import {updateRoleAndPermissions} from "../../services/apiProxyService";
 import styles from './RoleEdit.module.css';
 import useRole from "../../hooks/Role/useRole";
 import useRolePermissions from "../../hooks/Role/useRolePermissions";
@@ -27,11 +22,10 @@ const RoleEdit = ({roleId = 0}) => {
 
     const {
         rolesPermissions,
-        setRolesPermissions,
         updatePermissionInRole,
         updateAllChildren
     } = useRolePermissions(roleId);
-    const { projects } = useProjects();
+    const {projects} = useProjects();
 
     const updateRole = async () => {
         if (!validateRole()) {
@@ -63,14 +57,14 @@ const RoleEdit = ({roleId = 0}) => {
                     className="form-control"
                     value={roleData.scope}
                     options={roleScopes}
-                    onChange={(e) => setRoleProperty('scope', e.target.value)} />
+                    onChange={(e) => setRoleProperty('scope', e.target.value)}/>
             </FormGroup>
             <FormGroup label={__('Type')} hasStar={true} error={roleErrors?.type}>
                 <DropdownInput
                     className="form-control"
                     options={roleTypes}
                     value={roleData.type}
-                    onChange={(e) => setRoleProperty('type', e.target.value)} />
+                    onChange={(e) => setRoleProperty('type', e.target.value)}/>
             </FormGroup>
             {(projects.length > 0 && roleData.scope === 'project' &&
                 <FormGroup label={__('Custom role project')} hasStar={true} error={roleErrors?.projectId}>
@@ -78,7 +72,7 @@ const RoleEdit = ({roleId = 0}) => {
                         className="form-control"
                         options={projects}
                         value={roleData.projectId}
-                        onChange={(e) => setRoleProperty('projectId', e.target.value)} />
+                        onChange={(e) => setRoleProperty('projectId', e.target.value)}/>
                 </FormGroup>) || null
             }
             <br/>
@@ -118,27 +112,27 @@ const RoleEdit = ({roleId = 0}) => {
                 <CheckboxesGroup
                     options={rolesPermissions}
                     changeChildren={updateAllChildren}
-                    onChange={updatePermissionInRole} />
+                    onChange={updatePermissionInRole}/>
             </div>
             <div className={`${styles.dFlex} ${styles.gap1} ${styles.mt4} ${styles.placeEnd}`}>
-                    <FormButtons
-                        buttons={[
-                            {
-                                label: __("Cancel"),
-                                class: `btn btn-secondary ${styles.w200px}`,
-                                onClick: () => window.location.href='../../role'
-                            }
-                        ]}
-                    />
-                    <FormButtons
-                        buttons={[
-                            {
-                                label:  __('Save changes'),
-                                class: `btn btn-default ${styles.w200px}`,
-                                onClick: updateRole
-                            }
-                        ]}
-                    />
+                <FormButtons
+                    buttons={[
+                        {
+                            label: __("Cancel"),
+                            class: `btn btn-secondary ${styles.w200px}`,
+                            onClick: () => window.location.href = '../../role'
+                        }
+                    ]}
+                />
+                <FormButtons
+                    buttons={[
+                        {
+                            label: __('Save changes'),
+                            class: `btn btn-default ${styles.w200px}`,
+                            onClick: updateRole
+                        }
+                    ]}
+                />
             </div>
         </>
     );

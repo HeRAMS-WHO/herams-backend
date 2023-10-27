@@ -119,4 +119,20 @@ final class UserRoleRepository
         usort($userRoles, fn($a, $b) => $a['id'] <=> $b['id']);
         return $userRoles;
     }
+
+    /**
+     * @param  UserRoleId  $userRoleId
+     *
+     * @throws InvalidArgumentException
+     */
+    public function delete(UserRoleId $userRoleId): void
+    {
+        $userRole = UserRole::findOne($userRoleId->getValue());
+        if ($userRole === null) {
+            throw new InvalidArgumentException(
+                'User role not found'
+            );
+        }
+        $userRole->delete();
+    }
 }

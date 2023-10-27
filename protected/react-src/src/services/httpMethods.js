@@ -15,6 +15,20 @@ export const get = async (url, params = {}, headers = {}) => {
     return handleResponse(response);
 };
 
+export const deleteRequest = async (url, params = {}, headers = {}) => {
+    const fullUrl = new URL(url)
+    Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
+    const response = await fetch(fullUrl, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Csrf-Token': getCsrfToken(),
+            'X-Requested-With': 'XMLHttpRequest',
+            ...headers
+        },
+    });
+    return handleResponse(response);
+};
 
 export const post = async (url, data) => {
     try {

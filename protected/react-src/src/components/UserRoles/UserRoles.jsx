@@ -6,6 +6,7 @@ import ReactTagsWrapper from "../common/form/ReactTagsWrapper";
 import useUserRoles from "../../hooks/userRoles/useUserRoles";
 import Table from "../common/table/Table";
 import UserRolesTableHeader from "./UserRolesTableHeader";
+import {deleteUserRole} from "../../services/apiProxyService";
 
 const UserRoles = ({projectId}) => {
     const labelScopeProject = useId()
@@ -23,8 +24,16 @@ const UserRoles = ({projectId}) => {
         setScope,
         addUserToProject,
         projectUsers,
-        filteredRolesByScope
+        filteredRolesByScope,
+        refreshUserRolesInProject,
+        errors
     } = useUserRoles(projectId);
+    const deleteYesCallback = (id) => {
+        deleteUserRole(id)
+            .then(() => {
+                refreshUserRolesInProject();
+            })
+    }
     return (
         <div className="container-fluid px-2">
             <div className="row mt-2">
@@ -56,7 +65,7 @@ const UserRoles = ({projectId}) => {
                     <label htmlFor={labelScopeWorkspace}> {__('To Workspaces')} </label>
                 </div>
             </div>
-            <FormGroup label={__('Users')} inputClassName='col-md-9'>
+            <FormGroup label={__('Users')} inputClassName='col-md-9' error={errors.users}>
                 <ReactTagsWrapper
                     labelText={__("Select users")}
                     placeholderText={selectedUsers.length === 0 ? __("Select users") : ''}
@@ -67,7 +76,7 @@ const UserRoles = ({projectId}) => {
                 />
             </FormGroup>
             {scope === 'workspace' &&
-            <FormGroup label={__('Workspaces')} inputClassName='col-md-9'>
+            <FormGroup label={__('Workspaces')} inputClassName='col-md-9' error={errors.workspaces}>
                 <ReactTagsWrapper
                     labelText={__("Select workspaces")}
                     placeholderText={selectedWorkspaces.length === 0 ? __("Select workspaces") : ''}
@@ -78,7 +87,7 @@ const UserRoles = ({projectId}) => {
                 />
             </FormGroup>
             }
-            <FormGroup label={__('Roles')} inputClassName='col-md-9'>
+            <FormGroup label={__('Roles')} inputClassName='col-md-9' error={errors.roles}>
                 <ReactTagsWrapper
                     labelText={__("Type for search")}
                     placeholderText={selectedRoles.length === 0 ? __("Type for search") : ''}
@@ -98,10 +107,7 @@ const UserRoles = ({projectId}) => {
                 />
             </div>
             <Table
-                columnDefs={UserRolesTableHeader({
-                    deleteYesCallback: () => {
-                    }
-                })}
+                columnDefs={UserRolesTableHeader({deleteYesCallback})}
                 data={projectUsers}/>
         </div>
     );
