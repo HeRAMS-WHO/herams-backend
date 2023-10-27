@@ -11,6 +11,8 @@ use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\ModelHydratorInterface;
 use herams\common\models\PermissionOld;
 use herams\common\models\Project;
+use herams\common\models\Role;
+use herams\common\models\RolePermission;
 use herams\common\models\Workspace;
 use herams\common\queries\WorkspaceQuery;
 use herams\common\values\IntegerId;
@@ -139,7 +141,22 @@ class WorkspaceRepository
             throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
         }
     }
-
+    public function getRolesInProject(
+        ProjectId $projectId
+    ): array {
+        $roles = [];
+        $rolesInProject = Role::findAll([
+            'project_id' => $projectId->getValue(),
+        ]);
+        foreach($rolesInProject as $role) {
+            $roles[$role->id] = [...$role];
+        }
+        $rolesForProject = Role::findAll(['scope' => 'project', 'type' => 'standard']);
+        foreach($rolesForProject as $role) {
+            $roles[$role->id] = [...$role];
+        }
+        return $roles;
+    }
     public function updateTitles(
         WorkspaceId $workspaceId,
         array $titles

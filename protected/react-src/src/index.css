@@ -115,3 +115,72 @@ input:disabled{
     padding-right: 15px;
     padding-left: 15px;
 }
+.px-2{
+    padding-right: 0.5rem!important;
+    padding-left: 0.5rem!important;
+}
+.col-md-3, .col-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.col-6, .col-md-6{
+    flex: 0 0 50%;
+    max-width: 50%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.mt-2 {
+  margin-top: 0.5rem!important;
+}
+
+.mt-5 {
+    margin-top: 3rem!important;
+}
+.react-tags {
+  display:flex;
+}
+.react-tags__label {
+  width: 25%;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center { 
+  align-items: center;
+}
+
+
+.dFlex {
+    display: flex;
+}
+
+
+/* PLace divs to the end of space */
+
+.place-end {
+    place-content: end;
+}
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.btn {
+    height: 40px;
+}
+
+.gap-1 {
+    gap: 1rem;
+}
+
+.w200px {
+    width: 200px;
+}

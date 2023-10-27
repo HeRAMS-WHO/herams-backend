@@ -57,7 +57,7 @@ class ProjectTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'url' => [
-                'project/share',
+                'project/users',
                 'id' => $projectId,
             ],
             'title' => \Yii::t('app', 'Users ({n})', [

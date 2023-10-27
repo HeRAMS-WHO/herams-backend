@@ -68,6 +68,17 @@ class ProjectRepository implements ProjectLocalesRetriever
         return new ProjectForBreadcrumb($record);
     }
 
+    /**
+     * @param ProjectId $id
+     * @return array $roles
+     */
+    public function retrieveRoles(ProjectId $id): array
+    {
+        $record = Project::findOne([
+            'id' => $id
+        ]);
+        return $record->roles;
+    }
     public function retrieveForRead(IntegerId $id): ProjectRead
     {
         $record = ProjectRead::findOne([

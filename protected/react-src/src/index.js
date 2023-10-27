@@ -1,13 +1,14 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 
 import './index.css';
 // import 'bootstrap/dist/css/bootstrap-grid.min.css';
-import './index.css'
+import './css/react-tags.css';
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
+import UserRoles from "./components/UserRoles/UserRoles";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 
 import reportWebVitals from "./reportWebVitals";
@@ -18,6 +19,7 @@ const componentsMap = {
     'RolesList': RolesList,
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
+    'UserRoles': UserRoles,
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {

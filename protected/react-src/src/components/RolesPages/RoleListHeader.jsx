@@ -8,6 +8,20 @@ const CustomLinkRenderer = (params) => {
     );
 };
 
+const comparatorProjectName = (a, b) => {
+    let title1 = '', title2 = '';
+    const lang1 = a?.primary_language ?? '';
+    const lang2 = b?.primary_language ?? '';
+    if (!!a) {
+        const titlesA = JSON.parse(a.i18n);
+        title1 = titlesA.title[lang1] ?? '';
+    }
+    if (!!b) {
+        const titlesB = JSON.parse(b.i18n);
+        title2 = titlesB.title[lang2] ?? '';
+    }
+    return title1.localeCompare(title2);
+}
 
 
 const RoleListHeader = ({deleteYesCallback}) => [
@@ -52,15 +66,16 @@ const RoleListHeader = ({deleteYesCallback}) => [
         headerName: __('Project'),
         checkboxSelection: false,
         filter: true,
-        cellRenderer: function(params) {
+        field: 'projectInfo',
+        cellRenderer: function (params) {
             if (params.data.projectInfo) {
-                const { title } = JSON.parse(params.data.projectInfo.i18n);
+                const {title} = JSON.parse(params.data.projectInfo.i18n);
                 return title[params.data.projectInfo.primary_language];
             }
         },
         width: 120,
         sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
+        comparator: (a, b) => comparatorProjectName(a, b),
     },
     {
         headerName: __('Created Date'),
@@ -74,8 +89,8 @@ const RoleListHeader = ({deleteYesCallback}) => [
         headerName: __('Created By'),
         checkboxSelection: false,
         filter: true,
-        valueGetter: function(params) {
-            return params.data.creatorUserInfo?.name;
+        valueGetter: function (params) {
+            return params.data.creatorUserInfo?.name ?? '';
         },
         sortable: true,
         comparator: (a, b) => a.localeCompare(b),
@@ -90,11 +105,11 @@ const RoleListHeader = ({deleteYesCallback}) => [
     },
     {
         headerName: __('Last Modified By'),
-        field: 'last_modified_by',
+        field: 'updaterUserInfo',
         checkboxSelection: false,
         filter: true,
-        valueGetter: function(params) {
-            return params.data.updaterUserInfo?.name;
+        valueGetter: function (params) {
+            return params.data.updaterUserInfo?.name ?? '';
         },
         sortable: true,
         comparator: (a, b) => a.localeCompare(b),
@@ -105,14 +120,14 @@ const RoleListHeader = ({deleteYesCallback}) => [
         checkboxSelection: false,
         filter: true,
         pinned: 'right',
-        cellRenderer:function (params) {
+        cellRenderer: function (params) {
             const confirmationText = __('Are you sure you want to delete the role {}?').replace('{}', params.data.name);
             return <DeleteButton
-                    title={__('Delete Role')}
-                    html={confirmationText}
-                    confirmButtonText={__('Delete')}
-                    cancelButtonText={__('Cancel')}
-                    yesCallback={() => deleteYesCallback(params.data.id)} />
+                title={__('Delete Role')}
+                html={confirmationText}
+                confirmButtonText={__('Delete')}
+                cancelButtonText={__('Cancel')}
+                yesCallback={() => deleteYesCallback(params.data.id)}/>
         },
 
     }
