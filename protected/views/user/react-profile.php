@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use herams\common\domain\user\User;
+use prime\assets\ReactAsset;
 use prime\widgets\menu\UserTabMenu;
 use prime\widgets\Section;
 use yii\helpers\Html;
 use yii\web\View;
-use prime\assets\ReactAsset;
 
 ReactAsset::register($this);
 
@@ -24,7 +24,7 @@ $this->endBlock();
 
 $this->title = Yii::t('app', 'Profile');
 
-$model->setOnlyFields(['id','email','name','language','newsletter_subscription']);
+$model->setOnlyFields(['id', 'email', 'name', 'language', 'newsletter_subscription']);
 
 $userEncoded = $model->toBase64();
 

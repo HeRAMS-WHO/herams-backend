@@ -42,8 +42,21 @@ jobs:
         name: Load NPM cache
         with:
           cache: 'npm'
-      - run: npm ci --ignore-scripts --legacy-peer-deps
-        name: Install frontend dependencies
+      - name: Install frontend dependencies
+        run: npm ci --ignore-scripts --legacy-peer-deps
+      - name: Install React App dependencies
+        working-directory: ./protected/react-src/
+        run: npm install
+      - name: Build React App
+        working-directory: ./protected/react-src/
+        run: npm run build
+      - name: Cache React App node modules
+        uses: actions/cache@v3
+        with:
+          path: ./protected/react-src/node_modules
+          key: ${{ runner.os }}-react-node-modules-${{ hashFiles('./protected/react-src/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-react-node-modules-
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io

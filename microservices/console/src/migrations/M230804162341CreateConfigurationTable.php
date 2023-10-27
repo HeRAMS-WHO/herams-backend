@@ -17,7 +17,6 @@ class M230804162341CreateConfigurationTable extends Migration
         ]);
     }
 
-
     public function safeDown()
     {
         $this->dropTable('{{%configuration}}');

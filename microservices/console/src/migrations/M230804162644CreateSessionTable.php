@@ -21,7 +21,6 @@ class M230804162644CreateSessionTable extends Migration
         ]);
     }
 
-
     public function safeDown()
     {
         $this->dropTable('{{%session}}');

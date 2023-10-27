@@ -19,7 +19,12 @@ $this->title = \Yii::t('app', 'Create survey');
 $this->registerCss(
     <<<CSS
 :root {
-    --max-site-width: 100vw;
+    --max-site-width:calc(100vw - 40px);
+}
+
+div.content {
+    border-radius: 0;
+    padding: 0;
 }
 
 CSS
@@ -28,8 +33,6 @@ CSS
 Section::begin()
     ->withHeader($this->title);
 
-//echo Creator2::widget([
-//]);
 $creator = new Creator2();
 $creator->setConfig();
 $config = $creator->getConfig();
@@ -38,8 +41,6 @@ $config = $creator->getConfig();
     <!-- Mount point for the React component -->
     <div id="SurveyCreatorWidget" data-config="<?= Html::encode(base64_encode($config)) ?>">
     </div>
-
-
 <?php
 
 Section::end();

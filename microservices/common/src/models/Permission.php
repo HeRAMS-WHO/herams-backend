@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace herams\common\models;
+
 /**
  * Attributes
  * @property string $code
@@ -13,10 +14,13 @@ namespace herams\common\models;
  * @property string $last_modified_date
  * @property int|null $last_modified_by
  */
-class Permission extends ActiveRecord {
-    public static function tableName(): string {
+class Permission extends ActiveRecord
+{
+    public static function tableName(): string
+    {
         return '{{%permissions}}';
     }
+
     public static function primaryKey(): array
     {
         return ['code'];

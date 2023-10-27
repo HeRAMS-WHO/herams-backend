@@ -17,29 +17,36 @@ function useRole(roleId = null){
         lastModifiedBy: '',
     });
     const [roleErrors, setError] = useState({});
+
+    function hasToAssignAProjectId() {
+        return !roleData.projectId && roleData.type === 'custom';
+    }
+
     const validateRole = () => {
         const errors = {};
-        if (!roleData.name) {
+        if (!roleData.name)
+        {
             errors.name = 'Role name is required';
         }
-
-        if (!roleData.scope || !['global', 'project', 'workspace'].includes(roleData.scope)) {
+        if (!roleData.scope || !['global', 'project', 'workspace'].includes(roleData.scope))
+        {
             errors.scope = 'Role scope is required and must be one of: global, project, workspace';
         }
-
-        if (!roleData.type || !['standard', 'custom'].includes(roleData.type)) {
+        if (!roleData.type || !['standard', 'custom'].includes(roleData.type))
+        {
             errors.type = 'Role type is required and must be one of: standard, custom';
         }
-
-        if (roleData.scope === 'project' && !roleData.projectId) {
-            errors.projectId = 'Project is required when scope is project';
+        if (hasToAssignAProjectId())
+        {
+            errors.projectId = 'Project is required when scope is project and type is custom';
         }
         setError(errors);
         return Object.keys(errors).length === 0;
     }
 
     useEffect(() => {
-        if (!roleId) {
+        if (!roleId)
+        {
             return;
         }
         async function fetchData() {
@@ -64,8 +71,12 @@ function useRole(roleId = null){
             })
     }, [roleId]);
     const setRoleProperty = (property, value) => {
+        const prevState = {...roleData};
+        if (property === 'type' && value !== 'custom') {
+            prevState.projectId = '';
+        }
         setRoleData({
-            ...roleData,
+            ...prevState,
             [property]: value
         });
     }

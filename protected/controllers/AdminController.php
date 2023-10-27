@@ -19,7 +19,7 @@ class AdminController extends Controller
     {
         return [
             'dashboard' => Dashboard::class,
-            'share' => Share::class
+            'share' => Share::class,
         ];
     }
 

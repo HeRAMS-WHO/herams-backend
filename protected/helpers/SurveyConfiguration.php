@@ -4,9 +4,7 @@ namespace prime\helpers;
 
 use herams\common\enums\ProjectVisibility;
 use herams\common\helpers\ConfigurationProvider;
-use herams\common\helpers\LocalizedString;
 use herams\common\models\Project;
-use herams\common\values\WorkspaceId;
 use yii\helpers\VarDumper;
 
 class SurveyConfiguration
@@ -132,7 +130,9 @@ class SurveyConfiguration
             ],
         ];
     }
-    public static function forUpdatingWorkspace(array $localizedString): array {
+
+    public static function forUpdatingWorkspace(array $localizedString): array
+    {
         return [
             "pages" => [
                 [
@@ -143,16 +143,16 @@ class SurveyConfiguration
                             "name" => "title",
                             "title" => "Worskpace name",
                             "isRequired" => true,
-                            "defaultValue" => $localizedString
-                        ]
+                            "defaultValue" => $localizedString,
+                        ],
                     ],
                 ],
             ],
         ];
     }
+
     public static function forUpdatingProject(Project $project): array
     {
-
         //VarDumper::dump($project, 10, true);
         return [
             "title" => "Create project",

@@ -14,9 +14,7 @@ interface JsonFieldInterface
      */
     public function __construct(array|string|object $value);
 
-
     public function getValue(): array|object;
-
 
     public function __toString(): string;
 }

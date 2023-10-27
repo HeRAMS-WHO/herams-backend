@@ -24,7 +24,6 @@ class M230804162358CreateElementTable extends Migration
         $this->addForeignKey('element_page', '{{%element}}', ['page_id'], '{{%page}}', ['id']);
     }
 
-
     public function safeDown()
     {
         $this->dropForeignKey('element_page', '{{%element}}');

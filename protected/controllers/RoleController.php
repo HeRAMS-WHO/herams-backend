@@ -15,11 +15,11 @@ class RoleController extends Controller
 
     public $layout = self::LAYOUT_ADMIN;
 
-        public function actions(): array
+    public function actions(): array
     {
         return [
             'index' => Index::class,
-            'update' => Update::class
+            'update' => Update::class,
         ];
     }
 

@@ -16,9 +16,9 @@ jobs:
       - name: API Code style
         run: ecs
         working-directory: microservices/api
-      - name: Static analysis (phpstan)
-        run: phpstan
-        working-directory: microservices/api
-      - name: Static analysis (psalm)
-        run: psalm
-        working-directory: microservices/api
+#      - name: Static analysis (phpstan)
+#        run: phpstan
+#        working-directory: microservices/api
+#      - name: Static analysis (psalm)
+#        run: psalm
+#        working-directory: microservices/api

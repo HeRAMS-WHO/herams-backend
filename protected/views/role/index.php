@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\widgets\menu\AdminTabMenu;
-use prime\assets\ReactAsset;
 use prime\widgets\Section;
 
 ReactAsset::register($this);

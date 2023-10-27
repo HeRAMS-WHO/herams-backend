@@ -23,7 +23,6 @@ class M230804162220CreateUserTable extends Migration
         ], 'charset = utf8mb3');
     }
 
-
     public function safeDown()
     {
         $this->dropTable('{{%user}}');
