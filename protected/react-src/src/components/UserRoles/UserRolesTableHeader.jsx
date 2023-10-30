@@ -37,7 +37,14 @@ const UserRolesTableHeader = ({deleteYesCallback}) => [
         headerName: __('Workspace'),
         checkboxSelection: false,
         filter: true,
-        valueGetter: ({data}) => data.target === 'project' ? '--' : (data.workspaceInfo?.name ?? ''),
+        valueGetter: ({data}) => {
+            if (data.target === 'project') {
+                return '--'
+            }
+            const primary_language = data.projectInfo?.primary_language ?? 'en'
+            const {title} = JSON.parse(data.workspaceInfo.i18n)
+            return title[primary_language];
+        },
         width: 200,
         sortable: true,
         comparator: (a, b) => workspacesNameComparator(a, b)
