@@ -4,7 +4,9 @@ import 'survey-creator-core/survey-creator-core.min.css';
 import { applySurveyConfigurations } from './custom/survey-modifications';
 import { applyHSDUStateQuestion } from './custom/HSDUStateQuestion';
 import { applyFacilityTypeQuestion } from './custom/FacilityTypeQuestion';
-import * as SurveyKnockout from "survey-react-ui";
+// import * as SurveyKnockout from "survey-react-ui";
+import {Model} from "survey-core";
+import {Survey} from "survey-react-ui";
 
 applySurveyConfigurations();
 applyHSDUStateQuestion();
@@ -13,33 +15,42 @@ applyFacilityTypeQuestion();
 function SurveyWidget(props) {
     const [survey, setSurvey] = useState(null);
     const [data, setData] = useState(null);
+    const [config, setConfig] = useState({});
 
+    console.log('test');
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
+        console.log('test');
         const fetchData = async () => {
-            const config = props.surveySettings;
+            const surveySettings = atob(props.surveySettings);
+            console.log('t2',JSON.parse(surveySettings));
+            setConfig(JSON.parse(surveySettings))
+            const surveyConfig = JSON.parse(surveySettings);
+            let surveyStructure = surveyConfig.structure;
+            // if (surveyConfig.localeEndpoint) {
+            //     const locales = await fetchWithCsrf(surveyConfig.localeEndpoint, null, 'get');
+            //     console.log('locales',locales);
+            //     surveyStructure.locales = locales.languages;
+            // }
 
-            let surveyStructure = config.structure;
-            if (config.localeEndpoint) {
-                const locales = await fetchWithCsrf(config.localeEndpoint, null, 'get');
-                surveyStructure.locales = locales.languages;
-            }
-            const surveyInstance = new SurveyKnockout.Survey(surveyStructure);
-            surveyInstance.mode = config.displayMode ? "display" : "edit";
+            const surveyInstance = new Model(surveyStructure);
 
-            if (config.dataUrl && !window.shouldUpdateSurveyData) {
-                let fetchedData = await fetchWithCsrf(config.dataUrl, null, 'GET');
-                for (const pathElement of config.dataPath) {
-                    fetchedData = fetchedData[pathElement];
-                }
-                if (props.haveToDeleteDate) {
-                    delete fetchedData['HSDU_DATE'];
-                    delete fetchedData['SITUATION_DATE'];
-                }
-                setData({ ...fetchedData, ...config.data });
-            } else {
-                setData(config.data);
-            }
+            // const surveyInstance = new SurveyKnockout.Survey(surveyStructure);
+            // surveyInstance.mode = surveyConfig.displayMode ? "display" : "edit";
+
+            // if (surveyConfig.dataUrl && !window.shouldUpdateSurveyData) {
+            //     let fetchedData = await fetchWithCsrf(surveyConfig.dataUrl, null, 'GET');
+            //     for (const pathElement of surveyConfig.dataPath) {
+            //         fetchedData = fetchedData[pathElement];
+            //     }
+            //     // if (props.haveToDeleteDate) {
+            //     //     delete fetchedData['HSDU_DATE'];
+            //     //     delete fetchedData['SITUATION_DATE'];
+            //     // }
+            //     setData({ ...fetchedData, ...surveyConfig.data });
+            // } else {
+            //     setData(surveyConfig.data);
+            // }
 
             // Similar logic can be added for `survey.onComplete` and `survey.onServerValidateQuestions`
             // You can use surveyInstance.onComplete.add(...) and so on.
@@ -48,24 +59,11 @@ function SurveyWidget(props) {
         };
 
         fetchData();
-    }, []);  // This means run once after the component is mounted.
+    }, [props.surveySettings]);  // This means run once after the component is mounted.
 
-    useEffect(() => {
-        if (survey && data) {
-            survey.data = data;
-            survey.render(props.surveySettings.elementId);
-            window.survey = survey;
-        }
-    }, [survey, data]);
-
-    return (
-        <div>
-            { !survey ? 'Loading...' : null }
-            {/* Render the survey configuration for debugging purposes */}
-            <pre>{JSON.stringify(props.surveySettings, null, 2)}</pre>
-            <div id={props.surveySettings.elementId}></div>
-        </div>
-    );
+     return <div>
+         {survey && <Survey model={survey} />};
+     </div>
 }
 
 function fetchWithCsrf(url, data, method) {

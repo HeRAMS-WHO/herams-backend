@@ -4,20 +4,25 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 // import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import './index.css'
+
+import reportWebVitals from "./reportWebVitals";
+
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
-import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
+// import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
+import SurveyWidget from "./components/SurveyJs/SurveyWidget";
 
-import reportWebVitals from "./reportWebVitals";
+
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
     'Profile': Profile,
     'RolesList': RolesList,
     'RoleEdit': RolesEdit,
-    'SurveyCreatorWidget': SurveyCreatorWidget,
+    // 'SurveyCreatorWidget': SurveyCreatorWidget,
+    'SurveyWidget': SurveyWidget,
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {

@@ -150,6 +150,7 @@ class Survey extends Widget
             const survey = new SurveyKnockout.Survey(surveyStructure);
             
             survey.mode = config.displayMode ? "display" : "edit";
+            console.log('displayMode', survey.mode);
             
             let restartWithFreshData
             let waitForDataPromise

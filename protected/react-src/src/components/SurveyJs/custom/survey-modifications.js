@@ -108,7 +108,7 @@ export function applySurveyConfigurations() {
             },
         ],
         onInit() {
-            console.log(this)
+            // console.log(this)
         },
     })
 
