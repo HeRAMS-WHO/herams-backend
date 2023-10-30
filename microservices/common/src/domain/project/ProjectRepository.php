@@ -69,16 +69,16 @@ class ProjectRepository implements ProjectLocalesRetriever
     }
 
     /**
-     * @param ProjectId $id
      * @return array $roles
      */
     public function retrieveRoles(ProjectId $id): array
     {
         $record = Project::findOne([
-            'id' => $id
+            'id' => $id,
         ]);
         return $record->roles;
     }
+
     public function retrieveForRead(IntegerId $id): ProjectRead
     {
         $record = ProjectRead::findOne([

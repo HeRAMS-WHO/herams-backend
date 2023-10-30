@@ -53,7 +53,7 @@ final class ApiProxyController extends Controller
             $userId,
             Yii::$app->language
         );
-        
+
         Yii::endProfile('request');
         $response->data = $upstreamResponse->getBody()->getContents();
         $response->format = Response::FORMAT_RAW;
@@ -64,7 +64,7 @@ final class ApiProxyController extends Controller
                 "Upstream status code: {$upstreamResponse->getStatusCode()}"
             );
             Yii::warning(
-                'Upstream headers: '.print_r($headers->toOriginalArray(), true)
+                'Upstream headers: ' . print_r($headers->toOriginalArray(), true)
             );
             Yii::error("Upstream response: {$response->data}");
         }

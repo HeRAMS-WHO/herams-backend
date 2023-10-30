@@ -19,18 +19,18 @@ class Roles extends Action
         $projectId = new ProjectId($id);
         $project = $projectRepository->retrieveById($projectId);
         $rolesInProject = $project->roles;
-        foreach($rolesInProject as $role){
+        foreach ($rolesInProject as $role) {
             $roles[$role->id] = [...$role];
         }
         $generalRoles = Role::find()
             ->where(['<>', 'scope', 'global'])
             ->andFilterWhere(['=', 'type', 'standard'])
             ->all();
-        foreach($generalRoles as $role){
+        foreach ($generalRoles as $role) {
             $roles[$role->id] = [...$role];
         }
         $flattenRoles = [];
-        foreach($roles as $role){
+        foreach ($roles as $role) {
             $flattenRoles[] = $role;
         }
         return $flattenRoles;

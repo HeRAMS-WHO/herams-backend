@@ -10,7 +10,7 @@ abstract class StringValue
 
     public function __construct(string|int $value)
     {
-        $this->value = (string)$value;
+        $this->value = (string) $value;
     }
 
     public function __toString(): string

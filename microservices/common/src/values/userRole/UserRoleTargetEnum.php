@@ -8,7 +8,6 @@ use Yii;
 
 enum UserRoleTargetEnum: string
 {
-
     case global = 'global';
     case project = 'project';
     case workspace = 'workspace';

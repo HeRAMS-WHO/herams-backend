@@ -51,7 +51,8 @@ class WorkspaceRepository
         return $this->workspaceQueryComplete($id)->all();
     }
 
-    private function workspaceQueryComplete(ProjectId $projectId
+    private function workspaceQueryComplete(
+        ProjectId $projectId
     ): WorkspaceQuery {
         return Workspace::find()
             ->withFields(
@@ -104,9 +105,9 @@ class WorkspaceRepository
     {
         $record = new Workspace();
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new InvalidArgumentException(
-                'Validation failed: '.print_r($record->errors, true)
+                'Validation failed: ' . print_r($record->errors, true)
             );
         }
         return new WorkspaceId($record->id);
@@ -127,18 +128,15 @@ class WorkspaceRepository
     }
 
     /**
-     * @param  WorkspaceId  $id
-     *
-     * @return Workspace
      * @throws NotFoundHttpException
      */
     public function retrieveById(WorkspaceId $id): Workspace
     {
         $record = Workspace::findOne([
-            'id' => $id->getValue()
+            'id' => $id->getValue(),
         ]);
 
-        if (!isset($record)) {
+        if (! isset($record)) {
             throw new NotFoundHttpException();
         }
 
@@ -153,11 +151,12 @@ class WorkspaceRepository
                 'id' => $id,
             ])->one();
 
-        if (!isset($record)) {
+        if (! isset($record)) {
             throw new NotFoundHttpException();
         }
         return new \prime\models\workspace\WorkspaceForTabMenu(
-            $this->accessCheck, $record
+            $this->accessCheck,
+            $record
         );
     }
 
@@ -166,7 +165,7 @@ class WorkspaceRepository
         $record = Workspace::findOne([
             'id' => $workspaceId->getValue(),
         ]);
-        if (!isset($record)) {
+        if (! isset($record)) {
             throw new NotFoundHttpException();
         }
         $model = new UpdateWorkspace($workspaceId);
@@ -182,9 +181,9 @@ class WorkspaceRepository
         Yii::debug($model->attributes);
 
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new InvalidArgumentException(
-                'Validation failed: '.print_r($record->errors, true)
+                'Validation failed: ' . print_r($record->errors, true)
             );
         }
     }
@@ -200,7 +199,10 @@ class WorkspaceRepository
             $roles[$role->id] = [...$role];
         }
         $rolesForProject = Role::findAll(
-            ['scope' => 'project', 'type' => 'standard']
+            [
+                'scope' => 'project',
+                'type' => 'standard',
+            ]
         );
         foreach ($rolesForProject as $role) {
             $roles[$role->id] = [...$role];
@@ -224,7 +226,7 @@ class WorkspaceRepository
         $workspace = Workspace::findOne([
             'id' => $id,
         ]);
-        if (!isset($workspace)) {
+        if (! isset($workspace)) {
             throw new NotFoundHttpException();
         }
         $this->accessCheck->requirePermission(

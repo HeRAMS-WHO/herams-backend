@@ -8,7 +8,6 @@ use Yii;
 
 enum RoleScopEnum: string
 {
-
     case global = 'global';
     case project = 'project';
     case workspace = 'workspace';

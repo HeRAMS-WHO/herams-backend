@@ -16,7 +16,7 @@ final class ModelValidator
 {
     public function checkIfOkay(Model $model): void
     {
-        if (!$this->validateModel($model)) {
+        if (! $this->validateModel($model)) {
             throw new HttpException(422, json_encode($model->errors));
         }
     }
@@ -30,7 +30,7 @@ final class ModelValidator
         Model $model,
         Response $response
     ): Response {
-        if (!$model->hasErrors()) {
+        if (! $model->hasErrors()) {
             throw new InvalidArgumentException(
                 "Model has no validation errors"
             );

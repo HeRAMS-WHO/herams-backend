@@ -12,7 +12,6 @@ use yii\web\Response;
 
 final class Index extends Action
 {
-
     public function run(
         UserRoleRepository $userRoleRepository,
         Request $request,
@@ -24,6 +23,4 @@ final class Index extends Action
         );
         return $response;
     }
-
-
 }

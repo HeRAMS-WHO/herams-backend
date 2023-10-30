@@ -13,12 +13,6 @@ use herams\common\values\WorkspaceId;
 
 final class RoleRepository
 {
-    /**
-     * @param  array  $roleIds
-     * @param  RoleScopEnum  $scope
-     *
-     * @return bool
-     */
     public function checkIfEveryRoleHasScope(
         array $roleIds,
         RoleScopEnum $scope
@@ -33,13 +27,13 @@ final class RoleRepository
     }
 
     /**
-     * @param  array  $roleIds
-     *
      * @return Role[]
      */
     public function retrieveRoles(array $roleIds): array
     {
-        $roles = Role::find()->where(['id' => $roleIds])->all();
+        $roles = Role::find()->where([
+            'id' => $roleIds,
+        ])->all();
         $roleObjects = [];
         foreach ($roles as $role) {
             $roleObjects[] = new Role($role);
@@ -54,16 +48,17 @@ final class RoleRepository
         $projectId = $workspaceRepository->retrieveById(
             $workspaceId
         )->project_id;
-        $roles = Role::find()->where([
+        $roles = Role::find()->where(
+            [
                 'or',
                 [
                     'scope' => RoleScopEnum::workspace->getValue(),
-                    'type'  => RoleTypeEnum::standard->getValue(),
+                    'type' => RoleTypeEnum::standard->getValue(),
                 ],
                 [
-                    'scope'      => RoleScopEnum::workspace->getValue(),
-                    'type'       => RoleTypeEnum::custom->getValue(),
-                    'project_id' => $projectId
+                    'scope' => RoleScopEnum::workspace->getValue(),
+                    'type' => RoleTypeEnum::custom->getValue(),
+                    'project_id' => $projectId,
                 ],
             ]
         )->all();
@@ -74,13 +69,11 @@ final class RoleRepository
         return $roleObjects;
     }
 
-    /**
-     * @param  RoleId  $roleId
-     *
-     * @return Role
-     */
+
     public function retrieveRole(RoleId $roleId): Role
     {
-        return Role::findOne(['id' => $roleId->getValue()]);
+        return Role::findOne([
+            'id' => $roleId->getValue(),
+        ]);
     }
 }

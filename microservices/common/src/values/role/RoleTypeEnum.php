@@ -8,7 +8,6 @@ use Yii;
 
 enum RoleTypeEnum: string
 {
-
     case standard = 'standard';
     case custom = 'custom';
 

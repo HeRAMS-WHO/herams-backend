@@ -20,18 +20,18 @@ final class WorkspaceController extends Controller
     public function actions()
     {
         return [
-            'create'           => Create::class,
-            'view'             => View::class,
-            'validate'         => Validate::class,
-            'facilities'       => Facilities::class,
-            'update'           => Update::class,
-            'users'            => Users::class,
+            'create' => Create::class,
+            'view' => View::class,
+            'validate' => Validate::class,
+            'facilities' => Facilities::class,
+            'update' => Update::class,
+            'users' => Users::class,
             'delete-workspace' => DeleteWorkspace::class,
-            'roles'            => Roles::class,
-            'permissions'      => [
-                'class'  => UserPermissions::class,
+            'roles' => Roles::class,
+            'permissions' => [
+                'class' => UserPermissions::class,
                 'target' => Workspace::class,
-            ]
+            ],
         ];
     }
 }

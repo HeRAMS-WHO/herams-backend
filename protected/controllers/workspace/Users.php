@@ -36,8 +36,7 @@ final class Users extends Action
         $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
         $workspaceId = new WorkspaceId($id);
         $this->controller->view->breadcrumbCollection->add(
-            ...
-            toArray(
+            ...toArray(
                 $breadcrumbService->retrieveForWorkspace($workspaceId)
                     ->getIterator()
             )
@@ -45,8 +44,8 @@ final class Users extends Action
         $workspace = $workspaceRepository->retrieveById($workspaceId);
 
         return $this->controller->render('users', [
-            'model'        => $workspace,
-            'workspace'    => $workspace,
+            'model' => $workspace,
+            'workspace' => $workspace,
             'tabMenuModel' => $workspaceRepository->retrieveForTabMenu(
                 $workspaceId
             ),

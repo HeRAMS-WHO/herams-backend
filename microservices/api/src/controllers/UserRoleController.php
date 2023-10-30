@@ -14,10 +14,10 @@ class UserRoleController extends \yii\rest\Controller
     public function actions()
     {
         return [
-            'create'    => Create::class,
-            'index'     => Index::class,
+            'create' => Create::class,
+            'index' => Index::class,
             'workspace' => Workspace::class,
-            'delete'    => Delete::class,
+            'delete' => Delete::class,
         ];
     }
 }

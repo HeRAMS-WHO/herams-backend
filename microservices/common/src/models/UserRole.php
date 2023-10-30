@@ -33,31 +33,43 @@ class UserRole extends ActiveRecord
 
     public function getUserInfo(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
+        return $this->hasOne(User::class, [
+            'id' => 'user_id',
+        ]);
     }
 
     public function getRoleInfo(): ActiveQuery
     {
-        return $this->hasOne(Role::class, ['id' => 'role_id']);
+        return $this->hasOne(Role::class, [
+            'id' => 'role_id',
+        ]);
     }
 
     public function getProjectInfo(): ActiveQuery
     {
-        return $this->hasOne(Project::class, ['id' => 'target_id']);
+        return $this->hasOne(Project::class, [
+            'id' => 'target_id',
+        ]);
     }
 
     public function getWorkspaceInfo(): ActiveQuery
     {
-        return $this->hasOne(Workspace::class, ['id' => 'target_id']);
+        return $this->hasOne(Workspace::class, [
+            'id' => 'target_id',
+        ]);
     }
 
     public function getCreatedByInfo(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'created_by']);
+        return $this->hasOne(User::class, [
+            'id' => 'created_by',
+        ]);
     }
 
     public function getLastModifiedByInfo(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'last_modified_by']);
+        return $this->hasOne(User::class, [
+            'id' => 'last_modified_by',
+        ]);
     }
 }

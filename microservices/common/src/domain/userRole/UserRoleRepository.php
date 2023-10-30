@@ -18,8 +18,6 @@ final class UserRoleRepository
 {
     /**
      * UserRoleRepository constructor.
-     *
-     * @param  ModelHydrator  $modelHydrator
      */
     public function __construct(
         private ModelHydrator $modelHydrator,
@@ -29,28 +27,21 @@ final class UserRoleRepository
     }
 
     /**
-     * @param  UserRoleRequest  $userRoleRequest
-     *
-     * @return UserRoleId
      * @throws InvalidArgumentException
      */
     public function create(UserRoleRequest $userRoleRequest): UserRoleId
     {
         $record = new UserRole();
         $this->modelHydrator->hydrateActiveRecord($userRoleRequest, $record);
-        if (!$record->save()) {
+        if (! $record->save()) {
             throw new InvalidArgumentException(
-                'Validation failed: '.print_r($record->errors, true)
+                'Validation failed: ' . print_r($record->errors, true)
             );
         }
         return new UserRoleId($record->id);
     }
 
-    /**
-     * @param  ProjectId  $projectId
-     *
-     * @return array
-     */
+
     public function retrieveUserRolesInProject(ProjectId $projectId): array
     {
         $project = $this->projectRepository->retrieveById(
@@ -64,47 +55,47 @@ final class UserRoleRepository
         $userRolesOfProjects = UserRole::find()
             ->where(
                 [
-                    'target'    => UserRoleTargetEnum::project->value,
-                    'target_id' => $projectId->getValue()
+                    'target' => UserRoleTargetEnum::project->value,
+                    'target_id' => $projectId->getValue(),
                 ]
             )
             ->with([
-                'roleInfo'           => fn($query) => $query->select(
+                'roleInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'lastModifiedByInfo' => fn($query) => $query->select(
+                'lastModifiedByInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'createdByInfo'      => fn($query) => $query->select(
+                'createdByInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'userInfo'           => fn($query) => $query->select(
+                'userInfo' => fn ($query) => $query->select(
                     ['id', 'name', 'email']
-                )
+                ),
             ])
             ->asArray()
             ->all();
         $userRolesOfWorkspaces = UserRole::find()
             ->where(
                 [
-                    'target'    => UserRoleTargetEnum::workspace->value,
-                    'target_id' => $workspacesIds
+                    'target' => UserRoleTargetEnum::workspace->value,
+                    'target_id' => $workspacesIds,
                 ],
             )
             ->with([
-                'roleInfo'           => fn($query) => $query->select(
+                'roleInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'lastModifiedByInfo' => fn($query) => $query->select(
+                'lastModifiedByInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'createdByInfo'      => fn($query) => $query->select(
+                'createdByInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'userInfo'           => fn($query) => $query->select(
+                'userInfo' => fn ($query) => $query->select(
                     ['id', 'name', 'email']
                 ),
-                'workspaceInfo'      => fn($query) => $query->select(
+                'workspaceInfo' => fn ($query) => $query->select(
                     ['id', 'i18n']
                 ),
             ])
@@ -118,36 +109,32 @@ final class UserRoleRepository
             $userRoleOfProject['projectInfo'] = $project->toArray();
         }
         $userRoles = array_merge($userRolesOfProjects, $userRolesOfWorkspaces);
-        usort($userRoles, fn($a, $b) => $a['id'] <=> $b['id']);
+        usort($userRoles, fn ($a, $b) => $a['id'] <=> $b['id']);
         return $userRoles;
     }
 
-    /**
-     * @param  WorkspaceId  $workspaceId
-     *
-     * @return array
-     */
+
     public function retrieveUserRolesInWorkspace(
         WorkspaceId $workspaceId
     ): array {
         $userRoles = UserRole::find()
             ->where(
                 [
-                    'target'    => UserRoleTargetEnum::workspace->value,
-                    'target_id' => $workspaceId->getValue()
+                    'target' => UserRoleTargetEnum::workspace->value,
+                    'target_id' => $workspaceId->getValue(),
                 ],
             )
             ->with([
-                'roleInfo'           => fn($query) => $query->select(
+                'roleInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'lastModifiedByInfo' => fn($query) => $query->select(
+                'lastModifiedByInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'createdByInfo'      => fn($query) => $query->select(
+                'createdByInfo' => fn ($query) => $query->select(
                     ['id', 'name']
                 ),
-                'userInfo'           => fn($query) => $query->select(
+                'userInfo' => fn ($query) => $query->select(
                     ['id', 'name', 'email']
                 ),
             ])
@@ -168,8 +155,6 @@ final class UserRoleRepository
     }
 
     /**
-     * @param  UserRoleId  $userRoleId
-     *
      * @throws InvalidArgumentException
      */
     public function delete(UserRoleId $userRoleId): void

@@ -52,16 +52,13 @@ final class Create extends Action
     }
 
     /**
-     * @param  RoleRepository  $roleRepository
-     * @param  object|array  $data
-     *
      * @throws HttpException
      */
     private function validateIfAllRolesAreCompatible(
         RoleRepository $roleRepository,
         object|array $data
     ): void {
-        if (!$roleRepository->checkIfEveryRoleHasScope(
+        if (! $roleRepository->checkIfEveryRoleHasScope(
             $data['roles'],
             RoleScopEnum::from($data['scope'])
         )
@@ -74,9 +71,6 @@ final class Create extends Action
     }
 
     /**
-     * @param  UserRoleTargetEnum|null  $target
-     *
-     * @return string
      * @throws InvalidArgumentException If the UserRoleTargetEnum is invalid.
      */
     private function execute(UserRoleTargetEnum|null $target): string
@@ -90,11 +84,7 @@ final class Create extends Action
         throw new InvalidArgumentException('Invalid target');
     }
 
-    /**
-     * @param  array  $data
-     * @param  UserRoleRepository  $userRoleRepository
-     * @param  ModelHydrator  $modelHydrator
-     */
+
     private function createUserRoleForProject(
         array $data,
         UserRoleRepository $userRoleRepository,
@@ -103,9 +93,9 @@ final class Create extends Action
         foreach ($data['users'] as $userId) {
             foreach ($data['roles'] as $roleId) {
                 $jsonDictionary = $this->getJsonDictionary(
-                    (int)$userId,
-                    (int)$roleId,
-                    (int)$data['project_id'],
+                    (int) $userId,
+                    (int) $roleId,
+                    (int) $data['project_id'],
                     UserRoleTargetEnum::project
                 );
                 $this->createUserRole(
@@ -117,14 +107,7 @@ final class Create extends Action
         }
     }
 
-    /**
-     * @param  int  $userId
-     * @param  int  $roleId
-     * @param  int  $targetId
-     * @param  UserRoleTargetEnum  $target
-     *
-     * @return array
-     */
+
     private function getJsonDictionary(
         int $userId,
         int $roleId,
@@ -132,19 +115,15 @@ final class Create extends Action
         UserRoleTargetEnum $target,
     ): array {
         return [
-            'userId'   => $userId,
-            'roleId'   => $roleId,
+            'userId' => $userId,
+            'roleId' => $roleId,
             'targetId' => $targetId,
-            'target'   => $target->value,
-            ...CommonFieldsInTables::forCreatingHydratation()
+            'target' => $target->value,
+            ...CommonFieldsInTables::forCreatingHydratation(),
         ];
     }
 
-    /**
-     * @param  ModelHydrator  $modelHydrator
-     * @param  array  $jsonDictionary
-     * @param  UserRoleRepository  $userRoleRepository
-     */
+
     private function createUserRole(
         ModelHydrator $modelHydrator,
         array $jsonDictionary,
@@ -159,11 +138,7 @@ final class Create extends Action
         $userRoleRepository->create($requestModel);
     }
 
-    /**
-     * @param  array  $data
-     * @param  UserRoleRepository  $userRoleRepository
-     * @param  ModelHydrator  $modelHydrator
-     */
+
     private function createUserRoleForWorkspaces(
         array $data,
         UserRoleRepository $userRoleRepository,
@@ -173,9 +148,9 @@ final class Create extends Action
             foreach ($data['roles'] as $roleId) {
                 foreach ($data['workspaces'] as $workspaceId) {
                     $jsonDictionary = $this->getJsonDictionary(
-                        (int)$userId,
-                        (int)$roleId,
-                        (int)$workspaceId,
+                        (int) $userId,
+                        (int) $roleId,
+                        (int) $workspaceId,
                         UserRoleTargetEnum::workspace
                     );
                     $this->createUserRole(

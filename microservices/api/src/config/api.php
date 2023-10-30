@@ -56,82 +56,82 @@ return function (
         }
     );
 
-    $diConfigurator = require __DIR__.'/di.php';
+    $diConfigurator = require __DIR__ . '/di.php';
     $diConfigurator($env, $container);
 
     $config = [
-        'id'                  => 'herams-api',
-        'name'                => 'HeRAMS API',
-        'basePath'            => realpath(__DIR__.'/../'),
-        'runtimePath'         => $env->getWithDefault('RUNTIME_PATH', '/tmp'),
-        'timeZone'            => 'CET',
-        'vendorPath'          => '@app/../vendor',
-        'sourceLanguage'      => 'en',
-        'language'            => 'en',
-        'class'               => '\herams\common\components\Application',
-        'aliases'             => [
-            '@tests'     => '@app/../tests',
-            '@composer'  => realpath(__DIR__.'/../../vendor'),
+        'id' => 'herams-api',
+        'name' => 'HeRAMS API',
+        'basePath' => realpath(__DIR__ . '/../'),
+        'runtimePath' => $env->getWithDefault('RUNTIME_PATH', '/tmp'),
+        'timeZone' => 'CET',
+        'vendorPath' => '@app/../vendor',
+        'sourceLanguage' => 'en',
+        'language' => 'en',
+        'class' => '\herams\common\components\Application',
+        'aliases' => [
+            '@tests' => '@app/../tests',
+            '@composer' => realpath(__DIR__ . '/../../vendor'),
             '@yii/debug' => '@composer/yiisoft/yii2-debug/src',
         ],
-        'bootstrap'           => [
+        'bootstrap' => [
             'log',
             'auditService',
         ],
-        'components'          => [
-            'auditService'               => AuditService::class,
-            'formatter'                  => [
+        'components' => [
+            'auditService' => AuditService::class,
+            'formatter' => [
                 'class' => Formatter::class,
             ],
-            'urlManager'                 => Instance::ensure(
+            'urlManager' => Instance::ensure(
                 'apiUrlManager',
                 UrlManager::class
             ),
-            'user'                       => [
-                'class'         => \yii\web\User::class,
+            'user' => [
+                'class' => \yii\web\User::class,
                 'identityClass' => User::class,
                 'enableSession' => false,
-                'loginUrl'      => null,
+                'loginUrl' => null,
 
             ],
-            'request'                    => [
-                'class'                => Request::class,
+            'request' => [
+                'class' => Request::class,
                 'enableCsrfValidation' => false,
-                'enableCsrfCookie'     => false,
-                'trustedHosts'         => [
+                'enableCsrfCookie' => false,
+                'trustedHosts' => [
                     '10.0.0.0/8',
                     '172.0.0.0/8',
                 ],
                 // To enable rendering in tests.
-                'scriptFile'           => realpath(
-                    __DIR__.'/../../public/index.php'
+                'scriptFile' => realpath(
+                    __DIR__ . '/../../public/index.php'
                 ),
-                'scriptUrl'            => '/',
-                'parsers'              => [
+                'scriptUrl' => '/',
+                'parsers' => [
                     'application/json' => yii\web\JsonParser::class,
                 ],
             ],
-            'response'                   => [
-                'class'      => Response::class,
+            'response' => [
+                'class' => Response::class,
                 'formatters' => [
                     Response::FORMAT_JSON => [
-                        'class'       => JsonResponseFormatter::class,
+                        'class' => JsonResponseFormatter::class,
                         'prettyPrint' => true,
                     ],
                 ],
             ],
-            'db'                         => Connection::class,
+            'db' => Connection::class,
             'preloadingSourceRepository' => PreloadingSourceRepository::class,
-            'abacManager'                => static function (
+            'abacManager' => static function (
                 Resolver $resolver, // Taken from container
                 RuleEngine $engine, // Taken from container
                 PermissionRepository $preloadingSourceRepository  // Taken from app
             ) {
-                $environment = new class() extends ArrayObject
-                    implements Environment {
+                $environment = new class() extends ArrayObject implements Environment {
                 };
                 $environment['globalAuthorizable'] = new Authorizable(
-                    AccessChecker::GLOBAL, AccessChecker::BUILTIN
+                    AccessChecker::GLOBAL,
+                    AccessChecker::BUILTIN
                 );
                 return new AuthManager(
                     $engine,
@@ -140,12 +140,13 @@ return function (
                     $environment
                 );
             },
-            'authManager'                => static fn(AuthManager $abacManager
+            'authManager' => static fn (
+                AuthManager $abacManager
             ) => new \herams\common\components\AuthManager(
                 $abacManager,
                 User::class
             ),
-            'cache'                      => [
+            'cache' => [
                 'class' => CacheInterface::class,
             ],
             //        'formatter' => [
@@ -155,28 +156,28 @@ return function (
             //            ]
             //
             //        ],
-            'log'                        => [
+            'log' => [
                 'flushInterval' => 1,
-                'traceLevel'    => YII_DEBUG ? 3 : 0,
-                'targets'       => [
+                'traceLevel' => YII_DEBUG ? 3 : 0,
+                'targets' => [
                     [
                         'exportInterval' => 1,
-                        'class'          => FileTarget::class,
-                        'levels'         => ['error', 'warning'],
-                        'logFile'        => '@runtime/logs/error.log',
+                        'class' => FileTarget::class,
+                        'levels' => ['error', 'warning'],
+                        'logFile' => '@runtime/logs/error.log',
                     ],
                 ],
             ],
-            'i18n'                       => [
-                'class'        => I18N::class,
+            'i18n' => [
+                'class' => I18N::class,
                 'translations' => [
                     'app*' => [
-                        'class'                                   => GettextMessageSource::class,
-                        'useMoFile'                               => false,
-                        'basePath'                                => '@vendor/herams/i18n/locales',
-                        'catalog'                                 => 'LC_MESSAGES/app',
+                        'class' => GettextMessageSource::class,
+                        'useMoFile' => false,
+                        'basePath' => '@vendor/herams/i18n/locales',
+                        'catalog' => 'LC_MESSAGES/app',
                         'on '
-                        .MessageSource::EVENT_MISSING_TRANSLATION => static function (
+                        . MessageSource::EVENT_MISSING_TRANSLATION => static function (
                             MissingTranslationEvent $event
                         ) {
                             if (YII_DEBUG) {
@@ -186,12 +187,12 @@ return function (
                         },
                     ],
                     'yii*' => [
-                        'class'                                   => ExtendedGettextMessageSource::class,
-                        'useMoFile'                               => false,
-                        'basePath'                                => '@vendor/herams/i18n/locales',
-                        'catalog'                                 => 'LC_MESSAGES/app',
+                        'class' => ExtendedGettextMessageSource::class,
+                        'useMoFile' => false,
+                        'basePath' => '@vendor/herams/i18n/locales',
+                        'catalog' => 'LC_MESSAGES/app',
                         'on '
-                        .MessageSource::EVENT_MISSING_TRANSLATION => static function (
+                        . MessageSource::EVENT_MISSING_TRANSLATION => static function (
                             MissingTranslationEvent $event
                         ) {
                             if (YII_DEBUG) {
@@ -202,18 +203,18 @@ return function (
                     ],
                 ],
             ],
-            'translator'                 => [
+            'translator' => [
                 'class' => '\herams\common\components\TranslationComponent',
             ],
         ],
         'controllerNamespace' => 'herams\\api\\controllers',
-        'defaultRoute'        => 'health/status',
+        'defaultRoute' => 'health/status',
     ];
 
     if (YII_DEBUG) {
         $config = ArrayHelper::merge(
             $config,
-            include(__DIR__.'/debug.php')
+            include(__DIR__ . '/debug.php')
         );
     }
 

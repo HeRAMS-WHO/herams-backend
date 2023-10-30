@@ -18,7 +18,9 @@ $this->params['subject'] = $project->getTitle();
 $this->title = Yii::t(
     'app',
     "Users in project {project}",
-    ['project' => $project->getTitle()]
+    [
+        'project' => $project->getTitle(),
+    ]
 );
 
 $this->beginBlock('tabs');

@@ -12,7 +12,6 @@ use yii\web\Response;
 
 final class Workspace extends Action
 {
-
     public function run(
         UserRoleRepository $userRoleRepository,
         Request $request,
@@ -24,6 +23,4 @@ final class Workspace extends Action
         );
         return $response;
     }
-
-
 }
