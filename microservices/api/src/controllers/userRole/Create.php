@@ -112,7 +112,7 @@ final class Create extends Action
         int $userId,
         int $roleId,
         int $targetId,
-        UserRoleTargetEnum $target,
+        UserRoleTargetEnum $target
     ): array {
         return [
             'userId' => $userId,
