@@ -10,9 +10,7 @@ use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\components\NotificationService;
-use prime\exceptions\NoGrantablePermissions;
 use prime\models\ar\read\Project;
-use prime\models\forms\Share as ShareForm;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\Yii2\UrlSigner\UrlSigner;
@@ -46,7 +44,6 @@ class Users extends Action
         $this->controller->view->breadcrumbCollection->add(
             ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())
         );
-
 
         return $this->controller->render('users', [
             'project' => $project,

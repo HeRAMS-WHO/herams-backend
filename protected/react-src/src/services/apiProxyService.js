@@ -25,7 +25,12 @@ export const fetchRoles = (params, headers) => {
 export const fetchRolesInProject = (id, params, headers) => {
     return get(`${BASE_URL}/project/${id}/roles`, params, headers);
 }
-
+export const fetchUsersRolesInWorkspace = (id, params, headers) => {
+    return get(`${BASE_URL}/workspace/${id}/users`, params, headers);
+}
+export const fetchRolesInWorkspace = (id, params, headers) => {
+    return get(`${BASE_URL}/workspace/${id}/roles`, params, headers);
+}
 export const fetchProjects = (params, headers) => {
     return get(`${BASE_URL}/projects`, params, headers);
 }

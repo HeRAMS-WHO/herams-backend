@@ -1,17 +1,22 @@
-import {
-    fetchRoles, 
-    fetchRolesInProject
-} from "../../services/apiProxyService";
+import {fetchRoles, fetchRolesInProject, fetchRolesInWorkspace} from "../../services/apiProxyService";
 import {useEffect, useState} from "react";
-function useRoleList(project_id = null){
+
+function useRoleList({projectId = null, workspaceId = null}) {
     const [rolesList, setRolesList] = useState([]);
     const refreshRolesList = async () => {
-        const rolesResponse = project_id === null ? 
-            await fetchRoles() :
-            await fetchRolesInProject(project_id);
+        let rolesResponse;
+        if (projectId !== null) {
+            rolesResponse = await fetchRolesInProject(projectId);
+        }
+        if (workspaceId !== null) {
+            rolesResponse = await fetchRolesInWorkspace(workspaceId);
+        }
+        if (projectId === null && workspaceId === null) {
+            rolesResponse = await fetchRoles();
+        }
         setRolesList(rolesResponse);
     }
-    useEffect( () => {
+    useEffect(() => {
         refreshRolesList();
     }, []);
     return {
@@ -19,4 +24,5 @@ function useRoleList(project_id = null){
         refreshRolesList
     }
 }
+
 export default useRoleList;

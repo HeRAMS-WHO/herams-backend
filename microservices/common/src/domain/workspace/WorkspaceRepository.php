@@ -12,13 +12,14 @@ use herams\common\interfaces\ModelHydratorInterface;
 use herams\common\models\PermissionOld;
 use herams\common\models\Project;
 use herams\common\models\Role;
-use herams\common\models\RolePermission;
 use herams\common\models\Workspace;
 use herams\common\queries\WorkspaceQuery;
 use herams\common\values\IntegerId;
 use herams\common\values\ProjectId;
 use herams\common\values\WorkspaceId;
+use InvalidArgumentException;
 use prime\interfaces\WorkspaceForTabMenu;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 class WorkspaceRepository
@@ -28,28 +29,6 @@ class WorkspaceRepository
         private ActiveRecordHydratorInterface $activeRecordHydrator,
         private ModelHydratorInterface $modelHydrator
     ) {
-    }
-
-    private function workspaceQuery(ProjectId $projectId): WorkspaceQuery
-    {
-        return Workspace::find()
-            ->withFields('leadNames', 'latestUpdate', 'responseCount', 'facilityCount', 'favorite_id')
-            ->andWhere([
-                'project_id' => $projectId->getValue(),
-            ])->andWhere([
-                'or',
-                ['!=', 'status', 'Deleted'],
-                ['IS', 'status', null],
-            ]);
-    }
-
-    private function workspaceQueryComplete(ProjectId $projectId): WorkspaceQuery
-    {
-        return Workspace::find()
-            ->withFields('leadNames', 'latestUpdate', 'responseCount', 'facilityCount', 'favorite_id')
-            ->andWhere([
-                'project_id' => $projectId->getValue(),
-            ]);
     }
 
     public function deleteAll(array $condition): void
@@ -65,8 +44,27 @@ class WorkspaceRepository
         $project = Project::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->requirePermission($project, PermissionOld::PERMISSION_LIST_WORKSPACES);
+        $this->accessCheck->requirePermission(
+            $project,
+            PermissionOld::PERMISSION_LIST_WORKSPACES
+        );
         return $this->workspaceQueryComplete($id)->all();
+    }
+
+    private function workspaceQueryComplete(
+        ProjectId $projectId
+    ): WorkspaceQuery {
+        return Workspace::find()
+            ->withFields(
+                'leadNames',
+                'latestUpdate',
+                'responseCount',
+                'facilityCount',
+                'favorite_id'
+            )
+            ->andWhere([
+                'project_id' => $projectId->getValue(),
+            ]);
     }
 
     /**
@@ -77,8 +75,30 @@ class WorkspaceRepository
         $project = Project::findOne([
             'id' => $id->getValue(),
         ]);
-        $this->accessCheck->requirePermission($project, PermissionOld::PERMISSION_LIST_WORKSPACES);
+        $this->accessCheck->requirePermission(
+            $project,
+            PermissionOld::PERMISSION_LIST_WORKSPACES
+        );
         return $this->workspaceQuery($id)->all();
+    }
+
+    private function workspaceQuery(ProjectId $projectId): WorkspaceQuery
+    {
+        return Workspace::find()
+            ->withFields(
+                'leadNames',
+                'latestUpdate',
+                'responseCount',
+                'facilityCount',
+                'favorite_id'
+            )
+            ->andWhere([
+                'project_id' => $projectId->getValue(),
+            ])->andWhere([
+                'or',
+                ['!=', 'status', 'Deleted'],
+                ['IS', 'status', null],
+            ]);
     }
 
     public function create(NewWorkspace $model): WorkspaceId
@@ -86,7 +106,9 @@ class WorkspaceRepository
         $record = new Workspace();
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         if (! $record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+            throw new InvalidArgumentException(
+                'Validation failed: ' . print_r($record->errors, true)
+            );
         }
         return new WorkspaceId($record->id);
     }
@@ -97,7 +119,26 @@ class WorkspaceRepository
             'id' => $id,
         ]);
 
-        $this->accessCheck->requirePermission($record, PermissionOld::PERMISSION_READ);
+        $this->accessCheck->requirePermission(
+            $record,
+            PermissionOld::PERMISSION_READ
+        );
+
+        return $record;
+    }
+
+    /**
+     * @throws NotFoundHttpException
+     */
+    public function retrieveById(WorkspaceId $id): Workspace
+    {
+        $record = Workspace::findOne([
+            'id' => $id->getValue(),
+        ]);
+
+        if (! isset($record)) {
+            throw new NotFoundHttpException();
+        }
 
         return $record;
     }
@@ -113,7 +154,10 @@ class WorkspaceRepository
         if (! isset($record)) {
             throw new NotFoundHttpException();
         }
-        return new \prime\models\workspace\WorkspaceForTabMenu($this->accessCheck, $record);
+        return new \prime\models\workspace\WorkspaceForTabMenu(
+            $this->accessCheck,
+            $record
+        );
     }
 
     public function retrieveForUpdate(WorkspaceId $workspaceId): UpdateWorkspace
@@ -134,13 +178,16 @@ class WorkspaceRepository
         $record = Workspace::findOne([
             'id' => $model->id,
         ]);
-        \Yii::debug($model->attributes);
+        Yii::debug($model->attributes);
 
         $this->activeRecordHydrator->hydrateActiveRecord($model, $record);
         if (! $record->save()) {
-            throw new \InvalidArgumentException('Validation failed: ' . print_r($record->errors, true));
+            throw new InvalidArgumentException(
+                'Validation failed: ' . print_r($record->errors, true)
+            );
         }
     }
+
     public function getRolesInProject(
         ProjectId $projectId
     ): array {
@@ -148,15 +195,21 @@ class WorkspaceRepository
         $rolesInProject = Role::findAll([
             'project_id' => $projectId->getValue(),
         ]);
-        foreach($rolesInProject as $role) {
+        foreach ($rolesInProject as $role) {
             $roles[$role->id] = [...$role];
         }
-        $rolesForProject = Role::findAll(['scope' => 'project', 'type' => 'standard']);
-        foreach($rolesForProject as $role) {
+        $rolesForProject = Role::findAll(
+            [
+                'scope' => 'project',
+                'type' => 'standard',
+            ]
+        );
+        foreach ($rolesForProject as $role) {
             $roles[$role->id] = [...$role];
         }
         return $roles;
     }
+
     public function updateTitles(
         WorkspaceId $workspaceId,
         array $titles
@@ -176,7 +229,10 @@ class WorkspaceRepository
         if (! isset($workspace)) {
             throw new NotFoundHttpException();
         }
-        $this->accessCheck->requirePermission($workspace, PermissionOld::PERMISSION_READ);
+        $this->accessCheck->requirePermission(
+            $workspace,
+            PermissionOld::PERMISSION_READ
+        );
 
         return $workspace->getProjectId();
     }

@@ -52,8 +52,7 @@ use function iter\toArray;
     SupportedType(Model::class, \yii\db\ActiveRecord::class),
     SupportedType(UserRole::class, UserRoleRequest::class)
 ]
-class ModelHydrator
-    implements ActiveRecordHydratorInterface, ModelHydratorInterface
+class ModelHydrator implements ActiveRecordHydratorInterface, ModelHydratorInterface
 {
     public function hydrateActiveRecord(
         Model $model,
@@ -71,8 +70,7 @@ class ModelHydrator
 
                 // Special dehydrator
                 foreach (
-                    $reflectionProperty->getAttributes(DehydrateVia::class) as
-                    $attribute
+                    $reflectionProperty->getAttributes(DehydrateVia::class) as $attribute
                 ) {
                     if ($attribute->getName() === DehydrateVia::class) {
                         $value = $attribute->newInstance()->create($value);
@@ -81,8 +79,8 @@ class ModelHydrator
 
                 // Handle JSON fields.
                 if (null !== $jsonField = ($reflectionProperty->getAttributes(
-                            JsonField::class
-                        )[0] ?? null)?->newInstance()->field
+                    JsonField::class
+                )[0] ?? null)?->newInstance()->field
                 ) {
                     $jsonFields[$jsonField] ??= [];
                     $jsonFields[$jsonField][$field] = $this->castForDatabase(
@@ -118,7 +116,7 @@ class ModelHydrator
                 $complex instanceof Expression => $complex,
                 $complex instanceof RecordInterface => $complex->allData(),
                 default => throw new InvalidArgumentException(
-                    "Unknown complex type: ".get_class($complex)
+                    "Unknown complex type: " . get_class($complex)
                 )
             };
         } elseif (is_bool($complex)) {
@@ -168,7 +166,7 @@ class ModelHydrator
         string $attribute,
         HydrateSource $source
     ) {
-        if (!$property->isBuiltin()) {
+        if (! $property->isBuiltin()) {
             $name = $property->getName();
 
             return match (true) {
@@ -176,22 +174,22 @@ class ModelHydrator
                     $value,
                     $name
                 ),
-                $name === Latitude::class => new Latitude((float)$value),
-                $name === Longitude::class => new Longitude((float)$value),
+                $name === Latitude::class => new Latitude((float) $value),
+                $name === Longitude::class => new Longitude((float) $value),
 
                 is_subclass_of(
                     $name,
                     DatetimeValue::class
-                ) => new $name((string)$value),
+                ) => new $name((string) $value),
                 //Check if name finishes with value
                 str_ends_with($name, 'Enum') => $name::from($value),
                 $name === UserRoleId::class => new UserRoleId($value),
                 $name === DatetimeValue::class => new DatetimeValue(
-                    (string)$value
+                    (string) $value
                 ),
                 $name
                 === UserRoleLastModifiedDate::class => new UserRoleLastModifiedDate(
-                    (string)$value
+                    (string) $value
                 ),
                 $name === RecordInterface::class => isset($value)
                     ? new NormalizedArrayDataRecord($value) : null,
@@ -229,14 +227,14 @@ class ModelHydrator
             return null;
         }
 
-        if (!$property->allowsNull() && $value === null) {
+        if (! $property->allowsNull() && $value === null) {
             throw new RuntimeException(
                 "Property {$property->getName()} does not allow null, but value is null"
             );
         }
 
         return match ($property->getName()) {
-            'string' => (string)$value,
+            'string' => (string) $value,
             'int' => $this->castInt($value),
             'float' => $this->castFloat($value),
             'bool' => $this->castBool($value),
@@ -265,7 +263,7 @@ class ModelHydrator
 
         $backingType = $reflectionEnum->getBackingType();
 
-        if (!$backingType instanceof ReflectionNamedType) {
+        if (! $backingType instanceof ReflectionNamedType) {
             throw new Exception(
                 "Could not find backing type for enum of type $name"
             );
@@ -286,12 +284,12 @@ class ModelHydrator
         if (is_string($value) && $optional && $value === "") {
             return null;
         }
-        if (is_string($value) && !preg_match('/^-?\d+$/', $value)) {
+        if (is_string($value) && ! preg_match('/^-?\d+$/', $value)) {
             throw new InvalidArgumentException(
                 "String must consist of digits only, got: $value"
             );
         }
-        return (int)$value;
+        return (int) $value;
     }
 
     /**
@@ -300,7 +298,7 @@ class ModelHydrator
     private function castEnum(string|int $value, string $class): Enum
     {
         if (is_string($value) && preg_match('/^\d+$/', $value)) {
-            $value = (int)$value;
+            $value = (int) $value;
         }
         return $class::from($value);
     }
@@ -325,7 +323,7 @@ class ModelHydrator
      */
     private function castStringId($value, string $class): StringId
     {
-        return new $class((string)$value);
+        return new $class((string) $value);
     }
 
     /**
@@ -341,10 +339,10 @@ class ModelHydrator
 
     private function castFloat(string|int|float $value): float
     {
-        if (is_string($value) && !preg_match('/^-?\d+(\.\d+)?$/', $value)) {
+        if (is_string($value) && ! preg_match('/^-?\d+(\.\d+)?$/', $value)) {
             throw new InvalidArgumentException("String must match \d+(.\d+)");
         }
-        return (float)$value;
+        return (float) $value;
     }
 
     private function castBool(bool|string|int $value): bool
@@ -390,8 +388,7 @@ class ModelHydrator
             $property = $reflectionClass->getProperty($attribute);
             /** @var ReflectionAttribute<SourcePath> $propertyAttribute */
             foreach (
-                $property->getAttributes(SourcePath::class) as
-                $propertyAttribute
+                $property->getAttributes(SourcePath::class) as $propertyAttribute
             ) {
                 return $propertyAttribute->newInstance()->path;
             }
@@ -436,7 +433,7 @@ class ModelHydrator
             return $rc->getProperty($property)->getType();
         }
         // Property with setter.
-        $setter = "set".ucfirst($property);
+        $setter = "set" . ucfirst($property);
         if ($rc->hasMethod($setter)) {
             $method = $rc->getMethod($setter);
             if ($method->isPublic()
@@ -506,8 +503,7 @@ class ModelHydrator
         foreach ($source->attributes as $key => $value) {
             if ($reflectionClass->hasProperty($key)) {
                 foreach (
-                    $reflectionClass->getProperty($key)->getAttributes() as
-                    $attribute
+                    $reflectionClass->getProperty($key)->getAttributes() as $attribute
                 ) {
                     if ($attribute->getName() === HydrateVia::class) {
                         $value = $attribute->newInstance()->create($value);
@@ -530,7 +526,7 @@ class ModelHydrator
      */
     private function canSetProperty(Model $model, $attribute): bool
     {
-        if (method_exists($model, 'set'.$attribute)) {
+        if (method_exists($model, 'set' . $attribute)) {
             return true;
         }
         $rc = new ReflectionClass($model);

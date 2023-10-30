@@ -217,7 +217,6 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
         ])->via('workspaces');
     }
 
-
     public function getRoles(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Role::class, [

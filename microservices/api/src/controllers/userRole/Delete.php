@@ -12,7 +12,6 @@ use yii\web\Response;
 
 final class Delete extends Action
 {
-
     public function run(
         UserRoleRepository $userRoleRepository,
         Request $request,
@@ -25,6 +24,4 @@ final class Delete extends Action
         $response->setStatusCode(204);
         return $response;
     }
-
-
 }

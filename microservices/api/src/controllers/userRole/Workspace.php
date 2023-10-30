@@ -10,7 +10,7 @@ use yii\base\Action;
 use yii\web\Request;
 use yii\web\Response;
 
-final class Index extends Action
+final class Workspace extends Action
 {
     public function run(
         UserRoleRepository $userRoleRepository,

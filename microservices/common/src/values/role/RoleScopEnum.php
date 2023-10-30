@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace herams\common\values\userRole;
+namespace herams\common\values\role;
 
 use Yii;
 
-enum UserRoleTargetEnum: string
+enum RoleScopEnum: string
 {
     case global = 'global';
     case project = 'project';
     case workspace = 'workspace';
 
-    public static function getEnumValue(string $enumValue): UserRoleTargetEnum
+    public static function getEnumValue(string $enumValue): RoleScopEnum
     {
         return match ($enumValue) {
-            'global' => UserRoleTargetEnum::global,
-            'project' => UserRoleTargetEnum::project,
-            'workspace' => UserRoleTargetEnum::workspace,
-            default => UserRoleTargetEnum::global,
+            'global' => RoleScopEnum::global,
+            'project' => RoleScopEnum::project,
+            'workspace' => RoleScopEnum::workspace,
+            default => RoleScopEnum::global,
         };
     }
 

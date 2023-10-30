@@ -33,24 +33,24 @@ return function (
     );
 
     $container->set(CompositeAuth::class, [
-        'optional'    => ['health/*'],
+        'optional' => ['health/*'],
         'authMethods' => [
             JwtAuth::class,
         ],
     ]);
 
     $container->setDefinitions([
-        CommandHandlerInterface::class        => SynchronousCommandHandler::class,
-        FacilityRepository::class             => FacilityRepository::class,
-        UserRoleRepository::class             => UserRoleRepository::class,
-        PermissionRepository::class           => PermissionRepository::class,
-        UserRepository::class                 => UserRepository::class,
-        PageRepository::class                 => PageRepository::class,
-        RoleRepository::class                 => RoleRepository::class,
-        ModelValidator::class                 => ModelValidator::class,
-        ModelHydrator::class                  => ModelHydrator::class,
-        SurveyRepositoryInterface::class      => SurveyRepository::class,
-        SurveyResponseRepository::class       => SurveyResponseRepository::class,
+        CommandHandlerInterface::class => SynchronousCommandHandler::class,
+        FacilityRepository::class => FacilityRepository::class,
+        UserRoleRepository::class => UserRoleRepository::class,
+        PermissionRepository::class => PermissionRepository::class,
+        UserRepository::class => UserRepository::class,
+        PageRepository::class => PageRepository::class,
+        RoleRepository::class => RoleRepository::class,
+        ModelValidator::class => ModelValidator::class,
+        ModelHydrator::class => ModelHydrator::class,
+        SurveyRepositoryInterface::class => SurveyRepository::class,
+        SurveyResponseRepository::class => SurveyResponseRepository::class,
         CurrentUserIdProviderInterface::class => CurrentUserIdProvider::class,
     ]);
 };

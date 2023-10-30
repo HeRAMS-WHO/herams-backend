@@ -81,10 +81,10 @@ final class ApiProxy
             ] as $forwardHeader
         ) {
             if ($headers->has($forwardHeader)
-                && !empty(
-                $headers->get(
-                    $forwardHeader
-                )
+                && ! empty(
+                    $headers->get(
+                        $forwardHeader
+                    )
                 )
             ) {
                 $upstreamRequest = $upstreamRequest->withHeader(

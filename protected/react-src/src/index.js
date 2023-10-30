@@ -12,6 +12,7 @@ import UserRoles from "./components/UserRoles/UserRoles";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 
 import reportWebVitals from "./reportWebVitals";
+import WorkspaceUserRoles from "./components/UserRoles/WorkspaceUserRoles";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
@@ -20,6 +21,7 @@ const componentsMap = {
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
     'UserRoles': UserRoles,
+    'WorkspaceUserRoles': WorkspaceUserRoles
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
