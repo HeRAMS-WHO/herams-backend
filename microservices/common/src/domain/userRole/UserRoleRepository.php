@@ -50,9 +50,10 @@ final class UserRoleRepository
      */
     public function retrieveUserRolesInProject(ProjectId $projectId): array
     {
-        $workspaces = $this->projectRepository->retrieveById(
+        $project = $this->projectRepository->retrieveById(
             $projectId
-        )->workspaces;
+        );
+        $workspaces = $project->workspaces;
         $workspacesIds = [];
         foreach ($workspaces as $workspace) {
             $workspacesIds[] = $workspace->id;
@@ -76,10 +77,7 @@ final class UserRoleRepository
                 ),
                 'userInfo'           => fn($query) => $query->select(
                     ['id', 'name', 'email']
-                ),
-                'projectInfo'        => fn($query) => $query->select(
-                    ['id', 'primary_language', 'i18n']
-                ),
+                )
             ])
             ->asArray()
             ->all();
@@ -110,10 +108,11 @@ final class UserRoleRepository
             ->asArray()
             ->all();
         foreach ($userRolesOfWorkspaces as &$userRoleOfWorkspace) {
-            $userRoleOfWorkspace['projectInfo'] = null;
+            $userRoleOfWorkspace['projectInfo'] = $project->toArray();
         }
         foreach ($userRolesOfProjects as &$userRoleOfProject) {
             $userRoleOfProject['workspaceInfo'] = null;
+            $userRoleOfProject['projectInfo'] = $project->toArray();
         }
         $userRoles = array_merge($userRolesOfProjects, $userRolesOfWorkspaces);
         usort($userRoles, fn($a, $b) => $a['id'] <=> $b['id']);
