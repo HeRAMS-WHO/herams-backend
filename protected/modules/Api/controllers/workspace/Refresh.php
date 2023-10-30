@@ -58,7 +58,7 @@ class Refresh extends Action
         }
 
         // everything has been saved
-        if (count($ids) == $saved) {
+        if (count($ids) == $saved || count($ids) == $unchanged) {
             $workspace->logWorkspaceSync(\Yii::$app->user->getId(), Workspace::SYNC_OK);
         } else if ($failed && $saved) {
             $sync_error = 'Responses failed: ' . implode(',', $failedIds);

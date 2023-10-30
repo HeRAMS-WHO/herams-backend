@@ -122,8 +122,8 @@ class CacheController extends \yii\console\controllers\CacheController
         $this->stdout("Checking responses for workspace {$workspace->title}...\n", Console::FG_CYAN);
         // response ids used for control check
         $ids = [];
-        $savedIds = [];
         $failedIds = [];
+        $saved = $unchanged = 0;
 
         try {
             foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
@@ -136,11 +136,17 @@ class CacheController extends \yii\console\controllers\CacheController
                  */
                 $responseModel = Response::findOne($key) ?? new Response($key);
                 $loader->loadData($response->getData(), $workspace, $responseModel);
-
-                $responseModel->save() ?
-                    $savedIds[] = $responseModel->getId() : $failedIds[] = $responseModel->getId();
-
                 $ids[] = $responseModel->getId();
+
+                if ($responseModel->isNewRecord && $responseModel->save()) {
+                    $saved++;
+                } elseif (empty($responseModel->dirtyAttributes)) {
+                    $unchanged++;
+                } elseif ($responseModel->save()) {
+                    $saved++;
+                } else {
+                    $failedIds[] = $responseModel->getId();
+                }
             }
         } catch (\Throwable $throwable) {
             $this->stdout("!!! CHECK workspace ID #" . $workspace->id . " - " . $throwable->getMessage() . "\n", Console::FG_RED);
@@ -160,10 +166,10 @@ class CacheController extends \yii\console\controllers\CacheController
         ]);
 
         // everything has been saved
-        if (count($ids) == count($savedIds)) {
+        if (count($ids) == $saved || count($ids) == $unchanged) {
             $workspace->logWorkspaceSync(Workspace::CRON_NAME, Workspace::SYNC_OK);
             $this->stdout("OK workspace ID #" . $workspace->id . "\n", Console::FG_GREEN);
-        } else if (count($failedIds) && count($savedIds)) {
+        } else if (count($failedIds) && $saved) {
             $sync_error = 'Responses failed: ' . implode(',', $failedIds);
             $workspace->logWorkspaceSync(Workspace::CRON_NAME, Workspace::SYNC_PARTIALLY_OK, $sync_error);
             $this->stdout("PARTIALLY OK workspace ID #" . $workspace->id . "\n", Console::FG_YELLOW);
