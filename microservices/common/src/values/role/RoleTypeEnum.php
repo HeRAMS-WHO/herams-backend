@@ -9,26 +9,23 @@ use Yii;
 enum RoleTypeEnum: string
 {
 
-    case global = 'global';
-    case project = 'project';
-    case workspace = 'workspace';
+    case standard = 'standard';
+    case custom = 'custom';
 
     public static function getEnumValue(string $enumValue): RoleTypeEnum
     {
         return match ($enumValue) {
-            'global' => RoleTypeEnum::global,
-            'project' => RoleTypeEnum::project,
-            'workspace' => RoleTypeEnum::workspace,
-            default => RoleTypeEnum::global,
+            'standard' => RoleTypeEnum::standard,
+            'custom' => RoleTypeEnum::custom,
+            default => RoleTypeEnum::standard,
         };
     }
 
     public function label(string $locale = 'en'): string
     {
         return match ($this) {
-            self::global => Yii::t('app', 'global', language: $locale),
-            self::project => Yii::t('app', 'project', language: $locale),
-            self::workspace => Yii::t('app', 'workspace', language: $locale),
+            self::standard => Yii::t('app', 'standard', language: $locale),
+            self::custom => Yii::t('app', 'custom', language: $locale),
         };
     }
 

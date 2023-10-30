@@ -10,7 +10,7 @@ use herams\common\domain\userRole\UserRoleRequest;
 use herams\common\helpers\CommonFieldsInTables;
 use herams\common\helpers\ModelHydrator;
 use herams\common\helpers\ModelValidator;
-use herams\common\values\role\RoleTypeEnum;
+use herams\common\values\role\RoleScopEnum;
 use herams\common\values\userRole\UserRoleTargetEnum;
 use InvalidArgumentException;
 use yii\base\Action;
@@ -63,7 +63,7 @@ final class Create extends Action
     ): void {
         if (!$roleRepository->checkIfEveryRoleHasScope(
             $data['roles'],
-            RoleTypeEnum::from($data['scope'])
+            RoleScopEnum::from($data['scope'])
         )
         ) {
             throw new HttpException(

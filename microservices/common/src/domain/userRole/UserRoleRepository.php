@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace herams\common\domain\userRole;
 
 use herams\common\domain\project\ProjectRepository;
+use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\models\UserRole;
 use herams\common\values\ProjectId;
 use herams\common\values\userRole\UserRoleId;
 use herams\common\values\userRole\UserRoleTargetEnum;
+use herams\common\values\WorkspaceId;
 use InvalidArgumentException;
 
 final class UserRoleRepository
@@ -22,6 +24,7 @@ final class UserRoleRepository
     public function __construct(
         private ModelHydrator $modelHydrator,
         private ProjectRepository $projectRepository,
+        private WorkspaceRepository $workspaceRepository
     ) {
     }
 
@@ -116,6 +119,51 @@ final class UserRoleRepository
         }
         $userRoles = array_merge($userRolesOfProjects, $userRolesOfWorkspaces);
         usort($userRoles, fn($a, $b) => $a['id'] <=> $b['id']);
+        return $userRoles;
+    }
+
+    /**
+     * @param  WorkspaceId  $workspaceId
+     *
+     * @return array
+     */
+    public function retrieveUserRolesInWorkspace(
+        WorkspaceId $workspaceId
+    ): array {
+        $userRoles = UserRole::find()
+            ->where(
+                [
+                    'target'    => UserRoleTargetEnum::workspace->value,
+                    'target_id' => $workspaceId->getValue()
+                ],
+            )
+            ->with([
+                'roleInfo'           => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'lastModifiedByInfo' => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'createdByInfo'      => fn($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'userInfo'           => fn($query) => $query->select(
+                    ['id', 'name', 'email']
+                ),
+            ])
+            ->asArray()
+            ->all();
+        $projectId = $this->workspaceRepository->getProjectId($workspaceId);
+        $project = $this->projectRepository->retrieveById(
+            $projectId
+        )->toArray();
+        $workspace = $this->workspaceRepository->retrieveById(
+            $workspaceId
+        )->toArray();
+        foreach ($userRoles as &$userRole) {
+            $userRole['projectInfo'] = $project;
+            $userRole['workspaceInfo'] = $workspace;
+        }
         return $userRoles;
     }
 
