@@ -3,12 +3,12 @@ import {__} from '../../utils/translationsUtility';
 import FormGroup from "../common/form/FormGroup";
 import FormButtons from "../common/form/FormButtons";
 import ReactTagsWrapper from "../common/form/ReactTagsWrapper";
-import useUserRoles from "../../hooks/userRoles/useUserRoles";
 import Table from "../common/table/Table";
-import UserRolesTableHeader from "./UserRolesTableHeader";
+import ProjectUserRolesTableHeader from "./ProjectUserRolesTableHeader";
 import {deleteUserRole} from "../../services/apiProxyService";
+import useProjectUserRoles from "../../hooks/userRoles/useProjectUserRoles";
 
-const UserRoles = ({projectId}) => {
+const ProjectUserRoles = ({projectId}) => {
     const labelScopeProject = useId()
     const labelScopeWorkspace = useId()
     const {
@@ -27,7 +27,7 @@ const UserRoles = ({projectId}) => {
         filteredRolesByScope,
         refreshUserRolesInProject,
         errors
-    } = useUserRoles(projectId);
+    } = useProjectUserRoles(projectId);
     const deleteYesCallback = (id) => {
         deleteUserRole(id)
             .then(() => {
@@ -107,10 +107,10 @@ const UserRoles = ({projectId}) => {
                 />
             </div>
             <Table
-                columnDefs={UserRolesTableHeader({deleteYesCallback})}
+                columnDefs={ProjectUserRolesTableHeader({deleteYesCallback})}
                 data={projectUsers}/>
         </div>
     );
 }
 
-export default UserRoles;
+export default ProjectUserRoles;

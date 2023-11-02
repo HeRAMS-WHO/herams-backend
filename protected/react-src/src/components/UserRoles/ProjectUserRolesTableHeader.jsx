@@ -4,7 +4,7 @@ import DeleteButton from "../common/button/DeleteButton";
 const workspacesNameComparator = (a, b) => {
     return a.localeCompare(b)
 }
-const UserRolesTableHeader = ({deleteYesCallback}) => [
+const ProjectUserRolesTableHeader = ({deleteYesCallback}) => [
     {
         headerName: __('Name'),
         checkboxSelection: false,
@@ -85,4 +85,4 @@ const UserRolesTableHeader = ({deleteYesCallback}) => [
 
 ];
 
-export default UserRolesTableHeader
+export default ProjectUserRolesTableHeader

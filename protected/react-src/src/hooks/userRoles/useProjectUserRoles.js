@@ -9,7 +9,7 @@ import {
 import {toastr} from "../../utils/modal";
 import {__} from "../../utils/translationsUtility";
 
-function useUserRoles(projectId) {
+function useProjectUserRoles(projectId) {
     const [usersInPlatform, setUsersInPlatform] = useState([])
     const [projectUsers, setProjectUsers] = useState([])
     const [selectedUsers, setSelectedUsers] = useState([])
@@ -17,7 +17,7 @@ function useUserRoles(projectId) {
     const [selectedWorkspaces, setSelectedWorkspaces] = useState([])
     const [selectedRoles, setSelectedRoles] = useState([])
     const [scope, setScope] = useState('project')
-    const {rolesList} = useRoleList(projectId)
+    const {rolesList} = useRoleList({projectId})
     const [errors, setErrors] = useState({})
 
     useEffect(() => {
@@ -123,4 +123,4 @@ function useUserRoles(projectId) {
     };
 }
 
-export default useUserRoles;
+export default useProjectUserRoles;
