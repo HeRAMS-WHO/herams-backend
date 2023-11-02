@@ -30,6 +30,6 @@ echo ProjectTabMenu::widget([
 $this->endBlock();
 Section::begin();
 ?>
-    <div id="UserRoles" data-project-id="<?= $project->id; ?>"></div>
+    <div id="ProjectUserRoles" data-project-id="<?= $project->id; ?>"></div>
 <?php
 Section::end();

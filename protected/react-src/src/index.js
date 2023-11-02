@@ -8,7 +8,7 @@ import DemoComponent from './components/DemoComponent';
 import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
-import UserRoles from "./components/UserRoles/UserRoles";
+import ProjectUserRoles from "./components/UserRoles/ProjectUserRoles";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 
 import reportWebVitals from "./reportWebVitals";
@@ -20,7 +20,7 @@ const componentsMap = {
     'RolesList': RolesList,
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
-    'UserRoles': UserRoles,
+    'ProjectUserRoles': ProjectUserRoles,
     'WorkspaceUserRoles': WorkspaceUserRoles
 };
 
