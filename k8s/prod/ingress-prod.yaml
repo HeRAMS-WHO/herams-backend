@@ -31,3 +31,13 @@ spec:
                 port:
                   number: 80
             pathType: ImplementationSpecific
+    - host: api-v1.herams.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: v1api-service
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
