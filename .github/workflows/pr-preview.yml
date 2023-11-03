@@ -35,7 +35,7 @@ jobs:
       - name: Create yaml from template
         env:
           DEPLOYMENT_NAME: ${{ env.RELEASE_VERSION }}
-          NEEDS_DATABASE: ${{ needs.precondition.outputs.hasmigrations }}
+          NEEDS_DATABASE: na
           COMMIT_SHA: ${{ github.sha }}
         run: k8s/parse-templates.sh k8s/staging/*.yaml.php
       - name: Dump template

@@ -4,7 +4,7 @@ metadata:
   name: daily-sync
 
 spec:
-  schedule: "*/15 * * * *"
+  schedule: "0 * * * *" # every hour at minute 0
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 60
   failedJobsHistoryLimit: 7
