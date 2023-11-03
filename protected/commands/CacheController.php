@@ -104,13 +104,12 @@ class CacheController extends \yii\console\controllers\CacheController
 
     public function actionWarmupOldestWorkspaces(LimesurveyDataProvider $limesurveyDataProvider): void
     {
-        $workspaceIds = Response::find()
-            ->groupBy('workspace_id')
-            ->orderBy('min(last_updated)', 'workspace_id')
-            ->select('workspace_id')
+        $query = Workspace::find()
+            ->orderBy('last_sync_date')
             ->limit(100)
-            ->column();
-        foreach (Workspace::find()->andWhere(['id' => $workspaceIds])->each() as $workspace) {
+        ;
+
+        foreach ($query->each() as $workspace) {
             $this->warmupWorkspace($workspace, $limesurveyDataProvider);
         }
     }
@@ -120,28 +119,41 @@ class CacheController extends \yii\console\controllers\CacheController
         $loader = new LimesurveyDataLoader();
         $token = $workspace->getAttribute('token');
         $this->stdout("Starting cache warmup for workspace [{$workspace->id}] {$workspace->title}..\n", Console::FG_CYAN);
-        $this->stdout("Checking responses for workspace {$workspace->title}..", Console::FG_CYAN);
+        $this->stdout("Checking responses for workspace {$workspace->title}...\n", Console::FG_CYAN);
+        // response ids used for control check
         $ids = [];
-        foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
-            $key = [
-                'id' => $response->getId(),
-                'survey_id' => $response->getSurveyId()
-            ];
-            /**
-             * @var Response $responseModel
-             */
-            $responseModel = Response::findOne($key) ?? new Response($key);
-            $loader->loadData($response->getData(), $workspace, $responseModel);
-            if ($responseModel->isNewRecord) {
-                $this->stdout($responseModel->save() ? '+' : '-', Console::FG_RED);
-            } elseif (empty($responseModel->dirtyAttributes)) {
-                $responseModel->save();
-                $this->stdout('0', Console::FG_GREEN);
-            } else {
-                $this->stdout($responseModel->save() ? '+' : '-', Console::FG_YELLOW);
+        $failedIds = [];
+        $saved = $unchanged = 0;
+
+        try {
+            foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
+                $key = [
+                    'id' => $response->getId(),
+                    'survey_id' => $response->getSurveyId()
+                ];
+                /**
+                 * @var Response $responseModel
+                 */
+                $responseModel = Response::findOne($key) ?? new Response($key);
+                $loader->loadData($response->getData(), $workspace, $responseModel);
+                $ids[] = $responseModel->getId();
+
+                if ($responseModel->isNewRecord && $responseModel->save()) {
+                    $saved++;
+                } elseif (empty($responseModel->dirtyAttributes)) {
+                    $unchanged++;
+                } elseif ($responseModel->save()) {
+                    $saved++;
+                } else {
+                    $failedIds[] = $responseModel->getId();
+                }
             }
-            $ids[] = $response->getId();
+        } catch (\Throwable $throwable) {
+            $this->stdout("!!! CHECK workspace ID #" . $workspace->id . " - " . $throwable->getMessage() . "\n", Console::FG_RED);
+            $workspace->logWorkspaceSync(Workspace::CRON_NAME, Workspace::SYNC_CHECK, $throwable->getMessage());
+            return;
         }
+
         // Remove old records
         Response::deleteAll([
             'and',
@@ -153,6 +165,17 @@ class CacheController extends \yii\console\controllers\CacheController
 
         ]);
 
-        $this->stdout("OK\n", Console::FG_GREEN);
+        // everything has been saved
+        if (count($ids) == $saved || count($ids) == $unchanged) {
+            $workspace->logWorkspaceSync(Workspace::CRON_NAME, Workspace::SYNC_OK);
+            $this->stdout("OK workspace ID #" . $workspace->id . "\n", Console::FG_GREEN);
+        } else if (count($failedIds) && $saved) {
+            $sync_error = 'Responses failed: ' . implode(',', $failedIds);
+            $workspace->logWorkspaceSync(Workspace::CRON_NAME, Workspace::SYNC_PARTIALLY_OK, $sync_error);
+            $this->stdout("PARTIALLY OK workspace ID #" . $workspace->id . "\n", Console::FG_YELLOW);
+        } else {
+            $workspace->logWorkspaceSync(Workspace::CRON_NAME, Workspace::SYNC_FAILED);
+            $this->stdout("FAILED workspace ID #" . $workspace->id . "\n", Console::FG_RED);
+        }
     }
 }

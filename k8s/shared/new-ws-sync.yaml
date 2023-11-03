@@ -4,7 +4,7 @@ metadata:
   name: new-ws-sync
 
 spec:
-  schedule: "12 * * * *"
+  schedule: "30 */12 * * *" # every 12th hour at minute 30
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 60
   failedJobsHistoryLimit: 7

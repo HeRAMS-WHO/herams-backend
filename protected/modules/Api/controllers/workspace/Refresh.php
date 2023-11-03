@@ -30,9 +30,10 @@ class Refresh extends Action
 
         $accessCheck->requirePermission($workspace, Permission::PERMISSION_ADMIN);
 
-        $new = $updated = $unchanged = $failed = 0;
+        $new = $updated = $saved = $unchanged = $failed = 0;
         $start = microtime(true);
         $ids = [];
+        $failedIds = [];
         foreach ($limesurveyDataProvider->refreshResponsesByToken($workspace->project->base_survey_eid, $workspace->getAttribute('token')) as $response) {
             $ids[] = $response->getId();
             $key = [
@@ -44,14 +45,28 @@ class Refresh extends Action
             $loader->loadData($response->getData(), $workspace, $dataResponse);
             if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
+                $saved++;
             } elseif (empty($dataResponse->dirtyAttributes)) {
                 $unchanged++;
             } elseif ($dataResponse->save()) {
                 $updated++;
+                $saved++;
             } else {
                 $failed++;
+                $failedIds[] = $dataResponse->getId();
             }
         }
+
+        // everything has been saved
+        if (count($ids) == $saved || count($ids) == $unchanged) {
+            $workspace->logWorkspaceSync(\Yii::$app->user->getId(), Workspace::SYNC_OK);
+        } else if ($failed && $saved) {
+            $sync_error = 'Responses failed: ' . implode(',', $failedIds);
+            $workspace->logWorkspaceSync(\Yii::$app->user->getId(), Workspace::SYNC_PARTIALLY_OK, $sync_error);
+        } else {
+            $workspace->logWorkspaceSync(\Yii::$app->user->getId(), Workspace::SYNC_FAILED);
+        }
+
         // Check for deleted responses as well.
         $deleted = Response::deleteAll([
             'and',
