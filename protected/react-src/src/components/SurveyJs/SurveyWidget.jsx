@@ -62,7 +62,7 @@ function SurveyWidget(props) {
     }, [props.surveySettings]);  // This means run once after the component is mounted.
 
      return <div>
-         {survey && <Survey model={survey} />};
+         {survey && <Survey model={survey} />}
      </div>
 }
 

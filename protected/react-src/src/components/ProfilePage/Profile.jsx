@@ -1,7 +1,4 @@
-import {
-    useEffect,
-    useState
-} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { formatObjectToValueLabel } from '../../utils/objectUtils';
 import * as apiService from '../../services/apiService';
@@ -12,7 +9,6 @@ import DropdownInput from '../common/form/DropdownInput';
 import CheckboxInput from '../common/form/CheckboxInput';
 import FormButtons from '../common/form/FormButtons';
 import FormGroup from '../common/form/FormGroup';
-
 
 const Profile = (props) => {
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import './FormGroup.css'
 
 const FormGroup = ({ label, hasStar = false, error, children }) => {
