@@ -81,9 +81,32 @@ final class Create extends Action
         if ($target === UserRoleTargetEnum::workspace) {
             return "createUserRoleForWorkspaces";
         }
+        if ($target === UserRoleTargetEnum::global) {
+            return "createGlobalUserRole";
+        }
         throw new InvalidArgumentException('Invalid target');
     }
-
+    private function createGlobalUserRole(
+        array $data,
+        UserRoleRepository $userRoleRepository,
+        ModelHydrator $modelHydrator
+    ): void {
+        foreach ($data['users'] as $userId) {
+            foreach ($data['roles'] as $roleId) {
+                $jsonDictionary = $this->getJsonDictionary(
+                    (int) $userId,
+                    (int) $roleId,
+                    null,
+                    UserRoleTargetEnum::global
+                );
+                $this->createUserRole(
+                    $modelHydrator,
+                    $jsonDictionary,
+                    $userRoleRepository
+                );
+            }
+        }
+    }
 
     private function createUserRoleForProject(
         array $data,
@@ -111,7 +134,7 @@ final class Create extends Action
     private function getJsonDictionary(
         int $userId,
         int $roleId,
-        int $targetId,
+        int|null $targetId,
         UserRoleTargetEnum $target
     ): array {
         return [

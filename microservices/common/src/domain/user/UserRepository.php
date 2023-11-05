@@ -25,7 +25,7 @@ final class UserRepository
     public function retrieveAll(): array
     {
         return User::find()
-            ->select(['id', 'email', 'name', 'created_date', 'last_modified_date', 'last_login', 'created_by', 'last_modified_by'])
+            ->select(['id', 'email', 'name', 'created_date', 'last_modified_date', 'last_login_date', 'created_by', 'last_modified_by'])
             ->all();
     }
 
@@ -39,7 +39,7 @@ final class UserRepository
 
         return $result;
     }
-
+    
     public function updateAll(array $attributes, array|string $condition = '', array $params = []): int
     {
         return User::updateAll($attributes, $condition, $params);
