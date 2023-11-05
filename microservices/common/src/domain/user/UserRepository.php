@@ -14,17 +14,18 @@ final class UserRepository
         return User::find();
     }
 
-    public function retrieve(int $id): ?User
+    public function retrieve(int $id): User|\yii\db\ActiveRecord|null
     {
-        return User::findOne([
-            'id' => $id,
-        ]);
+        return User::find()
+            ->where(['prime2_user.id' => $id])
+            ->joinWith('creator')
+            ->one();
     }
 
     public function retrieveAll(): array
     {
         return User::find()
-            ->select(['id', 'email', 'name'])
+            ->select(['id', 'email', 'name', 'created_date', 'last_modified_date', 'last_login', 'created_by', 'last_modified_by'])
             ->all();
     }
 

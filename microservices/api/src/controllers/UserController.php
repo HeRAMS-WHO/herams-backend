@@ -33,6 +33,11 @@ class UserController extends \yii\rest\Controller
             'workspaces' => Workspaces::class,
             'view' => View::class,
             'index' => Index::class,
+            'me' => [
+                'class' => View::class,
+                'id' => \Yii::$app->user->id,
+            ]
         ];
     }
+
 }

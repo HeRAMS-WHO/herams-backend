@@ -4,7 +4,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+.borderless {
+    border: none;
+}
+.bg-transparent {
+    background-color: transparent;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
 .row{
   display: flex;
   flex-wrap: wrap;

@@ -10,9 +10,10 @@ import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
 import ProjectUserRoles from "./components/UserRoles/ProjectUserRoles";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
-
+import UserIndex from "./components/Users/UserIndex";
 import reportWebVitals from "./reportWebVitals";
 import WorkspaceUserRoles from "./components/UserRoles/WorkspaceUserRoles";
+import GlobalUserRoles from "./components/UserRoles/GlobalUserRoles";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
@@ -21,7 +22,9 @@ const componentsMap = {
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
     'ProjectUserRoles': ProjectUserRoles,
-    'WorkspaceUserRoles': WorkspaceUserRoles
+    'WorkspaceUserRoles': WorkspaceUserRoles,
+    'GlobalUserRoles': GlobalUserRoles,
+    'UserIndex': UserIndex
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
