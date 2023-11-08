@@ -166,7 +166,7 @@ class CacheController extends \yii\console\controllers\CacheController
         ]);
 
         // everything has been saved
-        if (count($ids) == $saved || count($ids) == $unchanged) {
+        if (count($ids) == ($saved + $unchanged)) {
             $workspace->logWorkspaceSync(Workspace::CRON_NAME, Workspace::SYNC_OK);
             $this->stdout("OK workspace ID #" . $workspace->id . "\n", Console::FG_GREEN);
         } else if (count($failedIds) && $saved) {
