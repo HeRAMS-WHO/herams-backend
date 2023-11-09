@@ -69,11 +69,18 @@ const RoleEdit = ({roleId = 0}) => {
                     onChange={(e) => setRoleProperty('scope', e.target.value)}/>
             </FormGroup>
             <FormGroup label={__('Type')} hasStar={true} error={roleErrors?.type}>
-                <DropdownInput
+                {
+                    roleData.scope !== 'global' && <DropdownInput
+                        className="form-control"
+                        options={roleTypes}
+                        value={roleData.type}
+                        onChange={(e) => setRoleProperty('type', e.target.value)}/>
+                }
+                { roleData.scope === 'global' && <TextInput
                     className="form-control"
-                    options={roleTypes}
                     value={roleData.type}
-                    onChange={(e) => setRoleProperty('type', e.target.value)}/>
+                    disabled={true} />
+                }
             </FormGroup>
             {(hasToAssignAProjectId() &&
                 <FormGroup label={__('Custom role project')} hasStar={true} error={roleErrors?.projectId}>

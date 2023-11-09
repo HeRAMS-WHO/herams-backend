@@ -1,7 +1,4 @@
-import {
-    useState,
-    useEffect
-} from 'react';
+import {useEffect, useState} from 'react';
 import {fetchRole} from "../../services/apiProxyService";
 
 function useRole(roleId = null){
@@ -17,9 +14,18 @@ function useRole(roleId = null){
         lastModifiedBy: '',
     });
     const [roleErrors, setError] = useState({});
-
+    useEffect(() => {
+        if (roleData.scope === 'global')
+        {
+            setRoleData({
+                ...roleData,
+                projectId: '',
+                type: 'standard'
+            });
+        }
+    }, [roleData.scope]);
     function hasToAssignAProjectId() {
-        return !roleData.projectId && roleData.type === 'custom';
+        return !roleData.projectId && roleData.type === 'custom' && roleData.scope !== 'global';
     }
 
     const validateRole = () => {

@@ -60,6 +60,6 @@ class Update extends Action
 
     private function mustHaveAProjectAssigned(?Role $role): bool
     {
-        return strtolower($role->type) === 'custom';
+        return strtolower($role->type) === 'custom' && strtolower($role->scope) !== 'global';
     }
 }
