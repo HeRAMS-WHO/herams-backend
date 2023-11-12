@@ -17,6 +17,18 @@ return [
     ],
     [
         'class' => UrlRule::class,
+        'pattern' => 'user-role/project/<id:\d+>/index',
+        'route' => 'user-role/index',
+        'verb' => 'GET',
+    ],
+    [
+        'class' => UrlRule::class,
+        'pattern' => '<controller:[\w-]+>/<id:\d+>',
+        'route' => '<controller>/delete',
+        'verb' => 'DELETE',
+    ],
+    [
+        'class' => UrlRule::class,
         'pattern' => 'permission/grant',
         'route' => 'permission/grant',
         'verb' => ['put', 'delete'],
@@ -101,6 +113,7 @@ return [
         'route' => 'response/delete',
         'verb' => 'delete',
     ],
+
     [
         'pattern' => '<p:.*>',
         'route' => '',

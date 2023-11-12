@@ -7,6 +7,7 @@ namespace prime\widgets\menu;
 use herams\common\models\PermissionOld;
 use prime\helpers\Icon;
 use prime\interfaces\WorkspaceForTabMenu;
+use Yii;
 
 class WorkspaceTabMenu extends TabMenu
 {
@@ -28,7 +29,7 @@ class WorkspaceTabMenu extends TabMenu
                 "workspace/facilities",
                 'id' => $this->workspace->id(),
             ],
-            'title' => \Yii::t('app', 'HSDUs') . " ({$this->workspace->getFacilityCount()})
+            'title' => Yii::t('app', 'HSDUs') . " ({$this->workspace->getFacilityCount()})
 ",
         ];
         $this->tabs[] = [
@@ -37,30 +38,30 @@ class WorkspaceTabMenu extends TabMenu
                 "workspace/update",
                 'id' => $this->workspace->id(),
             ],
-            'title' => \Yii::t(
+            'title' => Yii::t(
                 'app',
                 'Workspace settings'
             ),
         ];
         $this->tabs[] = [
             'url' => [
-                'workspace/share',
+                'workspace/users',
                 'id' => $this->workspace->id(),
             ],
-            'title' => \Yii::t('app', 'Users ({n})', [
+            'title' => Yii::t('app', 'Users ({n})', [
                 'n' => $this->workspace->getPermissionSourceCount(),
             ]),
             'permission' =>
-PermissionOld::PERMISSION_SHARE,
+                PermissionOld::PERMISSION_SHARE,
         ];
         $this->tabs[] = [
-            'title' => Icon::broken() . \Yii::t('app', 'Export data'),
+            'title' => Icon::broken() . Yii::t('app', 'Export data'),
             'url' => [
                 'workspace/export',
                 'id' => $this->workspace->id(),
             ],
             'permission' => PermissionOld::
-PERMISSION_EXPORT,
+            PERMISSION_EXPORT,
         ];
         return parent::renderMenu();
     }

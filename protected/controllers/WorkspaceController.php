@@ -14,6 +14,7 @@ use prime\controllers\workspace\Import;
 use prime\controllers\workspace\RequestAccess;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;
+use prime\controllers\workspace\Users;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
@@ -40,8 +41,8 @@ class WorkspaceController extends Controller
             'update' => Update::class,
             'create' => Create::class,
             'share' => Share::class,
-            'request-access' => RequestAccess
-::class,
+            'request-access' => RequestAccess::class,
+            'users' => Users::class,
         ];
     }
 
@@ -85,9 +86,16 @@ class WorkspaceController extends Controller
         //            $breadcrumbCollection->add($project);
         //        }
         //
-        if (! isset($params['tabMenuModel']) && $this->request->getQueryParam('id')) {
-            $workspaceId = new WorkspaceId((int) $this->request->getQueryParam('id'));
-            $params['tabMenuModel'] = $this->workspaceRepository->retrieveForTabMenu($workspaceId);
+        if (! isset($params['tabMenuModel'])
+            && $this->request->getQueryParam(
+                'id'
+            )
+        ) {
+            $workspaceId = new WorkspaceId(
+                (int) $this->request->getQueryParam('id')
+            );
+            $params['tabMenuModel']
+                = $this->workspaceRepository->retrieveForTabMenu($workspaceId);
         }
         return parent::render($view, $params);
     }

@@ -63,7 +63,7 @@ use yii\validators\RequiredValidator;
  * @property-read Page[] $pages
  * @property-read Workspace[] $workspaces
  * @property-read Survey $adminSurvey
- *
+ * @property-read Role[] $roles
  * @mixin VirtualFieldBehavior
  */
 class Project extends ActiveRecord implements ProjectForTabMenuInterface
@@ -215,6 +215,13 @@ class Project extends ActiveRecord implements ProjectForTabMenuInterface
         return $this->hasMany(Facility::class, [
             'workspace_id' => 'id',
         ])->via('workspaces');
+    }
+
+    public function getRoles(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(Role::class, [
+            'project_id' => 'id',
+        ]);
     }
 
     public function isHidden(): bool

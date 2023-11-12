@@ -11,6 +11,8 @@
 
 # production
 /build
+#cache
+/.npm-cache/
 
 # misc
 .DS_Store
@@ -22,3 +24,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
+

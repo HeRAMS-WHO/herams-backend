@@ -1,52 +1,47 @@
-import
-    React,
-    {
-        useState,
-        useRef,
-        useEffect,
-        useCallback,
-        useMemo
-    } from 'react';
-import { AgGridReact } from 'ag-grid-react';
+import React, {useCallback, useMemo, useRef} from 'react';
+import {AgGridReact} from 'ag-grid-react';
 
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import {__} from "../../../utils/translationsUtility"; // Optional theme CSS
+import {__} from "../../../utils/translationsUtility";
+import FormButtons from "../form/FormButtons"; // Optional theme CSS
 
 const Table = ({columnDefs, data}) => {
 
     const gridRef = useRef();
     // DefaultColDef sets props common to all Columns
-    const defaultColDef = useMemo( ()=> ({
+    const defaultColDef = useMemo(() => ({
         sortable: true,
 
     }));
 
     // Example of consuming Grid Event
-    const cellClickedListener = useCallback( event => {
+    const cellClickedListener = useCallback(event => {
         console.log('cellClicked', event);
     }, []);
 
 
     // Example using Grid's API
-    const buttonListener = useCallback( e => {
+    const buttonListener = useCallback(e => {
         gridRef.current.columnApi.resetColumnState();
 
     }, []);
 
     return (
         <div>
-            <div className="row mt-2 d-flex text-right place-content-end">
-                <div className="col-2 offset-10 display-flex ">
-                    <button
-                        className="btn btn-secondary "
-                        onClick={buttonListener}>
-                        {__('Reset grid')}
-                    </button>
-                </div>
+            <div className="d-flex gap-1 mt-4 place-end">
+                <FormButtons
+                    buttons={[
+                        {
+                            label: __('Reset grid'),
+                            class: "btn btn-secondary",
+                            onClick: buttonListener
+                        }
+                    ]}
+                />
             </div>
             {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-            <div className="ag-theme-alpine" style={{width: '100%', height:'550px'}}>
+            <div className="ag-theme-alpine" style={{width: '100%', height: '550px'}}>
                 <AgGridReact
                     pagination={true}
                     paginationPageSize={10}

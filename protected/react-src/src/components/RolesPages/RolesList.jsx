@@ -1,9 +1,8 @@
-import { __ } from '../../utils/translationsUtility';
 import Table from "../common/table/Table";
-import {AddIcon} from "../common/icon/IconsSet";
-import useRoleList from "../../hooks/useRole/useRoleList";
+import useRoleList from "../../hooks/Role/useRoleList";
 import RoleListHeader from "./RoleListHeader";
 import {fetchDeleteRole} from "../../services/apiProxyService";
+import ActionOnHeaderLists from "../common/ActionOnHeaderLists";
 
 const RolesList = () => {
     const {rolesList, refreshRolesList} = useRoleList();
@@ -16,19 +15,12 @@ const RolesList = () => {
 
     return (
         <>
-            <div className="row mt-4 d-flex place-content-end">
-                <div className="col-2 offset-10">
-                    <button
-                        className="btn btn-default"
-                        onClick={() => { window.location.href='role/0/update' }}>
-                        <AddIcon />
-                        {__('Create new role')}
-                    </button>
-                </div>
-            </div>
+            <ActionOnHeaderLists
+                label={'Create new role'}
+                url={'role/0/update'}/>
             <Table
                 columnDefs={RoleListHeader({deleteYesCallback})}
-                data={rolesList} />
+                data={rolesList}/>
         </>
     )
 
