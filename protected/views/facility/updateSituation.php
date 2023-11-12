@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
-use yii\helpers\Url;
+use yii\helpers\Html;
 
 /**
  * @var View $this
@@ -17,6 +18,7 @@ use yii\helpers\Url;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
+ReactAsset::register($this);
 
 $this->title = Yii::t('app', 'Create update Situation');
 
@@ -31,8 +33,8 @@ $this->endBlock();
 Section::begin()
     ->withHeader(Yii::t('app', 'Update Situation'));
 
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
+$surveyJS = new Survey();
+$surveyJS->withConfig($survey->getConfig())
     ->withDataRoute([
         '/api/facility/latest-situation',
         'id' => $facilityId,
@@ -59,10 +61,17 @@ $survey = Survey::begin()
         'id' => $facilityId,
 
     ])
-    ->deleteDate();
-;
+    ->deleteDate()
+    ->setSurveySettings();
 
-Survey::end();
+$settings = $surveyJS->getSurveySettings()
+
+?>
+    <div id="UpdateSituation" data-survey-settings="<?= Html::encode(base64_encode($settings)) ?>"
+    >
+    </div>
+<?php
+
 
 Section::end();
 // $url = Url::to(['/api/facility/validate-situation', 'id' => $facilityId]);

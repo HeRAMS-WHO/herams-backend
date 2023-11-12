@@ -16,6 +16,7 @@ const SurveyCreatorWidget = (props) => {
     const [creator, setCreator] = useState(null);
 
     useEffect(() => {
+        console.log('test');
         const decodedConfig = atob(props.config);
         const config = JSON.parse(decodedConfig);
 

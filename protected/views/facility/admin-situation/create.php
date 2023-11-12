@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\menu\FacilityTabMenu;
@@ -16,6 +17,7 @@ use yii\helpers\Html;
  * @var \prime\models\survey\SurveyForSurveyJs $survey
  * @var \herams\common\values\FacilityId $facilityId
  */
+ReactAsset::register($this);
 
 $this->title = $tabMenuModel->getTitle();
 
@@ -29,9 +31,8 @@ $this->endBlock();
 
 Section::begin()
     ->withHeader(Yii::t('app', 'Create Admin Situation'));
-
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
+$surveyJS = new Survey();
+$surveyJS->withConfig($survey->getConfig())
         ->withDataRoute([
             '/api/facility/latest-admin-situation',
             'id' => $facilityId,
@@ -60,45 +61,12 @@ $survey = Survey::begin()
         ])
         ->deleteDate()
         ->setSurveySettings();
-Survey::end();
-
-
-$survey = new Survey();
-$survey->withConfig($survey->getConfig())
-    ->withDataRoute([
-        '/api/facility/latest-admin-situation',
-        'id' => $facilityId,
-    ], ['data'])
-    ->withExtraData([
-        'facilityId' => $facilityId,
-        'surveyId' => $survey->getId(),
-        'response_type' => 'admin',
-    ])
-    ->withSubmitRoute([
-        'update-situation',
-        'id' => $facilityId,
-    ])
-    ->withProjectId($projectId)
-    ->withSubmitRoute([
-        'api/survey-response/create',
-    ])
-    ->withRedirectRoute([
-        'facility/admin-responses',
-        'id' => $facilityId,
-    ])
-    ->withServerValidationRoute([
-        'api/facility/validate-situation',
-        'id' => $facilityId,
-
-    ])
-    ->deleteDate()
-    ->setSurveySettings();
-$surveySettings = $survey->getSurveySettings();
-$surveyHaveToDeleteData = $survey->getHaveToDeleteData();
+$surveySettings = $surveyJS->getSurveySettings();
+$surveyHaveToDeleteData = $surveyJS->getHaveToDeleteData();
 
 ?>
     <!-- Mount point for the React component -->
-    <div id="SurveyWidget" data-config="<?= Html::encode(base64_encode($surveySettings)) ?>" data-haveToDelete="<?= $surveyHaveToDeleteData ?>">
+    <div id="CreateAdminSituation" data-config="<?= Html::encode(base64_encode($surveySettings)) ?>" data-haveToDelete="<?= $surveyHaveToDeleteData ?>">
     </div>
 <?php
 

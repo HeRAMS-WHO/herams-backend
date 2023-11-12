@@ -19,7 +19,8 @@ module.exports = {
         allowedHosts: ["react.herams.test"],
         compress: true,
         port: 9090,
-        hot: true,
+        hot: false,
+        client: false,
         historyApiFallback: true,
     },
     plugins: [
@@ -27,7 +28,7 @@ module.exports = {
             template: "./src/index.html",
         }),
         new CleanWebpackPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
     ],
     resolve: {
         extensions: [".js", ".ts", ".tsx", ".jsx"],

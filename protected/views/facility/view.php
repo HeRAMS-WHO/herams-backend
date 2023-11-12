@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use herams\common\values\FacilityId;
 use herams\common\values\ProjectId;
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\interfaces\survey\SurveyForSurveyJsInterface;
@@ -20,6 +21,7 @@ use prime\widgets\survey\Survey;
  * @var ProjectId $projectId
  * @var SurveyForSurveyJsInterface $survey
  */
+ReactAsset::register($this);
 
 $this->title = $tabMenuModel->getTitle();
 
@@ -32,17 +34,21 @@ echo FacilityTabMenu::widget(
 $this->endBlock();
 
 Section::begin();
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
+$surveyJS = new Survey();
+$surveyJS->withConfig($survey->getConfig())
     ->withDataRoute([
         '/api/facility/view',
         'id' => $id,
     ], ['admin_data'])
     ->withProjectId($projectId)
-    ->inDisplayMode()
+    ->inDisplayMode()->setSurveySettings();
 
-;
+$surveySettings = $surveyJS->getSurveySettings();
 
-Survey::end();
+?>
+    <!-- Mount point for the React component -->
+    <div id="ViewFacilitySurvey" data-config="<?= Html::encode(base64_encode($surveySettings)) ?>">
+    </div>
+<?php
 
 Section::end();

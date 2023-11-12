@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import 'survey-core/defaultV2.min.css';
 import 'survey-creator-core/survey-creator-core.min.css';
-import { applySurveyConfigurations } from './custom/survey-modifications';
-import { applyHSDUStateQuestion } from './custom/HSDUStateQuestion';
-import { applyFacilityTypeQuestion } from './custom/FacilityTypeQuestion';
 // import * as SurveyKnockout from "survey-react-ui";
 import {Model} from "survey-core";
 import {Survey} from "survey-react-ui";
-
-applySurveyConfigurations();
-applyHSDUStateQuestion();
-applyFacilityTypeQuestion();
 
 function SurveyWidget(props) {
     const [survey, setSurvey] = useState(null);

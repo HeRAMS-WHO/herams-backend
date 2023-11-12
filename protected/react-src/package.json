@@ -20,7 +20,7 @@
     "survey-creator": "^1.9.110",
     "survey-creator-react": "^1.9.110",
     "survey-react": "^1.9.110",
-    "survey-react-ui": "^1.9.110",
+    "survey-react-ui": "^1.9.116",
     "sweetalert2": "^11.7.31",
     "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^2.1.4"

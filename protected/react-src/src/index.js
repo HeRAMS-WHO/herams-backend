@@ -13,6 +13,11 @@ import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 
 import reportWebVitals from "./reportWebVitals";
 import WorkspaceUserRoles from "./components/UserRoles/WorkspaceUserRoles";
+import SurveyWidget from "./components/SurveyJs/SurveyWidget";
+import CreateFacility from "./components/FacilityPages/CreateFacility";
+import UpdateSituation from "./components/FacilityPages/UpdateSituation";
+import CreateAdminSituation from "./components/FacilityPages/AdminSituation/CreateAdminSituation";
+import ViewAdminSituation from "./components/FacilityPages/AdminSituation/ViewAdminSituation";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
@@ -21,7 +26,12 @@ const componentsMap = {
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
     'ProjectUserRoles': ProjectUserRoles,
-    'WorkspaceUserRoles': WorkspaceUserRoles
+    'WorkspaceUserRoles': WorkspaceUserRoles,
+    'SurveyWidget': SurveyWidget,
+    'CreateFacility': CreateFacility,
+    'UpdateSituation': UpdateSituation,
+    'CreateAdminSituation': CreateAdminSituation,
+    'ViewAdminSituation': ViewAdminSituation
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
