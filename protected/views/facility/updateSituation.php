@@ -64,7 +64,7 @@ $surveyJS->withConfig($survey->getConfig())
     ->deleteDate()
     ->setSurveySettings();
 
-$settings = $surveyJS->getSurveySettings()
+$settings = $surveyJS->getSurveySettings();
 
 ?>
     <div id="UpdateSituation" data-survey-settings="<?= Html::encode(base64_encode($settings)) ?>"

@@ -12,6 +12,7 @@ use prime\models\forms\facility\UpdateForm;
 use prime\widgets\menu\FacilityTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
+use yii\helpers\Html;
 
 /**
  * @var View $this

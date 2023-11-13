@@ -52,7 +52,7 @@ $surveyJS->withConfig($surveyConfig)
 $surveySettings = $surveyJS->getSurveySettings();
 
 ?>
-    <div id="SurveyWidget" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>"
+    <div id="EditAdminSituation" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>"
     >
     </div>
 <?php
