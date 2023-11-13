@@ -5,6 +5,7 @@ declare(strict_types=1);
 use prime\components\View;
 use prime\widgets\Section;
 use prime\widgets\survey\SurveyFormWidget;
+use yii\bootstrap\Html;
 
 /**
  * @var \prime\interfaces\SurveyFormInterface $form
@@ -20,10 +21,14 @@ $this->endBlock();
 Section::begin()
 ;
 
-$survey = SurveyFormWidget::begin()
-    ->withForm($form)
-;
+$survey = new SurveyFormWidget();
+$survey->withForm($form)->setConfig();
+$config = $survey->getConfig();
 
-SurveyFormWidget::end();
+?>
+    <div id="EditAdminSituation" data-survey-settings="<?= Html::encode(base64_encode($config)) ?>"
+    >
+    </div>
+<?php
 
 Section::end();

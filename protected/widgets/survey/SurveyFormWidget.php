@@ -15,6 +15,7 @@ use yii\helpers\Url;
 class SurveyFormWidget extends Widget
 {
     private SurveyFormInterface $surveyForm;
+    private string $config;
 
     public function init(): void
     {
@@ -28,9 +29,8 @@ class SurveyFormWidget extends Widget
         return $this;
     }
 
-    public function run(): string
-    {
-        $config = Json::encode([
+    public function setConfig(){
+        $this->config = Json::encode([
             'structure' => $this->surveyForm->getConfiguration(),
             'extraData' => $this->surveyForm->getExtraData(),
             'submissionUrl' => Url::to($this->surveyForm->getSubmitRoute()),
@@ -40,11 +40,19 @@ class SurveyFormWidget extends Widget
             'elementId' => $this->getId(),
             'localeEndpoint' => $this->surveyForm->getLocaleEndpoint(),
         ]);
+    }
+    public function getConfig(): string
+    {
+        return $this->config;
+    }
 
+    public function run(): string
+    {
+        $this->setConfig();
         $this->view->registerJs(
             <<<JS
             
-            const config = {$config};
+            const config = {$this->config};
             window.surveyContainer = config.elementId;
             const surveyStructure = config.structure
             
