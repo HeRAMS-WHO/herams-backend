@@ -1,6 +1,7 @@
 import {getCsrfToken} from "../utils/csrfTokenUtility";
 
 export const get = async (url, params = {}, headers = {}) => {
+    console.log('url', url);
     const fullUrl = new URL(url)
     Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
     const response = await fetch(fullUrl, {
@@ -31,6 +32,7 @@ export const deleteRequest = async (url, params = {}, headers = {}) => {
 };
 
 export const post = async (url, data) => {
+    console.log(url);
     try {
         const response = await fetch(url, {
             method: 'POST',

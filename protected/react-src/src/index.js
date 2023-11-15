@@ -20,6 +20,7 @@ import CreateAdminSituation from "./components/FacilityPages/AdminSituation/Crea
 import ViewAdminSituation from "./components/FacilityPages/AdminSituation/ViewAdminSituation";
 import EditAdminSituation from "./components/FacilityPages/AdminSituation/EditAdminSituation";
 import CreateProject from "./components/ProjectPages/CreateProject";
+import CreateWorkspace from "./components/Workspace/CreateWorkspace";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
@@ -35,7 +36,8 @@ const componentsMap = {
     'CreateAdminSituation': CreateAdminSituation,
     'ViewAdminSituation': ViewAdminSituation,
     'EditAdminSituation': EditAdminSituation,
-    'CreateProject': CreateProject
+    'CreateProject': CreateProject,
+    'CreateWorkspace': CreateWorkspace
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {

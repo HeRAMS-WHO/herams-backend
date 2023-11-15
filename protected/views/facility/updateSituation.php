@@ -33,6 +33,42 @@ $this->endBlock();
 Section::begin()
     ->withHeader(Yii::t('app', 'Update Situation'));
 
+
+$surveyJsPHP = Survey::begin()
+    ->withConfig($survey->getConfig())
+    ->withDataRoute([
+        '/api/facility/latest-situation',
+        'id' => $facilityId,
+    ], ['data'])
+    ->withExtraData([
+        'facilityId' => $facilityId,
+        'surveyId' => $survey->getId(),
+        'response_type' => 'situation',
+    ])
+    ->withSubmitRoute([
+        'update-situation',
+        'id' => $facilityId,
+    ])
+    ->withProjectId($projectId)
+    ->withSubmitRoute([
+        'api/survey-response/create',
+    ])
+    ->withRedirectRoute([
+        'facility/responses',
+        'id' => $facilityId,
+    ])
+    ->withServerValidationRoute([
+        'api/facility/validate-situation',
+        'id' => $facilityId,
+
+    ])
+    ->deleteDate();
+;
+$surveyJsPHP->setSurveySettings();
+print_r($surveyJsPHP->getSurveySettings());
+
+Survey::end();
+
 $surveyJS = new Survey();
 $surveyJS->withConfig($survey->getConfig())
     ->withDataRoute([

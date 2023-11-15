@@ -2,7 +2,7 @@ import {ComponentCollection} from "survey-core";
 
 export function applyLocalizableProjectTextQuestion() {
     ComponentCollection.Instance.add({
-        name: 'localizableprojecttext',
+        name: 'localizableprojecttextcustom',
         title: 'Localizable project text',
         iconName: 'icon-text',
         category: 'HeRAMS',

@@ -154,6 +154,7 @@ class Survey extends Widget
             
             let restartWithFreshData
             let waitForDataPromise
+            
             if (config.dataUrl && !(typeof shouldUpdateSurveyData !== 'undefined' &&  shouldUpdateSurveyData !== false)) {
                 restartWithFreshData = async () => {
                     console.log("Clearing survey");
@@ -229,10 +230,16 @@ class Survey extends Widget
                 survey.onServerValidateQuestions.add(async (sender, options) => {
                    
                     try {
+                        
+                        console.log('php json pre validation', {
+                            ...(config.extraData ?? {}),
+                            data: sender.data
+                        });
                         const json = await window.Herams.fetchWithCsrf(config.validationUrl, {
                             ...(config.extraData ?? {}),
                             data: sender.data
                         });
+                        console.log('php json validation response', json);
                         let visibleError = false
                         console.log(json, options.data);
                         for (const [attribute, errors] of Object.entries(json.errors)) {
