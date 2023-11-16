@@ -3,7 +3,7 @@ import 'survey-core/defaultV2.min.css';
 import 'survey-creator-core/survey-creator-core.min.css';
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
-import { get as getWithCsrf } from '../../services/httpMethods';  // Adjust the import path
+import {fetchWithCsrf} from '../../services/httpMethods';  // Adjust the import path
 import { post as postWithCsrf } from '../../services/httpMethods';  // Adjust the import path
 
 function SurveyWidget(props) {
@@ -31,7 +31,7 @@ function SurveyWidget(props) {
             //this is working
             if (config.localeEndpoint) {
                 try {
-                    const locales = await getWithCsrf(config.localeEndpoint);
+                    const locales = await fetchWithCsrf(config.localeEndpoint, null, 'get');
                     surveyStructure.locales = locales.languages;
                 } catch (error) {
                     console.error("Error fetching locales:", error);
@@ -49,7 +49,7 @@ function SurveyWidget(props) {
                 restartWithFreshData = async () => {
                     console.log("Clearing survey", config.dataUrl);
                     surveyInstance.clear()
-                    let data = await getWithCsrf(config.dataUrl);
+                    let data = await fetchWithCsrf(config.dataUrl, null, 'GET');
                     for (const pathElement of config.dataPath) {
                         data = data[pathElement]
                     }
@@ -83,17 +83,16 @@ function SurveyWidget(props) {
 
             }
 
-            setSurveys(prevSurveys => [...prevSurveys, surveyInstance]);
+            let currentSurveys = [...surveys, surveyInstance];
+            setSurveys(currentSurveys);
             surveyInstance.surveyShowDataSaving = true;
 
             // Event handlers for submission and validation
             if (config.submissionUrl) {
                 surveyInstance.onComplete.add(async (sender, options) => {
-                    console.log('test');
                     options.showDataSaving('Uploading data');
                     try {
-                        console.log('config.submissionUrl', config.submissionUrl);
-                        const json = await postWithCsrf(config.submissionUrl, {
+                        const json = await fetchWithCsrf(config.submissionUrl, {
                             ...(config.extraData ?? {}),
                             data: sender.data
                         })
@@ -121,21 +120,20 @@ function SurveyWidget(props) {
             if (config.validationUrl) {
                 surveyInstance.onServerValidateQuestions.add(async (sender, options) => {
 
-                    console.log('config.submissionUrl', config.validationUrl)
                     try {
                         let validationData = {
                             ...(config.extraData ?? {}),
                             data: sender.data
                         }
-                        console.log('validation',validationData);
-                        const json = await postWithCsrf(config.validationUrl, validationData);
+                        console.log('php json pre validation', validationData);
+                        const json = await fetchWithCsrf(config.validationUrl, validationData);
+                        console.log('php json validation response', json);
                         let visibleError = false
-                        console.log(json, options.data);
                         for (const [attribute, errors] of Object.entries(json.errors)) {
                             options.errors[attribute] = errors.join(', ');
                             visibleError = visibleError
                                 || typeof options.data[attribute] !== 'undefined'
-                                || surveys[0].currentPage.getQuestionByName(attribute)?.isVisible
+                                || currentSurveys[0].currentPage.getQuestionByName(attribute)?.isVisible
                         }
 
                         // If the error is not visible, add it to all questions
@@ -148,6 +146,7 @@ function SurveyWidget(props) {
                         }
 
                     } catch (error) {
+                        console.log('err',error);
                         // This is a big error, add it to all questions on the page.
                         for (const question of sender.currentPage.questions) {
                             options.errors[question.name] = error.message

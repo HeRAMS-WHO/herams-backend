@@ -259,6 +259,7 @@ class Survey extends Widget
                         }
                        
                     } catch (error) {
+                        console.log('err',error);
                         // This is a big error, add it to all questions on the page.
                         for (const question of sender.currentPage.questions) {
                             options.errors[question.name] = error.message
