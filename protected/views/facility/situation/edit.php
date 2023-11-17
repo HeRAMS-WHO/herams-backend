@@ -7,6 +7,7 @@ use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
+use yii\helpers\Html;
 
 /**
  * @var View $this
@@ -24,8 +25,8 @@ $surveyConfig = $survey->getConfig();
 
 Section::begin()
     ->withHeader(Yii::t('app', 'Edit Situation'));
-$survey = Survey::begin()
-    ->withConfig($surveyConfig)
+$surveyJS = new Survey();
+$surveyJS->withConfig($surveyConfig)
     ->withDataRoute([
         '/api/facility/view-situation',
         'id' => $cid,
@@ -53,9 +54,13 @@ $survey = Survey::begin()
         'api/facility/validate-situation',
         'id' => $facilityId,
 
-    ])
-;
+    ])->setSurveySettings();
+$surveySettings = $surveyJS->getSurveySettings();
 
-Survey::end();
+?>
+    <div id="EditSituation" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>"
+    >
+    </div>
+<?php
 
 Section::end();
