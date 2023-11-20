@@ -16,6 +16,7 @@ use herams\common\values\userRole\UserRoleTargetEnum;
 use herams\common\values\userRole\UserRoleTargetId;
 use herams\common\values\userRole\UserRoleUserId;
 use yii\validators\RequiredValidator;
+use yii\validators\SafeValidator;
 
 final class UserRoleRequest extends RequestModel
 {
@@ -54,7 +55,6 @@ final class UserRoleRequest extends RequestModel
                     'userId',
                     'roleId',
                     'target',
-                    'targetId',
                     'createdDate',
                     'createdBy',
                     'lastModifiedDate',
@@ -62,6 +62,10 @@ final class UserRoleRequest extends RequestModel
                 ],
                 RequiredValidator::class,
             ],
+            [
+                ['targetId'],
+                SafeValidator::class
+            ]
         ];
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace herams\api\controllers;
 
 use herams\api\controllers\user\Index;
+use herams\api\controllers\user\Roles;
 use herams\api\controllers\user\View;
 use herams\api\controllers\user\Workspaces;
 use yii\filters\AccessControl;
@@ -33,6 +34,12 @@ class UserController extends \yii\rest\Controller
             'workspaces' => Workspaces::class,
             'view' => View::class,
             'index' => Index::class,
+            'me' => [
+                'class' => View::class,
+                'id' => \Yii::$app->user->id,
+            ],
+            'roles' => Roles::class
         ];
     }
+
 }

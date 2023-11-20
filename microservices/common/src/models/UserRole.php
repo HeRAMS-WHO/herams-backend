@@ -13,7 +13,7 @@ use yii\db\ActiveQuery;
  * @property int $user_id
  * @property int $role_id
  * @property string $target
- * @property int $target_id
+ * @property int|null $target_id
  * @property string $created_date
  * @property int|null $created_by
  * @property string $last_modified_date

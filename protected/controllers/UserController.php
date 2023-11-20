@@ -14,6 +14,7 @@ use prime\controllers\user\ConfirmInvitation;
 use prime\controllers\user\Create;
 use prime\controllers\user\Email;
 use prime\controllers\user\Favorites;
+use prime\controllers\user\GlobalUserRoles;
 use prime\controllers\user\Impersonate;
 use prime\controllers\user\Index;
 use prime\controllers\user\Notifications;
@@ -38,6 +39,7 @@ class UserController extends Controller
             'confirm-email' => ConfirmEmail::class,
             'confirm-invitation' => ConfirmInvitation::class,
             'email' => Email::class,
+            'global-user-roles' => GlobalUserRoles::class,
             'index' => Index::class,
             'profile' => Profile::class,
             'impersonate' => Impersonate::class,

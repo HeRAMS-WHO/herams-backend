@@ -25,3 +25,15 @@ export const DeleteIcon = ({...props}) => {
         </svg>
     )
 }
+
+export const UserIcon = ({...props}) => {
+    return (
+        <svg className="icon icon-user">
+            <symbol id="icon-user" viewBox="0 0 28 32">
+                <title>{props?.title ?? ''}</title>
+                <path d="M14 16c4.419 0 8-3.581 8-8s-3.581-8-8-8-8 3.581-8 8 3.581 8 8 8zM19.6 18h-1.044c-1.387 0.637-2.931 1-4.556 1s-3.162-0.363-4.556-1h-1.044c-4.638 0-8.4 3.762-8.4 8.4v2.6c0 1.656 1.344 3 3 3h22c1.656 0 3-1.344 3-3v-2.6c0-4.637-3.762-8.4-8.4-8.4z"></path>
+            </symbol>
+            <use href="#icon-user"></use>
+        </svg>
+    )
+}

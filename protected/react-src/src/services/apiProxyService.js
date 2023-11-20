@@ -70,3 +70,10 @@ export const fetchProjectWorkspaces = (projectId, params, headers) => {
 export const fetchUserRolesInProject = (projectId, params, headers) => {
     return get(`${BASE_URL}/user-role/project/${projectId}/index`, params, headers);
 }
+export const fetchAUserInformation = (id, params, headers) => {
+    return get(`${BASE_URL}/user/${id}/view`, params, headers);
+}
+
+export const fetchUserRoles = (id, params, headers) => {
+    return get(`${BASE_URL}/user/${id}/roles`, params, headers);
+}
