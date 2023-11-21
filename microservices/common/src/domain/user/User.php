@@ -8,13 +8,13 @@ use herams\common\domain\favorite\Favorite;
 use herams\common\domain\favorite\FavoriteQuery;
 use herams\common\enums\Language;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
-use herams\common\models\ActiveRecord;
 use herams\common\traits\JsonBase64EncoderTrait;
 use herams\common\validators\BackedEnumValidator;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
 use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\RegularExpressionValidator;
@@ -22,6 +22,7 @@ use yii\validators\RequiredValidator;
 use yii\validators\StringValidator;
 use yii\validators\UniqueValidator;
 use yii\web\IdentityInterface;
+
 use function iter\apply;
 use function iter\chain;
 
@@ -40,7 +41,7 @@ use function iter\chain;
  *
  * @property Favorite[] $favorites
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     use JsonBase64EncoderTrait;
 
@@ -136,7 +137,14 @@ class User extends ActiveRecord implements IdentityInterface
             'id' => $id,
         ]);
     }
-
+    public function getCreator(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'created_by'])->alias('creator');
+    }
+    public function getUpdater(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'last_modified_by'])->alias('updater');
+    }
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return null;

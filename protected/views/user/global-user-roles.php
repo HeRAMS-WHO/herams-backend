@@ -44,7 +44,7 @@ Section::begin()
 
 ?>
 
-<div id="UserIndex"></div>
+<div id="GlobalUserRoles" data-user-id="<?= $userId;?>"></div>
 <?php
 Section::end();
 

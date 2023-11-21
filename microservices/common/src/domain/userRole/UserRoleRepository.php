@@ -9,6 +9,7 @@ use herams\common\domain\workspace\WorkspaceRepository;
 use herams\common\helpers\ModelHydrator;
 use herams\common\models\UserRole;
 use herams\common\values\ProjectId;
+use herams\common\values\UserId;
 use herams\common\values\userRole\UserRoleId;
 use herams\common\values\userRole\UserRoleTargetEnum;
 use herams\common\values\WorkspaceId;
@@ -153,7 +154,70 @@ final class UserRoleRepository
         }
         return $userRoles;
     }
+    public function retrieveUserRolesForAUser(UserId $userId){
+        $userRoles = UserRole::find()
+            ->where(
+                [
+                    'user_id' => $userId->getValue(),
+                ],
+            )
+            ->with([
+                'roleInfo' => fn ($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'lastModifiedByInfo' => fn ($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'createdByInfo' => fn ($query) => $query->select(
+                    ['id', 'name']
+                ),
+                'userInfo' => fn ($query) => $query->select(
+                    ['id', 'name', 'email']
+                ),
+            ])
+            ->asArray()
+            ->all();
+        $cacheWorkspaceInfo = [];
+        $cacheWorkspacesProjects = [];
+        $cacheProjectInfo = [];
+        foreach($userRoles as &$userRole){
+            if(strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::workspace->value)){
+                if(!isset($cacheWorkspaceInfo[$userRole['target_id']])){
+                    $workspace = $this->workspaceRepository->retrieveById(
+                        new WorkspaceId($userRole['target_id'])
+                    )->toArray();
+                    $cacheWorkspaceInfo[$userRole['target_id']] = $workspace;
+                }
+                $userRole['workspaceInfo'] = $cacheWorkspaceInfo[$userRole['target_id']];
 
+                if(!isset($cacheWorkspacesProjects[$userRole['target_id']])){
+                    $projectId = $this->workspaceRepository->getProjectId(
+                        new WorkspaceId($userRole['target_id'])
+                    );
+                    $project = $this->projectRepository->retrieveById(
+                        $projectId
+                    )->toArray();
+                    $cacheWorkspacesProjects[$userRole['target_id']] = $project;
+                }
+                $userRole['projectInfo'] = $cacheWorkspacesProjects[$userRole['target_id']];
+            }
+            if (strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::project->value)){
+                if(!isset($cacheProjectInfo[$userRole['target_id']])){
+                    $project = $this->projectRepository->retrieveById(
+                        new ProjectId($userRole['target_id'])
+                    )->toArray();
+                    $cacheProjectInfo[$userRole['target_id']] = $project;
+                }
+                $userRole['projectInfo'] = $cacheProjectInfo[$userRole['target_id']];
+                $userRole['workspaceInfo'] = '--';
+            }
+            if (strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::global->value)){
+                $userRole['projectInfo'] = '--';
+                $userRole['workspaceInfo'] = '--';
+            }
+        }
+        return $userRoles;
+    }
     /**
      * @throws InvalidArgumentException
      */
