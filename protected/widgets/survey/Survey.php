@@ -38,6 +38,7 @@ class Survey extends Widget
     private bool $displayMode = false;
 
     private int $haveToDeleteDate = 0;
+    private string $surveySettings;
 
     public function init(): void
     {
@@ -103,9 +104,9 @@ class Survey extends Widget
         return $this;
     }
 
-    public function run(): string
+    public function setSurveySettings()
     {
-        $config = Json::encode([
+        $this->surveySettings = Json::encode([
             'structure' => $this->config,
             'data' => $this->data ?? [],
             'extraData' => $this->extraData ?? null,
@@ -118,11 +119,28 @@ class Survey extends Widget
             'displayMode' => $this->displayMode,
             'localeEndpoint' => $this->localeEndpoint,
         ]);
+        return $this;
+    }
+
+    public function getSurveySettings(): string
+    {
+        return $this->surveySettings;
+    }
+
+    public function getHaveToDeleteData(): int
+    {
+        return $this->haveToDeleteDate;
+    }
+
+    public function run(): string
+    {
+        $this->setSurveySettings();
+
         $this->view->registerJs(
             <<<JS
         // await new Promise((resolve) => setTimeout(resolve, 5000));
-            const config = {$config};
-            const haveToDeleteDate = {$this->haveToDeleteDate};
+            const config = {$this->getSurveySettings()};
+            const haveToDeleteDate = {$this->getHaveToDeleteData()};
             const surveyStructure = config.structure;
             
             if (config.localeEndpoint) {
@@ -132,10 +150,13 @@ class Survey extends Widget
             const survey = new SurveyKnockout.Survey(surveyStructure);
             
             survey.mode = config.displayMode ? "display" : "edit";
+            console.log('displayMode', survey.mode);
             
             let restartWithFreshData
             let waitForDataPromise
+            
             if (config.dataUrl && !(typeof shouldUpdateSurveyData !== 'undefined' &&  shouldUpdateSurveyData !== false)) {
+                console.log('testing php survey dataurl');
                 restartWithFreshData = async () => {
                     console.log("Clearing survey");
                     survey.clear()
@@ -210,10 +231,16 @@ class Survey extends Widget
                 survey.onServerValidateQuestions.add(async (sender, options) => {
                    
                     try {
+                        
+                        console.log('php json pre validation', {
+                            ...(config.extraData ?? {}),
+                            data: sender.data
+                        });
                         const json = await window.Herams.fetchWithCsrf(config.validationUrl, {
                             ...(config.extraData ?? {}),
                             data: sender.data
                         });
+                        console.log('php json validation response', json);
                         let visibleError = false
                         console.log(json, options.data);
                         for (const [attribute, errors] of Object.entries(json.errors)) {

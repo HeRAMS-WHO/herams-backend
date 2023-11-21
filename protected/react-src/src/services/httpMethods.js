@@ -1,6 +1,8 @@
 import {getCsrfToken} from "../utils/csrfTokenUtility";
+import ValidationError from "../utils/ValidationError";
 
 export const get = async (url, params = {}, headers = {}) => {
+    console.log('url', url);
     const fullUrl = new URL(url)
     Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
     const response = await fetch(fullUrl, {
@@ -31,6 +33,7 @@ export const deleteRequest = async (url, params = {}, headers = {}) => {
 };
 
 export const post = async (url, data) => {
+    console.log(url);
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -62,3 +65,39 @@ const handleResponse = (response) => {
     }
     return response.json();
 };
+
+export const fetchWithCsrf = async  (uri, body = null, method = 'POST') => {
+    const response = await fetch(uri, {
+        method,
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'X-CSRF-Token': getCsrfToken(),
+            Accept: 'application/json;indent=2',
+            'Accept-Language': document.documentElement.lang ?? 'en',
+            'Content-Type': 'application/json',
+        },
+        body: (body !== null && typeof body === 'object') ? JSON.stringify(body) : body,
+        redirect: 'error',
+        referrer: 'no-referrer',
+    })
+
+    if (response.status === 422) {
+        const json = await response.json()
+        throw new ValidationError(json)
+    }
+    if (response.status === 204) {
+        return null
+    }
+
+    if (!response.ok) {
+        if (response.headers.get('Content-Type').startsWith('application/json')) {
+            const content = await response.json()
+            throw new Error(`Request failed with code (${response.status}): ${response.statusText}, content: ${content}`)
+        } else {
+            throw new Error(`Request failed with code (${response.status}): ${response.statusText}`)
+        }
+    }
+    return response.json()
+}

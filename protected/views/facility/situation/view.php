@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
+use yii\helpers\Html;
 
 /**
  * @var View $this
@@ -15,22 +17,25 @@ use prime\widgets\survey\Survey;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
+ReactAsset::register($this);
 $this->title = 'View Situation';
 
-
-
 Section::begin();
-$survey = Survey::begin()
-    ->withConfig($survey->getConfig())
+$surveyJS = new Survey();
+$surveyJS->withConfig($survey->getConfig())
     ->withDataRoute([
         '/api/facility/view-situation',
         'id' => $cid,
     ], ['data'])
     ->withProjectId($projectId)
-    ->inDisplayMode()
+    ->inDisplayMode()->setSurveySettings();
 
-;
+$surveySettings = $surveyJS->getSurveySettings();
 
-Survey::end();
+?>
+    <!-- Mount point for the React component -->
+    <div id="ViewSituation" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>">
+    </div>
+<?php
 
 Section::end();

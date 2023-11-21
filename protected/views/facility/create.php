@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\widgets\Section;
 use prime\widgets\survey\Survey;
+use yii\helpers\Html;
 
 /**
  * @var View $this
@@ -12,14 +14,14 @@ use prime\widgets\survey\Survey;
  * @var \herams\common\values\ProjectId $projectId
  * @var \herams\common\values\WorkspaceId $workspaceId
  */
+ReactAsset::register($this);
 
 $this->title = Yii::t('app', 'Create facility');
 
 Section::begin()
     ->withHeader($this->title);
-
-Survey::begin()
-    ->withConfig($survey->getConfig())
+$surveyJS = new Survey();
+$surveyJS->withConfig($survey->getConfig())
     ->withProjectId($projectId)
     ->withExtraData([
         'workspaceId' => $workspaceId,
@@ -34,9 +36,12 @@ Survey::begin()
     ->withRedirectRoute([
         '/workspace/facilities',
         'id' => $workspaceId,
-    ])
-;
-
-Survey::end();
+    ])->setSurveySettings();
+$surveySettings = $surveyJS->getSurveySettings();
+?>
+    <div id="CreateFacility" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>"
+        >
+    </div>
+<?php
 
 Section::end();

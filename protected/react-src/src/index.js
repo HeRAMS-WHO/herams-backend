@@ -14,6 +14,17 @@ import UserIndex from "./components/Users/UserIndex";
 import reportWebVitals from "./reportWebVitals";
 import WorkspaceUserRoles from "./components/UserRoles/WorkspaceUserRoles";
 import GlobalUserRoles from "./components/UserRoles/GlobalUserRoles";
+import SurveyWidget from "./components/SurveyJs/SurveyWidget";
+import CreateFacility from "./components/FacilityPages/CreateFacility";
+import UpdateSituation from "./components/FacilityPages/UpdateSituation";
+import CreateAdminSituation from "./components/FacilityPages/AdminSituation/CreateAdminSituation";
+import ViewAdminSituation from "./components/FacilityPages/AdminSituation/ViewAdminSituation";
+import EditAdminSituation from "./components/FacilityPages/AdminSituation/EditAdminSituation";
+import CreateProject from "./components/ProjectPages/CreateProject";
+import CreateWorkspace from "./components/Workspace/CreateWorkspace";
+import ViewSituation from "./components/FacilityPages/ViewSituation";
+import EditSituation from "./components/FacilityPages/EditSituation";
+import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
@@ -24,7 +35,18 @@ const componentsMap = {
     'ProjectUserRoles': ProjectUserRoles,
     'WorkspaceUserRoles': WorkspaceUserRoles,
     'GlobalUserRoles': GlobalUserRoles,
-    'UserIndex': UserIndex
+    'UserIndex': UserIndex,
+    'SurveyWidget': SurveyWidget,
+    'CreateFacility': CreateFacility,
+    'UpdateSituation': UpdateSituation,
+    'CreateAdminSituation': CreateAdminSituation,
+    'ViewAdminSituation': ViewAdminSituation,
+    'EditAdminSituation': EditAdminSituation,
+    'CreateProject': CreateProject,
+    'CreateWorkspace': CreateWorkspace,
+    'ViewSituation': ViewSituation,
+    'EditSituation': EditSituation,
+    'ViewFacilitySurvey': ViewFacilitySurvey,
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {

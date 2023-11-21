@@ -1,5 +1,4 @@
 import {ComponentCollection, defaultV2Css, Serializer, StylesManager} from "survey-core";
-import {CustomWidgetCollection} from "survey-creator";
 
 
 // ... [the rest of the code]
@@ -108,7 +107,7 @@ export function applySurveyConfigurations() {
             },
         ],
         onInit() {
-            console.log(this)
+            // console.log(this)
         },
     })
 

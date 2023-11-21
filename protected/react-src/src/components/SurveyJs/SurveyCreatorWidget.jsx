@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
@@ -16,7 +16,7 @@ const SurveyCreatorWidget = (props) => {
     const [creator, setCreator] = useState(null);
 
     useEffect(() => {
-        const decodedConfig = atob(props.config);
+        const decodedConfig = atob(props.surveySettings);
         const config = JSON.parse(decodedConfig);
 
         const updateSurvey = async (saveNo, callback) => {
