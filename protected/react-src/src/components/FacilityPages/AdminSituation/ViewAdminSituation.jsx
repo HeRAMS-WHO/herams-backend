@@ -3,7 +3,7 @@ import SurveyWidget from "../../SurveyJs/SurveyWidget";
 
 const ViewAdminSituation = (props) => {
     return (
-        <SurveyWidget {...props}></SurveyWidget>
+        <SurveyWidget {...props}/>
     );
 };
 export default ViewAdminSituation;

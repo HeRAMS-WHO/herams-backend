@@ -48,7 +48,7 @@ $surveySettings = $surveyJS->getSurveySettings();
 
 ?>
     <!-- Mount point for the React component -->
-    <div id="ViewFacilitySurvey" data-config="<?= Html::encode(base64_encode($surveySettings)) ?>">
+    <div id="ViewFacilitySurvey" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>">
     </div>
 <?php
 

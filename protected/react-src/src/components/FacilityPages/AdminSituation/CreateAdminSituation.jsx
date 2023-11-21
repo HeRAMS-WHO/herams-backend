@@ -3,7 +3,8 @@ import SurveyWidget from "../../SurveyJs/SurveyWidget";
 
 const CreateAdminSituation = (props) => {
     return (
-        <SurveyWidget {...props}></SurveyWidget>
+        <SurveyWidget {...props} />
     );
-}
-export default CreateAdminSituation();
+};
+
+export default CreateAdminSituation;

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\Section;
@@ -15,8 +16,8 @@ use yii\helpers\Html;
  * @var \prime\models\survey\SurveyForSurveyJs $survey
  * @var \herams\common\values\FacilityId $facilityId
  */
+ReactAsset::register($this);
 $this->params['subject'] = 'Edit Admin Situation';
-
 $this->title = 'Edit Admin Situation';
 
 $surveyConfig = $survey->getConfig();

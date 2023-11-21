@@ -12,9 +12,9 @@ applyLocalizableProjectTextQuestion();
 applyProjectVisibilityQuestion();
 
 
-function SurveyWidget({ surveySettings }) {
+function SurveyFormWidget(props) {
     const [survey, setSurvey] = useState(null);
-    const config = JSON.parse(atob(surveySettings));
+    const config = JSON.parse(atob(props.surveySettings));
 
     useEffect(() => {
         const initSurvey = async () => {
@@ -54,11 +54,11 @@ function SurveyWidget({ surveySettings }) {
         };
 
         initSurvey();
-    }, [surveySettings]);
+    }, [props.surveySettings]);
 
     return <div id={config.elementId}>
         {survey && <SurveyComponent model={survey} />}
     </div>
 }
 
-export default SurveyWidget;
+export default SurveyFormWidget;

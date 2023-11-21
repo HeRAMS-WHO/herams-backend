@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\interfaces\FacilityForTabMenu;
 use prime\widgets\Section;
@@ -16,6 +17,7 @@ use yii\helpers\Html;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
+ReactAsset::register($this);
 $this->title = 'View Admin Situation';
 
 
@@ -35,7 +37,7 @@ $surveySettings = $surveyJS->getSurveySettings();
 
 ?>
     <!-- Mount point for the React component -->
-    <div id="ViewAdminSituation" data-config="<?= Html::encode(base64_encode($surveySettings)) ?>">
+    <div id="ViewAdminSituation" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>">
     </div>
 <?php
 

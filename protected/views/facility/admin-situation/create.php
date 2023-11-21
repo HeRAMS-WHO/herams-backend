@@ -66,7 +66,7 @@ $surveyHaveToDeleteData = $surveyJS->getHaveToDeleteData();
 
 ?>
     <!-- Mount point for the React component -->
-    <div id="CreateAdminSituation" data-config="<?= Html::encode(base64_encode($surveySettings)) ?>" data-have-to-delete-date="<?= $surveyHaveToDeleteData ?>">
+    <div id="CreateAdminSituation" data-survey-settings="<?= Html::encode(base64_encode($surveySettings)) ?>" data-have-to-delete-date="<?= $surveyHaveToDeleteData ?>">
     </div>
 <?php
 

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\interfaces\FacilityForTabMenu;
@@ -17,6 +18,7 @@ use yii\helpers\Html;
  * @var \herams\common\values\FacilityId $facilityId
  */
 
+ReactAsset::register($this);
 //$this->params['subject'] = Icon::healthFacility() . $tabMenuModel->getTitle();
 $this->title = 'Edit Situation';
 
