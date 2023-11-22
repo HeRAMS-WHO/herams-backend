@@ -114,6 +114,9 @@ class Workspace extends Model
                     ],
                     'default' => SORT_DESC,
                 ],
+                'last_sync_date' => [
+                    'default' => SORT_DESC,
+                ],
                 'favorite' => [
                     'asc' => new Expression("[[id]] IN ($favorites)"),
                     'desc' => new Expression("[[id]] NOT IN ($favorites)"),

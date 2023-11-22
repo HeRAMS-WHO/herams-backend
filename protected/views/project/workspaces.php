@@ -102,6 +102,10 @@ echo GridView::widget(
                 'attribute' => 'latestUpdate',
                 'class'     => DateTimeColumn::class,
             ],
+            [
+                'attribute' => 'last_sync_date',
+                'class'     => DateTimeColumn::class,
+            ],
             ['attribute' => 'contributorCount'],
             ['attribute' => 'facilityCount'],
             ['attribute' => 'responseCount'],
