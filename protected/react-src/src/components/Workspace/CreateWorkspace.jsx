@@ -3,7 +3,7 @@ import SurveyFormWidget from "../SurveyJs/SurveyFormWidget";
 
 const CreateWorkspace = (props) => {
     return (
-        <SurveyFormWidget {...props}></SurveyFormWidget>
+        <SurveyFormWidget {...props}/>
     );
 };
 export default CreateWorkspace;
