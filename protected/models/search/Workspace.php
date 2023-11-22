@@ -49,7 +49,7 @@ class Workspace extends Model
         $subqueryResponse = (new \yii\db\Query())
             ->select([
                 'workspace_id',
-                'latestUpdate' => 'MAX(last_updated)',
+                'latestUpdate' => 'MAX(date)',
                 'facilityCount' => 'COUNT(DISTINCT hf_id)',
                 'responseCount' => 'COUNT(*)'
             ])
