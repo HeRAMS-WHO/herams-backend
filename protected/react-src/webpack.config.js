@@ -28,10 +28,16 @@ module.exports = {
             template: "./src/index.html",
         }),
         new CleanWebpackPlugin(),
+        new webpack.ProvidePlugin({
+            React: 'react',
+        }),
         // new webpack.HotModuleReplacementPlugin(),
     ],
     resolve: {
         extensions: [".js", ".ts", ".tsx", ".jsx"],
+        alias: {
+            'React': path.resolve('./node_modules/react')
+        }
     },
     module: {
         rules: [

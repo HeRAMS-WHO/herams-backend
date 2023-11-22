@@ -4,6 +4,10 @@ FROM node:20.6.0
 # Arguments for user and group IDs
 ARG USER_ID
 ARG GROUP_ID
+# Print user and group IDs in STDOUT
+# Print USER_ID and GROUP_ID
+RUN echo "USER_ID: $USER_ID"
+RUN echo "GROUP_ID: $GROUP_ID"
 
 # Create a new user "nodeuser" with the provided UID and GID
 RUN if getent passwd nodeuser ; then deluser nodeuser; fi && \
