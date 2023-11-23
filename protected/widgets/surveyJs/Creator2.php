@@ -30,6 +30,7 @@ final class Creator2 extends Widget
     private string $result;
 
     private string $config;
+    private array $htmlOptions;
 
     public function setSurveyId(null|SurveyId $surveyId)
     {
@@ -51,16 +52,25 @@ final class Creator2 extends Widget
         return $this->result;
     }
 
+    public function getHtmlOptions(): array
+    {
+        return $this->htmlOptions;
+    }
+    public function setHtmlOptions()
+    {
+        $this->htmlOptions = [
+            'id' => $this->getId(),
+            ...$this->options,
+        ];
+    }
+
     public function setConfig($surveyId = null)
     {
         if (! is_null($surveyId)) {
             $this->setSurveyId($surveyId);
         }
-        $htmlOptions = [
-            'id' => $this->getId(),
-            ...$this->options,
-        ];
-        $this->result = Html::tag('div', '', $htmlOptions);
+        $this->setHtmlOptions();
+
         $this->config = Json::encode([
             'creatorOptions' => $this->clientOptions,
             'createUrl' => Url::to(['/api/survey/create']),
@@ -68,7 +78,7 @@ final class Creator2 extends Widget
                 '/api/survey/view',
                 'id' => $this->surveyId,
             ]) : null,
-            'elementId' => $htmlOptions['id'],
+            'elementId' => $this->htmlOptions['id'],
             'updateUrl' => Url::to(
                 [
                     '/survey/update',
@@ -83,6 +93,7 @@ final class Creator2 extends Widget
     {
         $this->registerAssetBundles();
         $this->setConfig();
+        $this->result = Html::tag('div', '', $this->htmlOptions);
 
         $this->view->registerJs(
             <<<JS
