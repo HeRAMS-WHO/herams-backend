@@ -22,13 +22,6 @@ $this->endBlock();
 
 Section::begin();
 
-//
-//$survey = SurveyFormWidget::begin()
-//    ->withForm($form)
-//;
-//
-//SurveyFormWidget::end();
-
 $survey = new SurveyFormWidget();
 $survey->withForm($form)->setConfig();
 $config = $survey->getConfig();

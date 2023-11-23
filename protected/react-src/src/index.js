@@ -25,6 +25,8 @@ import CreateWorkspace from "./components/Workspace/CreateWorkspace";
 import ViewSituation from "./components/FacilityPages/ViewSituation";
 import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
+import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
+import UpdateProject from "./components/ProjectPages/UpdateProject";
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
@@ -44,9 +46,11 @@ const componentsMap = {
     'EditAdminSituation': EditAdminSituation,
     'CreateProject': CreateProject,
     'CreateWorkspace': CreateWorkspace,
+    'UpdateWorkspace': UpdateWorkspace,
     'ViewSituation': ViewSituation,
     'EditSituation': EditSituation,
     'ViewFacilitySurvey': ViewFacilitySurvey,
+    'UpdateProject': UpdateProject
 };
 
 for (const [componentName, Component] of Object.entries(componentsMap)) {
