@@ -87,7 +87,6 @@ final class Creator2 extends Widget
                 true
             ),
         ]);
-        print_r($this->config);
     }
 
     public function run(): string
