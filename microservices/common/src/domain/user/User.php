@@ -38,7 +38,7 @@ use function iter\chain;
  * @property string $name
  * @property bool $newsletter_subscription
  * @property string $password_hash
- * @property string $last_login
+ * @property string $last_login_date
  * @property int $updated_at
  *
  * @property Favorite[] $favorites
@@ -230,9 +230,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * @return bool
      */
-    public function updateLastLogin(): bool
+    public function updateLastLoginDate(): bool
     {
-        $this->setAttribute('last_login', Carbon::now('GMT'));
+        $this->setAttribute('last_login_date', Carbon::now('GMT'));
 
         return $this->save();
     }

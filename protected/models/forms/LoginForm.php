@@ -66,7 +66,7 @@ class LoginForm extends Model
     {
         if ($this->validate()) {
             $user = $this->getUser();
-            $user->updateLastLogin();
+            $user->updateLastLoginDate();
 
             return Yii::$app->user->login($user);
         } else {
