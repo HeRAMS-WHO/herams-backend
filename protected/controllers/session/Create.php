@@ -6,7 +6,6 @@ namespace prime\controllers\session;
 
 use herams\common\helpers\ModelHydrator;
 use prime\models\forms\LoginForm;
-use prime\models\forms\user\RequestAccountForm;
 use yii\base\Action;
 use yii\caching\CacheInterface;
 use yii\web\Request;
@@ -35,7 +34,6 @@ class Create extends Action
 
         return $this->controller->render('create', [
             'model' => $model,
-            'requestAccountForm' => new RequestAccountForm($cache),
         ]);
     }
 }

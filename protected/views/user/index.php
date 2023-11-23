@@ -47,4 +47,3 @@ Section::begin()
 <div id="UserIndex"></div>
 <?php
 Section::end();
-

@@ -44,7 +44,5 @@ class M230913153825RenameAndAddFieldsInUserTable extends Migration
         $this->dropColumn('{{%user}}', 'created_by');
         $this->dropColumn('{{%user}}', 'last_modified_by');
         $this->dropColumn('{{%user}}', 'last_login_date');
-
-
     }
 }

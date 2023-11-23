@@ -137,14 +137,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'id' => $id,
         ]);
     }
+
     public function getCreator(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'created_by'])->alias('creator');
+        return $this->hasOne(User::class, [
+            'id' => 'created_by',
+        ])->alias('creator');
     }
+
     public function getUpdater(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'last_modified_by'])->alias('updater');
+        return $this->hasOne(User::class, [
+            'id' => 'last_modified_by',
+        ])->alias('updater');
     }
+
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return null;

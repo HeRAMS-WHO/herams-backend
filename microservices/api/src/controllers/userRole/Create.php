@@ -86,6 +86,7 @@ final class Create extends Action
         }
         throw new InvalidArgumentException('Invalid target');
     }
+
     private function createGlobalUserRole(
         array $data,
         UserRoleRepository $userRoleRepository,
@@ -130,7 +131,6 @@ final class Create extends Action
         }
     }
 
-
     private function getJsonDictionary(
         int $userId,
         int $roleId,
@@ -146,7 +146,6 @@ final class Create extends Action
         ];
     }
 
-
     private function createUserRole(
         ModelHydrator $modelHydrator,
         array $jsonDictionary,
@@ -160,7 +159,6 @@ final class Create extends Action
         $this->modelValidator->checkIfOkay($requestModel);
         $userRoleRepository->create($requestModel);
     }
-
 
     private function createUserRoleForWorkspaces(
         array $data,
