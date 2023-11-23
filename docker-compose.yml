@@ -232,7 +232,7 @@ services:
       - traefik.http.routers.react-app.rule=Host(`react.herams.test`)
       - traefik.http.routers.react-app.entrypoints=websecure
       - traefik.http.routers.react-app.tls=true
-      - traefik.http.services.react-app.loadbalancer.server.port=3000
+      - traefik.http.services.react-app.loadbalancer.server.port=9090
     user: ${UID-0}:${GID-0}
   cli:
     << : *base

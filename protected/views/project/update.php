@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use herams\common\models\PermissionOld;
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\widgets\ButtonGroup;
@@ -17,6 +18,7 @@ use yii\helpers\Html;
  * @var \herams\common\values\ProjectId $projectId
  * @var View $this
  */
+ReactAsset::register($this);
 $this->title = \Yii::t('app', "Project management");
 $this->params['subject'] = $project->getTitle();
 
@@ -31,10 +33,15 @@ Section::begin()
     ->withHeader(Yii::t('app', 'Project settings'));
 echo '<script>const shouldUpdateSurveyData = false;</script>';
 
-$survey = SurveyFormWidget::begin()
-    ->withForm($form);
+$survey = new SurveyFormWidget();
+$survey->withForm($form)->setConfig();
+$config = $survey->getConfig();
 
-SurveyFormWidget::end();
+?>
+    <div id="UpdateProject" data-survey-settings="<?= Html::encode(base64_encode($config)) ?>"
+    >
+    </div>
+<?php
 
 Section::end();
 
