@@ -17,7 +17,9 @@ final class UserRepository
     public function retrieve(int $id): User|\yii\db\ActiveRecord|null
     {
         return User::find()
-            ->where(['prime2_user.id' => $id])
+            ->where([
+                'prime2_user.id' => $id,
+            ])
             ->joinWith('creator')
             ->one();
     }
@@ -39,7 +41,7 @@ final class UserRepository
 
         return $result;
     }
-    
+
     public function updateAll(array $attributes, array|string $condition = '', array $params = []): int
     {
         return User::updateAll($attributes, $condition, $params);

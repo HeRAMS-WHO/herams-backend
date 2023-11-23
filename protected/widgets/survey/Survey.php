@@ -38,6 +38,7 @@ class Survey extends Widget
     private bool $displayMode = false;
 
     private int $haveToDeleteDate = 0;
+
     private string $surveySettings;
 
     public function init(): void

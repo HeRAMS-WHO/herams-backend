@@ -64,8 +64,8 @@ final class UserRoleRequest extends RequestModel
             ],
             [
                 ['targetId'],
-                SafeValidator::class
-            ]
+                SafeValidator::class,
+            ],
         ];
     }
 }

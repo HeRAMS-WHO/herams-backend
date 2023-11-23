@@ -30,6 +30,7 @@ final class Creator2 extends Widget
     private string $result;
 
     private string $config;
+
     private array $htmlOptions;
 
     public function setSurveyId(null|SurveyId $surveyId)
@@ -56,6 +57,7 @@ final class Creator2 extends Widget
     {
         return $this->htmlOptions;
     }
+
     public function setHtmlOptions()
     {
         $this->htmlOptions = [

@@ -17,9 +17,7 @@ use InvalidArgumentException;
 
 final class UserRoleRepository
 {
-    /**
-     * UserRoleRepository constructor.
-     */
+    
     public function __construct(
         private ModelHydrator $modelHydrator,
         private ProjectRepository $projectRepository,
@@ -41,7 +39,6 @@ final class UserRoleRepository
         }
         return new UserRoleId($record->id);
     }
-
 
     public function retrieveUserRolesInProject(ProjectId $projectId): array
     {
@@ -114,7 +111,6 @@ final class UserRoleRepository
         return $userRoles;
     }
 
-
     public function retrieveUserRolesInWorkspace(
         WorkspaceId $workspaceId
     ): array {
@@ -154,7 +150,9 @@ final class UserRoleRepository
         }
         return $userRoles;
     }
-    public function retrieveUserRolesForAUser(UserId $userId){
+
+    public function retrieveUserRolesForAUser(UserId $userId)
+    {
         $userRoles = UserRole::find()
             ->where(
                 [
@@ -180,9 +178,9 @@ final class UserRoleRepository
         $cacheWorkspaceInfo = [];
         $cacheWorkspacesProjects = [];
         $cacheProjectInfo = [];
-        foreach($userRoles as &$userRole){
-            if(strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::workspace->value)){
-                if(!isset($cacheWorkspaceInfo[$userRole['target_id']])){
+        foreach ($userRoles as &$userRole) {
+            if (strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::workspace->value)) {
+                if (! isset($cacheWorkspaceInfo[$userRole['target_id']])) {
                     $workspace = $this->workspaceRepository->retrieveById(
                         new WorkspaceId($userRole['target_id'])
                     )->toArray();
@@ -190,7 +188,7 @@ final class UserRoleRepository
                 }
                 $userRole['workspaceInfo'] = $cacheWorkspaceInfo[$userRole['target_id']];
 
-                if(!isset($cacheWorkspacesProjects[$userRole['target_id']])){
+                if (! isset($cacheWorkspacesProjects[$userRole['target_id']])) {
                     $projectId = $this->workspaceRepository->getProjectId(
                         new WorkspaceId($userRole['target_id'])
                     );
@@ -201,8 +199,8 @@ final class UserRoleRepository
                 }
                 $userRole['projectInfo'] = $cacheWorkspacesProjects[$userRole['target_id']];
             }
-            if (strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::project->value)){
-                if(!isset($cacheProjectInfo[$userRole['target_id']])){
+            if (strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::project->value)) {
+                if (! isset($cacheProjectInfo[$userRole['target_id']])) {
                     $project = $this->projectRepository->retrieveById(
                         new ProjectId($userRole['target_id'])
                     )->toArray();
@@ -211,13 +209,14 @@ final class UserRoleRepository
                 $userRole['projectInfo'] = $cacheProjectInfo[$userRole['target_id']];
                 $userRole['workspaceInfo'] = '--';
             }
-            if (strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::global->value)){
+            if (strtolower($userRole['target']) == strtolower(UserRoleTargetEnum::global->value)) {
                 $userRole['projectInfo'] = '--';
                 $userRole['workspaceInfo'] = '--';
             }
         }
         return $userRoles;
     }
+
     /**
      * @throws InvalidArgumentException
      */

@@ -38,8 +38,7 @@ class UserController extends \yii\rest\Controller
                 'class' => View::class,
                 'id' => \Yii::$app->user->id,
             ],
-            'roles' => Roles::class
+            'roles' => Roles::class,
         ];
     }
-
 }
