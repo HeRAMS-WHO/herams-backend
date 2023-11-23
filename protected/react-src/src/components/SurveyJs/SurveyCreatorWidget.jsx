@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
+import "survey-core/survey.i18n.js";
+import { surveyLocalization } from "survey-core";
 
 import { applySurveyConfigurations } from './custom/survey-modifications';
 import {applyHSDUStateQuestion} from "./custom/HSDUStateQuestion";
@@ -15,6 +17,7 @@ applyFacilityTypeQuestion();
 
 const SurveyCreatorWidget = (props) => {
     const [creator, setCreator] = useState(null);
+    surveyLocalization.supportedLocales = [];
     useEffect(() => {
         const decodedConfig = atob(props.surveySettings);
         const config = JSON.parse(decodedConfig);
