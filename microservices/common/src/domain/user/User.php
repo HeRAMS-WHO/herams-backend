@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace herams\common\domain\user;
 
+use Carbon\Carbon;
 use herams\common\domain\favorite\Favorite;
 use herams\common\domain\favorite\FavoriteQuery;
 use herams\common\enums\Language;
@@ -37,6 +38,7 @@ use function iter\chain;
  * @property string $name
  * @property bool $newsletter_subscription
  * @property string $password_hash
+ * @property string $last_login
  * @property int $updated_at
  *
  * @property Favorite[] $favorites
@@ -223,5 +225,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function setOnlyFields(array $selectedFields = [])
     {
         $this->selectedFields = $selectedFields;
+    }
+
+    /**
+     * @return bool
+     */
+    public function updateLastLogin(): bool
+    {
+        $this->setAttribute('last_login', Carbon::now('GMT'));
+
+        return $this->save();
     }
 }
