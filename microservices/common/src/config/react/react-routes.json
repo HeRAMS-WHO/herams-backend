@@ -1,0 +1,440 @@
+{
+  "pageTitle": "Homepage",
+  "URL": "/",
+  "hasTabs": false,
+  "tabName": "",
+  "redirectTo": "",
+  "permissions": [],
+  "children": [
+    {
+      "pageTitle": "Projects",
+      "URL": "/project",
+      "hasTabs": false,
+      "permission": [],
+      "children": [
+        {
+          "pageTitle": "Create project",
+          "URL": "/project/create",
+          "hasTabs": false,
+          "tabName": "",
+          "redirectTo": "",
+          "permissions": [
+            "CREATE_PROJECT"
+          ],
+          "children": []
+        },
+        {
+          "pageTitle": ":ProjectName",
+          "URL": "/project/:projectId",
+          "hasTabs": false,
+          "tabName": "",
+          "redirectTo": "/project/:projectId/workspace",
+          "permissions": [],
+          "children": [
+            {
+              "pageTitle": ":ProjectName",
+              "URL": "/project/:projectId/workspace",
+              "hasTabs": true,
+              "tabName": "Workspaces",
+              "redirectTo": "",
+              "permissions": [],
+              "children": [
+                {
+                  "pageTitle": ":Create workspace",
+                  "URL": "/project/:projectId/workspace/create",
+                  "hasTabs": false,
+                  "tabName": "",
+                  "redirectTo": "",
+                  "permissions": [
+                    "CREATE_WS"
+                  ],
+                  "children": []
+                },
+                {
+                  "pageTitle": ":workspaceName",
+                  "URL": "/project/:projectId/workspace/:WSID",
+                  "hasTabs": false,
+                  "tabName": "",
+                  "redirectTo": "/project/:projectId/workspace/:WSID/HSDU",
+                  "permissions": [
+                    "VIEW_HSDU_LIST",
+                    "EXPORT_WS",
+                    "VIEW_WS_USERS",
+                    "UPDATE_WS_SETTINGS"
+                  ],
+                  "children": [
+                    {
+                      "pageTitle": ":workspaceName",
+                      "URL": "/project/:projectId/workspace/:WSID/HSDU",
+                      "hasTabs": true,
+                      "tabName": "HSDU (:HSDUCount)",
+                      "redirectTo": "",
+                      "permissions": [
+                        "VIEW_HSDU_LIST"
+                      ],
+                      "children": [
+                        {
+                          "pageTitle": "Create HSDU",
+                          "URL": "/project/:projectId/workspace/:WSID/HSDU/create",
+                          "hasTabs": false,
+                          "tabName": "",
+                          "redirectTo": "",
+                          "permissions": [
+                            "CREATE_HSDU"
+                          ],
+                          "children": []
+                        },
+                        {
+                          "pageTitle": ":HSDUName",
+                          "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID",
+                          "hasTabs": false,
+                          "tabName": "",
+                          "redirectTo": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update",
+                          "permissions": [
+                            "VIEW_SIT_RESPONSE_LIST",
+                            "VIEW_ADM_RESPONSE_LIST",
+                            "DELETE_HSDU"
+                          ],
+                          "children": [
+                            {
+                              "pageTitle": ":HSDUName",
+                              "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update",
+                              "hasTabs": true,
+                              "tabName": "Situation updates (:SitUpCount)",
+                              "redirectTo": "",
+                              "permissions": [
+                                "VIEW_SIT_RESPONSE_LIST"
+                              ],
+                              "children": [
+                                {
+                                  "pageTitle": "Add new Situation Update",
+                                  "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/create",
+                                  "hasTabs": false,
+                                  "tabName": "",
+                                  "redirectTo": "",
+                                  "permissions": [
+                                    "CREATE_SIT_RESPONSE"
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "pageTitle": "Edit Situation Update",
+                                  "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/:updateID/edit",
+                                  "hasTabs": false,
+                                  "tabName": "",
+                                  "redirectTo": "",
+                                  "permissions": [
+                                    "UPDATE_ANY_SIT_RESPONSE"
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "pageTitle": "View Situation Update",
+                                  "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/:updateID",
+                                  "hasTabs": false,
+                                  "tabName": "",
+                                  "redirectTo": "",
+                                  "permissions": [
+                                    "VIEW_SIT_RESPONSE"
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "pageTitle": ":HSDUName",
+                              "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update",
+                              "hasTabs": true,
+                              "tabName": "HSDU updates (:AdmUpCount)",
+                              "redirectTo": "",
+                              "permissions": [
+                                "VIEW_ADM_RESPONSE_LIST"
+                              ],
+                              "children": [
+                                {
+                                  "pageTitle": "Add new HSDU Update",
+                                  "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/create",
+                                  "hasTabs": false,
+                                  "tabName": "",
+                                  "redirectTo": "",
+                                  "permissions": [
+                                    "CREATE_ADM_RESPONSE"
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "pageTitle": "Edit HSDU Update",
+                                  "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/:updateID/edit",
+                                  "hasTabs": false,
+                                  "tabName": "",
+                                  "redirectTo": "",
+                                  "permissions": [
+                                    "UPDATE_ANY_ADN_RESPONSE"
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "pageTitle": "View HSDU Update",
+                                  "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/:updateID",
+                                  "hasTabs": false,
+                                  "tabName": "",
+                                  "redirectTo": "",
+                                  "permissions": [
+                                    "VIEW_ADM_RESPONSE"
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "pageTitle": ":HSDUName",
+                              "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/settings",
+                              "hasTabs": true,
+                              "tabName": "Delete HSDU",
+                              "redirectTo": "",
+                              "permissions": [
+                                "DELETE_HSDU"
+                              ],
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "pageTitle": ":workspaceName",
+                      "URL": "/project/:projectId/workspace/:WSID/export",
+                      "hasTabs": true,
+                      "tabName": "Export data",
+                      "redirectTo": "",
+                      "permissions": [
+                        "EXPORT_WS"
+                      ],
+                      "children": []
+                    },
+                    {
+                      "pageTitle": ":workspace",
+                      "URL": "/project/:projectId/workspace/:WSID/user",
+                      "hasTabs": true,
+                      "tabName": "Users (:WsUsersCount)",
+                      "redirectTo": "",
+                      "permissions": [
+                        "VIEW_WS_USERS"
+                      ],
+                      "children": []
+                    },
+                    {
+                      "pageTitle": ":workspace",
+                      "URL": "/project/:projectId/workspace/:WSID/settings",
+                      "hasTabs": true,
+                      "tabName": "Workspace settings",
+                      "redirectTo": "",
+                      "permissions": [
+                        "UPDATE_WS_SETTINGS"
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "pageTitle": ":ProjectName",
+              "URL": "/project/:projectId/export",
+              "hasTabs": true,
+              "tabName": "Export data",
+              "redirectTo": "",
+              "permissions": [
+                "EXPORT_PROJECT"
+              ],
+              "children": []
+            },
+            {
+              "pageTitle": ":ProjectName",
+              "URL": "/project/:projectId/user",
+              "hasTabs": true,
+              "tabName": "Users (:prUserCount)",
+              "redirectTo": "",
+              "permissions": [
+                "VIEW_PROJECT_USERS"
+              ],
+              "children": []
+            },
+            {
+              "pageTitle": ":ProjectName",
+              "URL": "/project/:projectId/dashboard-page",
+              "hasTabs": true,
+              "tabName": "Dashboard settings",
+              "redirectTo": "",
+              "permissions": [
+                "UPDATE_DASHBOARD_SETTINGS"
+              ],
+              "children": [
+                {
+                  "pageTitle": "Create page",
+                  "URL": "/project/:projectId/dashboard-page/create",
+                  "hasTabs": false,
+                  "tabName": "",
+                  "redirectTo": "",
+                  "permissions": [
+                    "UPDATE_DASHBOARD_SETTINGS"
+                  ],
+                  "children": []
+                },
+                {
+                  "pageTitle": "Import pages",
+                  "URL": "/project/:projectId/dashboard-page/import",
+                  "hasTabs": false,
+                  "tabName": "",
+                  "redirectTo": "",
+                  "permissions": [
+                    "UPDATE_DASHBOARD_SETTINGS"
+                  ],
+                  "children": []
+                },
+                {
+                  "pageTitle": ":pageName",
+                  "URL": "/project/:projectId/dashboard-page/:pageID",
+                  "hasTabs": false,
+                  "tabName": "",
+                  "redirectTo": "",
+                  "permissions": [
+                    "UPDATE_DASHBOARD_SETTINGS"
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "pageTitle": ":ProjectName",
+              "URL": "/project/:projectId/settings",
+              "hasTabs": true,
+              "tabName": "Project settings",
+              "redirectTo": "",
+              "permissions": [
+                "UPDATE_PROJECT_SETTINGS"
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "pageTitle": "Dashboard",
+          "URL": "/project/:projectId/dashboard",
+          "hasTabs": false,
+          "tabName": "",
+          "redirectTo": "",
+          "permissions": [],
+          "children": []
+        }
+      ]
+    },
+    {
+      "pageTitle": "Administration",
+      "URL": "/admin",
+      "hasTabs": false,
+      "tabName": "",
+      "redirectTo": "/admin/survey",
+      "permissions": [
+        "VIEW_SURVEY",
+        "VIEW_GLOBAL_USER",
+        "VIEW_ROLE"
+      ],
+      "children": [
+        {
+          "pageTitle": "Administration",
+          "URL": "/admin/survey",
+          "hasTabs": true,
+          "tabName": "Surveys",
+          "redirectTo": "",
+          "permissions": [
+            "VIEW_SURVEY"
+          ],
+          "children": [
+            {
+              "pageTitle": "Create survey",
+              "URL": "/admin/survey/create",
+              "hasTabs": false,
+              "tabName": "",
+              "redirectTo": "",
+              "permissions": [
+                "CREATE_SURVEY"
+              ],
+              "children": []
+            },
+            {
+              "pageTitle": "Update survey",
+              "URL": "/admin/survey/:surveyID",
+              "hasTabs": false,
+              "tabName": "",
+              "redirectTo": "",
+              "permissions": [
+                "UPDATE_SURVEY"
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "pageTitle": "Administration",
+          "URL": "/admin/user",
+          "hasTabs": true,
+          "tabName": "Users",
+          "redirectTo": "",
+          "permissions": [
+            "VIEW_GLOBAL_USER"
+          ],
+          "children": [
+            {
+              "pageTitle": ":userName",
+              "URL": "/admin/user/:userID",
+              "hasTabs": false,
+              "tabName": "",
+              "redirectTo": "",
+              "permissions": [
+                "VIEW_GLOBAL_USER"
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "pageTitle": "Administration",
+          "URL": "/admin/role",
+          "hasTabs": true,
+          "tabName": "Roles",
+          "redirectTo": "",
+          "permissions": [
+            "VIEW_ROLE"
+          ],
+          "migrated": true,
+          "element": "RolesPage/RolesList",
+          "children": [
+            {
+              "pageTitle": "Create Role",
+              "URL": "/admin/role/create",
+              "hasTabs": false,
+              "tabName": "",
+              "redirectTo": "",
+              "permissions": [
+                "CREATE_ROLE"
+              ],
+              "children": []
+            },
+            {
+              "pageTitle": "Update Role",
+              "URL": "/admin/role/:roleID",
+              "hasTabs": false,
+              "tabName": "",
+              "redirectTo": "",
+              "permissions": [
+                "UPDATE_ROLE"
+              ],
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

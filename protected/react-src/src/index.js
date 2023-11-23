@@ -29,7 +29,7 @@ import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
 const componentsMap = {
     'DemoComponent': DemoComponent,
     'Profile': Profile,
-    'RolesList': RolesList,
+    'root': RolesList,
     'RoleEdit': RolesEdit,
     'SurveyCreatorWidget': SurveyCreatorWidget,
     'ProjectUserRoles': ProjectUserRoles,
