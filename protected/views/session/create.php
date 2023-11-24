@@ -10,6 +10,7 @@ use yii\helpers\Html;
 /**
  * @var \prime\components\View $this
  * @var \prime\models\forms\LoginForm $model
+ * @var \prime\models\forms\user\RequestAccountForm $requestAccountForm
  */
 $this->title = \Yii::$app->name;
 
@@ -74,5 +75,44 @@ echo Form::widget([
 ActiveForm::end();
 
 echo Html::endTag('div');
+echo Html::tag('hr');
+echo Html::beginTag('div', [
+    'class' => 'signup',
+]);
+echo Html::tag('span', \Yii::t('app', "Register"), [
+    'class' => 'title',
+]);
+echo Form::widget([
+    'model' => $requestAccountForm,
+    'form' => $form = ActiveForm::begin([
+        'action' => ['/user/request-account'],
+        'id' => 'request-form',
+        'enableAjaxValidation' => false,
+        'enableClientValidation' => true,
+        'validateOnBlur' => true,
+        'validateOnType' => false,
+        'validateOnChange' => false,
+        'type' => ActiveForm::TYPE_VERTICAL,
+    ]),
+    'columns' => 1,
+    'attributes' => [
+        'email' => [
+            'type' => Form::INPUT_TEXT,
+            'options' => [
+                'placeholder' => 'email',
+            ],
+        ],
+        FormButtonsWidget::embed([
+            'buttons' => [
+                [
+                    'type' => 'submit',
+                    'label' => \Yii::t('app', 'Register'),
+                    'style' => 'primary-inverse',
+                ],
+            ],
+        ]),
+    ],
+]);
+ActiveForm::end();
 echo Html::endTag('div');
 echo Html::endTag('div');

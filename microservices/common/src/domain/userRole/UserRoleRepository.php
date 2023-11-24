@@ -17,7 +17,6 @@ use InvalidArgumentException;
 
 final class UserRoleRepository
 {
-    
     public function __construct(
         private ModelHydrator $modelHydrator,
         private ProjectRepository $projectRepository,
