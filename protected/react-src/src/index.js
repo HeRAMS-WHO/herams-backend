@@ -1,9 +1,6 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
-
-import './index.css';
-// import 'bootstrap/dist/css/bootstrap-grid.min.css';
-import './css/react-tags.css';
+import reactRoutes from './config/react-routes.json';
+import App from './App';
 import DemoComponent from './components/DemoComponent';
 import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
@@ -25,6 +22,11 @@ import CreateWorkspace from "./components/Workspace/CreateWorkspace";
 import ViewSituation from "./components/FacilityPages/ViewSituation";
 import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
+import {createRoot} from "react-dom/client";
+
+import './index.css';
+import './css/react-tags.css';
+
 
 const componentsMap = {
     'DemoComponent': DemoComponent,
@@ -48,9 +50,9 @@ const componentsMap = {
     'EditSituation': EditSituation,
     'ViewFacilitySurvey': ViewFacilitySurvey,
 };
-
-for (const [componentName, Component] of Object.entries(componentsMap)) {
-    const root = document.getElementById(componentName);
+console.log(reactRoutes);
+/*for (const [componentName, Component] of Object.entries(componentsMap)) {
+    //const root = document.getElementById(componentName);
 
     // Check if the root exists on the page
     if (root) {
@@ -59,7 +61,13 @@ for (const [componentName, Component] of Object.entries(componentsMap)) {
         const reactRoot = createRoot(root);
         reactRoot.render(<Component {...props} />);
     }
-}
+}*/
+console.log(reactRoutes);
+const root = document.getElementById('root');
+const reactRoot = createRoot(root);
+reactRoot.render(<>
+    <App />
+</>);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

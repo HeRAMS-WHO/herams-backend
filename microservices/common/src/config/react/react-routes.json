@@ -408,7 +408,7 @@
             "VIEW_ROLE"
           ],
           "migrated": true,
-          "element": "RolesPage/RolesList",
+          "component": "RolesPage/RolesList",
           "children": [
             {
               "pageTitle": "Create Role",
