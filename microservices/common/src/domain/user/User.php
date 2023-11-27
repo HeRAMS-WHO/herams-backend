@@ -68,6 +68,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return array_merge(parent::behaviors(), [
             'timestamp' => [
                 'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => 'last_modified_date',
+                'createdAtAttribute' => 'created_date',
+                'value' => Carbon::now('GMT')
             ],
         ]);
     }
