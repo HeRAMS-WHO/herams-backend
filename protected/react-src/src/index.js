@@ -1,14 +1,22 @@
 import React from 'react';
 import reactRoutes from './config/react-routes.json';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Routes,
+    Link,
+    useLocation
+  } from "react-router-dom";
+import {createRoot} from "react-dom/client";
+
 import App from './App';
-import DemoComponent from './components/DemoComponent';
 import Profile from './components/ProfilePage/Profile';
 import RolesList from './components/RolesPages/RolesList.jsx';
 import RolesEdit from "./components/RolesPages/RoleEdit";
 import ProjectUserRoles from "./components/UserRoles/ProjectUserRoles";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 import UserIndex from "./components/Users/UserIndex";
-import reportWebVitals from "./reportWebVitals";
 import WorkspaceUserRoles from "./components/UserRoles/WorkspaceUserRoles";
 import GlobalUserRoles from "./components/UserRoles/GlobalUserRoles";
 import SurveyWidget from "./components/SurveyJs/SurveyWidget";
@@ -22,13 +30,13 @@ import CreateWorkspace from "./components/Workspace/CreateWorkspace";
 import ViewSituation from "./components/FacilityPages/ViewSituation";
 import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
-import {createRoot} from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
 
 import './index.css';
 import './css/react-tags.css';
 
 
-const componentsMap = {
+/*const componentsMap = {
     'DemoComponent': DemoComponent,
     'Profile': Profile,
     'root': RolesList,
@@ -62,7 +70,6 @@ console.log(reactRoutes);
         reactRoot.render(<Component {...props} />);
     }
 }*/
-console.log(reactRoutes);
 const root = document.getElementById('root');
 const reactRoot = createRoot(root);
 reactRoot.render(<>

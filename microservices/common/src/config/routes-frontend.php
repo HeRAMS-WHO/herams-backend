@@ -4,26 +4,28 @@ declare(strict_types=1);
 
 use herams\common\components\RewriteRule;
 
-function flattenJSON($json, &$result = []) {
-    if ($json['migrated'] ?? false){
-        $result[] = $json['URL'];
-    }
-    if (isset($json['children'])) {
-        foreach($json['children'] as $child) {
-            flattenJSON($child, $result);
-        }
-    }
-    return $result;
-}
-$reactRoutes = flattenJSON(json_decode(file_get_contents(
+$reactRoutes = json_decode(file_get_contents(
     __DIR__.'/react/react-routes.json'
-), true));
+), true);
 function generateRoutes($reactRoutes)
 {
     $routes = [];
-    foreach($reactRoutes as $reactRoute) {
+    foreach($reactRoutes as $key => $reactRoute) {
+        $routeInYii2Format = '';
+        $partsRoute = explode('/', $key);
+        unset($partsRoute[0]);
+        foreach($partsRoute as $partRoute) {
+            if (strpos($partRoute, ':') === 0) {
+                $routeInYii2Format .= '/<'.substr($partRoute, 1).':[\w-]+>';
+            } else {
+                $routeInYii2Format .= '/' . $partRoute;
+            }
+        }
+        if (!($reactRoute['component'] ?? false)){
+            continue;
+        }
         $routes[] = [
-            'pattern' => $reactRoute,
+            'pattern' => $routeInYii2Format,
             'route' => 'react/index'
         ];
     }

@@ -1,9 +1,4 @@
-function flattenJSONRoutes(json, result = []) {
-    const {children, ...rest} = json;
-    result.push(rest);
-    children.forEach(child => {
-        flattenJSONRoutes(child, result);
-    });
-    return result;
+function flattenJSONRoutes(json, result = {}) {
+    return json
 }
 export default flattenJSONRoutes;

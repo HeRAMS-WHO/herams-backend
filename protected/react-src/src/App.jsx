@@ -1,32 +1,52 @@
 import React, { useEffect, useMemo, useState, Suspense } from "react";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { Link, useLocation } from "react-router-dom";
 import reactRoutes from './config/react-routes.json';
 import flattenJSONRoutes from "./utils/flattenJSONRoutes";
-//const Component = React.lazy(() => import('../src/components/RolePage/RoleList'));
-const routes = flattenJSONRoutes(reactRoutes);
-
-
-const App = () => {
-    const [route, setRoute] = useState(null);
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Routes,
+    Link,
+    useLocation
+  } from "react-router-dom";
+  const routes = flattenJSONRoutes(reactRoutes);
+  const pages = {};
+  for (const routeKey in routes) {
+      const route = routes[routeKey];
+      const { component } = route;
+      if (!component) {
+          delete routes[routeKey];
+          continue;
+      }
+      pages[routeKey] = React.lazy(() => import(`./components/${component}`));
+  }
+  
+const Page = () => {
+    const [Component, setComponent] = useState(null) 
     const location = useLocation();
-
     useEffect(() => {
-        //How to get the current namespace?
-        console.log(__dirname, "hola")
-        for (const route of routes) {
-            if (route.URL === location.pathname) {
-                const componentRoute = `./components/${route.component}`;
-                
-        //        setRoute(componentRoute);
-            }
+        if (pages[location.pathname]) {
+            setComponent(pages[location.pathname])
+
         }
-    }, []);
+        if (!pages[location.pathname]) {
+            window.location.reload();
+            return;
+        }
+        
+    }, [location])
+    return (<>
+        {Component && <Component/>}
+    </>)
+}
+const App = () => {
     return (
-        <div>
-            hola
-        </div>
-);
+        <>
+            <Router>
+                <Page/>
+            </Router>
+        </>
+    )
 };
 
 export default App;
