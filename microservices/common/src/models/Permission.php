@@ -16,6 +16,10 @@ namespace herams\common\models;
  */
 class Permission extends ActiveRecord
 {
+    const GLOBAL_TARGET = 'global';
+    const PROJECT_TARGET = 'project';
+    const WORKSPACE_TARGET = 'workspace';
+
     public static function tableName(): string
     {
         return '{{%permissions}}';

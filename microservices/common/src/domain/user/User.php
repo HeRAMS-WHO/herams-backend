@@ -9,6 +9,7 @@ use herams\common\domain\favorite\Favorite;
 use herams\common\domain\favorite\FavoriteQuery;
 use herams\common\enums\Language;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
+use herams\common\models\Permission;
 use herams\common\models\Project;
 use herams\common\models\Role;
 use herams\common\models\RolePermission;
@@ -261,7 +262,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function calculatePermissions($userId = null): array
     {
         $userId = $userId ?? $this->getId();
-        return (new Query())
+        $permissions = [];
+        $results = (new Query())
             ->select("ur.user_id as UserId")->distinct()
             ->addSelect(["rp.permission_code", "ur.target", "case when ur.target = 'project' then p1.id
                     when ur.target = 'workspace' then p2.id
@@ -269,14 +271,26 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
                     if (ur.target = 'workspace', w.id, null) as WorkspaceId"
             ])
             ->from(UserRole::tableName() . ' ur')
-                ->leftJoin(Role::tableName() . ' r', 'ur.role_id = r.id')
-                ->leftJoin(RolePermission::tableName() . ' rp', 'ur.role_id = rp.role_id')
-                ->leftJoin(Project::tableName() . ' p1', "ur.target = 'project' and ur.target_id = p1.id")
-                ->leftJoin(Workspace::tableName() . ' w', "ur.target = 'workspace' and ur.target_id = w.id")
-                ->leftJoin(Project::tableName() . ' p2', "ur.target = 'workspace' and w.project_id = p2.id")
+            ->leftJoin(Role::tableName() . ' r', 'ur.role_id = r.id')
+            ->leftJoin(RolePermission::tableName() . ' rp', 'ur.role_id = rp.role_id')
+            ->leftJoin(Project::tableName() . ' p1', "ur.target = 'project' and ur.target_id = p1.id")
+            ->leftJoin(Workspace::tableName() . ' w', "ur.target = 'workspace' and ur.target_id = w.id")
+            ->leftJoin(Project::tableName() . ' p2', "ur.target = 'workspace' and w.project_id = p2.id")
             ->where(['ur.user_id' => $userId])
             ->orderBy('rp.permission_code')
             ->all();
+
+        foreach ($results as $result) {
+            if (Permission::GLOBAL_TARGET == $result['target']) {
+                $permissions[Permission::GLOBAL_TARGET][] = $result['permission_code'];
+            } else if (Permission::PROJECT_TARGET == $result['target']) {
+                $permissions[Permission::PROJECT_TARGET][$result['ProjectId']][] = $result['permission_code'];
+            } else if (Permission::WORKSPACE_TARGET == $result['target']) {
+                $permissions[Permission::WORKSPACE_TARGET][$result['ProjectId']][$result['WorkspaceId']][] = $result['permission_code'];
+            }
+        }
+
+        return $permissions;
     }
 
     /**
@@ -285,7 +299,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function setPermissions(array $permissions = []): void
     {
-        \Yii::$app->session->set('permissions', serialize($permissions));
+        \Yii::$app->session->set('permissions', json_encode($permissions, JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -293,6 +307,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getPermissions(): mixed
     {
-        return unserialize(\Yii::$app->session->get('permissions'));
+        return json_decode(\Yii::$app->session->get('permissions'), true);
     }
 }
