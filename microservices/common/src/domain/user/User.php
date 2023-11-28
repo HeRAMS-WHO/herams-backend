@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace herams\common\domain\user;
 
+use Carbon\Carbon;
 use herams\common\domain\favorite\Favorite;
 use herams\common\domain\favorite\FavoriteQuery;
 use herams\common\enums\Language;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
+use herams\common\models\Project;
+use herams\common\models\Role;
+use herams\common\models\RolePermission;
+use herams\common\models\UserRole;
+use herams\common\models\Workspace;
 use herams\common\traits\JsonBase64EncoderTrait;
 use herams\common\validators\BackedEnumValidator;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
@@ -15,6 +21,7 @@ use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Query;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\RegularExpressionValidator;
@@ -37,6 +44,7 @@ use function iter\chain;
  * @property string $name
  * @property bool $newsletter_subscription
  * @property string $password_hash
+ * @property string $last_login_date
  * @property int $updated_at
  *
  * @property Favorite[] $favorites
@@ -66,6 +74,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return array_merge(parent::behaviors(), [
             'timestamp' => [
                 'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => 'last_modified_date',
+                'createdAtAttribute' => 'created_date',
+                'value' => Carbon::now('GMT')
             ],
         ]);
     }
@@ -230,5 +241,58 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function setOnlyFields(array $selectedFields = [])
     {
         $this->selectedFields = $selectedFields;
+    }
+
+    /**
+     * @return bool
+     */
+    public function updateLastLoginDate(): bool
+    {
+        $this->setAttribute('last_login_date', Carbon::now('GMT'));
+
+        return $this->save();
+    }
+
+
+    /**
+     * @param $userId
+     * @return array
+     */
+    public function calculatePermissions($userId = null): array
+    {
+        $userId = $userId ?? $this->getId();
+        return (new Query())
+            ->select("ur.user_id as UserId")->distinct()
+            ->addSelect(["rp.permission_code", "ur.target", "case when ur.target = 'project' then p1.id
+                    when ur.target = 'workspace' then p2.id
+                        end as ProjectId,
+                    if (ur.target = 'workspace', w.id, null) as WorkspaceId"
+            ])
+            ->from(UserRole::tableName() . ' ur')
+                ->leftJoin(Role::tableName() . ' r', 'ur.role_id = r.id')
+                ->leftJoin(RolePermission::tableName() . ' rp', 'ur.role_id = rp.role_id')
+                ->leftJoin(Project::tableName() . ' p1', "ur.target = 'project' and ur.target_id = p1.id")
+                ->leftJoin(Workspace::tableName() . ' w', "ur.target = 'workspace' and ur.target_id = w.id")
+                ->leftJoin(Project::tableName() . ' p2', "ur.target = 'workspace' and w.project_id = p2.id")
+            ->where(['ur.user_id' => $userId])
+            ->orderBy('rp.permission_code')
+            ->all();
+    }
+
+    /**
+     * @param array $permissions
+     * @return void
+     */
+    public function setPermissions(array $permissions = []): void
+    {
+        \Yii::$app->session->set('permissions', serialize($permissions));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPermissions(): mixed
+    {
+        return unserialize(\Yii::$app->session->get('permissions'));
     }
 }
