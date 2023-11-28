@@ -295,7 +295,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     /**
      * @param array $permissions
-     * @return void 
+     * @return void
      */
     public function setPermissions(array $permissions = []): void
     {
