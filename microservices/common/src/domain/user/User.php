@@ -76,7 +76,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
                 'class' => TimestampBehavior::class,
                 'updatedAtAttribute' => 'last_modified_date',
                 'createdAtAttribute' => 'created_date',
-                'value' => Carbon::now('GMT')
+                'value' => Carbon::now('CET')
             ],
         ]);
     }
@@ -248,7 +248,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function updateLastLoginDate(): bool
     {
-        $this->setAttribute('last_login_date', Carbon::now('GMT'));
+        $this->setAttribute('last_login_date', Carbon::now('CET'));
 
         return $this->save();
     }
