@@ -67,6 +67,10 @@ class LoginForm extends Model
         if ($this->validate()) {
             $user = $this->getUser();
             $user->updateLastLoginDate();
+            // set permissions for loggedIn user
+            $user->setPermissions(
+                $user->calculatePermissions()
+            );
 
             return Yii::$app->user->login($user);
         } else {
