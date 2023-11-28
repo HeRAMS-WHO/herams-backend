@@ -199,14 +199,14 @@ final class SurveyResponse extends ActiveRecord implements HeramsResponseInterfa
         ]);
     }
 
-    public function getUser(): ActiveQuery
+    public function getUser(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, [
             'id' => 'created_by',
         ]);
     }
 
-    public function getUpdatedUser(): ActiveQuery
+    public function getUpdatedUser(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, [
             'id' => 'last_modified_by',
