@@ -218,6 +218,7 @@ services:
       - type: bind
         source: ./microservices/common/src/config/react/react-routes.json
         target: /app/protected/react-src/src/config/react-routes.json
+        consistency: cached
       - type: bind
         source: ./protected/react-src/node_modules
         target: /app/protected/react-src/node_modules

@@ -24,8 +24,16 @@ function generateRoutes($reactRoutes)
         if (!($reactRoute['component'] ?? false)){
             continue;
         }
+        //Check if last character is a slash
+        if (substr($routeInYii2Format, -1) === '/') {
+            $routeInYii2Format = substr($routeInYii2Format, 0, -1);
+        }
         $routes[] = [
             'pattern' => $routeInYii2Format,
+            'route' => 'react/index'
+        ];
+        $routes[] = [
+            'pattern' => $routeInYii2Format . '/',
             'route' => 'react/index'
         ];
     }

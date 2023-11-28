@@ -1,5 +1,6 @@
 import React from 'react';
-import reactRoutes from './config/react-routes.json';
+
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -73,6 +74,7 @@ console.log(reactRoutes);
 const root = document.getElementById('root');
 const reactRoot = createRoot(root);
 reactRoot.render(<>
+    <h1>React app</h1>
     <App />
 </>);
 
