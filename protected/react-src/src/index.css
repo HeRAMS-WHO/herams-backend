@@ -1,8 +1,93 @@
+:root {
+  --primary-color: #4177c1;
+  --primary-button-background-color: var(--primary-color);
+  --primary-button-color: white;
+  --default-button-background-color: #42424b;
+  --default-button-color: white;
+  --delete-button-background-color: red;
+  --delete-button-color: white;
+  --tab-button-background-color: #edebeb;
+  --tab-button-text-color: #919191;
+  --tab-button-active-background-color: white;
+  --tab-button-active-text-color: var(--primary-color);
+  --clear-button-color: #999999;
+  --link-color: black;
+  --validation-error-color: #d90001;
+  --border-color: grey;
+  --font-size: 16px;
+  --max-site-width: 1440px;
+  --danger: 220, 53, 69;
+  --info: 0, 64, 133;
+  --light-green: rgba(0, 255, 0, 0.3);
+  --light-red: rgba(255, 0, 0, 0.3);
+  --light-yellow: rgba(255, 255, 0, 0.3);
+  --light-orange: rgba(255, 165, 0, 0.3);
+  --user-menu-icon-size: 20px;
+  --user-menu-background-color: var(--header-background-color);
+  --animate-duration: 1s;
+  --animate-delay: 1s;
+  --animate-repeat: 1;
+  --header-background-color: #42424B;
+  --header-color: white;
+  --background-color: #878787;
+  --primary-color: #4177C1;
+  --highlight-background-color: #5791E1;
+  --highlight-color: white;
+  --main-background-color: #E0E0E0;
+  --content-background-color: white;
+  --primary-button-hover-color: #3F86E6;
+  --header-light-background-color: #4F4E54;
+  --header-light-color: white;
+  --gutter-size: 15px;
+  --dark-background-color: #424348;
+  --darker-background-color: #424242;
+  --darker-color: var(--dark-color);
+  --dark-color: white;
+  --status-height: 30px;
+}
 
 
+body {
+  background-color: aliceblue;
+  padding: 0;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.mx-auto {
+  margin-right: auto!important;
+  margin-left: auto!important;
+}
+.bg-white {
+  background-color: #fff!important;
+}
+@media (max-width: 1500px){
+    .col-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
+.py-2 {
+  padding-top: 0.5rem!important;
+  padding-bottom: 0.5rem!important;
+}
+.col-md-10 {
+  flex: 0 0 83.33333%;
+  max-width: 83.33333%;
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.px-2 {
+  padding-right: 0.5rem!important;
+  padding-left: 0.5rem!important;
 }
 .borderless {
     border: none;
@@ -191,4 +276,125 @@ input:disabled{
 
 .w200px {
     width: 200px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: aliceblue;
+  padding: 0;
+}
+
+.d-flex {
+  display: flex;
+}
+.d-flex-column {
+  flex-direction: column;
+}
+.w-70 {
+  width: 70%;
+  min-width: 70%;
+}
+.center {
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.gap {
+  gap: 1px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.mx-4px {
+  margin: 0 4px;
+}
+
+.bg-alice-blue {
+  background-color: aliceblue;
+}
+
+.mt-4 {
+  margin-top: 4rem
+}
+.mb-4 {
+  margin-bottom: 4rem
+}
+/* Complete entire height in a col flex*/
+.full-height {
+  height: 100%;
+}
+
+.place-item-center-vertical {
+  align-items: center;
+}
+
+.activeTab {
+  background-color: white;
+  color: blue;
+  border: 1px solid gray;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 10px 11px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.2px;
+  min-width: 80px;
+  box-shadow: none;
+  background-image: none;
+  border: none;
+  text-decoration: none;
+  outline: none;
+  text-align: center;
+}
+
+.btn-default {
+  background-color: var(--default-button-background-color);
+  color: var(--default-button-color);
+  border: 1px solid var(--default-button-background-color);
+  transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.btn-secondary {
+  background-color: var(--tab-button-background-color);
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+  background-color: var(--tab-button-active-background-color) !important;
+  color: var(--primary-button-hover-color) !important;
+  border: 1px solid var(--tab-button-active-background-color);
+}
+
+.active-link {
+  position: relative;
+  display: inline-block;
+}
+.active-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0px; /* Adjust to position the underline as needed */
+  left: 0;
+  height: 3px; /* Adjust the height of the underline */
+  background-color: var(--primary-button-hover-color);
+  width: 120%;
 }

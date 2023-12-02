@@ -1,5 +1,5 @@
 import React from "react";
-import SurveyFormWidget from "../SurveyJs/SurveyFormWidget";
+import SurveyFormWidget from "../../components/SurveyJs/SurveyFormWidget";
 
 const CreateProject = (props) => {
     return (

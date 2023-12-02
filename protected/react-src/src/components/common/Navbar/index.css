@@ -1,0 +1,38 @@
+.header {
+    background-color: green;
+    color: white;
+}
+.header--left-panel {
+    width: 70%;
+}
+.header--rigth-panel {
+    width: 30%;
+}
+.py-6px {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+.pt-8px {
+    padding-top: 8px;
+}
+.d-relative {
+    position: relative;
+}
+.d-centered{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-0%, -50%);
+}
+.ml-30px {
+    margin-left: 30px;
+}
+.border-radius-60px {
+    border-radius: 60px;
+}
+.bordeless {
+    border: none;
+}
+#yii-debug-toolbar {
+    display: none !important;
+}

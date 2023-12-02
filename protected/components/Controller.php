@@ -29,6 +29,8 @@ abstract class Controller extends \yii\web\Controller
 
     public const LAYOUT_MAINTENANCE = '//maintenance';
 
+    public const LAYOUT_REACT = '//react';
+
     public function behaviors(): array
     {
         return ArrayHelper::merge(

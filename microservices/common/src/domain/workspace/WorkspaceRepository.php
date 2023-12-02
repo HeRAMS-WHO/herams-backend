@@ -6,6 +6,7 @@ namespace herams\common\domain\workspace;
 
 use herams\api\domain\workspace\NewWorkspace;
 use herams\api\domain\workspace\UpdateWorkspace;
+use herams\common\domain\facility\Facility;
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\interfaces\ActiveRecordHydratorInterface;
 use herams\common\interfaces\ModelHydratorInterface;
@@ -51,6 +52,12 @@ class WorkspaceRepository
         return $this->workspaceQueryComplete($id)->all();
     }
 
+    public function amountOfFacilitiesInWorkspace(WorkspaceId $id): int
+    {
+        return Facility::find()->andWhere([
+            'workspace_id' => $id->getValue(),
+        ])->count();
+    }
     private function workspaceQueryComplete(
         ProjectId $projectId
     ): WorkspaceQuery {

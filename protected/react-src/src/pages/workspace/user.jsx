@@ -1,13 +1,16 @@
 import {__} from '../../utils/translationsUtility';
-import FormGroup from "../common/form/FormGroup";
-import FormButtons from "../common/form/FormButtons";
-import ReactTagsWrapper from "../common/form/ReactTagsWrapper";
-import Table from "../common/table/Table";
+import FormGroup from "../../components/common/form/FormGroup";
+import FormButtons from "../../components/common/form/FormButtons";
+import ReactTagsWrapper from "../../components/common/form/ReactTagsWrapper";
+import Table from "../../components/common/table/Table";
 import {deleteUserRole} from "../../services/apiProxyService";
 import useWorkspaceUserRoles from "../../hooks/userRoles/useWorkspaceUserRoles";
 import WorkspaceUserRolesTableHeader from "./WorkspaceUserRolesTableHeader";
+import params from '../../states/params';
+import useReloadInfo from '../../hooks/useReloadInfo';
 
-const WorkspaceUserRoles = ({workspaceId}) => {
+const WorkspaceUserRoles = () => {
+    const {workspaceId} = params.value
     const {
         usersInPlatform,
         errors,
@@ -24,6 +27,7 @@ const WorkspaceUserRoles = ({workspaceId}) => {
         deleteUserRole(id)
             .then(() => {
                 refreshUserRolesInWorkspace()
+                useReloadInfo()
             })
     }
     return (

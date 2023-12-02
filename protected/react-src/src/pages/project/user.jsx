@@ -1,14 +1,18 @@
 import {useId} from "react"
 import {__} from '../../utils/translationsUtility';
-import FormGroup from "../common/form/FormGroup";
-import FormButtons from "../common/form/FormButtons";
-import ReactTagsWrapper from "../common/form/ReactTagsWrapper";
-import Table from "../common/table/Table";
-import ProjectUserRolesTableHeader from "./ProjectUserRolesTableHeader";
+import FormGroup from "../../components/common/form/FormGroup";
+import FormButtons from "../../components/common/form/FormButtons";
+import ReactTagsWrapper from "../../components/common/form/ReactTagsWrapper";
+import Table from "../../components/common/table/Table";
+import ProjectUserRolesTableHeader from "./user/ProjectUserRolesTableHeader";
 import {deleteUserRole} from "../../services/apiProxyService";
 import useProjectUserRoles from "../../hooks/userRoles/useProjectUserRoles";
-
-const ProjectUserRoles = ({projectId}) => {
+import params from "../../states/params";
+import info from "../../states/info";
+import routeInfo from "../../states/routeInfo";
+import useReloadInfo from "../../hooks/useReloadInfo";
+const ProjectUserRoles = () => {
+    const {projectId} = params.value;
     const labelScopeProject = useId()
     const labelScopeWorkspace = useId()
     const {
@@ -31,9 +35,11 @@ const ProjectUserRoles = ({projectId}) => {
     const deleteYesCallback = (id) => {
         deleteUserRole(id)
             .then(() => {
-                refreshUserRolesInProject();
+                refreshUserRolesInProject()
+                useReloadInfo()
             })
     }
+    
     return (
         <div className="container-fluid px-2">
             <div className="row mt-2">

@@ -19,12 +19,13 @@
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "project/create",
     "permissions": [
       "CREATE_PROJECT"
     ]
   },
   "/project/:projectId": {
-    "pageTitle": ":ProjectName",
+    "pageTitle": ":projectName",
     "URL": "/project/:projectId",
     "hasTabs": false,
     "tabName": "",
@@ -32,7 +33,7 @@
     "permissions": []
   },
   "/project/:projectId/workspace": {
-    "pageTitle": ":ProjectName",
+    "pageTitle": ":projectName",
     "URL": "/project/:projectId/workspace",
     "hasTabs": true,
     "tabName": "Workspaces",
@@ -49,12 +50,12 @@
       "CREATE_WS"
     ]
   },
-  "/project/:projectId/workspace/:WSID": {
+  "/project/:projectId/workspace/:workspaceId": {
     "pageTitle": ":workspaceName",
-    "URL": "/project/:projectId/workspace/:WSID",
+    "URL": "/project/:projectId/workspace/:workspaceId",
     "hasTabs": false,
     "tabName": "",
-    "redirectTo": "/project/:projectId/workspace/:WSID/HSDU",
+    "redirectTo": "/project/:projectId/workspace/:workspaceId/HSDU",
     "permissions": [
       "VIEW_HSDU_LIST",
       "EXPORT_WS",
@@ -62,19 +63,19 @@
       "UPDATE_WS_SETTINGS"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU": {
+  "/project/:projectId/workspace/:workspaceId/HSDU": {
     "pageTitle": ":workspaceName",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU",
     "hasTabs": true,
-    "tabName": "HSDU (:HSDUCount)",
+    "tabName": "HSDU (:hsduCount)",
     "redirectTo": "",
     "permissions": [
       "VIEW_HSDU_LIST"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/create": {
+  "/project/:projectId/workspace/:workspaceId/HSDU/create": {
     "pageTitle": "Create HSDU",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/create",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/create",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -82,21 +83,21 @@
       "CREATE_HSDU"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID": {
-    "pageTitle": ":HSDUName",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID",
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId": {
+    "pageTitle": ":hsduName",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId",
     "hasTabs": false,
     "tabName": "",
-    "redirectTo": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update",
+    "redirectTo": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update",
     "permissions": [
       "VIEW_SIT_RESPONSE_LIST",
       "VIEW_ADM_RESPONSE_LIST",
       "DELETE_HSDU"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update": {
-    "pageTitle": ":HSDUName",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update",
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update": {
+    "pageTitle": ":hsduName",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update",
     "hasTabs": true,
     "tabName": "Situation updates (:SitUpCount)",
     "redirectTo": "",
@@ -104,9 +105,9 @@
       "VIEW_SIT_RESPONSE_LIST"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/create": {
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/create": {
     "pageTitle": "Add new Situation Update",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/create",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/create",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -114,9 +115,9 @@
       "CREATE_SIT_RESPONSE"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/:updateID/edit": {
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID/edit": {
     "pageTitle": "Edit Situation Update",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/:updateID/edit",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID/edit",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -124,9 +125,9 @@
       "UPDATE_ANY_SIT_RESPONSE"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/:updateID": {
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID": {
     "pageTitle": "View Situation Update",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/situation-update/:updateID",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -134,9 +135,9 @@
       "VIEW_SIT_RESPONSE"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update": {
-    "pageTitle": ":HSDUName",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update",
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update": {
+    "pageTitle": ":hsduName",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update",
     "hasTabs": true,
     "tabName": "HSDU updates (:AdmUpCount)",
     "redirectTo": "",
@@ -144,9 +145,9 @@
       "VIEW_ADM_RESPONSE_LIST"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/create": {
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/create": {
     "pageTitle": "Add new HSDU Update",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/create",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/create",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -154,9 +155,9 @@
       "CREATE_ADM_RESPONSE"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/:updateID/edit": {
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID/edit": {
     "pageTitle": "Edit HSDU Update",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/:updateID/edit",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID/edit",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -164,9 +165,9 @@
       "UPDATE_ANY_ADN_RESPONSE"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/:updateID": {
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID": {
     "pageTitle": "View HSDU Update",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/admin-update/:updateID",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -174,9 +175,9 @@
       "VIEW_ADM_RESPONSE"
     ]
   },
-  "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/settings": {
-    "pageTitle": ":HSDUName",
-    "URL": "/project/:projectId/workspace/:WSID/HSDU/:HSDUID/settings",
+  "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings": {
+    "pageTitle": ":hsduName",
+    "URL": "/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings",
     "hasTabs": true,
     "tabName": "Delete HSDU",
     "redirectTo": "",
@@ -184,9 +185,9 @@
       "DELETE_HSDU"
     ]
   },
-  "/project/:projectId/workspace/:WSID/export": {
+  "/project/:projectId/workspace/:workspaceId/export": {
     "pageTitle": ":workspaceName",
-    "URL": "/project/:projectId/workspace/:WSID/export",
+    "URL": "/project/:projectId/workspace/:workspaceId/export",
     "hasTabs": true,
     "tabName": "Export data",
     "redirectTo": "",
@@ -194,19 +195,20 @@
       "EXPORT_WS"
     ]
   },
-  "/project/:projectId/workspace/:WSID/user": {
+  "/project/:projectId/workspace/:workspaceId/user": {
     "pageTitle": ":workspace",
-    "URL": "/project/:projectId/workspace/:WSID/user",
+    "URL": "/project/:projectId/workspace/:workspaceId/user",
     "hasTabs": true,
-    "tabName": "Users (:WsUsersCount)",
+    "tabName": "Users (:workspaceUsersCount)",
     "redirectTo": "",
+    "page": "workspace/user",
     "permissions": [
       "VIEW_WS_USERS"
     ]
   },
-  "/project/:projectId/workspace/:WSID/settings": {
+  "/project/:projectId/workspace/:workspaceId/settings": {
     "pageTitle": ":workspace",
-    "URL": "/project/:projectId/workspace/:WSID/settings",
+    "URL": "/project/:projectId/workspace/:workspaceId/settings",
     "hasTabs": true,
     "tabName": "Workspace settings",
     "redirectTo": "",
@@ -215,7 +217,7 @@
     ]
   },
   "/project/:projectId/export": {
-    "pageTitle": ":ProjectName",
+    "pageTitle": ":projectName",
     "URL": "/project/:projectId/export",
     "hasTabs": true,
     "tabName": "Export data",
@@ -225,17 +227,18 @@
     ]
   },
   "/project/:projectId/user": {
-    "pageTitle": ":ProjectName",
+    "pageTitle": ":projectName",
     "URL": "/project/:projectId/user",
     "hasTabs": true,
-    "tabName": "Users (:prUserCount)",
+    "tabName": "Users (:projectUsersCount)",
+    "page": "project/user",
     "redirectTo": "",
     "permissions": [
       "VIEW_PROJECT_USERS"
     ]
   },
   "/project/:projectId/dashboard-page": {
-    "pageTitle": ":ProjectName",
+    "pageTitle": ":projectName",
     "URL": "/project/:projectId/dashboard-page",
     "hasTabs": true,
     "tabName": "Dashboard settings",
@@ -264,9 +267,9 @@
       "UPDATE_DASHBOARD_SETTINGS"
     ]
   },
-  "/project/:projectId/dashboard-page/:pageID": {
+  "/project/:projectId/dashboard-page/:pageId": {
     "pageTitle": ":pageName",
-    "URL": "/project/:projectId/dashboard-page/:pageID",
+    "URL": "/project/:projectId/dashboard-page/:pageId",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -275,7 +278,7 @@
     ]
   },
   "/project/:projectId/settings": {
-    "pageTitle": ":ProjectName",
+    "pageTitle": ":projectName",
     "URL": "/project/:projectId/settings",
     "hasTabs": true,
     "tabName": "Project settings",
@@ -340,16 +343,18 @@
     "hasTabs": true,
     "tabName": "Users",
     "redirectTo": "",
+    "page": "user/index",
     "permissions": [
       "VIEW_GLOBAL_USER"
     ]
   },
-  "/admin/user/:userID": {
+  "/admin/user/:userId": {
     "pageTitle": ":userName",
-    "URL": "/admin/user/:userID",
+    "URL": "/admin/user/:userId",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "user/view",
     "permissions": [
       "VIEW_GLOBAL_USER"
     ]
@@ -364,7 +369,7 @@
       "VIEW_ROLE"
     ],
     "migrated": true,
-    "component": "RolesPages/RolesList"
+    "page": "role/index"
   },
   "/admin/role/create": {
     "pageTitle": "Create Role",
@@ -372,17 +377,18 @@
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
-    "component": "RolesPages/RoleEdit",
+    "page": "role/update",
     "permissions": [
       "CREATE_ROLE"
     ]
   },
-  "/admin/role/:roleID": {
+  "/admin/role/:roleId/update": {
     "pageTitle": "Update Role",
-    "URL": "/admin/role/:roleID",
+    "URL": "/admin/role/:roleId/update",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "role/update",
     "permissions": [
       "UPDATE_ROLE"
     ]

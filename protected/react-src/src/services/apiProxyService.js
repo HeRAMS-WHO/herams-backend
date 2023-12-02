@@ -17,11 +17,18 @@ export const updateRoleAndPermissions = (id, data) => {
 export const createUserRole = (data) => {
     return post(`${BASE_URL}/user-role`, data);
 }
-
+export const fetchWorkspace = (id, params, headers) => {
+    return get(`${BASE_URL}/workspace/${id}/view`, params, headers);
+}
+export const fetchHsdu = (id, params, headers) => {
+    return get(`${BASE_URL}/facility/${id}/view`, params, headers);
+}
 export const fetchRoles = (params, headers) => {
     return get(`${BASE_URL}/roles/index`, params, headers);
 }
-
+export const fetchProject = (id, params, headers) => {
+    return get(`${BASE_URL}/project/${id}/view`, params, headers);
+}
 export const fetchRolesInProject = (id, params, headers) => {
     return get(`${BASE_URL}/project/${id}/roles`, params, headers);
 }

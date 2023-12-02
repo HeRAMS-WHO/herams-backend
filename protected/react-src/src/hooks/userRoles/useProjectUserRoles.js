@@ -8,7 +8,9 @@ import {
 } from "../../services/apiProxyService";
 import {toastr} from "../../utils/modal";
 import {__} from "../../utils/translationsUtility";
-
+import { autoReloadSpecialVariables } from "../../states/info";
+import useReloadSpecialVariables from "../useReloadSpecialVariables";
+import useReloadInfo from "../useReloadInfo";
 function useProjectUserRoles(projectId) {
     const [usersInPlatform, setUsersInPlatform] = useState([])
     const [projectUsers, setProjectUsers] = useState([])
@@ -69,9 +71,10 @@ function useProjectUserRoles(projectId) {
             return;
         }
         createUserRole(data).then(() => {
-            userRolesAddedCorrectly();
-            clearInputs();
-            refreshUserRolesInProject();
+            userRolesAddedCorrectly()
+            clearInputs()
+            refreshUserRolesInProject()
+            useReloadInfo()
         })
 
     }

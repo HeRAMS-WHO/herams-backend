@@ -1,11 +1,11 @@
-import {__} from "../../utils/translationsUtility";
-import DeleteButton from "../common/button/DeleteButton";
-import {UserIcon} from "../common/icon/IconsSet";
-
+import {__} from "../../../utils/translationsUtility";
+import DeleteButton from "../../../components/common/button/DeleteButton";
+import {UserIcon} from "../../../components/common/icon/IconsSet";
+import { Link } from "react-router-dom";
 const CustomLinkRenderer = (params) => {
-    const link = `/user/${params.data.id}/global-user-roles`;
+    const link = `/admin/user/${params.data.id}`;
     return (
-        <a href={link} className={"agGridAnkur"}>{params.data.name}</a>
+        <Link to={link} className={"agGridAnkur"}>{params.data.name}</Link>
     );
 };
 

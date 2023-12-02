@@ -1,14 +1,11 @@
 import {__} from "../../utils/translationsUtility";
-import DeleteButton from "../common/button/DeleteButton";
+import DeleteButton from "../../components/common/button/DeleteButton";
 
-const workspacesNameComparator = (a, b) => {
-    return a.localeCompare(b)
-}
-const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
+const WorkspaceUserRolesTableHeader = ({deleteYesCallback}) => [
     {
-        headerName: __('Role name'),
+        headerName: __('Name'),
         checkboxSelection: false,
-        field: 'roleInfo.name',
+        field: 'userInfo.name',
         filter: true,
         width: 200,
         pinned: 'left',
@@ -16,36 +13,22 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
         comparator: (a, b) => a.localeCompare(b)
     },
     {
-        headerName: __('Project'),
+        headerName: __('Email'),
+        field: 'userInfo.email',
         checkboxSelection: false,
         filter: true,
-        valueGetter: ({data}) => {
-            if (data.projectInfo === null || data.projectInfo === undefined || data.projectInfo === '' || data.projectInfo === '--') {
-                return '--'
-            }
-            const primary_language = data.projectInfo?.primary_language ?? 'en'
-            const {title} = (data.projectInfo.i18n)
-            return title[primary_language];
-        },
         width: 200,
         sortable: true,
-        comparator: (a, b) => workspacesNameComparator(a, b)
+        comparator: (a, b) => a.localeCompare(b)
     },
     {
-        headerName: __('Workspace'),
+        headerName: __('Role name'),
+        field: 'roleInfo.name',
         checkboxSelection: false,
         filter: true,
-        valueGetter: ({data}) => {
-            if (data.workspaceInfo === null || data.workspaceInfo === undefined || data.workspaceInfo === '' || data.workspaceInfo === '--') {
-                return '--'
-            }
-            const primary_language = data.projectInfo?.primary_language ?? 'en'
-            const {title} = (data.workspaceInfo.i18n)
-            return title[primary_language];
-        },
         width: 200,
         sortable: true,
-        comparator: (a, b) => workspacesNameComparator(a, b)
+        comparator: (a, b) => a.localeCompare(b),
     },
     {
         headerName: __('Added on'),
@@ -56,7 +39,7 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
         comparator: (a, b) => a.localeCompare(b),
     },
     {
-        headerName: __('Created By'),
+        headerName: __('Added by'),
         checkboxSelection: false,
         filter: true,
         valueGetter: ({data}) => data.createdByInfo?.name ?? '',
@@ -83,4 +66,4 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
 
 ];
 
-export default GlobalUserRolesTableHeader
+export default WorkspaceUserRolesTableHeader;

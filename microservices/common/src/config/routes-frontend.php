@@ -14,6 +14,7 @@ function generateRoutes($reactRoutes)
         $routeInYii2Format = '';
         $partsRoute = explode('/', $key);
         unset($partsRoute[0]);
+        
         foreach($partsRoute as $partRoute) {
             if (strpos($partRoute, ':') === 0) {
                 $routeInYii2Format .= '/<'.substr($partRoute, 1).':[\w-]+>';
@@ -21,7 +22,7 @@ function generateRoutes($reactRoutes)
                 $routeInYii2Format .= '/' . $partRoute;
             }
         }
-        if (!($reactRoute['component'] ?? false)){
+        if (!($reactRoute['page'] ?? false)){
             continue;
         }
         //Check if last character is a slash

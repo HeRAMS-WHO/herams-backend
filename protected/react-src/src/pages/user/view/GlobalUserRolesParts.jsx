@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types";
-import FormGroup from "../../common/form/FormGroup";
+import FormGroup from "../../../components/common/form/FormGroup";
 import {__} from "../../../utils/translationsUtility";
-import TextInput from "../../common/form/TextInput";
+import TextInput from "../../../components/common/form/TextInput";
 
 export function TitleGlobalUserRoles(props) {
     return <div className="row mt-2">

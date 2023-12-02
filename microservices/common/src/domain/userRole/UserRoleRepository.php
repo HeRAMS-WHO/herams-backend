@@ -114,6 +114,58 @@ final class UserRoleRepository
         return $userRoles;
     }
 
+    public function countUsersInProject(ProjectId $projectId): int
+    {
+        $users = [];
+        $project = $this->projectRepository->retrieveById(
+            $projectId
+        );
+        $workspaces = $project->workspaces;
+        $workspacesIds = [];
+        foreach ($workspaces as $workspace) {
+            $workspacesIds[] = $workspace->id;
+        }
+        $userRolesOfProjects = UserRole::find()
+            ->where(
+                [
+                    'target' => UserRoleTargetEnum::project->value,
+                    'target_id' => $projectId->getValue(),
+                ]
+            )
+            ->asArray()
+            ->all();
+        $userRolesOfWorkspaces = UserRole::find()
+            ->where(
+                [
+                    'target' => UserRoleTargetEnum::workspace->value,
+                    'target_id' => $workspacesIds,
+                ],
+            )
+            ->asArray()
+            ->all();
+        foreach ($userRolesOfWorkspaces as &$userRoleOfWorkspace) {
+            $users[$userRoleOfWorkspace['user_id']] = '';
+        }
+        foreach ($userRolesOfProjects as &$userRoleOfProject) {
+            $users[$userRoleOfProject['user_id']] = '';
+        }
+        return count($users);
+    }
+
+    public function countDiferentUsersInWorkspace(WorkspaceId $workspaceId): int
+    {
+        $userRolesOfWorkspaces = UserRole::find()
+            ->where(
+                [
+                    'target' => UserRoleTargetEnum::workspace->value,
+                    'target_id' => $workspaceId->getValue(),
+                ],
+            )
+            ->select('user_id')
+            ->distinct()
+            ->count();
+        return $userRolesOfWorkspaces;
+    }
 
     public function retrieveUserRolesInWorkspace(
         WorkspaceId $workspaceId

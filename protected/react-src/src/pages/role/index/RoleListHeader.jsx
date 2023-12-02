@@ -1,10 +1,14 @@
-import {__} from "../../utils/translationsUtility";
-import DeleteButton from "../common/button/DeleteButton";
-
+import {__} from "../../../utils/translationsUtility";
+import DeleteButton from "../../../components/common/button/DeleteButton";
+import { Link } from "react-router-dom";
 const CustomLinkRenderer = (params) => {
-    const link = `/role/${params.data.id}/update`;
+    const link = `/admin/role/${params.data.id}/update`;
     return (
-        <a href={link} className={"agGridAnkur"}>{params.data.name}</a>
+        <Link 
+            to={link} 
+            className={"agGridAnkur"}>
+                {params.data.name}
+        </Link>
     );
 };
 

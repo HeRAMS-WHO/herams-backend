@@ -1,0 +1,32 @@
+.activeTab {
+    background-color: white;
+    color: blue;
+    border: 1px solid gray;
+}
+.bg-alice-blue {
+    background-color: aliceblue;
+}
+
+.tab {
+    background-color: #edebeb;
+    color: #919191;
+    justify-content: center;
+    align-items: center;
+    min-width: 4rem;
+    font-size: 13px;
+    cursor: pointer;
+    
+}
+
+.tab {
+    font-size: 13px;
+    display: inline-block;
+    line-height: 13px;
+    padding: 15px;
+    margin-right: 1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 1px dotted #919191;
+    margin: 0;
+    transition: color 0.2s, background 0.2s, border 0.2s;
+}

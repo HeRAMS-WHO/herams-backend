@@ -1,7 +1,10 @@
-import {__} from "../../utils/translationsUtility";
-import DeleteButton from "../common/button/DeleteButton";
+import {__} from "../../../utils/translationsUtility";
+import DeleteButton from "../../../components/common/button/DeleteButton";
 
-const WorkspaceUserRolesTableHeader = ({deleteYesCallback}) => [
+const workspacesNameComparator = (a, b) => {
+    return a.localeCompare(b)
+}
+const ProjectUserRolesTableHeader = ({deleteYesCallback}) => [
     {
         headerName: __('Name'),
         checkboxSelection: false,
@@ -31,6 +34,22 @@ const WorkspaceUserRolesTableHeader = ({deleteYesCallback}) => [
         comparator: (a, b) => a.localeCompare(b),
     },
     {
+        headerName: __('Workspace'),
+        checkboxSelection: false,
+        filter: true,
+        valueGetter: ({data}) => {
+            if (data.target === 'project') {
+                return '--'
+            }
+            const primary_language = data.projectInfo?.primary_language ?? 'en'
+            const {title} = JSON.parse(data.workspaceInfo.i18n)
+            return title[primary_language];
+        },
+        width: 200,
+        sortable: true,
+        comparator: (a, b) => workspacesNameComparator(a, b)
+    },
+    {
         headerName: __('Added on'),
         field: 'created_date',
         checkboxSelection: false,
@@ -39,7 +58,7 @@ const WorkspaceUserRolesTableHeader = ({deleteYesCallback}) => [
         comparator: (a, b) => a.localeCompare(b),
     },
     {
-        headerName: __('Added by'),
+        headerName: __('Created By'),
         checkboxSelection: false,
         filter: true,
         valueGetter: ({data}) => data.createdByInfo?.name ?? '',
@@ -66,4 +85,4 @@ const WorkspaceUserRolesTableHeader = ({deleteYesCallback}) => [
 
 ];
 
-export default WorkspaceUserRolesTableHeader;
+export default ProjectUserRolesTableHeader

@@ -1,14 +1,14 @@
-import {__} from "../../utils/translationsUtility";
-import DeleteButton from "../common/button/DeleteButton";
+import {__} from "../../../utils/translationsUtility";
+import DeleteButton from "../../../components/common/button/DeleteButton";
 
 const workspacesNameComparator = (a, b) => {
     return a.localeCompare(b)
 }
-const ProjectUserRolesTableHeader = ({deleteYesCallback}) => [
+const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
     {
-        headerName: __('Name'),
+        headerName: __('Role name'),
         checkboxSelection: false,
-        field: 'userInfo.name',
+        field: 'roleInfo.name',
         filter: true,
         width: 200,
         pinned: 'left',
@@ -16,33 +16,31 @@ const ProjectUserRolesTableHeader = ({deleteYesCallback}) => [
         comparator: (a, b) => a.localeCompare(b)
     },
     {
-        headerName: __('Email'),
-        field: 'userInfo.email',
+        headerName: __('Project'),
         checkboxSelection: false,
         filter: true,
+        valueGetter: ({data}) => {
+            if (data.projectInfo === null || data.projectInfo === undefined || data.projectInfo === '' || data.projectInfo === '--') {
+                return '--'
+            }
+            const primary_language = data.projectInfo?.primary_language ?? 'en'
+            const {title} = (data.projectInfo.i18n)
+            return title[primary_language];
+        },
         width: 200,
         sortable: true,
-        comparator: (a, b) => a.localeCompare(b)
-    },
-    {
-        headerName: __('Role name'),
-        field: 'roleInfo.name',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
+        comparator: (a, b) => workspacesNameComparator(a, b)
     },
     {
         headerName: __('Workspace'),
         checkboxSelection: false,
         filter: true,
         valueGetter: ({data}) => {
-            if (data.target === 'project') {
+            if (data.workspaceInfo === null || data.workspaceInfo === undefined || data.workspaceInfo === '' || data.workspaceInfo === '--') {
                 return '--'
             }
             const primary_language = data.projectInfo?.primary_language ?? 'en'
-            const {title} = JSON.parse(data.workspaceInfo.i18n)
+            const {title} = (data.workspaceInfo.i18n)
             return title[primary_language];
         },
         width: 200,
@@ -85,4 +83,4 @@ const ProjectUserRolesTableHeader = ({deleteYesCallback}) => [
 
 ];
 
-export default ProjectUserRolesTableHeader
+export default GlobalUserRolesTableHeader

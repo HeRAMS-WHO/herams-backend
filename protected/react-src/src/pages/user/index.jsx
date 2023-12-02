@@ -1,11 +1,10 @@
 import {__} from "../../utils/translationsUtility";
 import useUserList from "../../hooks/User/useUserList";
-import UserIndexTableHeader from "./UserIndexTableHeader";
-import Table from "../common/table/Table";
+import UserIndexTableHeader from "./index/UserIndexTableHeader";
+import Table from "../../components/common/table/Table";
 
 const UserIndex = () => {
     const { userList } = useUserList()
-    console.log(userList)
     return (
         <div className="container-fluid px-2">
             <div className="row mt-2">

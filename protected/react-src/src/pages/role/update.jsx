@@ -6,21 +6,22 @@ import useRole from "../../hooks/Role/useRole";
 import useRolePermissions from "../../hooks/Role/useRolePermissions";
 import useProjects from "../../hooks/Project/useProjects";
 
-import FormGroup from "../common/form/FormGroup";
-import TextInput from "../common/form/TextInput";
-import DropdownInput from "../common/form/DropdownInput";
-import CheckboxesGroup from "../common/form/CheckboxesGroup";
-import FormButtons from "../common/form/FormButtons";
-import { Link } from 'react-router-dom';
-
-const RoleEdit = ({roleId = 0}) => {
+import FormGroup from "../../components/common/form/FormGroup";
+import TextInput from "../../components/common/form/TextInput";
+import DropdownInput from "../../components/common/form/DropdownInput";
+import CheckboxesGroup from "../../components/common/form/CheckboxesGroup";
+import FormButtons from "../../components/common/form/FormButtons";
+import {Link, useNavigate} from 'react-router-dom';
+import params from '../../states/params';
+const RoleEdit = () => {
+    const navigate = useNavigate();
+    const { roleId = 0 } = params.value;
     const {
         roleData,
         setRoleProperty,
         validateRole,
         roleErrors
     } = useRole(roleId);
-    
     const {
         rolesPermissions,
         updatePermissionInRole,
@@ -40,7 +41,7 @@ const RoleEdit = ({roleId = 0}) => {
 
         const response = await updateRoleAndPermissions(roleId, data);
         if (response.ok) {
-            window.location.href = '../../role';
+            return navigate('/admin/role');
         }
     }
 
@@ -53,7 +54,7 @@ const RoleEdit = ({roleId = 0}) => {
     }
 
     return (
-        <>
+        <>  
             {isEditing() ? <h2>{__('Roles Edit')}</h2> : <h2>{__('Roles Create')}</h2>}
             <FormGroup label={__('Role name')} hasStar={true} error={roleErrors?.name}>
                 <TextInput
@@ -132,8 +133,8 @@ const RoleEdit = ({roleId = 0}) => {
                     onChange={updatePermissionInRole}/>
             </div>
             <div className={`${styles.dFlex} ${styles.gap1} ${styles.mt4} ${styles.placeEnd}`}>
-                <Link to={'/admin/dashboard'}
-                    className={`btn btn-secondary ${styles.w200px}`}>
+                <Link to={'/admin/role'}
+                    className={`btn btn-white text-dark ${styles.w200px}`}>
                     {__('Cancel')}
                 </Link>
                 <FormButtons
