@@ -5,6 +5,9 @@ import info, {specialVariables} from '../../../states/info';
 import { useEffect, useState } from 'react';
 import languageSelected from '../../../states/languageSelected';
 import DropdownInput from '../../common/form/DropdownInput';
+import { fetchLocales } from '../../../services/apiProxyService';
+import { NavLink } from 'react-router-dom';
+
 const selectedPage = 'Roles'
 
 const pages = {
@@ -32,68 +35,53 @@ const HeaderTitle = () => {
 }
 const Header = () => {
     return (
-        <div className="header">
-            <div className='d-flex'>
-                <div className="header--left-panel">
-                    <BreadCrumb />
-                </div>
-                <HeaderRightPanel />
+        <div className="bg-black-web grid-container text-white px-2">
+            <div className='logo'>
+                <img 
+                    src="https://v2.herams-staging.org/img/HeRAMS_white.svg" 
+                    alt="logo" 
+                    className="logo" />
             </div>
-            <div className="col-md-8 mx-auto col-12">
+            <div className='d-flex place-item-center-vertical'>
                 <HeaderTitle />
             </div>
+            <HeaderRightPanel />
         </div>
     )    
 }
-
-const BreadCrumb = () => {
-    return <div className="header--left-panel--breadcrumb">
-        {
-            pages[selectedPage].breadcrumb.map((item, index) => {
-                return <span key={item.title}>
-                        <a href="#" onClick={() => selectedPage.value = item.page}>{item.title}</a>
-                        {index < pages[selectedPage].breadcrumb.length - 1 ? ' > ' : ''}
-                    </span>
-            })
-        }
-    </div>
-}
-
-
 
 const HeaderRightPanel = () => {
     const changeLanguage = (language) => {
         languageSelected.value = language
     }
-    return <div className="header--rigth-panel d-flex place-item-center-vertical">
-        <div>
-            <div>
-                <a className="no-style mx-4px" href="#"><i className="material-icons">cloud</i></a>
-                <a className="no-style mx-4px" href="#"><i className="material-icons">favorite</i></a>
-                <a className="no-style mx-4px" href="#"><i className="material-icons">attachment</i></a>
-                <a className="no-style mx-4px" href="#"><i className="material-icons">computer</i></a>
-                <a className="no-style mx-4px" href="#"><i className="material-icons">traffic</i></a>
-            </div>
-            <div className='bg-white text-dark d-relative border-radius-60px'>
-                <span className='pt-8px d-block-inline d-centered'>
+    const [languages, setLanguages] = useState([])
+    useEffect(() => {
+        fetchLocales().then((response) => {
+            setLanguages(response.map((locale) => (
+                {value:locale.locale.toLowerCase(), label: locale.locale.toUpperCase()}
+            )))
+        })
+    }, [])
+    return <div className="d-flex place-item-center-vertical justify-content-end">
+        <div className='w-75 text-align-right'>
+            <NavLink className="no-style mx-4px text-white" to="/admin/project"><i className="material-icons">settings</i></NavLink>
+            <NavLink className="no-style mx-4px text-white" to="/"><i className="material-icons">home</i></NavLink>
+            <NavLink className="no-style mx-4px text-white" to="#"><i className="material-icons">favorite</i></NavLink>
+            <NavLink className="no-style mx-4px text-white" to="#"><i className="material-icons">account_circle</i></NavLink>
+            <NavLink className="no-style mx-4px text-white" to="#"><i className="material-icons">help</i></NavLink>
+            <NavLink className="no-style mx-4px text-white" to="/session/delete"><i className="material-icons">logout</i></NavLink>
+        </div>
+        <div className='w-25 pl-25px'>
+            <span className='d-flex border-radius-60px'>
+                <span className='d-block-inline'>
                     <i className="material-icons">public</i>
                 </span>
-                <DropdownInput className='py-6px borderless bg-transparent ml-30px'
-                    options={[
-                        {value: 'en', label: 'English'},
-                        {value: 'es', label: 'Spanish'},
-                        {value: 'fr', label: 'French'},
-                        {value: 'de', label: 'German'},
-                        {value: 'it', label: 'Italian'},
-                        {value: 'pt', label: 'Portuguese'},
-                        {value: 'ru', label: 'Russian'},
-                        {value: 'zh', label: 'Chinese'},
-                    ]}
+                <DropdownInput className='borderless ml-20px bg-black-web '
+                    options={languages}
                     value={languageSelected.value}
                     onChange={(e) => changeLanguage(e.target.value)}  />
-            </div>
+            </span>
         </div>
-        
     </div>
 }
 export default Header

@@ -45,7 +45,7 @@ class WorkspaceTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'url' => [
-                "project/{$this->workspace->projectId()}/workspace/{$this->workspace->id()}/user",
+                "admin/project/{$this->workspace->projectId()}/workspace/{$this->workspace->id()}/user",
             ],
             'title' => Yii::t('app', 'Users ({n})', [
                 'n' => $this->workspace->getPermissionSourceCount(),

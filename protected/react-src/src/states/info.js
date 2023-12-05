@@ -25,6 +25,9 @@ const reloadSpecialVariables = ({language, state}) => {
         ':projectName' : info.value?.project?.i18n?.title?.[language] 
             || info.value?.project?.i18n?.title?.['en'] 
             ||'project',
+        ':userName' : info.value?.user?.name || '',
+        ':userEmail' : info.value?.user?.email || '',
+        ':userId' : info.value?.user?.id || '',
         ':projectId' : info.value?.project?.id || '',
         ':workspaceId' : info.value?.workspace?.id || '',
         ':hsduId' : info.value?.facility?.id || '',

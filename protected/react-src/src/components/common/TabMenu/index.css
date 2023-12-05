@@ -1,7 +1,7 @@
 .activeTab {
     background-color: white;
-    color: blue;
-    border: 1px solid gray;
+    color: var(--primary-color) !important;
+    border: none !important;
 }
 .bg-alice-blue {
     background-color: aliceblue;
@@ -17,7 +17,12 @@
     cursor: pointer;
     
 }
-
+.tab:visited {
+    color: #919191;
+}
+.tab:hover {
+    color: var(--primary-color);
+}
 .tab {
     font-size: 13px;
     display: inline-block;

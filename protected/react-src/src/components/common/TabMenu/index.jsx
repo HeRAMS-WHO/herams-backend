@@ -8,7 +8,7 @@ const Tab = ({page}) => {
         <>
             <Link
                 to={replaceVariablesAsText(page.URL)} 
-                className={`tab ${false ? 'activeTab' : ''}`}>
+                className={`tab ${page?.URL === routeInfo.value?.URL ? 'activeTab' : ''}`}>
                 {replaceVariablesAsText(page.tabName)}
             </Link>
         </>
@@ -37,7 +37,8 @@ const TabsMenu = ({routes}) => {
     return (
         <div className="d-flex bg-aliceblue">
             {
-                tabs.map((page) => <Tab key={page.URL} page={page} />)
+                tabs.filter((page) => page.hasTabs)
+                    .map((page) => <Tab key={page.URL} page={page} />)
             }
         </div>
     )

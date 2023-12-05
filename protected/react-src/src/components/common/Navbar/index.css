@@ -1,13 +1,8 @@
 .header {
-    background-color: green;
+    background-color: var(--color-black-web);
     color: white;
 }
-.header--left-panel {
-    width: 70%;
-}
-.header--rigth-panel {
-    width: 30%;
-}
+
 .py-6px {
     padding-top: 6px;
     padding-bottom: 6px;
@@ -24,8 +19,8 @@
     left: 0%;
     transform: translate(-0%, -50%);
 }
-.ml-30px {
-    margin-left: 30px;
+.ml-50px {
+    margin-left: 50px;
 }
 .border-radius-60px {
     border-radius: 60px;

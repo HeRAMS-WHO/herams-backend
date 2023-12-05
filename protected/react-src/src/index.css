@@ -1,4 +1,5 @@
 :root {
+  --color-black-web: #424348;
   --primary-color: #4177c1;
   --primary-button-background-color: var(--primary-color);
   --primary-button-color: white;
@@ -130,6 +131,12 @@ code {
 }
 .ml-2{
     margin-left: 0.5rem!important;
+}
+.d-block-inline {
+  display: inline-block;
+}
+.p-4 {
+  padding: 1.5rem!important;
 }
 .form-group .col-md-3 {
   word-break: break-word;
@@ -367,7 +374,9 @@ a {
   outline: none;
   text-align: center;
 }
-
+.pl-25px {
+  padding-left: 25px;
+}
 .btn-default {
   background-color: var(--default-button-background-color);
   color: var(--default-button-color);
@@ -396,5 +405,48 @@ a {
   left: 0;
   height: 3px; /* Adjust the height of the underline */
   background-color: var(--primary-button-hover-color);
-  width: 120%;
+  width: 100%;
+}
+.text-align-right {
+  text-align: right;
+}
+.justify-content-end {
+  justify-content: flex-end;
+}
+.text-underlined {
+  text-decoration: underline;
+}
+.hover-text-primary:hover {
+  color: var(--primary-button-hover-color) !important;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 10px; /* Adjust the gap between items */
+}
+
+.bg-black-web {
+  background-color: var(--color-black-web);
+}
+
+.logo {
+  width: 160px; /* Adjust the width as needed */
+  height: 80px; /* Adjust the height as needed */
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Keeps the aspect ratio and fits the image within the defined width and height */
+  /* Additional styles for borders, shadows, etc. */
+}
+
+.px-2 {
+  padding-right: 2rem!important;
+  padding-left: 2rem!important;
 }

@@ -1,9 +1,14 @@
+import { param } from 'jquery';
 import {deleteRequest, get, post} from './httpMethods';
 
 export const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
 
 export const fetchProfile = (params, headers) => {
     return get(`${BASE_URL}/user/profile`, params, headers);
+}
+
+export const fetchLocales = (params, headers) => {
+    return get(`${BASE_URL}/configuration/locales`, params, headers);
 }
 
 export const updateProfile = (data, headers) => {
@@ -69,7 +74,9 @@ export const fetchDeleteRole = (id, params, headers) => {
 export const fetchUsers = (params, headers) => {
     return get(`${BASE_URL}/user/index`, params, headers);
 }
-
+export const fetchUser = (id, params, headers) => {
+    return get(`${BASE_URL}/user/${id}/view`, params, headers);
+}
 export const fetchProjectWorkspaces = (projectId, params, headers) => {
     return get(`${BASE_URL}/project/${projectId}/workspaces`, params, headers);
 }
