@@ -20,7 +20,6 @@ use prime\controllers\user\Index;
 use prime\controllers\user\Notifications;
 use prime\controllers\user\Password;
 use prime\controllers\user\Profile;
-use prime\controllers\user\RequestAccount;
 use prime\controllers\user\RequestReset;
 use prime\controllers\user\ResetPassword;
 use prime\controllers\user\Roles;

@@ -3,52 +3,143 @@ import 'survey-core/defaultV2.min.css';
 import 'survey-creator-core/survey-creator-core.min.css';
 import { Model } from "survey-core";
 import { Survey as SurveyComponent } from "survey-react-ui";
-import { get as getWithCsrf, post as postWithCsrf } from '../../services/httpMethods'; // Adjust the import path
-import { applyLocalizableProjectTextQuestion } from './custom/LocalizableProjectTextQuestion';
-import { applyProjectVisibilityQuestion } from './custom/ProjectVisibilityQuestion';
-
-
-applyLocalizableProjectTextQuestion();
-applyProjectVisibilityQuestion();
-
+import {fetchWithCsrf} from '../../services/httpMethods'; // Adjust the import path
 
 function SurveyFormWidget(props) {
     const [survey, setSurvey] = useState(null);
-    const config = JSON.parse(atob(props.surveySettings));
+    const [surveys, setSurveys] = useState([]);
+
+    // Custom hook or function to parse configuration
+    const parseConfig = (configEncoded) => {
+        try {
+            return JSON.parse(atob(configEncoded));
+        } catch (error) {
+            console.error("Error parsing survey configuration:", error);
+            return null; // Or handle this case as per your requirements
+        }
+    }
 
     useEffect(() => {
+        const config = parseConfig(props.surveySettings);
+        if (!config) return;
         const initSurvey = async () => {
-            const surveyInstance = new Model(config.structure);
+            let surveyStructure = config.structure;
 
             if (config.localeEndpoint) {
-                const locales = await getWithCsrf(config.localeEndpoint);
-                surveyInstance.locales = locales.languages;
+                try {
+                    const locales = await fetchWithCsrf(config.localeEndpoint, null, 'get');
+                    surveyStructure.locales = locales.languages;
+                } catch (error) {
+                    console.error("Error fetching locales:", error);
+                }
             }
+
+            const surveyInstance = new Model(surveyStructure);
+
+            let restartWithFreshData
+            let waitForDataPromise
 
             if (config.dataUrl) {
-                const fetchedData = await getWithCsrf(config.dataUrl);
-                surveyInstance.data = { ...fetchedData, ...config.extraData };
+                restartWithFreshData = async () => {
+                    console.log("Clearing survey", config.dataUrl);
+                    surveyInstance.clear()
+                    const data = await fetchWithCsrf(config.dataUrl, null, 'GET');
+                    console.log(surveyInstance.data)
+                    try {
+                        data.projectvisibility = data.visibility
+
+                        //survey.data = data
+                    } catch (error) {
+                        surveyInstance.data = {};
+                        console.warn("Fallback to setting individual values", error);
+                        for(const [key, value] of Object.entries({ ...data, ...config.data })) {
+                            try {
+                                console.log("Setting", key, value);
+                                surveyInstance.setValue(key, value);
+                            } catch (error) {
+                                console.warn("Failed to set", key, value, error);
+                            }
+                        }
+                    }
+                    //return survey.data;
+                    console.log(surveyInstance.data)
+                }
+                waitForDataPromise = restartWithFreshData();
+
             }
 
-            surveyInstance.onComplete.add(async (sender, options) => {
-                try {
-                    await postWithCsrf(config.submissionUrl, { data: sender.data });
-                    if (config.redirectUrl) {
-                        window.location.assign(config.redirectUrl);
-                    }
-                } catch (error) {
-                    console.error("Error submitting survey data:", error);
-                }
-            });
+            let currentSurveys = [...surveys, surveyInstance];
+            setSurveys(currentSurveys);
+            surveyInstance.surveyShowDataSaving = true;
+            if (config.submissionUrl) {
+                surveyInstance.onComplete.add(async (sender, options) => {
+                    options.showDataSaving('Uploading data');
+                    try {
+                        await fetchWithCsrf(config.submissionUrl, {
+                            data: {
+                                ...(config.extraData),
+                                ...sender.data
+                            }
+                        })
+                        options.showDataSavingSuccess('Data saved');
+                        const notification = window.Herams.notifySuccess("Data saved", 'center');
+                        if (config.redirectUrl) {
+                            await notification
+                            window.location.assign(config.redirectUrl);
+                        } else if (restartWithFreshData) {
+                            return restartWithFreshData()
+                        }
 
-            surveyInstance.onServerValidateQuestions.add(async (sender, options) => {
-                try {
-                    const validationResponse = await postWithCsrf(config.validationUrl, { data: sender.data });
-                    // Handle validation logic here
-                } catch (error) {
-                    console.error("Error during server validation:", error);
-                }
-            });
+                    } catch(error) {
+                        if (Object.getPrototypeOf(error).name === 'ValidationError') {
+                            options.showDataSavingError(error.message + ': ' + JSON.stringify(error.errors));
+                        } else {
+                            options.showDataSavingError(error.message);
+                        }
+
+
+                    }
+                });
+            }
+            if (config.validationUrl) {
+                surveyInstance.onServerValidateQuestions.add(async (sender, options) => {
+
+                    try {
+                        const json = await fetchWithCsrf(config.validationUrl, {
+                            data: {
+                                ...(config.extraData),
+                                ...sender.data
+                            }
+
+                        });
+                        let visibleError = false
+                        console.log(json, options.data);
+                        for (const [attribute, errors] of Object.entries(json.errors)) {
+                            options.errors[attribute] = errors.join(', ');
+                            visibleError = visibleError
+                                || typeof options.data[attribute] !== 'undefined'
+                                || surveys[0].currentPage.getQuestionByName(attribute)?.isVisible
+                        }
+
+                        // If the error is not visible, add it to all questions
+                        if (!visibleError) {
+                            for (const question of sender.currentPage.questions) {
+                                for (const [attribute, errors] of Object.entries(json.errors)) {
+                                    options.errors[question.name] = errors.join(', ');
+                                }
+                            }
+                        }
+
+                    } catch (error) {
+                        // This is a big error, add it to all questions on the page.
+                        for (const question of sender.currentPage.questions) {
+                            options.errors[question.name] = error.message
+                        }
+                    }
+                    options.complete();
+                });
+            }
+            const data = await waitForDataPromise
 
             setSurvey(surveyInstance);
         };
@@ -56,7 +147,7 @@ function SurveyFormWidget(props) {
         initSurvey();
     }, [props.surveySettings]);
 
-    return <div id={config.elementId}>
+    return <div>
         {survey && <SurveyComponent model={survey} />}
     </div>
 }

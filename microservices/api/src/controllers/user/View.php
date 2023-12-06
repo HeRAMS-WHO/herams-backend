@@ -14,7 +14,7 @@ final class View extends Action
         UserRepository $userRepository,
         User $user,
         int $id = null
-    ): \herams\common\domain\user\User|array{
+    ): \herams\common\domain\user\User|array {
         $data = [];
         $user = $userRepository->retrieveOrThrow($id ?? $user->id);
         $data['creator'] = $user->creator?->toArray();

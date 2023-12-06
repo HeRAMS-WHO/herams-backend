@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use herams\common\models\PermissionOld;
 use herams\common\values\WorkspaceId;
+use prime\assets\ReactAsset;
 use prime\components\View;
 use prime\helpers\Icon;
 use prime\interfaces\WorkspaceForTabMenu;
@@ -21,7 +22,7 @@ use yii\bootstrap\Html;
  * @var null|object $model
  */
 assert($this instanceof View);
-
+ReactAsset::register($this);
 
 $this->params['subject'] = $tabMenuModel->title();
 //$this->title = \Yii::t('app', "Settings");
@@ -34,10 +35,15 @@ $this->endBlock();
 Section::begin()
     ->withSubject($workspaceId)
 ;
-$survey = SurveyFormWidget::begin()
-    ->withForm($form)
-    ->end()
-;
+$survey = new SurveyFormWidget();
+$survey->withForm($form)->setConfig();
+$config = $survey->getConfig();
+
+?>
+    <div id="UpdateWorkspace" data-survey-settings="<?= Html::encode(base64_encode($config)) ?>"
+    >
+    </div>
+<?php
 
 
 Section::end();

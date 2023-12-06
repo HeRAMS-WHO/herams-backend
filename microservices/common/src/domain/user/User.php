@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace herams\common\domain\user;
 
+use Carbon\Carbon;
 use herams\common\domain\favorite\Favorite;
 use herams\common\domain\favorite\FavoriteQuery;
 use herams\common\enums\Language;
 use herams\common\jobs\users\SyncNewsletterSubscriptionJob;
+use herams\common\models\Permission;
+use herams\common\models\Project;
+use herams\common\models\Role;
+use herams\common\models\RolePermission;
+use herams\common\models\UserRole;
+use herams\common\models\Workspace;
 use herams\common\traits\JsonBase64EncoderTrait;
 use herams\common\validators\BackedEnumValidator;
 use JCIT\jobqueue\interfaces\JobQueueInterface;
@@ -15,6 +22,7 @@ use SamIT\abac\AuthManager;
 use SamIT\abac\interfaces\Grant;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\Query;
 use yii\validators\BooleanValidator;
 use yii\validators\DefaultValueValidator;
 use yii\validators\RegularExpressionValidator;
@@ -37,6 +45,7 @@ use function iter\chain;
  * @property string $name
  * @property bool $newsletter_subscription
  * @property string $password_hash
+ * @property string $last_login_date
  * @property int $updated_at
  *
  * @property Favorite[] $favorites
@@ -66,6 +75,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return array_merge(parent::behaviors(), [
             'timestamp' => [
                 'class' => TimestampBehavior::class,
+                'updatedAtAttribute' => 'last_modified_date',
+                'createdAtAttribute' => 'created_date',
+                'value' => Carbon::now('CET')
             ],
         ]);
     }
@@ -137,14 +149,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'id' => $id,
         ]);
     }
+
     public function getCreator(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'created_by'])->alias('creator');
+        return $this->hasOne(User::class, [
+            'id' => 'created_by',
+        ])->alias('creator');
     }
+
     public function getUpdater(): ActiveQuery
     {
-        return $this->hasOne(User::class, ['id' => 'last_modified_by'])->alias('updater');
+        return $this->hasOne(User::class, [
+            'id' => 'last_modified_by',
+        ])->alias('updater');
     }
+
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return null;
@@ -223,5 +242,71 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function setOnlyFields(array $selectedFields = [])
     {
         $this->selectedFields = $selectedFields;
+    }
+
+    /**
+     * @return bool
+     */
+    public function updateLastLoginDate(): bool
+    {
+        $this->setAttribute('last_login_date', Carbon::now('CET'));
+
+        return $this->save();
+    }
+
+
+    /**
+     * @param $userId
+     * @return array
+     */
+    public function calculatePermissions($userId = null): array
+    {
+        $userId = $userId ?? $this->getId();
+        $permissions = [];
+        $results = (new Query())
+            ->select("ur.user_id as UserId")->distinct()
+            ->addSelect(["rp.permission_code", "ur.target", "case when ur.target = 'project' then p1.id
+                    when ur.target = 'workspace' then p2.id
+                        end as ProjectId,
+                    if (ur.target = 'workspace', w.id, null) as WorkspaceId"
+            ])
+            ->from(UserRole::tableName() . ' ur')
+            ->leftJoin(Role::tableName() . ' r', 'ur.role_id = r.id')
+            ->leftJoin(RolePermission::tableName() . ' rp', 'ur.role_id = rp.role_id')
+            ->leftJoin(Project::tableName() . ' p1', "ur.target = 'project' and ur.target_id = p1.id")
+            ->leftJoin(Workspace::tableName() . ' w', "ur.target = 'workspace' and ur.target_id = w.id")
+            ->leftJoin(Project::tableName() . ' p2', "ur.target = 'workspace' and w.project_id = p2.id")
+            ->where(['ur.user_id' => $userId])
+            ->orderBy('rp.permission_code')
+            ->all();
+
+        foreach ($results as $result) {
+            if (Permission::GLOBAL_TARGET == $result['target']) {
+                $permissions[Permission::GLOBAL_TARGET][] = $result['permission_code'];
+            } else if (Permission::PROJECT_TARGET == $result['target']) {
+                $permissions[Permission::PROJECT_TARGET][$result['ProjectId']][] = $result['permission_code'];
+            } else if (Permission::WORKSPACE_TARGET == $result['target']) {
+                $permissions[Permission::WORKSPACE_TARGET][$result['ProjectId']][$result['WorkspaceId']][] = $result['permission_code'];
+            }
+        }
+
+        return $permissions;
+    }
+
+    /**
+     * @param array $permissions
+     * @return void
+     */
+    public function setPermissions(array $permissions = []): void
+    {
+        \Yii::$app->session->set('permissions', json_encode($permissions, JSON_UNESCAPED_UNICODE));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPermissions(): mixed
+    {
+        return json_decode(\Yii::$app->session->get('permissions'), true);
     }
 }

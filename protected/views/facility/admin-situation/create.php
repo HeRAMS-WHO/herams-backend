@@ -33,34 +33,34 @@ Section::begin()
     ->withHeader(Yii::t('app', 'Create Admin Situation'));
 $surveyJS = new Survey();
 $surveyJS->withConfig($survey->getConfig())
-        ->withDataRoute([
-            '/api/facility/latest-admin-situation',
-            'id' => $facilityId,
-        ], ['data'])
-        ->withExtraData([
-            'facilityId' => $facilityId,
-            'surveyId' => $survey->getId(),
-            'response_type' => 'admin',
-        ])
-        ->withSubmitRoute([
-            'update-situation',
-            'id' => $facilityId,
-        ])
-        ->withProjectId($projectId)
-        ->withSubmitRoute([
-            'api/survey-response/create',
-        ])
-        ->withRedirectRoute([
-            'facility/admin-responses',
-            'id' => $facilityId,
-        ])
-        ->withServerValidationRoute([
-            'api/facility/validate-situation',
-            'id' => $facilityId,
+    ->withDataRoute([
+        '/api/facility/latest-admin-situation',
+        'id' => $facilityId,
+    ], ['data'])
+    ->withExtraData([
+        'facilityId' => $facilityId,
+        'surveyId' => $survey->getId(),
+        'response_type' => 'admin',
+    ])
+    ->withSubmitRoute([
+        'update-situation',
+        'id' => $facilityId,
+    ])
+    ->withProjectId($projectId)
+    ->withSubmitRoute([
+        'api/survey-response/create',
+    ])
+    ->withRedirectRoute([
+        'facility/admin-responses',
+        'id' => $facilityId,
+    ])
+    ->withServerValidationRoute([
+        'api/facility/validate-situation',
+        'id' => $facilityId,
 
-        ])
-        ->deleteDate()
-        ->setSurveySettings();
+    ])
+    ->deleteDate()
+    ->setSurveySettings();
 $surveySettings = $surveyJS->getSurveySettings();
 $surveyHaveToDeleteData = $surveyJS->getHaveToDeleteData();
 

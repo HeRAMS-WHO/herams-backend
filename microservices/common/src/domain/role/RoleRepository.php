@@ -69,8 +69,6 @@ final class RoleRepository
         return $roleObjects;
     }
 
-
-
     public function retrieveRole(RoleId $roleId): Role
     {
         return Role::findOne([

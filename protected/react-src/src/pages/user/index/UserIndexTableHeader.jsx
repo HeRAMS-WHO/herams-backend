@@ -49,6 +49,7 @@ const UserIndexTableHeader = () => [
     },
     {
         headerName: __('Last login'),
+        field: 'last_login_date',
         checkboxSelection: false,
         filter: true,
         width: 200,

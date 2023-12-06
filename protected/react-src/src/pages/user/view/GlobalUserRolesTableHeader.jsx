@@ -70,6 +70,9 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
         filter: true,
         pinned: 'right',
         cellRenderer: function (params) {
+            if (params.data.target.toLowerCase() !== 'global') {
+                return null
+            }
             const confirmationText = __("Are you sure you want to delete the user's role?");
             return <DeleteButton
                 title={__("Delete User's Role")}

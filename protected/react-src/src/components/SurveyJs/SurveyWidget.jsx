@@ -9,7 +9,6 @@ import { post as postWithCsrf } from '../../services/httpMethods';  // Adjust th
 function SurveyWidget(props) {
     const [survey, setSurvey] = useState(null);
     const [surveys, setSurveys] = useState([]);
-    const [haveToDeleteDate, setHaveToDeleteDate] = useState(0);
 
     // Custom hook or function to parse configuration
     const parseConfig = (configEncoded) => {
@@ -25,7 +24,6 @@ function SurveyWidget(props) {
         const config = parseConfig(props.surveySettings);
         if (!config) return;
         let haveToDeleteDataEffect = props?.haveToDeleteDate ?? 0;
-        setHaveToDeleteDate(haveToDeleteDataEffect);
 
         const setupSurvey = async () => {
             let surveyStructure = config.structure;
