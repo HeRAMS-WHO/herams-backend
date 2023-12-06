@@ -11,7 +11,6 @@ const extractRoutesRecursively = (route) => {
         routeString += `/${route}`
         routesArray.push(routeString)
     })
-    console.log(routesArray)
     return routesArray;
 }
 const BreadcrumbLink = ({link, isLast, children}) => {
