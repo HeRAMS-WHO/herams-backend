@@ -11,6 +11,7 @@ import RolesEdit from "./components/RolesPages/RoleEdit";
 import ProjectUserRoles from "./components/UserRoles/ProjectUserRoles";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 import UserIndex from "./components/Users/UserIndex";
+import UserMaterial from "./components/Users/UserMaterial";
 import reportWebVitals from "./reportWebVitals";
 import WorkspaceUserRoles from "./components/UserRoles/WorkspaceUserRoles";
 import GlobalUserRoles from "./components/UserRoles/GlobalUserRoles";
@@ -38,6 +39,7 @@ const componentsMap = {
     'WorkspaceUserRoles': WorkspaceUserRoles,
     'GlobalUserRoles': GlobalUserRoles,
     'UserIndex': UserIndex,
+    'UserMaterial': UserMaterial,
     'SurveyWidget': SurveyWidget,
     'CreateFacility': CreateFacility,
     'UpdateSituation': UpdateSituation,

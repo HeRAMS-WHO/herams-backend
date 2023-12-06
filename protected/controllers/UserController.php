@@ -17,6 +17,7 @@ use prime\controllers\user\Favorites;
 use prime\controllers\user\GlobalUserRoles;
 use prime\controllers\user\Impersonate;
 use prime\controllers\user\Index;
+use prime\controllers\user\Material;
 use prime\controllers\user\Notifications;
 use prime\controllers\user\Password;
 use prime\controllers\user\Profile;
@@ -40,6 +41,7 @@ class UserController extends Controller
             'email' => Email::class,
             'global-user-roles' => GlobalUserRoles::class,
             'index' => Index::class,
+            'material' => Material::class,
             'profile' => Profile::class,
             'impersonate' => Impersonate::class,
             'favorites' => Favorites::class,
