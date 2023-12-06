@@ -1,9 +1,9 @@
 "Permission code";"Permission name";"System Admin";"Regional Admin (sub-admin)";"Project Owner";"Project Configuration";"Project  administrator";"Project Data consumer";"Project Viewer";"Workspace Owner";"Workspace User Manager";"Health Facility Admin";"Data Contributor (HF admin)";"Data Contributor (HF situation)";"Data Viewer";"Workspace Data consumer"
 ;"Admin";;;;;;;;;;;;;;
-"VIEW_GLOBAL_USER";"View all users at global elevel, and all user's permission";"x";;;;;;;;;;;;;
+"VIEW_GLOBAL_USER";"View all users at global level, and all users permission";"x";;;;;;;;;;;;;
 "DELETE_USER";"Delete users";"x";;;;;;;;;;;;;
 "VIEW_ROLE";"View Roles list, and role details (read-only)";"x";;;;;;;;;;;;;
-"CREATE_ROLE";"Cretate new roles (standard and custom)";"x";;;;;;;;;;;;;
+"CREATE_ROLE";"Create new roles (standard and custom)";"x";;;;;;;;;;;;;
 "UPDATE_ROLE";"Update existing roles (standard and custom)";"x";;;;;;;;;;;;;
 "DELETE_ROLE";"Delete roles (standard and custom)";"x";;;;;;;;;;;;;
 "ASSIGN_GLOBAL_ROLE";"Assign global roles to any user";"x";;;;;;;;;;;;;
@@ -14,8 +14,7 @@
 "UPDATE_SURVEY";"Update existing survey";"x";;;;;;;;;;;;;
 "DELETE_SURVEY";"Delete survey";"x";;;;;;;;;;;;;
 ;"Project ";;;;;;;;;;;;;;
-"VIEW_PROJECT";"If given for a specific  project (private or hidden), project will be visible in map, project list. Tts dashobard and ws list will also be visible.
-If given globally user would be able to see all projects (private and hidden) with the same permissions";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
+"VIEW_PROJECT";"If given for a specific  project (private or hidden), project will be visible in map, project list. The dashboard and ws list will also be visible. If given globally user would be able to see all projects (private and hidden) with the same permissions";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
 "CREATE_PROJECT";"Create a new project";"x";"x";;;;;;;;;;;;
 "DELETE_PROJECT";"Delete project";"x";;;;;;;;;;;;;
 "UPDATE_PROJECT_SETTINGS";"Edit project settings";"x";"x";;"x";;;;;;;;;;
@@ -28,7 +27,7 @@ If given globally user would be able to see all projects (private and hidden) wi
 "CREATE_WS";"Create new workspace";"x";"x";;"x";"x";;;;;;;;;
 "UPDATE_WS_SETTINGS";"Edit workspace settings";"x";"x";;;"x";;;"x";;;;;;
 "DELETE_WS";"Delete workspace";"x";"x";;;"x";;;"x";;;;;;
-"VIEW_WS_USERS";"View worpsace users";"x";"x";;;"x";;;"x";"x";;;;;
+"VIEW_WS_USERS";"View workspace users";"x";"x";;;"x";;;"x";"x";;;;;
 "UPDATE_WS_USERS";"Manage workspace users";"x";"x";;;"x";;;"x";"x";;;;;
 ;"HSDU";;;;;;;;;;;;;;
 "VIEW_HSDU_LIST";"View HSDU List";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
