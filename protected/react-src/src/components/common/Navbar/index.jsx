@@ -26,13 +26,7 @@ const T = ({value}) => {
     return <>{translation}</>
 }
 
-const HeaderTitle = () => {
-    return (
-        <>
-            <h1 className='h2 mb-0 active-link'><T value={routeInfo.value.pageTitle} /></h1>
-        </>
-    )
-}
+
 const Header = () => {
     return (
         <div className="bg-black-web grid-container text-white px-2">
@@ -43,7 +37,7 @@ const Header = () => {
                     className="logo" />
             </div>
             <div className='d-flex place-item-center-vertical'>
-                <HeaderTitle />
+                
             </div>
             <HeaderRightPanel />
         </div>

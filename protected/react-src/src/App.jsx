@@ -78,7 +78,7 @@ const MainContent = ({children}) => {
 }
 const BreadcrumbContainer = ({children}) => {
     return (
-        <div className="col-md-8 mx-auto col-12 mt-2 mb-2 p-0 px-2">
+        <div className="col-md-8 mx-auto col-12 mt-2 mb-2 p-0">
             {children}
         </div>
     )
@@ -90,7 +90,18 @@ const TabContainer = ({children}) => {
         </div>
     )
 }
-
+const HeaderTitle = () => {
+    return (
+        <>
+            <div className="mb-2">
+                <h1 className='h2 mb-0'>
+                    {replaceVariablesAsText(routeInfo.value.pageTitle)}
+                </h1>
+            </div>
+            
+        </>
+    )
+}
 const App = () => {
     useEffect(() => {
         useReloadSpecialVariables()
@@ -100,6 +111,7 @@ const App = () => {
             <Router>
                 <Header />
                 <BreadcrumbContainer>
+                    <HeaderTitle />
                     <Breadcrumb routes={reactRoutes} />
                 </BreadcrumbContainer>
                 <TabContainer>
