@@ -34,7 +34,7 @@ const Table = ({columnDefs, data}) => {
                     buttons={[
                         {
                             label: __('Reset grid'),
-                            class: "btn btn-secondary",
+                            class: "btn btn-secondary text-dark",
                             onClick: buttonListener
                         }
                     ]}

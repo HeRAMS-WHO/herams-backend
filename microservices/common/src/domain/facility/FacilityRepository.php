@@ -150,7 +150,7 @@ final class FacilityRepository
             ->asArray()
             ->all();
     }
-
+    
     public function retrieveForTabMenu(FacilityId $id): FacilityForTabMenu
     {
         $facility = FacilityReadRecord::findOne([

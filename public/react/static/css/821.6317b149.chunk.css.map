@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/821.6317b149.chunk.css","mappings":"AAAA,eACI,wBAA6B,CAC7B,wBAAyB,CACzB,cAAe,CACf,cACJ","sources":["components/common/button/DeleteButton.css"],"sourcesContent":[".delete-button{\n    background-color: transparent;\n    border-color: transparent;\n    cursor: pointer;\n    font-size: 14px;\n}"],"names":[],"sourceRoot":""}

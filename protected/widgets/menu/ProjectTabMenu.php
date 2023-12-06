@@ -57,8 +57,7 @@ class ProjectTabMenu extends TabMenu
         ];
         $this->tabs[] = [
             'url' => [
-                'project/users',
-                'id' => $projectId,
+                "admin/project/{$projectId}/user",
             ],
             'title' => \Yii::t('app', 'Users ({n})', [
                 'n' => $this->project->getPermissionSourceCount(),

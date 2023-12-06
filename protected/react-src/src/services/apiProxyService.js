@@ -1,9 +1,14 @@
+import { param } from 'jquery';
 import {deleteRequest, get, post} from './httpMethods';
 
 export const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
 
 export const fetchProfile = (params, headers) => {
     return get(`${BASE_URL}/user/profile`, params, headers);
+}
+
+export const fetchLocales = (params, headers) => {
+    return get(`${BASE_URL}/configuration/locales`, params, headers);
 }
 
 export const updateProfile = (data, headers) => {
@@ -17,11 +22,18 @@ export const updateRoleAndPermissions = (id, data) => {
 export const createUserRole = (data) => {
     return post(`${BASE_URL}/user-role`, data);
 }
-
+export const fetchWorkspace = (id, params, headers) => {
+    return get(`${BASE_URL}/workspace/${id}/view`, params, headers);
+}
+export const fetchHsdu = (id, params, headers) => {
+    return get(`${BASE_URL}/facility/${id}/view`, params, headers);
+}
 export const fetchRoles = (params, headers) => {
     return get(`${BASE_URL}/roles/index`, params, headers);
 }
-
+export const fetchProject = (id, params, headers) => {
+    return get(`${BASE_URL}/project/${id}/view`, params, headers);
+}
 export const fetchRolesInProject = (id, params, headers) => {
     return get(`${BASE_URL}/project/${id}/roles`, params, headers);
 }
@@ -62,7 +74,9 @@ export const fetchDeleteRole = (id, params, headers) => {
 export const fetchUsers = (params, headers) => {
     return get(`${BASE_URL}/user/index`, params, headers);
 }
-
+export const fetchUser = (id, params, headers) => {
+    return get(`${BASE_URL}/user/${id}/view`, params, headers);
+}
 export const fetchProjectWorkspaces = (projectId, params, headers) => {
     return get(`${BASE_URL}/project/${projectId}/workspaces`, params, headers);
 }
