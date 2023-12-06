@@ -8,33 +8,16 @@ import DropdownInput from '../../common/form/DropdownInput';
 import { fetchLocales } from '../../../services/apiProxyService';
 import { NavLink } from 'react-router-dom';
 
-const selectedPage = 'Roles'
-
-const pages = {
-    'Roles': {'breadcrumb': [{'title': 'Roles', 'page': 'Roles'}]},
-};
-
-const T = ({value}) => {
-    const [translation, setTranslation] = useState('')
-    useEffect(() => {
-        let tempTranslation = value
-        specialVariables?.value?.keys?.forEach((key) => {
-            tempTranslation = tempTranslation?.replaceAll(key, specialVariables.value?.translations?.[key]);
-        });
-        setTranslation(tempTranslation);
-    }, [specialVariables.value, languageSelected.value])
-    return <>{translation}</>
-}
-
-
 const Header = () => {
     return (
         <div className="bg-black-web grid-container text-white px-2">
             <div className='logo'>
-                <img 
-                    src="https://v2.herams-staging.org/img/HeRAMS_white.svg" 
-                    alt="logo" 
-                    className="logo" />
+                <NavLink to="/">
+                    <img 
+                        src="https://v2.herams-staging.org/img/HeRAMS_white.svg" 
+                        alt="logo" 
+                        className="logo" />
+                </NavLink>
             </div>
             <div className='d-flex place-item-center-vertical'>
                 

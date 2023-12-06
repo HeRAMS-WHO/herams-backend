@@ -48,12 +48,12 @@ const Page = () => {
         const {currentPage, genericUrl} = urlDateRetriever({url: location.pathname, routes});        
         const routeData = reactRoutes[genericUrl]
         if (routeData.redirectTo){
-            navigator(replaceVariablesAsText(routeData.redirectTo))    
+            navigator(replaceVariablesAsText(routeData.redirectTo || '/'))    
         }
         else if (routeData === null || !routeData.page){
             window.location.href = replaceVariablesAsText((location.pathname !== routesMap[location.pathname]) ?
-                routesMap[location.pathname] :
-                location.pathname)
+                routesMap[location.pathname] || '' :
+                location.pathname || '')
         }
         else if (routeData !== null || routeData.page){
             const component = pages[routeData?.URL]
@@ -98,7 +98,6 @@ const HeaderTitle = () => {
                     {replaceVariablesAsText(routeInfo.value.pageTitle)}
                 </h1>
             </div>
-            
         </>
     )
 }
