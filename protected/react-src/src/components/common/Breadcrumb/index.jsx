@@ -1,7 +1,3 @@
-import { Link } from "react-router-dom"
-import routeInfo from "../../../states/routeInfo"
-import reactRoutes from '../../../config/react-routes.json'
-import replaceVariablesAsText from "../../../utils/replaceVariables"
 const extractRoutesRecursively = (route) => {
     const routes = route.split('/')
     const routesArray = []
@@ -25,7 +21,7 @@ const Breadcrumb = ({routes}) => {
     const routesArray = extractRoutesRecursively(routeInfo?.value?.URL || '/')
     return (<>
         {routesArray.map((route, index) => {
-            const {URL : url = '', pageTitle, tabName = null} = reactRoutes[route] || {}
+            const {URL : url = '', pageTitle, tabName = null} = routes[route] || {}
             if (!url) return null;
             return (<BreadcrumbLink 
                 link={replaceVariablesAsText(url)} 

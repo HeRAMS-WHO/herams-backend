@@ -1,14 +1,4 @@
 import React from 'react';
-
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Routes,
-    Link,
-    useLocation
-  } from "react-router-dom";
 import {createRoot} from "react-dom/client";
 
 import App from './App';
@@ -37,40 +27,6 @@ import './index.css';
 import './css/react-tags.css';
 
 
-/*const componentsMap = {
-    'DemoComponent': DemoComponent,
-    'Profile': Profile,
-    'root': RolesList,
-    'RoleEdit': RolesEdit,
-    'SurveyCreatorWidget': SurveyCreatorWidget,
-    'ProjectUserRoles': ProjectUserRoles,
-    'WorkspaceUserRoles': WorkspaceUserRoles,
-    'GlobalUserRoles': GlobalUserRoles,
-    'UserIndex': UserIndex,
-    'SurveyWidget': SurveyWidget,
-    'CreateFacility': CreateFacility,
-    'UpdateSituation': UpdateSituation,
-    'CreateAdminSituation': CreateAdminSituation,
-    'ViewAdminSituation': ViewAdminSituation,
-    'EditAdminSituation': EditAdminSituation,
-    'CreateProject': CreateProject,
-    'CreateWorkspace': CreateWorkspace,
-    'ViewSituation': ViewSituation,
-    'EditSituation': EditSituation,
-    'ViewFacilitySurvey': ViewFacilitySurvey,
-};
-console.log(reactRoutes);
-/*for (const [componentName, Component] of Object.entries(componentsMap)) {
-    //const root = document.getElementById(componentName);
-
-    // Check if the root exists on the page
-    if (root) {
-        // Spread the dataset for props
-        const props = {...root.dataset};
-        const reactRoot = createRoot(root);
-        reactRoot.render(<Component {...props} />);
-    }
-}*/
 const root = document.getElementById('root');
 const reactRoot = createRoot(root);
 reactRoot.render(<>

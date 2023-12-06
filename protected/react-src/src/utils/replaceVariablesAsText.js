@@ -1,4 +1,4 @@
-import { specialVariables } from "../states/info"
+
 const replaceVariablesAsText = (value) => {
     let tempTranslation = value
     specialVariables?.value?.keys?.forEach((key) => {

@@ -30,8 +30,27 @@ module.exports = {
         new CleanWebpackPlugin(),
         new webpack.ProvidePlugin({
             React: 'react',
+            useNavigate: [path.resolve(__dirname, './src/components/common/router'), 'useNavigate'],
+            Router: [path.resolve(__dirname, './src/components/common/router'), 'Router'],
+            Link: [path.resolve(__dirname, './src/components/common/router'), 'Link'],
         }),
-        // new webpack.HotModuleReplacementPlugin(),
+        new webpack.ProvidePlugin({
+            info: [path.resolve(__dirname, './src/states/info'), 'default'],
+            languageSelected: [path.resolve(__dirname, './src/states/languageSelected'), 'default'],
+            autheticatedUser: [path.resolve(__dirname, './src/states/authenticatedUser'), 'default'],
+            location: [path.resolve(__dirname, './src/states/location'), 'default'],
+            params: [path.resolve(__dirname, './src/states/params'), 'default'],
+            routeInfo: [path.resolve(__dirname, './src/states/routeInfo'), 'default'],
+            specialVariables: [path.resolve(__dirname, './src/states/info'), 'specialVariables'],
+        }),
+        new webpack.ProvidePlugin({
+            reloadInfo: [path.resolve(__dirname, './src/utils/reloadInfo'), 'default'],
+            useReloadInfo: [path.resolve(__dirname, './src/hooks/useReloadInfo'), 'default'],
+            reloadSpecialVariables: [path.resolve(__dirname, './src/states/info'), 'reloadSpecialVariables'],
+            reloadInfo: [path.resolve(__dirname, './src/utils/reloadInfo'), 'default'],
+            useReloadSpecialVariables: [path.resolve(__dirname, './src/hooks/useReloadSpecialVariables'), 'default'],
+            replaceVariablesAsText: [path.resolve(__dirname, './src/utils/replaceVariablesAsText'), 'default'],
+        })
     ],
     resolve: {
         extensions: [".js", ".ts", ".tsx", ".jsx"],

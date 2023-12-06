@@ -3,7 +3,6 @@ import useRoleList from "../Role/useRoleList";
 import {createUserRole, fetchUsers, fetchUsersRolesInWorkspace} from "../../services/apiProxyService";
 import {toastr} from "../../utils/modal";
 import {__} from "../../utils/translationsUtility";
-import useReloadInfo from "../useReloadInfo";
 
 const scope = 'workspace';
 

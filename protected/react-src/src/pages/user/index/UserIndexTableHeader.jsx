@@ -1,11 +1,11 @@
 import {__} from "../../../utils/translationsUtility";
 import DeleteButton from "../../../components/common/button/DeleteButton";
 import {UserIcon} from "../../../components/common/icon/IconsSet";
-import { Link } from "react-router-dom";
-const CustomLinkRenderer = (params) => {
-    const link = `/admin/user/${params.data.id}`;
+
+const CustomLinkRenderer = ({data}) => {
+    const link = `/admin/user/${data.id}`;
     return (
-        <Link to={link} className={"agGridAnkur"}>{params.data.name}</Link>
+        <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
     );
 };
 
@@ -25,7 +25,7 @@ const UserIndexTableHeader = () => [
         filter: true,
         width: 200,
         sortable: true,
-        valueGetter: (params) => params.data.name,
+        valueGetter: ({data}) => data.name,
         cellRenderer: CustomLinkRenderer,
         comparator: (a, b) => a.localeCompare(b)
     },
@@ -60,7 +60,7 @@ const UserIndexTableHeader = () => [
         field: 'actions',
         checkboxSelection: false,
         filter: true,
-        cellRenderer: function (params) {
+        cellRenderer: function ({data}) {
             const confirmationText = __("Are you sure you want to delete the user's role?");
             return (
                 <>

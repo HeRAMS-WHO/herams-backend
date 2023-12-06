@@ -1,9 +1,9 @@
 import {getCsrfToken} from "../utils/csrfTokenUtility";
 import ValidationError from "../utils/ValidationError";
 
-export const get = async (url, params = {}, headers = {}) => {
+export const get = async (url, queryParams = {}, headers = {}) => {
     const fullUrl = new URL(url)
-    Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
+    Object.keys(queryParams).forEach(key => fullUrl.searchqueryParams.append(key, queryParams[key]));
     const response = await fetch(fullUrl, {
         method: 'GET',
         headers: {
@@ -16,9 +16,9 @@ export const get = async (url, params = {}, headers = {}) => {
     return handleResponse(response);
 };
 
-export const deleteRequest = async (url, params = {}, headers = {}) => {
+export const deleteRequest = async (url, queryParams = {}, headers = {}) => {
     const fullUrl = new URL(url)
-    Object.keys(params).forEach(key => fullUrl.searchParams.append(key, params[key]));
+    Object.keys(queryParams).forEach(key => fullUrl.searchqueryParams.append(key, queryParams[key]));
     const response = await fetch(fullUrl, {
         method: 'DELETE',
         headers: {

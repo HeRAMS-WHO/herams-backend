@@ -7,10 +7,7 @@ import Table from "../../components/common/table/Table";
 import ProjectUserRolesTableHeader from "./user/ProjectUserRolesTableHeader";
 import {deleteUserRole} from "../../services/apiProxyService";
 import useProjectUserRoles from "../../hooks/userRoles/useProjectUserRoles";
-import params from "../../states/params";
-import info from "../../states/info";
-import routeInfo from "../../states/routeInfo";
-import useReloadInfo from "../../hooks/useReloadInfo";
+
 const ProjectUserRoles = () => {
     const {projectId} = params.value;
     const labelScopeProject = useId()

@@ -11,8 +11,6 @@ import TextInput from "../../components/common/form/TextInput";
 import DropdownInput from "../../components/common/form/DropdownInput";
 import CheckboxesGroup from "../../components/common/form/CheckboxesGroup";
 import FormButtons from "../../components/common/form/FormButtons";
-import {Link, useNavigate} from 'react-router-dom';
-import params from '../../states/params';
 const RoleEdit = () => {
     const navigate = useNavigate();
     const { roleId = 0 } = params.value;

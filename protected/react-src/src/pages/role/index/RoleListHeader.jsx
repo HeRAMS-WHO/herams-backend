@@ -1,13 +1,12 @@
 import {__} from "../../../utils/translationsUtility";
 import DeleteButton from "../../../components/common/button/DeleteButton";
-import { Link } from "react-router-dom";
-const CustomLinkRenderer = (params) => {
-    const link = `/admin/role/${params.data.id}/update`;
+const CustomLinkRenderer = ({data}) => {
+    const link = `/admin/role/${data.id}/update`;
     return (
         <Link 
             to={link} 
             className={"agGridAnkur"}>
-                {params.data.name}
+                {data.name}
         </Link>
     );
 };
@@ -71,10 +70,10 @@ const RoleListHeader = ({deleteYesCallback}) => [
         checkboxSelection: false,
         filter: true,
         field: 'projectInfo',
-        cellRenderer: function (params) {
-            if (params.data.projectInfo) {
-                const {title} = JSON.parse(params.data.projectInfo.i18n);
-                return title[params.data.projectInfo.primary_language];
+        cellRenderer: function ({data}) {
+            if (data.projectInfo) {
+                const {title} = JSON.parse(data.projectInfo.i18n);
+                return title[data.projectInfo.primary_language];
             }
         },
         width: 120,
@@ -93,8 +92,8 @@ const RoleListHeader = ({deleteYesCallback}) => [
         headerName: __('Created By'),
         checkboxSelection: false,
         filter: true,
-        valueGetter: function (params) {
-            return params.data.creatorUserInfo?.name ?? '';
+        valueGetter: function ({data}) {
+            return data.creatorUserInfo?.name ?? '';
         },
         sortable: true,
         comparator: (a, b) => a.localeCompare(b),
@@ -112,8 +111,8 @@ const RoleListHeader = ({deleteYesCallback}) => [
         field: 'updaterUserInfo',
         checkboxSelection: false,
         filter: true,
-        valueGetter: function (params) {
-            return params.data.updaterUserInfo?.name ?? '';
+        valueGetter: function ({data}) {
+            return data.updaterUserInfo?.name ?? '';
         },
         sortable: true,
         comparator: (a, b) => a.localeCompare(b),
@@ -124,14 +123,14 @@ const RoleListHeader = ({deleteYesCallback}) => [
         checkboxSelection: false,
         filter: true,
         pinned: 'right',
-        cellRenderer: function (params) {
-            const confirmationText = __('Are you sure you want to delete the role {}?').replace('{}', params.data.name);
+        cellRenderer: function ({data}) {
+            const confirmationText = __('Are you sure you want to delete the role {}?').replace('{}', data.name);
             return <DeleteButton
                 title={__('Delete Role')}
                 html={confirmationText}
                 confirmButtonText={__('Delete')}
                 cancelButtonText={__('Cancel')}
-                yesCallback={() => deleteYesCallback(params.data.id)}/>
+                yesCallback={() => deleteYesCallback(data.id)}/>
         },
 
     }
