@@ -69,8 +69,8 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
         checkboxSelection: false,
         filter: true,
         pinned: 'right',
-        cellRenderer: function (params) {
-            if (params.data.target.toLowerCase() !== 'global') {
+        cellRenderer: function ({data}) {
+            if (data.target.toLowerCase() !== 'global') {
                 return null
             }
             const confirmationText = __("Are you sure you want to delete the user's role?");
@@ -79,7 +79,7 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
                 html={confirmationText}
                 confirmButtonText={__('Delete')}
                 cancelButtonText={__('Cancel')}
-                yesCallback={() => deleteYesCallback(params.data.id)}/>
+                yesCallback={() => deleteYesCallback(data.id)}/>
         },
 
     }

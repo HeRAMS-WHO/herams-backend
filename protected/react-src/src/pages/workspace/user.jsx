@@ -6,8 +6,6 @@ import Table from "../../components/common/table/Table";
 import {deleteUserRole} from "../../services/apiProxyService";
 import useWorkspaceUserRoles from "../../hooks/userRoles/useWorkspaceUserRoles";
 import WorkspaceUserRolesTableHeader from "./WorkspaceUserRolesTableHeader";
-import params from '../../states/params';
-import useReloadInfo from '../../hooks/useReloadInfo';
 
 const WorkspaceUserRoles = () => {
     const {workspaceId} = params.value

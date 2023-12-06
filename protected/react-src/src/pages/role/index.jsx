@@ -18,7 +18,7 @@ const RolesList = () => {
             <ActionOnHeaderLists
                 label={'Create new role'}
                 permissions={['ROLE_CREATE']}
-                url={'admin/role/create'}/>
+                url={'/admin/role/create'}/>
             <Table
                 columnDefs={RoleListHeader({deleteYesCallback})}
                 data={rolesList}/>

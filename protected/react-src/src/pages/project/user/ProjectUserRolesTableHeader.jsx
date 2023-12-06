@@ -71,14 +71,14 @@ const ProjectUserRolesTableHeader = ({deleteYesCallback}) => [
         checkboxSelection: false,
         filter: true,
         pinned: 'right',
-        cellRenderer: function (params) {
+        cellRenderer: function ({data}) {
             const confirmationText = __("Are you sure you want to delete the user's role?");
             return <DeleteButton
                 title={__("Delete User's Role")}
                 html={confirmationText}
                 confirmButtonText={__('Delete')}
                 cancelButtonText={__('Cancel')}
-                yesCallback={() => deleteYesCallback(params.data.id)}/>
+                yesCallback={() => deleteYesCallback(data.id)}/>
         },
 
     }

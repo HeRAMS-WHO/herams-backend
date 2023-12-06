@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import routeInfo from "../../../states/routeInfo"
-import replaceVariablesAsText from "../../../utils/replaceVariables"
 import './index.css'
 const Tab = ({page}) => {
     return (

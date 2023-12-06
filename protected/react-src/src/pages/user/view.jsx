@@ -7,7 +7,6 @@ import {__} from "../../utils/translationsUtility";
 import ReactTagsWrapper from "../../components/common/form/ReactTagsWrapper";
 import FormGroup from "../../components/common/form/FormGroup";
 import {deleteUserRole} from "../../services/apiProxyService";
-import params from "../../states/params";
 const GlobalUserRoles = () => {
     const {userId} = params.value;
     const {

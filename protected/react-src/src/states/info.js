@@ -1,5 +1,4 @@
 import { signal } from "@preact/signals-react";
-import { languageSelected } from "./languageSelected";
 
 const info = signal({
     project: {},
