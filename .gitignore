@@ -2,6 +2,7 @@
 /vendor
 /protected/bin
 /public/components
+/public/react/static/*/*
 /public/assets
 /public/img/tools/*
 /public/react/static/*
