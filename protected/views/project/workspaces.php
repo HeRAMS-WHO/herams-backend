@@ -102,13 +102,13 @@ echo GridView::widget(
                 'attribute' => 'latestUpdate',
                 'class'     => DateTimeColumn::class,
             ],
+            ['attribute' => 'contributorCount'],
+            ['attribute' => 'facilityCount'],
+            ['attribute' => 'responseCount'],
             [
                 'attribute' => 'last_sync_date',
                 'class'     => DateTimeColumn::class,
             ],
-            ['attribute' => 'contributorCount'],
-            ['attribute' => 'facilityCount'],
-            ['attribute' => 'responseCount'],
             [
                 'label' => \Yii::t('app', 'Workspace owner'),
                 'value' => static function (Workspace $workspace) use ($userComponent) {
