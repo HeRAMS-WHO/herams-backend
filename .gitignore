@@ -4,6 +4,8 @@
 /public/components
 /public/assets
 /public/img/tools/*
+/public/react/static/*
+/public/react/static/*/*
 .idea/
 /protected/runtime/*
 /protected/config/env.php
