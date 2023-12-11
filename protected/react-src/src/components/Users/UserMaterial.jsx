@@ -159,7 +159,7 @@ const columns = [
             `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
     {
-        field: 'date', headerName: 'Date', width: 130, type: 'dateTime',
+        field: 'date', headerName: 'Date', width: 130, type: 'date',
         valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'),
     }
 ];
