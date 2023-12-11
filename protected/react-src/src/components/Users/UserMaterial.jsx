@@ -41,7 +41,7 @@ import StepLabel from '@mui/material/StepLabel';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -57,6 +57,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import DialpadIcon from '@mui/icons-material/Dialpad';
+import {DatePicker, DateTimePicker, LocalizationProvider, MobileDatePicker, TimePicker} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DemoItem} from "@mui/x-date-pickers/internals/demo";
+import dayjs from "dayjs";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -154,18 +158,21 @@ const columns = [
         valueGetter: (params) =>
             `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
+    {
+        field: 'date', headerName: 'Date', width: 130
+    }
 ];
 
 const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, date: '2023-01-12' },
+    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42, date: '2023-04-23' },
+    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, date: '2023-07-15' },
+    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16, date: '2022-10-15' },
+    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null, date: '2020-08-22' },
+    { id: 6, lastName: 'Melisandre', firstName: null, age: 150, date: '2022-07-21' },
+    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44, date: '2021-09-16' },
+    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36, date: '2021-06-14' },
+    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65, date: '2020-12-17' },
 ];
 
 function valuetext(value) {
@@ -346,6 +353,7 @@ const UserMaterial = () => {
     };
 
     return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Grid className="container-fluid px-2">
             <Item>
                 <Box sx={{ flexGrow: 1 }}>
@@ -382,6 +390,7 @@ const UserMaterial = () => {
                                     paginationModel: { page: 0, pageSize: 5 },
                                 },
                             }}
+                            slots={{ toolbar: GridToolbar }}
                             pageSizeOptions={[5, 10]}
                             checkboxSelection
                         />
@@ -425,6 +434,46 @@ const UserMaterial = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                </Grid>
+            </Grid>
+
+            <Grid>
+                <Item>
+                    <h3>Datetime pickers</h3>
+                </Item>
+            </Grid>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <h4>Date picker</h4>
+                    <Item>
+                        <DatePicker label="Basic date picker" />
+                    </Item>
+                </Grid>
+                <Grid item xs={12}>
+                    <h4>Time picker</h4>
+                    <Item>
+                        <TimePicker label="Basic time picker" />
+                    </Item>
+                </Grid>
+                <Grid item xs={12}>
+                    <h4>Mobile picker</h4>
+                    <Item>
+                        <DemoItem label="Mobile variant">
+                            <MobileDatePicker defaultValue={dayjs('2023-12-12')} />
+                        </DemoItem>
+                    </Item>
+                </Grid>
+                <Grid item xs={12}>
+                    <h4>Datetime picker</h4>
+                    <Item>
+                        <DateTimePicker label="Basic date time picker" />
+                    </Item>
+                </Grid>
+                <Grid item xs={12}>
+                    <h4>Datetime picker</h4>
+                    <Item>
+                        <DateTimePicker label="Basic date time picker" />
+                    </Item>
                 </Grid>
             </Grid>
 
@@ -696,6 +745,7 @@ const UserMaterial = () => {
 
 
         </Grid>
+        </LocalizationProvider>
     );
 }
 
