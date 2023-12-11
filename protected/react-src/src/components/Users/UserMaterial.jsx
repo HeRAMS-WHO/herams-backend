@@ -159,7 +159,8 @@ const columns = [
             `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
     {
-        field: 'date', headerName: 'Date', width: 130
+        field: 'date', headerName: 'Date', width: 130, type: 'dateTime',
+        valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY'),
     }
 ];
 
@@ -461,12 +462,6 @@ const UserMaterial = () => {
                         <DemoItem label="Mobile variant">
                             <MobileDatePicker defaultValue={dayjs('2023-12-12')} />
                         </DemoItem>
-                    </Item>
-                </Grid>
-                <Grid item xs={12}>
-                    <h4>Datetime picker</h4>
-                    <Item>
-                        <DateTimePicker label="Basic date time picker" />
                     </Item>
                 </Grid>
                 <Grid item xs={12}>
