@@ -14,6 +14,6 @@ final class View extends Action
         FacilityRepository $facilityRepository,
         int $id
     ) {
-        return $facilityRepository->retrieveForUpdate(new FacilityId($id));
+        return $facilityRepository->retrieveFacility(new FacilityId($id));
     }
 }
