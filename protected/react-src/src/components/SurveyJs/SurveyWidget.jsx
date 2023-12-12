@@ -13,7 +13,7 @@ function SurveyWidget({url}) {
     useEffect(() => {
         get(url).then((response) => {
             setSurveySettings(response.settings)
-            setHaveToDeleteDate(response.haveToDelete)
+            setHaveToDeleteDate(response.deleteData)
         })
     }, [url])
     // Custom hook or function to parse configuration
