@@ -3,7 +3,7 @@ import TableButtonWithLInk from "../../../components/common/button/TableButtonWi
 
 const CustomLinkRenderer = ({data}) => {
     const {projectId, workspaceId} = params.value;
-    const link = `/admin/project/${projectId}/workspace/${workspaceId}/HSDU/${data.id}/`;
+    const link = `/admin/project/${projectId}/workspace/${workspaceId}/HSDU/${data.id}/situation-update`;
     return (
         <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
     );

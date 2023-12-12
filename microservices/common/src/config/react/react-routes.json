@@ -92,7 +92,7 @@
     "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId",
     "hasTabs": true,
     "tabName": "",
-    "redirectTo": "",
+    "redirectTo": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update",
     "page": "situationUpdate/index",
     "permissions": [
       "VIEW_SIT_RESPONSE_LIST",
