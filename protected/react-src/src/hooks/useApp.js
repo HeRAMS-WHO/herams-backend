@@ -15,11 +15,12 @@ for (const routeKey in routes) {
 }
 
 const urlDateRetriever = ({url, routes}) => {
-    let data = null; 
+    let data = null;
     const allRoutes = Object.keys(routes)
     const route = allRoutes.find((route) => {
         const matcher = match(route, { decode: decodeURIComponent })
         const result = matcher(url)
+        console.log('result', result);
         if (result){
             data = {currentPage: result, genericUrl: route}
         }
@@ -32,10 +33,10 @@ const useApp = () => {
     const [layout, setLayout] = useState('AdminLayout')
 
     useEffect(() => {
-        const {currentPage, genericUrl} = urlDateRetriever({url: location.value, routes});        
+        const {currentPage, genericUrl} = urlDateRetriever({url: location.value, routes});
         const routeData = reactRoutes[genericUrl]
         if (routeData.redirectTo){
-            useNavigate()(replaceVariablesAsText(routeData.redirectTo || '/'))    
+            useNavigate()(replaceVariablesAsText(routeData.redirectTo || '/'))
         }
         else if (routeData === null || !routeData.page){
             window.location.href = replaceVariablesAsText((location.value !== routesMap[location.value]) ?

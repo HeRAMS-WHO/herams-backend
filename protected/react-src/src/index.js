@@ -24,7 +24,11 @@ import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
 import reportWebVitals from "./reportWebVitals";
 import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
-import UpdateProject from "./components/ProjectPages/UpdateProject";
+import WorkspacesList from "./pages/workspace/index"
+import HSDUList from "./pages/hsdu/index"
+import SituationUpdateList from "./pages/situationUpdate/index"
+import AdminSituationUpdateList from "./pages/adminUpdate/index"
+// import UpdateProject from "./components/ProjectPages/UpdateProject";
 import './App.css'
 import './index.css';
 import './css/react-tags.css';

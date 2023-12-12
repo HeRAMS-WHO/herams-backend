@@ -1,6 +1,5 @@
 import {__} from "../../utils/translationsUtility";
 import {AddIcon} from "./icon/IconsSet";
-import {Link} from "react-router-dom";
 
 const ActionOnHeaderLists = ({label, url}) => {
     return (
