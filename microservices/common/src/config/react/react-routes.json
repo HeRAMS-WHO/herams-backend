@@ -117,26 +117,29 @@
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "situation-update/create",
     "permissions": [
       "CREATE_SIT_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID/edit": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId/edit": {
     "pageTitle": "Edit Situation Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID/edit",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId/edit",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "situation-update/update",
     "permissions": [
       "UPDATE_ANY_SIT_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId": {
     "pageTitle": "View Situation Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "situation-update/view",
     "permissions": [
       "VIEW_SIT_RESPONSE"
     ]
@@ -162,9 +165,9 @@
       "CREATE_ADM_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID/edit": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId/edit": {
     "pageTitle": "Edit HSDU Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID/edit",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId/edit",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -172,9 +175,9 @@
       "UPDATE_ANY_ADN_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId": {
     "pageTitle": "View HSDU Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",

@@ -22,6 +22,9 @@ import CreateWorkspace from "./components/Workspace/CreateWorkspace";
 import ViewSituation from "./components/FacilityPages/ViewSituation";
 import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
+import CreateSituationUpdate from './pages/situation-update/create';
+import UpdateSituationUpdate from './pages/situation-update/update';
+import ViewSituationUpdate from './pages/situation-update/view';
 import reportWebVitals from "./reportWebVitals";
 import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
 import WorkspacesList from "./pages/workspace/index"
