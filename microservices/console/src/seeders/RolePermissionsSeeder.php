@@ -4,8 +4,9 @@ namespace herams\console\seeders;
 
 use herams\common\models\Permission;
 use herams\common\models\Role;
-use herams\common\models\RolePermission; // Import the Exception class
-use yii\db\Exception;
+use herams\common\models\RolePermission;
+
+// Import the Exception class
 
 final class RolePermissionsSeeder extends SeederBase
 {
@@ -13,14 +14,9 @@ final class RolePermissionsSeeder extends SeederBase
     {
         $rows = array_map('str_getcsv', file(__DIR__ . '/data/permissions_matrix.csv'));
 
-        $csv = [];
-
-        foreach ($rows as $row) {
-            $csv[] = explode(';', $row[0]);
-        }
+        $csv = $rows;
         $headers = $csv[0];
         for ($i = 1; $i < count($csv); $i++) {
-            $permission = new Permission();
             if (! $csv[$i][0] && $csv[$i][1]) {
                 continue;
             }

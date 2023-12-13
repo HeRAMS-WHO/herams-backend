@@ -19,7 +19,7 @@ final class RolesSeeder extends SeederBase
         }
         $roles = $csv[0];
         for ($i = 0; $i < count($roles); $i++) {
-            if ($i == 0 || $i == 1) {
+            if ($i == 0 || $i == 1 || $i == 2) {
                 continue;
             }
             $scope = '';

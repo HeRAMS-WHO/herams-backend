@@ -4,33 +4,29 @@ declare(strict_types=1);
 
 namespace herams\console\seeders;
 
-use herams\common\models\Permission; // Import the Exception class
-use yii\db\Exception;
+use herams\common\models\Permission;
+
+// Import the Exception class
 
 final class PermissionsSeeder extends SeederBase
 {
     public function run(): void
     {
         $rows = array_map('str_getcsv', file(__DIR__ . '/data/permissions_matrix.csv'));
-
-        $csv = [];
-
-        foreach ($rows as $row) {
-            $csv[] = explode(';', $row[0]);
-        }
-
+        $csv = $rows;
+        
         for ($i = 1; $i < count($csv); $i++) {
-            $permission = new Permission();
+
             if (! $csv[$i][0] && $csv[$i][1]) {
                 $parent = str_replace('"', '', $csv[$i][1]);
                 $parent = trim($parent);
                 continue;
             }
-            var_dump('Permission ' . $csv[$i][0]);
 
             $permission = new Permission();
             $permission->code = str_replace('"', '', $csv[$i][0]);
             $permission->name = str_replace('"', '', $csv[$i][1]);
+            $permission->order = str_replace('"', '', $csv[$i][2]);
             $permission->parent = str_replace('"', '', $parent);
             $permission->created_date = date('Y-m-d H:i:s');
             $permission->created_by = null;

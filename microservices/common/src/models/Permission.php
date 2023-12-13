@@ -8,6 +8,7 @@ namespace herams\common\models;
  * Attributes
  * @property string $code
  * @property string $name
+ * @property string $order
  * @property string $parent
  * @property string $created_date
  * @property int|null $created_by

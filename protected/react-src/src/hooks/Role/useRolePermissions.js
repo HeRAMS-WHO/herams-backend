@@ -1,8 +1,6 @@
 import {useEffect, useState} from "react";
-import {
-    fetchPermissions,
-    fetchRolePermissions
-} from "../../services/apiProxyService";
+import {fetchPermissions, fetchRolePermissions} from "../../services/apiProxyService";
+
 const useRolePermissions = (roleId) => {
     const [rolesPermissions, setRolesPermissions] = useState([]);
     useEffect( () => {
@@ -13,6 +11,7 @@ const useRolePermissions = (roleId) => {
                 value: permission.code,
                 label: permission.name,
                 parent: permission.parent,
+                order: permission.order,
                 checked: !!permissionsInRole.find((rolePermission) => rolePermission.permission_code === permission.code),
             }));
             setRolesPermissions(tempPermissions);
