@@ -44,6 +44,10 @@ const GlobalUserRoles = () => {
                 </form>
             </div>
             <div className="d-flex gap-1 mt-4 place-end">
+                <Link to={'/admin/user'}
+                    className={`btn btn-white text-dark w200px`}>
+                    {__('Return')}
+                </Link>
                 <FormButtons
                     buttons={[
                         {
