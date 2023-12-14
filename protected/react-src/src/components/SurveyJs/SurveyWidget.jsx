@@ -4,16 +4,22 @@ import 'survey-creator-core/survey-creator-core.min.css';
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import {fetchWithCsrf} from '../../services/httpMethods';  // Adjust the import path
-import { post as postWithCsrf } from '../../services/httpMethods';  // Adjust the import path
-
-function SurveyWidget(props) {
+import { post as postWithCsrf, get } from '../../services/httpMethods';  // Adjust the import path
+function SurveyWidget({url}) {
     const [survey, setSurvey] = useState(null);
     const [surveys, setSurveys] = useState([]);
-
+    const [haveToDeleteDate, setHaveToDeleteDate] = useState(false);
+    const [surveySettings, setSurveySettings] = useState(null);
+    useEffect(() => {
+        get(url).then((response) => {
+            setSurveySettings(response.settings)
+            setHaveToDeleteDate(response.deleteData)
+        })
+    }, [url])
     // Custom hook or function to parse configuration
     const parseConfig = (configEncoded) => {
         try {
-            return JSON.parse(atob(configEncoded));
+            return JSON.parse(configEncoded);
         } catch (error) {
             console.error("Error parsing survey configuration:", error);
             return null; // Or handle this case as per your requirements
@@ -21,9 +27,9 @@ function SurveyWidget(props) {
     }
 
     useEffect(() => {
-        const config = parseConfig(props.surveySettings);
+        const config = parseConfig(surveySettings);
         if (!config) return;
-        let haveToDeleteDataEffect = props?.haveToDeleteDate ?? 0;
+        let haveToDeleteDataEffect = haveToDeleteDate ?? 0;
 
         const setupSurvey = async () => {
             let surveyStructure = config.structure;
@@ -161,7 +167,7 @@ function SurveyWidget(props) {
         };
 
         setupSurvey();
-    }, [props.surveySettings]);
+    }, [surveySettings]);
 
 
     return (

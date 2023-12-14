@@ -81,6 +81,18 @@ export const fetchProjectWorkspaces = (projectId, queryParams, headers) => {
     return get(`${BASE_URL}/project/${projectId}/workspaces`, queryParams, headers);
 }
 
+export const fetchFacilities = (workspaceId, queryParams, headers) => {
+    return get(`${BASE_URL}/workspace/${workspaceId}/facilities`, queryParams, headers);
+}
+
+export const fetchResponses = (hsduId, queryParams, headers) => {
+    return get(`${BASE_URL}/facility/${hsduId}/data-responses`, queryParams, headers);
+}
+
+export const fetchAdminResponses = (hsduId, queryParams, headers) => {
+    return get(`${BASE_URL}/facility/${hsduId}/admin-responses`, queryParams, headers);
+}
+
 export const fetchUserRolesInProject = (projectId, queryParams, headers) => {
     return get(`${BASE_URL}/user-role/project/${projectId}/index`, queryParams, headers);
 }

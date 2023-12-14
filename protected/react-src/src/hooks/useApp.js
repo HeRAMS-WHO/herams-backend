@@ -22,6 +22,7 @@ const urlDataRetriever = ({url, routes}) => {
     const route = allRoutes.find((route) => {
         const matcher = match(route, { decode: decodeURIComponent })
         const result = matcher(url)
+        console.log('result', result);
         if (result){
             data = {currentPage: result, genericUrl: route}
         }
@@ -37,7 +38,7 @@ const useApp = () => {
         const {currentPage, genericUrl} = urlDataRetriever({url: location.value, routes});        
         const routeData = reactRoutes[genericUrl]
         if (routeData.redirectTo){
-            useNavigate()(replaceVariablesAsText(routeData.redirectTo || '/'))    
+            useNavigate()(replaceVariablesAsText(routeData.redirectTo || '/'))
         }
         else if (routeData === null || !routeData.page){
             window.location.href = replaceVariablesAsText((location.value !== routesMap[location.value]) ?

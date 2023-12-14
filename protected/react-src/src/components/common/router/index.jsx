@@ -1,5 +1,6 @@
 import location from "../../../states/location"
 import { useEffect } from "react"
+import Button from "@mui/material/Button";
 const Router = ({children}) => {
     useEffect(() => {
         const changeUrl = () => {
@@ -21,23 +22,31 @@ const useNavigate = () => {
     }
 }
 
-const Link = ({to, children, className = '', ...props}) => {
-    const navigate = useNavigate()
+// Your custom Link component
+const Link = ({ to, children, className = '', ...props }) => {
+    const navigate = useNavigate();
     const onClick = (e) => {
         if (e.metaKey || e.ctrlKey) return;
         if (e.button !== 0) return;
-        e.preventDefault()
-        navigate(to)
-    }
-    return (<>
-        <a 
-            href={to} 
-            onClick={onClick} 
-            className={className} 
-            {...props}>
+        e.preventDefault();
+        navigate(to);
+    };
+    return (
+        <a href={to} onClick={onClick} className={className} {...props}>
             {children}
         </a>
-    </>)
-}
+    );
+};
 
-export {Link, Router, useNavigate}
+// Custom LinkButton component
+const LinkButton = ({ to, label, icon, className, ...props }) => {
+    return (
+        <Link to={to} className={className}>
+            <Button {...props} startIcon={icon}>
+                {label}
+            </Button>
+        </Link>
+    );
+};
+
+export {Link, Router, useNavigate, LinkButton}

@@ -1,63 +1,49 @@
-"Permission code";"Permission name";"Guest";"System Admin";"Regional Admin (sub-admin)";"Project Owner";"Project Configuration";"Project  administrator";"Project Data consumer";"Project Viewer";"Workspace Owner";"Workspace User Manager";"Health Facility Admin";"Data Contributor (HF admin)";"Data Contributor (HF situation)";"Data Viewer";"Workspace Data consumer"
-;"Admin";;;;;;;;;;;;;;;
-"VIEW_USER";"View users";;"x";;;;;;;;;;;;;
-"CREATE_USER";"Add users";;"x";;;;;;;;;;;;;
-"DELETE_USER";"Delete users";;"x";;;;;;;;;;;;;
-"VIEW_ROLE";"View RolesList";;"x";;;;;;;;;;;;;
-"CREATE_STD_ROLE";"Add Standard RolesList";;"x";;;;;;;;;;;;;
-"CREATE_CUS_ROLE";"Add Custom RolesList";;"x";;;;;;;;;;;;;
-"DELETE_ROLE";"Delete roles";;"x";;;;;;;;;;;;;
-"ASSIGN_GLOBAL_ROLE";"Assign global roles to user";;"x";;;;;;;;;;;;;
-"IMPERSONATE_USER";"Impersonate user";;"x";;;;;;;;;;;;;
-;"Homepage";;;;;;;;;;;;;;;
-"VIEW_MAP_PUB";"View Map (public projects)";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_MAP_PRIV";"View Map (private projects)";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"REQUEST_ACCESS_PRIVATE";"Request access to private project from map pop-up";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_MAP_HIDD";"View Map (hidden projects)";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_DASH_PUB";"View Dashboards (public projects)";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_DASH_PRIV";"View Dashboards (private projects)";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_DASH_HIDD";"View Dashboards (hiddent projects)";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-;"Global ";;;;;;;;;;;;;;;
-"VIEW_PROJECT_LIST_PUB";"View Project list (public projects)";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_PROJECT_LIST_PRIV";"View Project list (private projects)";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_PROJECT_LIST_HID";"View Project list (hidden projects)";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"CREATE_PROJECT";"Create project";;"x";"x";;;;;;;;;;;;
-"DELETE_PROJECT";"Delete project";;"x";;;;;;;;;;;;;
-"CREATE_SURVEY";"Create survey";;"x";;;;;;;;;;;;;
-"UPDATE_SURVEY";"Edit survey";;"x";;;;;;;;;;;;;
-"DELETE_SURVEY";"Delete survey";;"x";;;;;;;;;;;;;
-;"Project ";;;;;;;;;;;;;;;
-"VIEW_WS_LIST_PUB";"View Workspaces list (public projects)";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_WS_LIST_NOTPUB";"View Workspaces list (private and hidden projects)";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"CREATE_WS";"Create new workspace";;"x";"x";;"x";"x";;;;;;;;;
-"VIEW_PROJECT";"View project settings";;"x";"x";;"x";;;;;;;;;;
-"UPDATE_PROJECT";"Edit project settings";;"x";"x";;"x";;;;;;;;;;
-"VIEW_DASH";"View dashboard settings";;"x";"x";;"x";;;;;;;;;;
-"EDIT_DASH";"Edit dashboard settings";;"x";"x";"x";"x ";;;;;;;;;;
-"VIEW_PROJECT_USERS";"View project users";;"x";"x";"x";;"x";;;;;;;;;
-"UPDATE_PROJECT_USERS";"Manage project users";;"x";"x";"x";;"x";;;;;;;;;
-"EXPORT_PROJECT";"Export project data";;"x";;;;"x";"x";;;;;;;;
-"IMPORT_PROJECT";"Import project data";;"x";"x";;;;;;;;;;;;
-;"Workspace ";;;;;;;;;;;;;;;
-"VIEW_HF_LIST";"View HF List";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_WS";"View workspace settings";;"x";"x";;;"x";;;"x";;;;;;
-"UPDATE_WS";"Edit workspace settings";;"x";"x";;;"x";;;"x";;;;;;
-"VIEW_WS_USERS";"View workspace users";;"x";"x";;;"x";;;"x";"x";;;;;
-"UPDATE_WS_USERS";"Manage workspace users";;"x";"x";;;"x";;;"x";"x";;;;;
-"EXPORT_WS";"Export workspace data";;"x";"x";;;"x";;;"x";;;;;;"x"
-"DELETE_WS";"Delete workspace";;"x";"x";;;"x";;;"x";;;;;;
-;"HSDU";;;;;;;;;;;;;;;
-"CREATE_HSDU";"Create new HF";;"x";"x";;;"x";;;"x";;"x";;;;
-"VIEW_SIT_RESPONSE_LIST";"View Situation updates list";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_ADM_RESPONSE_LIST";"View Admin updates list";;"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"DELETE_HSDU";"Delete Health Facility";;"x";"x";;;"x";;;"x";;"x";;;;
-;"HSDU Responses";;;;;;;;;;;;;;;
-"VIEW_ADM_RESPONSE";"View response (admin data)";;"x";"x";"x";"x ";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_SIT_RESPONSE";"View response (situation update)";;"x";"x";"x";"x ";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
-"VIEW_ADM_DRAFT";"View drafts (admin data)";;"x";"x";"x";"x ";"x";"x";;"x";"x";"x";"x";"x";;
-"VIEW_SIT_DRAFT";"View drafts (situation update)";;"x";"x";"x";"x ";"x";"x";;"x";"x";"x";"x";"x";;
-"CREATE_ADM_RESPONSE";"Create drafts and responses (admin data)";;"x";"x";;;"x";;;"x ";;;"x";;;
-"CREATE_SIT_RESPONSE";"Create drafts and  responses (situation update)";;"x";"x";;;"x";;;"x ";;;;"x";;
-"UPDATE_ANY_DRAFT";"Edit any drafts (from any user)";;"x";"x";;;"x";;;"x ";;;;;;
-"UPDATE_ANY_RESPONSE";"Edit validated responses";;"x";"x";;;"x";;;"x ";;;;;;
-"DELETE_ANY_RESPONSE";"Delete responses";;"x";"x";;;"x";;;"x";;;;;;
+"Permission code";"Permission name";"System Admin";"Regional Admin (sub-admin)";"Project Owner";"Project Configuration";"Project  administrator";"Project Data consumer";"Project Viewer";"Workspace Owner";"Workspace User Manager";"Health Facility Admin";"Data Contributor (HF admin)";"Data Contributor (HF situation)";"Data Viewer";"Workspace Data consumer"
+;"Admin";;;;;;;;;;;;;;
+"VIEW_GLOBAL_USER";"View all users at global level, and all users permission";"x";;;;;;;;;;;;;
+"DELETE_USER";"Delete users";"x";;;;;;;;;;;;;
+"VIEW_ROLE";"View Roles list, and role details (read-only)";"x";;;;;;;;;;;;;
+"CREATE_ROLE";"Create new roles (standard and custom)";"x";;;;;;;;;;;;;
+"UPDATE_ROLE";"Update existing roles (standard and custom)";"x";;;;;;;;;;;;;
+"DELETE_ROLE";"Delete roles (standard and custom)";"x";;;;;;;;;;;;;
+"ASSIGN_GLOBAL_ROLE";"Assign global roles to any user";"x";;;;;;;;;;;;;
+"IMPERSONATE_USER";"Impersonate user";"x";;;;;;;;;;;;;
+;"Global ";;;;;;;;;;;;;;
+"VIEW_SURVEY";"View surveys list";"x";;;;;;;;;;;;;
+"CREATE_SURVEY";"Create new survey";"x";;;;;;;;;;;;;
+"UPDATE_SURVEY";"Update existing survey";"x";;;;;;;;;;;;;
+"DELETE_SURVEY";"Delete survey";"x";;;;;;;;;;;;;
+;"Project ";;;;;;;;;;;;;;
+"VIEW_PROJECT";"If given for a specific  project (private or hidden), project will be visible in map, project list. The dashboard and ws list will also be visible. If given globally user would be able to see all projects (private and hidden) with the same permissions";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
+"CREATE_PROJECT";"Create a new project";"x";"x";;;;;;;;;;;;
+"DELETE_PROJECT";"Delete project";"x";;;;;;;;;;;;;
+"UPDATE_PROJECT_SETTINGS";"Edit project settings";"x";"x";;"x";;;;;;;;;;
+"UPDATE_DASH_SETTINGS";"View  and edit dashboard settings";"x";"x";;"x";;;;;;;;;;
+"VIEW_PROJECT_USERS";"View project users (for project and all workspaces";"x";"x";"x";;"x";;;;;;;;;
+"UPDATE_PROJECT_USERS";"Manage project users (for project and all workspaces)";"x";"x";"x";;"x";;;;;;;;;
+"EXPORT_PROJECT";"Export project data";"x";;;;"x";"x";;;;;;;;
+"IMPORT_PROJECT";"Import project data";"x";"x";;;;;;;;;;;;
+;"Workspace ";;;;;;;;;;;;;;
+"CREATE_WS";"Create new workspace";"x";"x";;"x";"x";;;;;;;;;
+"UPDATE_WS_SETTINGS";"Edit workspace settings";"x";"x";;;"x";;;"x";;;;;;
+"DELETE_WS";"Delete workspace";"x";"x";;;"x";;;"x";;;;;;
+"VIEW_WS_USERS";"View workspace users";"x";"x";;;"x";;;"x";"x";;;;;
+"UPDATE_WS_USERS";"Manage workspace users";"x";"x";;;"x";;;"x";"x";;;;;
+;"HSDU";;;;;;;;;;;;;;
+"VIEW_HSDU_LIST";"View HSDU List";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
+"CREATE_HSDU";"Create new HDSU";"x";"x";;;"x";;;"x";;"x";;;;
+"DELETE_HSDU";"Delete HSDU";"x";"x";;;"x";;;"x";;"x";;;;
+"EXPORT_WS";"Export workspace data";"x";"x";;;"x";;;"x";;;;;;"x"
+;"HSDU Responses";;;;;;;;;;;;;;
+"VIEW_SIT_RESPONSE_LIST";"View Situation updates list";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
+"VIEW_ADM_RESPONSE_LIST";"View Admin updates list";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
+"VIEW_ADM_RESPONSE";"View response (admin data)";"x";"x";"x";"x ";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
+"VIEW_SIT_RESPONSE";"View response (situation update)";"x";"x";"x";"x ";"x";"x";"x";"x";"x";"x";"x";"x";"x";"x"
+"VIEW_ANY_ADM_DRAFT";"View drafts from any user(admin data)";"x";"x";"x";"x ";"x";"x";;"x";"x";"x";"x";"x";;
+"VIEW_ANY_SIT_DRAFT";"View drafts from any user (situation updates)";"x";"x";"x";"x ";"x";"x";;"x";"x";"x";"x";"x";;
+"CREATE_ADM_RESPONSE";"Create drafts and responses (admin data)";"x";"x";;;"x";;;"x ";;;"x";;;
+"CREATE_SIT_RESPONSE";"Create drafts and  responses (situation update)";"x";"x";;;"x";;;"x ";;;;"x";;
+"UPDATE_ANY_ADM_DRAFT";"Edit drafts from any user (admin data)";"x";"x";;;"x";;;"x ";;;;;;
+"UPDATE_ANY_SIT_DRAFT";"Edit drafts from any user (situation update)";"x";"x";;;"x";;;"x";;;;;;
+"UPDATE_ANY_ADM_RESPONSE";"Edit validated responses (admin data)";"x";"x";;;"x";;;"x ";;;;;;
+"UPDATE_ANY_SIT_RESPONSE";"Edit validated responses (situation update)";"x";"x";;;"x";;;"x";;;;;;

@@ -14,7 +14,6 @@ use herams\common\values\FacilityId;
 use herams\common\values\SurveyResponseId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
-
 use prime\controllers\facility\AdminResponses;
 use prime\controllers\facility\Create;
 use prime\controllers\facility\CreateAdminSituation;
@@ -23,8 +22,11 @@ use prime\controllers\facility\Responses;
 use prime\controllers\facility\Update;
 use prime\controllers\facility\UpdateSituation;
 use prime\controllers\facility\View;
+use prime\widgets\survey\Survey;
+use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 final class FacilityController extends Controller
 {
@@ -81,25 +83,49 @@ final class FacilityController extends Controller
         int $pid,   //parentID
         int $cid    //childId
     ) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
 
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveDataSurveyId($projectId);
         $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
-
+        $surveyResponseId = new SurveyResponseId($cid);
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
-        return $this->render('situation/edit', [
-            'projectId' => $projectId,
-            'workspaceId' => $workspaceId,
-            'facilityId' => $facilityId,
-            'surveyId' => $surveyId,
-            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-            'survey' => $survey,
-            'response' => $response,
-            'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid,
-        ]);
+        $surveyJS = new Survey();
+        $surveyConfig = $survey->getConfig();
+        $surveyJS->withConfig($surveyConfig)
+            ->withDataRoute([
+                '/api/facility/view-situation',
+                'id' => $cid,
+            ], ['data'])
+            ->withExtraData([
+                'surveyResponseId' => $surveyResponseId,
+                'facilityId' => $facilityId,
+                'response_type' => 'situation',
+                'response_id' => $cid, //respose id for validation
+            ])
+            ->withSubmitRoute([
+                'edit-situation',
+                'id' => $facilityId,
+            ])
+            ->withProjectId($projectId)
+            ->withSubmitRoute([
+                'api/facility/save-situation',
+                'id' => $cid,
+            ])
+            ->withRedirectRoute([
+                'facility/responses',
+                'id' => $facilityId,
+            ])
+            ->withServerValidationRoute([
+                'api/facility/validate-situation',
+                'id' => $facilityId,
+
+            ])->setSurveySettings();
+        $surveySettings = $surveyJS->getSurveySettings();
+
+        return ['settings' => $surveySettings];
     }
 
     public function actionViewSituation(
@@ -111,6 +137,7 @@ final class FacilityController extends Controller
         int $pid,   //parentID
         int $cid    //childId
     ) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
 
@@ -119,18 +146,17 @@ final class FacilityController extends Controller
         $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
 
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
+        $surveyJS = new Survey();
+        $surveyJS->withConfig($survey->getConfig())
+            ->withDataRoute([
+                '/api/facility/view-situation',
+                'id' => $cid,
+            ], ['data'])
+            ->withProjectId($projectId)
+            ->inDisplayMode()->setSurveySettings();
 
-        return $this->render('situation/view', [
-            'projectId' => $projectId,
-            'workspaceId' => $workspaceId,
-            'facilityId' => $facilityId,
-            'surveyId' => $surveyId,
-            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-            'survey' => $survey,
-            'response' => $response,
-            'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid,
-        ]);
+        $surveySettings = $surveyJS->getSurveySettings();
+        return ['settings' => $surveySettings];
     }
 
     public function actionDeleteSituation(
@@ -157,27 +183,44 @@ final class FacilityController extends Controller
         int $pid,   //parentID
         int $cid    //childId
     ) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
-
-        $view->getBreadcrumbCollection()->mergeWith($breadcrumbService->retrieveForFacility($facilityId));
         $projectId = $workspaceRepository->getProjectId($workspaceId);
         $surveyId = $projectRepository->retrieveAdminSurveyId($projectId);
         $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
+        $surveyJS = new Survey();
+        $surveyConfig = $survey->getConfig();
+        $surveyResponseId = new SurveyResponseId($cid);
+        $surveyJS->withConfig($surveyConfig)
+            ->withDataRoute([
+                '/api/facility/view-situation',
+                'id' => $cid,
+            ], ['data'])
+            ->withExtraData([
+                'surveyResponseId' => $surveyResponseId,
+                'facilityId' => $facilityId,
+                'response_type' => 'admin',
+                'response_id' => $cid, //respose id for validation
+            ])
+            ->withProjectId($projectId)
+            ->withSubmitRoute([
+                'api/facility/save-situation',
+                'id' => $cid,
+            ])
+            ->withRedirectRoute([
+                'facility/admin-responses',
+                'id' => $facilityId,
+            ])
+            ->withServerValidationRoute([
+                'api/facility/validate-situation',
+                'id' => $facilityId,
 
+            ])->setSurveySettings();
+        $surveySettings = $surveyJS->getSurveySettings();
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
 
-        return $this->render('admin-situation/edit', [
-            'projectId' => $projectId,
-            'workspaceId' => $workspaceId,
-            'facilityId' => $facilityId,
-            'surveyId' => $surveyId,
-            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
-            'response' => $response,
-            'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid,
-        ]);
+        return ['settings' => $surveySettings];
     }
 
     public function actionViewAdminSituation(
@@ -189,6 +232,8 @@ final class FacilityController extends Controller
         int $pid,   //parentID
         int $cid    //childId
     ) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         $facilityId = new FacilityId($pid);
         $workspaceId = $facilityRepository->getWorkspaceId($facilityId);
 
@@ -197,18 +242,18 @@ final class FacilityController extends Controller
         $survey = $surveyRepository->retrieveForSurveyJs($surveyId);
 
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
+        $surveyConfig = $survey->getConfig();
+        $surveyJS = new Survey();
+        $surveyJS->withConfig($survey->getConfig())
+            ->withDataRoute([
+                '/api/facility/view-situation',
+                'id' => $cid,
+            ], ['data'])
+            ->withProjectId($projectId)
+            ->inDisplayMode()->setSurveySettings();
 
-        return $this->render('admin-situation/view', [
-            'projectId' => $projectId,
-            'workspaceId' => $workspaceId,
-            'facilityId' => $facilityId,
-            'surveyId' => $surveyId,
-            'tabMenuModel' => $facilityRepository->retrieveForTabMenu($facilityId),
-            'survey' => $surveyRepository->retrieveForSurveyJs($response->getSurveyId()),
-            'response' => $response,
-            'surveyResponseId' => new SurveyResponseId($cid),
-            'cid' => $cid,
-        ]);
+        $surveySettings = $surveyJS->getSurveySettings();
+        return ['settings' => $surveySettings];
     }
 
     public function render($view, $params = [])

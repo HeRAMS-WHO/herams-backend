@@ -1,14 +1,17 @@
 import {__} from "../../utils/translationsUtility";
-import {AddIcon} from "./icon/IconsSet";
-
-const ActionOnHeaderLists = ({label, url}) => {
+import AddBoxIcon from '@mui/icons-material/AddBox'
+const ActionOnHeaderLists = ({ label, url }) => {
     return (
-        <div className="d-flex gap-1 mt-4 place-end">
-            <Link to={url} className="btn btn-default w200px">
-                <AddIcon/> {__(label)}
-            </Link>
+        <div style={{ display: 'flex', gap: '8px', marginTop: '16px', justifyContent: 'flex-end' }}>
+            <LinkButton
+                to={url}
+                label={__(label)}
+                icon={<AddBoxIcon />}
+                variant="contained"
+                style={{ width: '200px' }}
+            />
         </div>
-    )
-}
+    );
+};
 
 export default ActionOnHeaderLists;

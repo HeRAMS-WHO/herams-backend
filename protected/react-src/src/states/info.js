@@ -29,14 +29,14 @@ const reloadSpecialVariables = ({language, state}) => {
         ':userId' : info.value?.user?.id || '',
         ':projectId' : info.value?.project?.id || '',
         ':workspaceId' : info.value?.workspace?.id || '',
-        ':hsduId' : info.value?.facility?.id || '',
-        ':hsduName' : info.value?.facility?.name || '',
+        ':hsduId' : info.value?.hsdu?.id || '',
+        ':hsduName' : info.value?.hsdu?.admin_data?.name || '',
         ':updateID' : info.value?.response?.id || '',
         ':pageId' : info.value?.survey?.id || '',
         ':pageName' : info.value?.survey?.name || '',
         ':hsduCount' : info.value?.workspace?.amountOfFacilitiesInWorkspace || '0',
-        ':SitUpCount' : info.value?.workspace?.facilities?.filter(f => f.type === 'SITUATION').length || '',
-        ':AdmUpCount' : info.value?.workspace?.facilities?.filter(f => f.type === 'ADMINISTRATIVE').length || '',
+        ':SitUpCount' : info.value?.hsdu?.dataSurveyResponseCount || '0',
+        ':AdmUpCount' : info.value?.hsdu?.adminSurveyResponseCount|| '0',
         ':workspaceUsersCount' : info.value?.workspace?.userAmountInWorkspace || '0',
         ':projectUsersCount' : info.value?.project?.projectUsersCount || 0
         

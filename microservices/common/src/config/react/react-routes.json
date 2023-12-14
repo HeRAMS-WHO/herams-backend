@@ -12,6 +12,7 @@
     "URL": "/admin/project",
     "hasTabs": true,
     "tabName": "Projects",
+    "page": "project/index",
     "permission": []
   },
   "/admin/project/create": {
@@ -39,6 +40,7 @@
     "hasTabs": true,
     "tabName": "Workspaces",
     "redirectTo": "",
+    "page": "workspace/index",
     "permissions": []
   },
   "/admin/project/:projectId/workspace/create": {
@@ -70,6 +72,7 @@
     "hasTabs": true,
     "tabName": "HSDU (:hsduCount)",
     "redirectTo": "",
+    "page": "hsdu/index",
     "permissions": [
       "VIEW_HSDU_LIST"
     ]
@@ -87,9 +90,10 @@
   "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId": {
     "pageTitle": ":hsduName",
     "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId",
-    "hasTabs": false,
+    "hasTabs": true,
     "tabName": "",
     "redirectTo": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update",
+    "page": "situationUpdate/index",
     "permissions": [
       "VIEW_SIT_RESPONSE_LIST",
       "VIEW_ADM_RESPONSE_LIST",
@@ -102,6 +106,7 @@
     "hasTabs": true,
     "tabName": "Situation updates (:SitUpCount)",
     "redirectTo": "",
+    "page": "situationUpdate/index",
     "permissions": [
       "VIEW_SIT_RESPONSE_LIST"
     ]
@@ -112,26 +117,29 @@
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "situation-update/create",
     "permissions": [
       "CREATE_SIT_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID/edit": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId/edit": {
     "pageTitle": "Edit Situation Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID/edit",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId/edit",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "situation-update/update",
     "permissions": [
       "UPDATE_ANY_SIT_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId": {
     "pageTitle": "View Situation Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateId",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "situation-update/view",
     "permissions": [
       "VIEW_SIT_RESPONSE"
     ]
@@ -142,6 +150,7 @@
     "hasTabs": true,
     "tabName": "HSDU updates (:AdmUpCount)",
     "redirectTo": "",
+    "page": "adminUpdate/index",
     "permissions": [
       "VIEW_ADM_RESPONSE_LIST"
     ]
@@ -156,9 +165,9 @@
       "CREATE_ADM_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID/edit": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId/edit": {
     "pageTitle": "Edit HSDU Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID/edit",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId/edit",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
@@ -166,9 +175,9 @@
       "UPDATE_ANY_ADN_RESPONSE"
     ]
   },
-  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID": {
+  "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId": {
     "pageTitle": "View HSDU Update",
-    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateID",
+    "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/:updateId",
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",

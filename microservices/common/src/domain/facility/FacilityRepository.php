@@ -78,6 +78,26 @@ final class FacilityRepository
         return $record;
     }
 
+    public function retrieveFacility(FacilityId $id): array
+    {
+        $record = Facility::findOne([
+            'id' => $id,
+        ]);
+        $amountOfSituationUpdates = SurveyResponse::find()->where([
+            'facility_id' => $record->id,
+            'response_type' => 'situation',
+        ])->count();
+        $amountOfAdminUpdates = SurveyResponse::find()->where([
+            'facility_id' => $record->id,
+            'response_type' => 'admin',
+        ])->count();
+        return [
+            ...$record->toArray(), 
+            'dataSurveyResponseCount' => $amountOfSituationUpdates, 
+            'adminSurveyResponseCount' => $amountOfAdminUpdates
+        ];
+    }
+
     public function retrieveActiveRecord(FacilityId $id): Facility|null
     {
         return Facility::findOne([

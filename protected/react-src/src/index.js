@@ -8,6 +8,7 @@ import RolesEdit from "./pages/role/update";
 import ProjectUserRoles from "./pages/project/user";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 import UserIndex from "./pages/user/index";
+import UserMaterial from "./components/Users/UserMaterial";
 import WorkspaceUserRoles from "./pages/workspace/user";
 import GlobalUserRoles from "./pages/user/view";
 import SurveyWidget from "./components/SurveyJs/SurveyWidget";
@@ -22,7 +23,16 @@ import ViewSituation from "./components/FacilityPages/ViewSituation";
 import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
 import WorkspaceUpdate from './pages/workspace/update';
+import CreateSituationUpdate from './pages/situation-update/create';
+import UpdateSituationUpdate from './pages/situation-update/update';
+import ViewSituationUpdate from './pages/situation-update/view';
 import reportWebVitals from "./reportWebVitals";
+import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
+import WorkspacesList from "./pages/workspace/index"
+import HSDUList from "./pages/hsdu/index"
+import SituationUpdateList from "./pages/situationUpdate/index"
+import AdminSituationUpdateList from "./pages/adminUpdate/index"
+// import UpdateProject from "./components/ProjectPages/UpdateProject";
 import './App.css'
 import './index.css';
 import './css/react-tags.css';
