@@ -28,13 +28,13 @@ module.exports = {
             template: "./src/index.html",
         }),
         new CleanWebpackPlugin(),
-        new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin({ //It contains the list of global components
             React: 'react',
             useNavigate: [path.resolve(__dirname, './src/components/common/router'), 'useNavigate'],
             Router: [path.resolve(__dirname, './src/components/common/router'), 'Router'],
             Link: [path.resolve(__dirname, './src/components/common/router'), 'Link'],
         }),
-        new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin({ //IT contains the list of global states
             info: [path.resolve(__dirname, './src/states/info'), 'default'],
             languageSelected: [path.resolve(__dirname, './src/states/languageSelected'), 'default'],
             autheticatedUser: [path.resolve(__dirname, './src/states/authenticatedUser'), 'default'],
@@ -42,8 +42,9 @@ module.exports = {
             params: [path.resolve(__dirname, './src/states/params'), 'default'],
             routeInfo: [path.resolve(__dirname, './src/states/routeInfo'), 'default'],
             specialVariables: [path.resolve(__dirname, './src/states/info'), 'specialVariables'],
+            locales: [path.resolve(__dirname, './src/states/locales'), 'default'],
         }),
-        new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin({ //It contains the list of global hooks and utils functions
             reloadInfo: [path.resolve(__dirname, './src/utils/reloadInfo'), 'default'],
             useReloadInfo: [path.resolve(__dirname, './src/hooks/useReloadInfo'), 'default'],
             reloadSpecialVariables: [path.resolve(__dirname, './src/states/info'), 'reloadSpecialVariables'],

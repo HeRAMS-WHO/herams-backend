@@ -27,13 +27,6 @@ const HeaderRightPanel = () => {
         languageSelected.value = language
     }
     const [languages, setLanguages] = useState([])
-    useEffect(() => {
-        fetchLocales().then((response) => {
-            setLanguages(response.map((locale) => (
-                {value:locale.locale.toLowerCase(), label: locale.locale.toUpperCase()}
-            )))
-        })
-    }, [])
     return <div className="d-flex place-item-center-vertical justify-content-end">
         <div className='w-75 text-align-right'>
             <Link className="no-style mx-4px text-white" to="/admin/project"><i className="material-icons">settings</i></Link>
@@ -49,7 +42,7 @@ const HeaderRightPanel = () => {
                     <i className="material-icons">public</i>
                 </span>
                 <DropdownInput className='borderless ml-20px bg-black-web '
-                    options={languages}
+                    options={locales.value}
                     value={languageSelected.value}
                     onChange={(e) => changeLanguage(e.target.value)}  />
             </span>

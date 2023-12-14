@@ -213,6 +213,7 @@
     "hasTabs": true,
     "tabName": "Workspace settings",
     "redirectTo": "",
+    "page": "workspace/update",
     "permissions": [
       "UPDATE_WS_SETTINGS"
     ]

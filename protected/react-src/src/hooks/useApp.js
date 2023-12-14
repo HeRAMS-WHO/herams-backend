@@ -3,6 +3,8 @@ import reactRoutes from '../config/react-routes.json';
 import flattenJSONRoutes from "../utils/flattenJSONRoutes";
 import routesMap  from '../routes-map.json';
 import { match } from 'path-to-regexp'
+import { fetchLocales } from '../services/apiProxyService';
+import locales from '../states/locales';
 const routes = flattenJSONRoutes(reactRoutes);
 const pages = {};
 for (const routeKey in routes) {
@@ -14,7 +16,7 @@ for (const routeKey in routes) {
     pages[routeKey] = React.lazy(() => import(`../pages/${page}`));
 }
 
-const urlDateRetriever = ({url, routes}) => {
+const urlDataRetriever = ({url, routes}) => {
     let data = null; 
     const allRoutes = Object.keys(routes)
     const route = allRoutes.find((route) => {
@@ -32,7 +34,7 @@ const useApp = () => {
     const [layout, setLayout] = useState('AdminLayout')
 
     useEffect(() => {
-        const {currentPage, genericUrl} = urlDateRetriever({url: location.value, routes});        
+        const {currentPage, genericUrl} = urlDataRetriever({url: location.value, routes});        
         const routeData = reactRoutes[genericUrl]
         if (routeData.redirectTo){
             useNavigate()(replaceVariablesAsText(routeData.redirectTo || '/'))    
@@ -50,6 +52,13 @@ const useApp = () => {
             setPage(component)
         }
     }, [location.value])
+    useEffect(() => {
+        fetchLocales().then((response) => {
+            locales.value = response.map((locale) => (
+                {value:locale.locale.toLowerCase(), label: locale.locale.toUpperCase()}
+            ))
+        })
+    }, [languageSelected.value])
     useEffect(() => {
         reloadInfo({info, params})
     }, [params.value])

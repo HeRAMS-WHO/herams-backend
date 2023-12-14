@@ -8,7 +8,7 @@ export const fetchProfile = (queryParams, headers) => {
 }
 
 export const fetchLocales = (queryParams, headers) => {
-    return get(`${BASE_URL}/configuration/locales`, queryParams, headers);
+    return get(`${BASE_URL}/configuration/locales?_lang=${languageSelected.value}`, queryParams, headers);
 }
 
 export const updateProfile = (data, headers) => {
