@@ -22,7 +22,6 @@ const urlDataRetriever = ({url, routes}) => {
     const route = allRoutes.find((route) => {
         const matcher = match(route, { decode: decodeURIComponent })
         const result = matcher(url)
-        console.log('result', result);
         if (result){
             data = {currentPage: result, genericUrl: route}
         }
@@ -56,7 +55,7 @@ const useApp = () => {
     useEffect(() => {
         fetchLocales().then((response) => {
             locales.value = response.map((locale) => (
-                {value:locale.locale.toLowerCase(), label: locale.locale.toUpperCase()}
+                {value:locale.locale.toLowerCase(), label: locale.locale.toUpperCase(), name:locale.label}
             ))
         })
     }, [languageSelected.value])
