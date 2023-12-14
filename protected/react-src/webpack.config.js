@@ -32,6 +32,7 @@ module.exports = {
             React: 'react',
             useNavigate: [path.resolve(__dirname, './src/components/common/router'), 'useNavigate'],
             Router: [path.resolve(__dirname, './src/components/common/router'), 'Router'],
+            LinkButton: [path.resolve(__dirname, './src/components/common/router'), 'LinkButton'],
             Link: [path.resolve(__dirname, './src/components/common/router'), 'Link'],
         }),
         new webpack.ProvidePlugin({
