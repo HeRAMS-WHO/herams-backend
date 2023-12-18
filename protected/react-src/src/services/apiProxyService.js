@@ -103,3 +103,7 @@ export const fetchAUserInformation = (id, queryParams, headers) => {
 export const fetchUserRoles = (id, queryParams, headers) => {
     return get(`${BASE_URL}/user/${id}/roles`, queryParams, headers);
 }
+
+export const fetchUpdateWorkspace = ({id, data, headers}) => {
+    return post(`${BASE_URL}/workspace/${id}`, data, headers);
+}

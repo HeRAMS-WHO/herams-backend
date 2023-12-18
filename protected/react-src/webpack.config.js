@@ -47,6 +47,8 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({ //It contains the list of global hooks and utils functions
             reloadInfo: [path.resolve(__dirname, './src/utils/reloadInfo'), 'default'],
+            __: [path.resolve(__dirname, './src/utils/translationsUtility'), '__'],
+            goToParent: [path.resolve(__dirname, './src/utils/goToParent'), 'default'],
             useReloadInfo: [path.resolve(__dirname, './src/hooks/useReloadInfo'), 'default'],
             reloadSpecialVariables: [path.resolve(__dirname, './src/states/info'), 'reloadSpecialVariables'],
             reloadInfo: [path.resolve(__dirname, './src/utils/reloadInfo'), 'default'],
