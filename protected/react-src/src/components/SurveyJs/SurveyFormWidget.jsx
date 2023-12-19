@@ -3,16 +3,17 @@ import 'survey-core/defaultV2.min.css';
 import 'survey-creator-core/survey-creator-core.min.css';
 import { Model } from "survey-core";
 import { Survey as SurveyComponent } from "survey-react-ui";
-import {fetchWithCsrf} from '../../services/httpMethods'; // Adjust the import path
+import {fetchWithCsrf, get} from '../../services/httpMethods'; // Adjust the import path
 
-function SurveyFormWidget(props) {
+function SurveyFormWidget({url}) {
     const [survey, setSurvey] = useState(null);
     const [surveys, setSurveys] = useState([]);
+    const [surveySettings, setSurveySettings] = useState(null);
 
     // Custom hook or function to parse configuration
     const parseConfig = (configEncoded) => {
         try {
-            return JSON.parse(atob(configEncoded));
+            return JSON.parse(configEncoded);
         } catch (error) {
             console.error("Error parsing survey configuration:", error);
             return null; // Or handle this case as per your requirements
@@ -20,7 +21,13 @@ function SurveyFormWidget(props) {
     }
 
     useEffect(() => {
-        const config = parseConfig(props.surveySettings);
+        get(url).then((response) => {
+            setSurveySettings(response.settings)
+        })
+    }, [url])
+
+    useEffect(() => {
+        const config = parseConfig(surveySettings);
         if (!config) return;
         const initSurvey = async () => {
             let surveyStructure = config.structure;
@@ -145,7 +152,7 @@ function SurveyFormWidget(props) {
         };
 
         initSurvey();
-    }, [props.surveySettings]);
+    }, [surveySettings]);
 
     return <div>
         {survey && <SurveyComponent model={survey} />}

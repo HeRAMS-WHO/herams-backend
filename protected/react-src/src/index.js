@@ -18,7 +18,6 @@ import CreateAdminSituation from "./components/FacilityPages/AdminSituation/Crea
 import ViewAdminSituation from "./components/FacilityPages/AdminSituation/ViewAdminSituation";
 import EditAdminSituation from "./components/FacilityPages/AdminSituation/EditAdminSituation";
 import CreateProject from "./pages/project/create";
-import CreateWorkspace from "./components/Workspace/CreateWorkspace";
 import ViewSituation from "./components/FacilityPages/ViewSituation";
 import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
@@ -29,6 +28,7 @@ import ViewSituationUpdate from './pages/situation-update/view';
 import reportWebVitals from "./reportWebVitals";
 import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
 import WorkspacesList from "./pages/workspace/index"
+import CreateWorkspace from "./pages/workspace/create"
 import HSDUList from "./pages/hsdu/index"
 import SituationUpdateList from "./pages/situation-update"
 import AdminSituationUpdateList from "./pages/admin-situation-update/index"

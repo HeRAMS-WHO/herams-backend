@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react"
-import { get } from "../../services/httpMethods"
-import SurveyWidget from "../../components/SurveyJs/SurveyWidget"
+import SurveyFormWidget from "../../components/SurveyJs/SurveyFormWidget";
 const CreateWorkspace = () => {
-    const { hsduId } = params.value
-    const url = `${window.location.origin}/facility/${hsduId}/update-situation`
-    return (<> <SurveyWidget url={url} /> </>)
+    const { projectId } = params.value
+    const url = `${window.location.origin}/workspace/create?project_id=${projectId}`
+    return (<> <SurveyFormWidget url={url} /> </>)
 }
 
 export default CreateWorkspace
