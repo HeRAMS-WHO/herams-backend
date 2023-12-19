@@ -24,14 +24,17 @@ import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
 import WorkspaceUpdate from './pages/workspace/update';
 import CreateSituationUpdate from './pages/situation-update/create';
-import UpdateSituationUpdate from './pages/situation-update/update';
+import EditSituationUpdate from './pages/situation-update/edit';
 import ViewSituationUpdate from './pages/situation-update/view';
 import reportWebVitals from "./reportWebVitals";
 import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
 import WorkspacesList from "./pages/workspace/index"
 import HSDUList from "./pages/hsdu/index"
-import SituationUpdateList from "./pages/situationUpdate/index"
-import AdminSituationUpdateList from "./pages/adminUpdate/index"
+import SituationUpdateList from "./pages/situation-update"
+import AdminSituationUpdateList from "./pages/admin-situation-update/index"
+import CreateAdminSituationUpdate from './pages/admin-situation-update/create';
+import EditAdminSituationUpdate from './pages/admin-situation-update/edit';
+import ViewAdminSituationUpdate from './pages/admin-situation-update/view';
 // import UpdateProject from "./components/ProjectPages/UpdateProject";
 import './App.css'
 import './index.css';

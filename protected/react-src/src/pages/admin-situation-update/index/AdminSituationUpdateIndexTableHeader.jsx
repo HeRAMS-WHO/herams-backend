@@ -1,7 +1,6 @@
 import {__} from "../../../utils/translationsUtility";
-import DeleteButton from "../../../components/common/button/DeleteButton";
-import {UserIcon} from "../../../components/common/icon/IconsSet";
 import TableIconWithLink from "../../../components/common/icon/TableIconWithLink";
+import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
 
 // const CustomLinkRenderer = ({data}) => {
 //     const link = `/admin/user/${data.id}`;
@@ -89,17 +88,17 @@ const SituationUpdateIndexTableHeader = () => {
                     <TableIconWithLink
                         icons={[
                             {
-                                url: `/facility/${data.facilityId}/edit-situation/${data.id}`,
+                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/${data.id}/edit`),
                                 iconName: 'edit',
                                 class: '' // Add any additional classes if needed
                             },
                             {
-                                url: `/facility/${data.facilityId}/view-situation/${data.id}`,
+                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/${data.id}`),
                                 iconName: 'visibility',
                                 class: '' // Add any additional classes if needed
                             },
                             {
-                                url: `/facility/${data.facilityId}/delete-situation/${data.id}`,
+                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`),
                                 iconName: 'delete',
                                 class: '' // Add any additional classes if needed
                             }

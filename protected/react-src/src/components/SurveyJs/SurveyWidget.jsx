@@ -4,7 +4,7 @@ import 'survey-creator-core/survey-creator-core.min.css';
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import {fetchWithCsrf} from '../../services/httpMethods';  // Adjust the import path
-import { post as postWithCsrf, get } from '../../services/httpMethods';  // Adjust the import path
+import { get } from '../../services/httpMethods';  // Adjust the import path
 function SurveyWidget({url}) {
     const [survey, setSurvey] = useState(null);
     const [surveys, setSurveys] = useState([]);

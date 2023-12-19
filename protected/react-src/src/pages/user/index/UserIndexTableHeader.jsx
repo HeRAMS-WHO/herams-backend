@@ -1,8 +1,15 @@
-import {__} from "../../utils/translationsUtility";
-import {UserIcon} from "../common/icon/IconsSet";
+import {__} from "../../../utils/translationsUtility";
+import {UserIcon} from "../../../components/common/icon/IconsSet";
 import {GridActionsCellItem} from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
+
+const CustomLinkRenderer = ({data}) => {
+    const link = `/admin/user/${data.id}`;
+    return (
+        <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
+    );
+};
 
 const UserIndexTableHeader = () => [
     {

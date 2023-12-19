@@ -1,6 +1,4 @@
 import {__} from "../../../utils/translationsUtility";
-import DeleteButton from "../../../components/common/button/DeleteButton";
-import {UserIcon} from "../../../components/common/icon/IconsSet";
 import TableIconWithLink from "../../../components/common/icon/TableIconWithLink";
 import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
 
@@ -102,7 +100,7 @@ const SituationUpdateIndexTableHeader = () => {
                                 class: '' // Add any additional classes if needed
                             },
                             {
-                                url: replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${data.id}/edit`),
+                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`),
                                 iconName: 'delete',
                                 class: '' // Add any additional classes if needed
                             }

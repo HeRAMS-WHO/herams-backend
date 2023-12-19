@@ -8,7 +8,6 @@ const ActionOnHeaderLists = ({ label, url }) => {
                 label={__(label)}
                 icon={<AddBoxIcon />}
                 variant="contained"
-                style={{ width: '200px' }}
             />
         </div>
     );
