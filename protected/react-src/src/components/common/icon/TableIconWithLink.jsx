@@ -10,7 +10,6 @@ const TableIconWithLink = ({ icons = [] }) => {
                     key={index}
                     component={Link}
                     to={icon.url}
-                    // style={{ color: 'black' }} // Inline style for black color
                 >
                     <span className="material-icons">{icon.iconName}</span>
                 </IconButton>

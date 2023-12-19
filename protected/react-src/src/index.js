@@ -3,6 +3,8 @@ import {createRoot} from "react-dom/client";
 
 import App from './App';
 import Profile from './components/ProfilePage/Profile';
+import ProjectList from './pages/project/index';
+import SurveyList from './pages/survey/index';
 import RolesList from './pages/role/index';
 import RolesEdit from "./pages/role/update";
 import ProjectUserRoles from "./pages/project/user";

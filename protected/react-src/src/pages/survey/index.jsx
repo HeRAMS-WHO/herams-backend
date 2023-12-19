@@ -3,7 +3,7 @@ import useProjects from "../../hooks/Project/useProjects";
 import ProjectIndexTableHeader from "./index/ProjectIndexTableHeader";
 import Table from "../../components/common/table/Table";
 
-const ProjectList = () => {
+const SurveysList = () => {
     const { projectList } = useProjects()
     return (
         <div className="container-fluid px-2">
@@ -27,4 +27,4 @@ const ProjectList = () => {
     );
 }
 
-export default ProjectList;
+export default SurveysList;

@@ -13,7 +13,7 @@ use yii\web\View;
  */
 
 $this->title = \Yii::t('app', 'Projects');
-
+//todo: complete project migration and remove this file
 Section::begin([
     'actions' => [
         [

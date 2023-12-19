@@ -7,6 +7,14 @@
     "redirectTo": "",
     "permissions": []
   },
+  "/admin/dashboard": {
+    "pageTitle": "Dashboard",
+    "URL": "/admin/dashboards",
+    "hasTabs": true,
+    "tabName": "Dashboard",
+    "page": "dashboard/index",
+    "permission": []
+  },
   "/admin/project": {
     "pageTitle": "Administration",
     "URL": "/admin/project",
@@ -32,6 +40,7 @@
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "/admin/project/:projectId/workspace",
+    "page": "project/edit",
     "permissions": []
   },
   "/admin/project/:projectId/workspace": {
@@ -333,7 +342,7 @@
     "hasTabs": true,
     "tabName": "Surveys",
     "redirectTo": "",
-    "page": "surveys/index",
+    "page": "survey/index",
     "permissions": [
       "VIEW_SURVEY"
     ]
