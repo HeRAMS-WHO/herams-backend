@@ -54,7 +54,7 @@ const SurveyCreatorWidget = (props) => {
 
         const surveyCreator = new SurveyCreator(config.creatorOptions);
         surveyCreator.toolbox.allowExpandMultipleCategories = true
-        surveyCreator.haveCommercialLicense = false
+        surveyCreator.haveCommercialLicense = true
 
 
         //Refresh survey and reset property grid to let it handle onShowingProperty event
