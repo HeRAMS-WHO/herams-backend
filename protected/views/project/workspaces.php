@@ -106,6 +106,10 @@ echo GridView::widget(
             ['attribute' => 'facilityCount'],
             ['attribute' => 'responseCount'],
             [
+                'attribute' => 'last_sync_date',
+                'class'     => DateTimeColumn::class,
+            ],
+            [
                 'label' => \Yii::t('app', 'Workspace owner'),
                 'value' => static function (Workspace $workspace) use ($userComponent) {
                     return implode(
