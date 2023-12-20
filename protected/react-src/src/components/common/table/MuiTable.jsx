@@ -23,8 +23,12 @@ const MuiTable = ({columnDefs, data}) => {
                     {__('Reset grid')}
                 </Button>
             </div>*/}
-            <Box sx={{ height: 600, width: '100%' }}>
+            <Box sx={{height: 600, width: '100%', fontFamily: 'Source Sans Pro',
+                '& .material_table_header_style': {
+                    backgroundColor: '#f8f8f8'
+                },}}>
                 <DataGrid
+                    sx={{fontFamily: 'Source Sans Pro'}}
                     rows={data}
                     columns={columnDefs}
                     initialState={{
