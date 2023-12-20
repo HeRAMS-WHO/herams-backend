@@ -31,7 +31,7 @@ const urlDataRetriever = ({url, routes}) => {
 }
 const useApp = () => {
     const [Page, setPage] = useState(null)
-    const [layout, setLayout] = useState('AdminLayout')
+    const [layout, setLayout] = useState(null)
 
     useEffect(() => {
         const {currentPage, genericUrl} = urlDataRetriever({url: location.value, routes});        
@@ -48,6 +48,7 @@ const useApp = () => {
             const component = pages[routeData?.URL]
             routeInfo.value = routeData;
             params.value = currentPage.params;
+            console.log(routeData?.layout || 'AdminLayout')
             setLayout(routeData?.layout || 'AdminLayout')
             setPage(component)
         }

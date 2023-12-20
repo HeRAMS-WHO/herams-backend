@@ -32,6 +32,7 @@ import WorkspacesList from "./pages/workspace/index"
 import HSDUList from "./pages/hsdu/index"
 import SituationUpdateList from "./pages/situationUpdate/index"
 import AdminSituationUpdateList from "./pages/adminUpdate/index"
+import AuthLogin from './pages/auth/login';
 // import UpdateProject from "./components/ProjectPages/UpdateProject";
 import './App.css'
 import './index.css';

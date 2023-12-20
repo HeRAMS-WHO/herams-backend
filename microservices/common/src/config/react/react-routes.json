@@ -7,6 +7,16 @@
     "redirectTo": "",
     "permissions": []
   },
+  "/auth/login": {
+    "pageTitle": "Login",
+    "URL": "/auth/login",
+    "hasTabs": false,
+    "tabName": "",
+    "redirectTo": "",
+    "page": "auth/login",
+    "layout": "AuthLayout",
+    "permissions": []
+  },
   "/admin/project": {
     "pageTitle": "Administration",
     "URL": "/admin/project",

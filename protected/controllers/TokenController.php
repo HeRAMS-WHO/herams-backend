@@ -1,13 +1,10 @@
 <?php
 
 namespace prime\controllers;
+use Yii;
 
-use prime\components\Controller;
-use prime\controllers\AccessControllerReact;
-
-class ReactController extends \prime\components\Controller
+class TokenController extends \prime\components\Controller
 {
-    public $layout = Controller::LAYOUT_REACT;
 
     public function behaviors(): array
     {
@@ -27,6 +24,14 @@ class ReactController extends \prime\components\Controller
     }
     public function actionIndex()
     {
-        return $this->render('index');
+        
+        //Json response yii2 code
+        $response = Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_JSON;
+        $csfrToken = Yii::$app->request->getCsrfToken(true);
+        $response->data = [
+            'csrfToken' => $csfrToken,
+        ];
+        return $response;
     }
 }
