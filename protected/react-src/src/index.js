@@ -37,6 +37,7 @@ import AdminSituationUpdateList from "./pages/admin-situation-update/index"
 import CreateAdminSituationUpdate from './pages/admin-situation-update/create';
 import EditAdminSituationUpdate from './pages/admin-situation-update/edit';
 import ViewAdminSituationUpdate from './pages/admin-situation-update/view';
+import AuthLogin from './pages/auth/login';
 // import UpdateProject from "./components/ProjectPages/UpdateProject";
 import './App.css'
 import './index.css';

@@ -55,6 +55,9 @@ export const post = async (url, data) => {
 };
 
 const handleResponse = (response) => {
+    if (location.value.includes('login')){
+        return [];
+    }
     if (!response.ok) {
         throw new Error("Network response was not ok");
     }
@@ -129,7 +132,7 @@ export const createInCollectionWithCsrf = async  (uri, body) => {
     if (response.status === 204 || response.status === 303) {
         return response.headers.get('Location')
     }
-
+    
     if (!response.ok) {
         if (response.headers.get('Content-Type').startsWith('application/json')) {
             const content = await response.json()

@@ -25,10 +25,12 @@
         "yii2-pjax": "^2.0.7"
     },
     "devDependencies": {
+        "css-loader": "^6.8.1",
         "eslint": "^8.15.0",
         "eslint-config-standard": "^17.0.0",
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-n": "^15.2.0",
-        "eslint-plugin-promise": "^6.0.0"
+        "eslint-plugin-promise": "^6.0.0",
+        "style-loader": "^3.3.3"
     }
 }

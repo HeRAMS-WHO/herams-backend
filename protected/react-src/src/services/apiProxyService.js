@@ -107,3 +107,7 @@ export const fetchUserRoles = (id, queryParams, headers) => {
 export const fetchUpdateWorkspace = ({id, data, headers}) => {
     return post(`${BASE_URL}/workspace/${id}`, data, headers);
 }
+
+export const fetchCsfrToken = (queryParams, headers) => {
+    return get(`${window.location.origin}/token`, queryParams, headers);
+}

@@ -7,13 +7,15 @@
     "redirectTo": "",
     "permissions": []
   },
-  "/admin/dashboard": {
-    "pageTitle": "Dashboard",
-    "URL": "/admin/dashboards",
-    "hasTabs": true,
-    "tabName": "Dashboard",
-    "page": "dashboard/index",
-    "permission": []
+  "/auth/login": {
+    "pageTitle": "Login",
+    "URL": "/auth/login",
+    "hasTabs": false,
+    "tabName": "",
+    "redirectTo": "",
+    "page": "auth/login",
+    "layout": "AuthLayout",
+    "permissions": []
   },
   "/admin/project": {
     "pageTitle": "Administration",
