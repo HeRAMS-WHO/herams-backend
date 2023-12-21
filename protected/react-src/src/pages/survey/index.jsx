@@ -10,7 +10,7 @@ const SurveysList = () => {
             <div className="row mt-2">
                 <div className="col-md-12">
                     <h1 className="mt-3">
-                        {__('Project list')}
+                        {__('Surveys')}
                     </h1>
                 </div>
             </div>

@@ -1,11 +1,10 @@
 import {__} from "../../../utils/translationsUtility";
-import DeleteButton from "../../../components/common/button/DeleteButton";
-import {UserIcon} from "../../../components/common/icon/IconsSet";
+import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
 
 const CustomLinkRenderer = ({data}) => {
     const link = `/admin/user/${data.id}`;
     return (
-        <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
+        <Link to={replaceVariablesAsText( `/admin/project/${data.id}/workspace`)} className={"agGridAnkur"}>{data.i18n['title'][data.primary_language]}</Link>
     );
 };
 
@@ -19,19 +18,19 @@ const ProjectIndexTableHeader = () => [
         sortable: true,
     },
     {
-        headerName: __('Name'),
+        headerName: __('Project Name'),
         checkboxSelection: false,
         field: 'name',
         filter: true,
         width: 200,
         sortable: true,
-        valueGetter: ({data}) => data.name,
+        valueGetter: ({data}) => data.i18n['title'][data.primary_language],
         cellRenderer: CustomLinkRenderer,
         comparator: (a, b) => a.localeCompare(b)
     },
     {
-        headerName: __('Email'),
-        field: 'email',
+        headerName: __('# Workspaces'),
+        field: 'workspaceCount',
         checkboxSelection: false,
         filter: true,
         width: 200,
@@ -39,8 +38,8 @@ const ProjectIndexTableHeader = () => [
         comparator: (a, b) => a.localeCompare(b)
     },
     {
-        headerName: __('Created on'),
-        field: 'created_date',
+        headerName: __('# Contributors'),
+        field: 'contributorCount',
         checkboxSelection: false,
         filter: true,
         width: 200,
@@ -48,43 +47,29 @@ const ProjectIndexTableHeader = () => [
         comparator: (a, b) => a.localeCompare(b),
     },
     {
-        headerName: __('Last login'),
-        field: 'last_login_date',
+        headerName: __('# HSDUs'),
+        field: 'facilityCount',
         checkboxSelection: false,
         filter: true,
         width: 200,
         sortable: true,
     },
     {
-        headerName: __('Actions'),
-        field: 'actions',
+        headerName: __('# Responses'),
+        field: 'responseCount',
         checkboxSelection: false,
         filter: true,
-        cellRenderer: function ({data}) {
-            const confirmationText = __("Are you sure you want to delete the user's role?");
-            return (
-                <>
-                    <div className='d-flex'>
-                        <div>
-                            <button className="bg-transparent borderless cursor-pointer">
-                                <UserIcon title={__('Impersonate')}/>
-                            </button>
-                        </div>
-                        <div>
-                            <DeleteButton
-                                title={__("Delete User's Role")}
-                                html={confirmationText}
-                                confirmButtonText={__('Delete')}
-                                cancelButtonText={__('Cancel')}
-                            />
-                        </div>
-                    </div>
-                </>
-            )
-        },
-
-    }
-
+        width: 200,
+        sortable: true,
+    },
+    {
+        headerName: __('Project coordinator'),
+        field: 'coordinatorName',
+        checkboxSelection: false,
+        filter: true,
+        width: 200,
+        sortable: true,
+    },
 ];
 
 export default ProjectIndexTableHeader

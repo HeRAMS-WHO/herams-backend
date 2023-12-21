@@ -11,6 +11,7 @@ import TextInput from "../../components/common/form/TextInput";
 import DropdownInput from "../../components/common/form/DropdownInput";
 import CheckboxesGroup from "../../components/common/form/CheckboxesGroup";
 import FormButtons from "../../components/common/form/FormButtons";
+import {transformProjectsToLabelValuePairs} from "../../utils/transformProjectsToLabelValuePairs";
 const RoleEdit = () => {
     const navigate = useNavigate();
     const { roleId = 0 } = params.value;
@@ -26,6 +27,7 @@ const RoleEdit = () => {
         updateAllChildren
     } = useRolePermissions(roleId);
     const {projects} = useProjects();
+    const projectsOptions = transformProjectsToLabelValuePairs(projects);
 
     const updateRole = async () => {
         if (!validateRole()) {
@@ -48,11 +50,11 @@ const RoleEdit = () => {
     }
 
     function hasToAssignAProjectId() {
-        return projects.length > 0 && roleData.type === 'custom';
+        return projectsOptions.length > 0 && roleData.type === 'custom';
     }
 
     return (
-        <>  
+        <>
             {isEditing() ? <h2>{__('Roles Edit')}</h2> : <h2>{__('Roles Create')}</h2>}
             <FormGroup label={__('Role name')} hasStar={true} error={roleErrors?.name}>
                 <TextInput
@@ -86,7 +88,7 @@ const RoleEdit = () => {
                 <FormGroup label={__('Custom role project')} hasStar={true} error={roleErrors?.projectId}>
                     <DropdownInput
                         className="form-control"
-                        options={projects}
+                        options={projectsOptions}
                         value={roleData.projectId}
                         onChange={(e) => setRoleProperty('projectId', e.target.value)}/>
                 </FormGroup>) || null
