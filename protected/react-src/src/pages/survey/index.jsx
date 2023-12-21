@@ -1,30 +1,25 @@
 import {__} from "../../utils/translationsUtility";
-import useProjects from "../../hooks/Project/useProjects";
-import ProjectIndexTableHeader from "./index/ProjectIndexTableHeader";
-import Table from "../../components/common/table/Table";
+import useUserList from "../../hooks/User/useUserList";
+import UserIndexTableHeader from "./UserIndexTableHeader";
+import MuiTable from "../common/table/MuiTable";
+import Grid from "@mui/material/Grid";
+import Item from "@mui/material/Grid";
+import React from "react";
 
-const SurveysList = () => {
-    const { projectList } = useProjects()
+const UserIndex = () => {
+    const { userList } = useUserList()
     return (
-        <div className="container-fluid px-2">
-            <div className="row mt-2">
-                <div className="col-md-12">
-                    <h1 className="mt-3">
-                        {__('Surveys')}
-                    </h1>
-                </div>
-            </div>
-            <div className="row mt-2">
-                <div className="col-md-12">
-
-                </div>
-            </div>
-            <Table
-                deleteYesCallback={() => {}}
-                columnDefs={ProjectIndexTableHeader()}
-                data={projectList}/>
-        </div>
+        <Grid className="container-fluid px-2">
+            <Item>
+                <h2>{__('User list')}</h2>
+            </Item>
+            <Item>
+                <MuiTable
+                    columnDefs={UserIndexTableHeader()}
+                    data={userList}/>
+            </Item>
+        </Grid>
     );
 }
 
-export default SurveysList;
+export default UserIndex;

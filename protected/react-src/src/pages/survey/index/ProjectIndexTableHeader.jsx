@@ -1,90 +1,69 @@
-import {__} from "../../../utils/translationsUtility";
-import DeleteButton from "../../../components/common/button/DeleteButton";
-import {UserIcon} from "../../../components/common/icon/IconsSet";
+import {__} from "../../utils/translationsUtility";
+import {UserIcon} from "../common/icon/IconsSet";
+import {GridActionsCellItem} from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import dayjs from "dayjs";
 
-const CustomLinkRenderer = ({data}) => {
-    const link = `/admin/user/${data.id}`;
-    return (
-        <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
-    );
-};
-
-const SurveysIndexTableHeader = () => [
+const UserIndexTableHeader = () => [
     {
-        headerName: __('Id'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Id')}</strong>
+        ),
         field: 'id',
-        checkboxSelection: false,
-        filter: true,
-        width: 100,
-        sortable: true,
+        type: 'number',
+        width: 80
     },
     {
-        headerName: __('Name'),
-        checkboxSelection: false,
+        renderHeader: () => (
+            <strong>{__('Name')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'name',
-        filter: true,
-        width: 200,
-        sortable: true,
-        valueGetter: ({data}) => data.name,
-        cellRenderer: CustomLinkRenderer,
-        comparator: (a, b) => a.localeCompare(b)
+        flex: 1
     },
     {
-        headerName: __('Email'),
+        renderHeader: () => (
+            <strong>{__('Email')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'email',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b)
+        flex: 1
     },
     {
-        headerName: __('Created on'),
+        renderHeader: () => (
+            <strong>{__('Created on')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'created_date',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
+        type: 'date',
+        flex: 1,
+        valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
     },
     {
-        headerName: __('Last login'),
+        renderHeader: () => (
+            <strong>{__('Last login')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'last_login_date',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
+        type: 'date',
+        flex: 1,
+        valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
     },
     {
-        headerName: __('Actions'),
+        renderHeader: () => (
+            <strong>{__('Actions')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'actions',
-        checkboxSelection: false,
-        filter: true,
-        cellRenderer: function ({data}) {
-            const confirmationText = __("Are you sure you want to delete the user's role?");
-            return (
-                <>
-                    <div className='d-flex'>
-                        <div>
-                            <button className="bg-transparent borderless cursor-pointer">
-                                <UserIcon title={__('Impersonate')}/>
-                            </button>
-                        </div>
-                        <div>
-                            <DeleteButton
-                                title={__("Delete User's Role")}
-                                html={confirmationText}
-                                confirmButtonText={__('Delete')}
-                                cancelButtonText={__('Cancel')}
-                            />
-                        </div>
-                    </div>
-                </>
-            )
-        },
-
+        type: 'actions',
+        flex: 1,
+        getActions: (params) => [
+            <GridActionsCellItem icon={<UserIcon />} onClick={() => console.log('impersonate id ' + params.id)} label={__('Impersonate')} />,
+            <GridActionsCellItem icon={<DeleteIcon />} onClick={() => console.log('delete id ' + params.id)} label={__('Delete User\'s Role')} />,
+        ],
     }
 
 ];
 
-export default SurveysIndexTableHeader
+export default UserIndexTableHeader
