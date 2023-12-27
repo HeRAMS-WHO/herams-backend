@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react"
-import { get } from "../../services/httpMethods"
 import SurveyWidget from "../../components/SurveyJs/SurveyWidget"
 const CreateAdminSituationUpdate = () => {
     const { hsduId } = params.value
