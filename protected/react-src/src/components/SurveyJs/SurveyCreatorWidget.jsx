@@ -8,19 +8,28 @@ import { surveyLocalization } from "survey-core";
 import { applySurveyConfigurations } from './custom/survey-modifications';
 import {applyHSDUStateQuestion} from "./custom/HSDUStateQuestion";
 import {applyFacilityTypeQuestion} from "./custom/FacilityTypeQuestion";
-import {createInCollectionWithCsrf, fetchWithCsrf} from "../../services/httpMethods";
+import {createInCollectionWithCsrf, fetchWithCsrf, get} from "../../services/httpMethods";
 
 applySurveyConfigurations();
 applyHSDUStateQuestion();
 applyFacilityTypeQuestion();
 
 
-const SurveyCreatorWidget = (props) => {
+const SurveyCreatorWidget = ({url}) => {
     const [creator, setCreator] = useState(null);
+    const [config, setSurveyConfig] = useState(null);
     surveyLocalization.supportedLocales = [];
+
     useEffect(() => {
-        const decodedConfig = atob(props.surveySettings);
-        const config = JSON.parse(decodedConfig);
+        get(url).then((response) => {
+            const settings = JSON.parse(response.settings);
+            setSurveyConfig(settings)
+        })
+    }, [url])
+
+    useEffect(() => {
+
+        if (!config) return;
 
         const updateSurvey = async (saveNo, callback) => {
             try {
@@ -72,7 +81,7 @@ const SurveyCreatorWidget = (props) => {
         return () => {
             setCreator(null);
         };
-    }, [props.config]);
+    }, [config]);
 
     if (!creator) return null;
 
