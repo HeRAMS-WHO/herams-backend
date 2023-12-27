@@ -111,3 +111,7 @@ export const fetchUpdateWorkspace = ({id, data, headers}) => {
 export const fetchCsfrToken = (queryParams, headers) => {
     return get(`${window.location.origin}/token`, queryParams, headers);
 }
+
+export const fetchSurveys = (queryParams, headers) => {
+    return get(`${BASE_URL}/surveys`, queryParams, headers);
+}

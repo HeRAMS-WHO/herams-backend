@@ -1,25 +1,34 @@
 import {__} from "../../utils/translationsUtility";
-import useUserList from "../../hooks/User/useUserList";
-import UserIndexTableHeader from "./UserIndexTableHeader";
-import MuiTable from "../common/table/MuiTable";
-import Grid from "@mui/material/Grid";
-import Item from "@mui/material/Grid";
-import React from "react";
+import useSurveyList from "../../hooks/Survey/useSurveyList";
+import SurveyIndexTableHeader from "./index/SurveyIndexTableHeader";
+import Table from "../../components/common/table/Table";
+import ActionOnHeaderLists from "../../components/common/ActionOnHeaderLists";
+import replaceVariablesAsText from "../../utils/replaceVariablesAsText";
 
-const UserIndex = () => {
-    const { userList } = useUserList()
+const SurveyList = () => {
+    const { surveys } = useSurveyList()
+
     return (
-        <Grid className="container-fluid px-2">
-            <Item>
-                <h2>{__('User list')}</h2>
-            </Item>
-            <Item>
-                <MuiTable
-                    columnDefs={UserIndexTableHeader()}
-                    data={userList}/>
-            </Item>
-        </Grid>
+        <div className="container-fluid px-2">
+            <div className="row mt-2">
+                <div className="col-md-6">
+                    <h1 className="mt-3">
+                        {__('Surveys')}
+                    </h1>
+                </div>
+                <div className="col-md-6">
+                    <ActionOnHeaderLists
+                        label={__('Create survey')}
+                        permissions={['CREATE_SURVEY']}
+                        url={replaceVariablesAsText( `/admin/survey/create`)}/>
+                </div>
+            </div>
+            <Table
+                deleteYesCallback={() => {}}
+                columnDefs={SurveyIndexTableHeader()}
+                data={surveys}/>
+        </div>
     );
 }
 
-export default UserIndex;
+export default SurveyList;
