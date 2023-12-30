@@ -1,5 +1,8 @@
 import {__} from "../../../utils/translationsUtility";
 import TableButtonWithLInk from "../../../components/common/button/TableButtonWithLink";
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid';
+import Icon from '@mui/material/Icon';
 
 const CustomLinkRenderer = ({data}) => {
     const {projectId, workspaceId} = params.value;
@@ -83,25 +86,34 @@ const HSDUIndexTableHeader = () => {
             filter: true,
             pinned: 'right',
             cellRenderer: function ({data}) {
-                // Construct the URL using projectId, workspaceId, and data.id
-                const url = `/admin/project/${projectId}/workspace/${workspaceId}/HSDU/${data.id}/situation-update/`;
+                if (data.can_receive_situation_update === 0) {
+                    return (
+                        <Grid container alignItems="center" wrap="nowrap">
+                            <Icon>close</Icon>
+                            <Typography>{__("No updates expected")}</Typography>
+                        </Grid>
+                    );
+                } else {
+                    const url = `/admin/project/${projectId}/workspace/${workspaceId}/HSDU/${data.id}/situation-update/`;
 
-                return (
-                    <TableButtonWithLInk
-                        buttons={[
-                            {
-                                label: __('Update Situation'),
-                                class: "btn btn-default",
-                                icon: "add_box",
-                                url: url // Use the constructed URL
-                            }
-                        ]}
-                    />
-                );
+                    return (
+                        <TableButtonWithLInk
+                            buttons={[
+                                {
+                                    label: __('Update Situation'),
+                                    class: "btn btn-default",
+                                    icon: "add_box",
+                                    url: url // Use the constructed URL
+                                }
+                            ]}
+                        />
+                    );
+                }
             },
 
         }
 
     ];
 }
+
 export default HSDUIndexTableHeader
