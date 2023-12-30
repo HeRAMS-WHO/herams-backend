@@ -108,6 +108,14 @@ export const fetchUpdateWorkspace = ({id, data, headers}) => {
     return post(`${BASE_URL}/workspace/${id}`, data, headers);
 }
 
+export const deleteProject = (id, data, headers) => {
+    return post(`${BASE_URL}/project/${id}/delete-project`, data, headers);
+}
+
+export const deleteProjectWorkspaces = (id, data, headers) => {
+    return post(`${BASE_URL}/project/${id}/delete-workspaces`, data, headers);
+}
+
 export const fetchCsfrToken = (queryParams, headers) => {
     return get(`${window.location.origin}/token`, queryParams, headers);
 }

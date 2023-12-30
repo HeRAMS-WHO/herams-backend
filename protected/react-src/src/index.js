@@ -4,6 +4,7 @@ import {createRoot} from "react-dom/client";
 import App from './App';
 import Profile from './components/ProfilePage/Profile';
 import ProjectList from './pages/project/index';
+import ProjectSettings from './pages/project/settings';
 import SurveyList from './pages/survey/index';
 import CreateSurvey from './pages/survey/create';
 import EditSurvey from './pages/survey/edit';
