@@ -96,6 +96,7 @@
     "hasTabs": false,
     "tabName": "",
     "redirectTo": "",
+    "page": "hsdu/create",
     "permissions": [
       "CREATE_HSDU"
     ]
@@ -103,7 +104,7 @@
   "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId": {
     "pageTitle": ":hsduName",
     "URL": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId",
-    "hasTabs": true,
+    "hasTabs": false,
     "tabName": "",
     "redirectTo": "/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update",
     "page": "situation-update/index",
