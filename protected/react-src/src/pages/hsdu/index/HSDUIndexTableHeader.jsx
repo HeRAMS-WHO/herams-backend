@@ -3,6 +3,7 @@ import TableButtonWithLInk from "../../../components/common/button/TableButtonWi
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid';
 import Icon from '@mui/material/Icon';
+import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
 
 const CustomLinkRenderer = ({data}) => {
     const {projectId, workspaceId} = params.value;
@@ -94,8 +95,6 @@ const HSDUIndexTableHeader = () => {
                         </Grid>
                     );
                 } else {
-                    const url = `/admin/project/${projectId}/workspace/${workspaceId}/HSDU/${data.id}/situation-update/`;
-
                     return (
                         <TableButtonWithLInk
                             buttons={[
@@ -103,7 +102,7 @@ const HSDUIndexTableHeader = () => {
                                     label: __('Update Situation'),
                                     class: "btn btn-default",
                                     icon: "add_box",
-                                    url: url // Use the constructed URL
+                                    url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/${data.id}/situation-update/create`)
                                 }
                             ]}
                         />
