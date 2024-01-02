@@ -116,6 +116,10 @@ export const deleteProjectWorkspaces = (id, data, headers) => {
     return post(`${BASE_URL}/project/${id}/delete-workspaces`, data, headers);
 }
 
+export const deleteHSDU = (id, data, headers) => {
+    return post(`${BASE_URL}/facility/${id}/delete-facility`, data, headers);
+}
+
 export const fetchCsfrToken = (queryParams, headers) => {
     return get(`${window.location.origin}/token`, queryParams, headers);
 }

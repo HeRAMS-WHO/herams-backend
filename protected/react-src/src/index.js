@@ -35,6 +35,7 @@ import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
 import WorkspacesList from "./pages/workspace/index"
 import CreateWorkspace from "./pages/workspace/create"
 import HSDUList from "./pages/hsdu/index"
+import HSDUSettings from "./pages/hsdu/delete"
 import CreateHSDU from "./pages/hsdu/create"
 import SituationUpdateList from "./pages/situation-update"
 import AdminSituationUpdateList from "./pages/admin-situation-update/index"
