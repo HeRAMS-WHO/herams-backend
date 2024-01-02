@@ -1,7 +1,7 @@
 import SurveyWidget from "../../components/SurveyJs/SurveyWidget"
 const EditSituationUpdate = () => {
-    const { hsduId } = params.value
-    const url = `${window.location.origin}/facility/${hsduId}/update-situation`
+    const { hsduId, updateId } = params.value
+    const url = `${window.location.origin}/facility/${hsduId}/edit-situation/${updateId}`
     return (<> <SurveyWidget url={url} /> </>)
 }
 
