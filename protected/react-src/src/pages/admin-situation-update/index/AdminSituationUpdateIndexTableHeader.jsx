@@ -29,8 +29,8 @@ const SituationUpdateIndexTableHeader = () => {
             comparator: (a, b) => a.localeCompare(b)
         },
         {
-            headerName: __('Building condition'),
-            field: 'P2_COND_BUILDING',
+            headerName: __('HSDU Code'),
+            field: 'HSDU_CODE',
             checkboxSelection: false,
             filter: true,
             width: 200,
@@ -38,8 +38,8 @@ const SituationUpdateIndexTableHeader = () => {
             comparator: (a, b) => a.localeCompare(b)
         },
         {
-            headerName: __('Functionality'),
-            field: 'P2_FUNCIONALITY',
+            headerName: __('HSDU Name'),
+            field: 'name',
             checkboxSelection: false,
             filter: true,
             width: 200,
@@ -47,8 +47,16 @@ const SituationUpdateIndexTableHeader = () => {
             comparator: (a, b) => a.localeCompare(b),
         },
         {
-            headerName: __('Accesibility'),
-            field: 'P2_ACCESSIBILITY',
+            headerName: __('Tier'),
+            field: 'HSDU_TYPE_tier',
+            checkboxSelection: false,
+            filter: true,
+            width: 200,
+            sortable: true,
+        },
+        {
+            headerName: __('HSDU Type'),
+            field: 'HSDU_TYPE',
             checkboxSelection: false,
             filter: true,
             width: 200,
