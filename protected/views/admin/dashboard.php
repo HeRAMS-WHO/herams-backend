@@ -29,6 +29,16 @@ Section::begin([
             'label' => \Yii::t('app', 'Projects'),
             'style' => 'default',
         ],
+        [
+            'link' => ['admin/project'],
+            'label' => \Yii::t('app', 'Projects React'),
+            'style' => 'default',
+        ],
+        [
+            'link' => ['admin/survey'],
+            'label' => \Yii::t('app', 'Surveys React'),
+            'style' => 'default',
+        ],
     ],
 ]);
 
