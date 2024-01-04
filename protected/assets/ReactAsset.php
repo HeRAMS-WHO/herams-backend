@@ -34,7 +34,7 @@ class ReactAsset extends AssetBundle
             $this->css = [];  // Typically, in development, CSS is also included in the JS bundle
         } else {
             $this->js = $this->getReactJsFiles();
-            $this->css = $this->getReactCssFiles();
+//            $this->css = $this->getReactCssFiles();
         }
     }
 
@@ -77,19 +77,19 @@ class ReactAsset extends AssetBundle
 
     private function getReactJsFiles(): array
     {
-        $path = \Yii::getAlias('@webroot/react/static/js');
+        $path = \Yii::getAlias('@webroot/react');
         $files = glob("$path/*.js");
         return array_map(function ($file) {
-            return 'static/js/' . basename($file);
+            return '/' . basename($file);
         }, $files);
     }
 
-    private function getReactCssFiles(): array
-    {
-        $path = \Yii::getAlias('@webroot/react/static/css');
-        $files = glob("$path/*.css");
-        return array_map(function ($file) {
-            return 'static/css/' . basename($file);
-        }, $files);
-    }
+//    private function getReactCssFiles(): array
+//    {
+//        $path = \Yii::getAlias('@webroot/react/static/css');
+//        $files = glob("$path/*.css");
+//        return array_map(function ($file) {
+//            return 'static/css/' . basename($file);
+//        }, $files);
+//    }
 }
