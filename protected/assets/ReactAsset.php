@@ -80,7 +80,7 @@ class ReactAsset extends AssetBundle
         $path = \Yii::getAlias('@webroot/react');
         $files = glob("$path/*.js");
         return array_map(function ($file) {
-            return 'react/' . basename($file);
+            return '/react/' . basename($file);
         }, $files);
     }
 
