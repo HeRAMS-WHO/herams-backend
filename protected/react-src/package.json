@@ -38,7 +38,9 @@
     "start2": "HOST=0.0.0.0 react-scripts start",
     "start": "webpack server --open --host 0.0.0.0",
     "dev": "npm-run-all -s build start",
-    "build": "CI=false react-scripts build && rm -rf ../../public/react/* && mv build/* ../../public/react/",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "build": "rm src/config/react-routes.json && cp ../../microservices/common/src/config/react/react-routes.json src/config/react-routes.json && webpack --mode production && rm -rf ../../public/react/* && mv dist/* ../../public/react/",
+    "build2": "rm src/config/react-routes.json && cp ../../microservices/common/src/config/react/react-routes.json src/config/react-routes.json && CI=false react-scripts build && rm -rf ../../public/react/* && mv build/* ../../public/react/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
