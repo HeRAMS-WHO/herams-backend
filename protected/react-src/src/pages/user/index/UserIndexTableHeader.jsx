@@ -4,48 +4,60 @@ import {GridActionsCellItem} from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 
-const CustomLinkRenderer = ({data}) => {
-    const link = `/admin/user/${data.id}`;
-    return (
-        <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
-    );
-};
-
 const UserIndexTableHeader = () => [
     {
-        headerName: __('Id'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Id')}</strong>
+        ),
         field: 'id',
         type: 'number',
-        width: 50
+        width: 80
     },
     {
-        headerName: __('Name'),
+        renderHeader: () => (
+            <strong>{__('Name')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'name',
-        width: 200
+        flex: 1
     },
     {
-        headerName: __('Email'),
+        renderHeader: () => (
+            <strong>{__('Email')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'email',
-        width: 200
+        flex: 1
     },
     {
-        headerName: __('Created on'),
+        renderHeader: () => (
+            <strong>{__('Created on')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'created_date',
         type: 'date',
-        width: 150,
+        flex: 1,
         valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
     },
     {
-        headerName: __('Last login'),
+        renderHeader: () => (
+            <strong>{__('Last login')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'last_login_date',
         type: 'date',
-        width: 150,
+        flex: 1,
         valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
     },
     {
-        headerName: __('Actions'),
+        renderHeader: () => (
+            <strong>{__('Actions')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'actions',
         type: 'actions',
+        flex: 1,
         getActions: (params) => [
             <GridActionsCellItem icon={<UserIcon />} onClick={() => console.log('impersonate id ' + params.id)} label={__('Impersonate')} />,
             <GridActionsCellItem icon={<DeleteIcon />} onClick={() => console.log('delete id ' + params.id)} label={__('Delete User\'s Role')} />,
