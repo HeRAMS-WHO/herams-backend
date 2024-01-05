@@ -27,7 +27,7 @@ class Survey extends Widget
 
     private array|string $serverValidationRoute;
 
-    private array|string $redirectRoute;
+    private array|string|null $redirectRoute = null;
 
     private array|string $dataRoute;
 
@@ -115,7 +115,7 @@ class Survey extends Widget
             'validationUrl' => isset($this->serverValidationRoute) ? Url::to($this->serverValidationRoute) : null,
             'dataUrl' => isset($this->dataRoute) ? Url::to($this->dataRoute) : null,
             'dataPath' => $this->dataPath,
-            'redirectUrl' => isset($this->redirectRoute) ? Url::to($this->redirectRoute) : null,
+            'redirectUrl' => $this->redirectRoute,
             'elementId' => $this->getId(),
             'displayMode' => $this->displayMode,
             'localeEndpoint' => $this->localeEndpoint,

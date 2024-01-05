@@ -50,10 +50,9 @@ final class CreateAdminSituation extends FrontendAction
             ->withSubmitRoute([
                 'api/survey-response/create',
             ])
-            ->withRedirectRoute([
-                'facility/admin-responses',
-                'id' => $facilityId,
-            ])
+            ->withRedirectRoute(
+                '/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update'
+            )
             ->withServerValidationRoute([
                 'api/facility/validate-situation',
                 'id' => $facilityId,
