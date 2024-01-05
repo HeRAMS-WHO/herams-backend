@@ -53,10 +53,9 @@ final class UpdateSituation extends FrontendAction
             ->withSubmitRoute([
                 'api/survey-response/create',
             ])
-            ->withRedirectRoute([
-                'facility/responses',
-                'id' => $facilityId,
-            ])
+            ->withRedirectRoute(
+                '/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update'
+            )
             ->withServerValidationRoute([
                 'api/facility/validate-situation',
                 'id' => $facilityId,

@@ -51,10 +51,7 @@ final class Create extends Action
                 '/api/facility/validate',
                 'workspace_id' => $workspaceId,
             ])
-            ->withRedirectRoute([
-                '/workspace/facilities',
-                'id' => $workspaceId,
-            ])->setSurveySettings();
+            ->withRedirectRoute('/admin/project/:projectId/workspace/:workspaceId/HSDU')->setSurveySettings();
         $surveySettings = $surveyJS->getSurveySettings();
 
         return [
