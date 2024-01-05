@@ -2,6 +2,7 @@ import {__} from "../../../utils/translationsUtility";
 import {UserIcon} from "../../../components/common/icon/IconsSet";
 import {GridActionsCellItem} from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Link from '@mui/material/Link';
 import dayjs from "dayjs";
 
 const UserIndexTableHeader = () => [
@@ -17,6 +18,9 @@ const UserIndexTableHeader = () => [
     {
         renderHeader: () => (
             <strong>{__('Name')}</strong>
+        ),
+        renderCell: (params) => (
+            <Link href={`/admin/user/${params.id}`}>{params.value}</Link>
         ),
         headerClassName: 'material_table_header_style',
         field: 'name',

@@ -4,14 +4,17 @@ import UserIndexTableHeader from "./index/UserIndexTableHeader";
 import MuiTable from "../../components/common/table/MuiTable";
 import Grid from "@mui/material/Grid";
 import Item from "@mui/material/Grid";
+import Typography from '@mui/material/Typography';
 import React from "react";
 
 const UserIndex = () => {
     const { userList } = useUserList()
     return (
-        <Grid className="container-fluid px-2">
+        <Grid>
             <Item>
-                <h2>{__('User list')}</h2>
+                <Typography variant="h5" gutterBottom>
+                    {__('User list')}
+                </Typography>
             </Item>
             <Item>
                 <MuiTable
