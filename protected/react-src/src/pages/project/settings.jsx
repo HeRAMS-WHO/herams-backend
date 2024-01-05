@@ -63,6 +63,7 @@ const ProjectSettings = () => {
                     {__("Delete all workspaces")}
                 </Button>
             </Box>
+            {/*//todo: PermissionOld::PERMISSION_DELETE*/}
             <ConfirmDialog
                 open={openDeleteDialog}
                 onClose={() => setOpenDeleteDialog(false)}
@@ -71,6 +72,7 @@ const ProjectSettings = () => {
             >
                 {isDeletingProject ? __("Deleting project") : __("This action cannot be undone.")}
             </ConfirmDialog>
+            {/*//todo: PermissionOld::PERMISSION_DELETE_ALL_WORKSPACES*/}
             <ConfirmDialog
                 open={openEmptyDialog}
                 onClose={() => setOpenEmptyDialog(false)}
@@ -79,7 +81,7 @@ const ProjectSettings = () => {
             >
                 {isDeletingWorkspaces ? __("Deleting workspaces...") : __("This action cannot be undone.")}
             </ConfirmDialog>
-            <SurveyFormWidget url={`${window.location.origin}/project/create`} />
+            <SurveyFormWidget url={`${window.location.origin}/project/${projectId}/update`} />
         </>
     );
 };

@@ -43,7 +43,7 @@ class FormRepository
     {
         return new SurveyForm(
             submitRoute: $this->createUri('/api/project/create'),
-            redirectRoute: $this->createUri('project/index'),
+            redirectRoute: 'admin/project',
             serverValidationRoute: $this->createUri('/api/project/validate'),
             configuration: SurveyConfiguration::forCreatingProject()
         );
@@ -54,7 +54,7 @@ class FormRepository
         $project = $this->projectRepository->retrieveById($id);
         return new SurveyForm(
             submitRoute: $this->createUri('/api/project/update', id: $id),
-            redirectRoute: $this->createUri('/project/update', id: $id?->getValue()),
+            redirectRoute: '/admin/project/:projectId',
             dataRoute: $this->createUri('/api/project/view', id: $id),
             serverValidationRoute: $this->createUri('/api/project/validate', id: $id),
             configuration: SurveyConfiguration::forUpdatingProject($project),
@@ -68,7 +68,7 @@ class FormRepository
     {
         return new SurveyForm(
             submitRoute: $this->createUri('/api/workspace/create', id: $id),
-            redirectRoute: $this->createUri('/project/workspaces', id: $id),
+            redirectRoute: '/admin/project/:projectId/workspace',
             serverValidationRoute: $this->createUri('/api/workspace/validate'),
             configuration: $this->loadDefinition('createUpdateWorkspace'),
             localeEndpoint: $this->createUri('/api/project/view', id: $id),
@@ -86,7 +86,7 @@ class FormRepository
         return new SurveyForm(
             submitRoute: $this->createUri('/api/workspace/update', id: $id),
             serverValidationRoute: $this->createUri('/api/workspace/validate', id: $id),
-            redirectRoute: $this->createUri('/project/workspaces', id: $projectId?->getValue()),
+            redirectRoute: '/admin/project/:projectId/workspace/:workspaceId/HSDU',
             configuration: SurveyConfiguration::forUpdatingWorkspace($localization),
             localeEndpoint: isset($projectId) ? $this->createUri('/api/project/view', id: $projectId) : null,
             extraData: [
