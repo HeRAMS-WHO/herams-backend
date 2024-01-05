@@ -4,7 +4,8 @@ import 'survey-creator-core/survey-creator-core.min.css';
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import {fetchWithCsrf} from '../../services/httpMethods';  // Adjust the import path
-import { get } from '../../services/httpMethods';  // Adjust the import path
+import { get } from '../../services/httpMethods';
+import replaceVariablesAsText from "../../utils/replaceVariablesAsText";  // Adjust the import path
 function SurveyWidget({url}) {
     const [survey, setSurvey] = useState(null);
     const [surveys, setSurveys] = useState([]);
@@ -103,10 +104,10 @@ function SurveyWidget({url}) {
                             data: sender.data
                         })
                         options.showDataSavingSuccess('Data saved');
-                        //const notification = window.Herams.notifySuccess("Data saved", 'center');
+                        const notification = window.Herams.notifySuccess("Data saved", 'center');
                         if (config.redirectUrl) {
-                            //await notification
-                            window.location.assign(config.redirectUrl);
+                            await notification
+                            useNavigate()(replaceVariablesAsText(config.redirectUrl));
                         } else if (restartWithFreshData) {
                             return restartWithFreshData()
                         }

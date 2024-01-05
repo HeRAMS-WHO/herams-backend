@@ -12,7 +12,7 @@ interface SurveyFormInterface
 
     public function getServerValidationRoute(): UriInterface;
 
-    public function getRedirectRoute(): null|UriInterface;
+    public function getRedirectRoute(): null|UriInterface|string;
 
     /**
      * @return array<string, mixed>

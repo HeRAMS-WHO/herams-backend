@@ -9,7 +9,9 @@ use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
 use prime\components\Controller;
 use prime\repositories\FormRepository;
+use prime\widgets\survey\SurveyFormWidget;
 use yii\base\Action;
+use yii\web\Response;
 use function iter\toArray;
 
 class Update extends Action
@@ -20,17 +22,24 @@ class Update extends Action
         FormRepository $formRepository,
         int $id
     ) {
-        $this->controller->layout = Controller::LAYOUT_ADMIN_TABS;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         $projectId = new ProjectId($id);
         $this->controller->view->breadcrumbCollection->add(
             ...toArray($breadcrumbService->retrieveForProject($projectId)->getIterator())
         );
 
         $project = $projectRepository->retrieveForRead($projectId);
-        return $this->controller->render('update', [
-            'project' => $project,
-            'form' => $formRepository->getUpdateProjectForm($projectId),
-            'projectId' => $projectId,
-        ]);
+
+        $survey = new SurveyFormWidget();
+        $survey->withForm($formRepository->getUpdateProjectForm($projectId))->setConfig();
+
+        $settings = $survey->getConfig();
+
+        return [
+            'settings' => $settings,
+        ];
+
+
+
     }
 }
