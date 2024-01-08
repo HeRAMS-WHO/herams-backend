@@ -48,14 +48,12 @@ if (strpos($lang, '-')) {
     $lang = explode('-', $lang)[0];
 }
 if (app()->user->can(PermissionOld::PERMISSION_ADMIN)) {
-    echo Html::a(Icon::level(), ['/admin']);
+    echo Html::a(Icon::level(), ['/admin/project']);
 }
 echo Html::a(Icon::home(), ['/'], [
     'class' => 'home',
 ]);
-echo Html::a(Icon::admin(), ['/project/index'], [
-    'class' => 'admin',
-]);
+
 echo Html::a(Icon::star(), ['/user/favorites']);
 echo Html::a(Icon::user(), ['/user/profile']);
 $userNotificationService = \Yii::createObject(UserNotificationRepository::class);
