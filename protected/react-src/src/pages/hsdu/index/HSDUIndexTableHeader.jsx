@@ -1,117 +1,101 @@
 import {__} from "../../../utils/translationsUtility";
-import TableButtonWithLInk from "../../../components/common/button/TableButtonWithLink";
 import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid';
-import Icon from '@mui/material/Icon';
 import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
-
-const CustomLinkRenderer = ({data}) => {
-    const {projectId, workspaceId} = params.value;
-    const link = `/admin/project/${projectId}/workspace/${workspaceId}/HSDU/${data.id}/situation-update`;
-    return (
-        <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
-    );
-};
-
-///admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/:updateID/edit
+import Link from "@mui/material/Link";
+import dayjs from "dayjs";
+import Button from "@mui/material/Button";
+import EditIcon from '@mui/icons-material/Edit';
+import React from "react";
 
 const HSDUIndexTableHeader = () => {
-    const { projectId, workspaceId } = params.value;
-
     return [
         {
-            headerName: __('Id'),
+            headerClassName: 'material_table_header_style',
+            renderHeader: () => (
+                <strong>{__('Id')}</strong>
+            ),
             field: 'id',
-            checkboxSelection: false,
-            filter: true,
-            width: 100,
-            sortable: true,
+            type: 'number',
+            width: 80
         },
         {
-            headerName: __('HSDU name'),
-            checkboxSelection: false,
+            renderHeader: () => (
+                <strong>{__('HSDU name')}</strong>
+            ),
+            renderCell: (params) => (
+                <Link href={replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/`+params.id+'/situation-update')}>{params.value}</Link>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'name',
-            filter: true,
-            width: 200,
-            sortable: true,
-            valueGetter: ({data}) => data.name,
-            cellRenderer: CustomLinkRenderer,
-            comparator: (a, b) => a.localeCompare(b)
+            flex: 1
         },
         {
-            headerName: __('Date of update'),
+            renderHeader: () => (
+                <strong>{__('Date of update')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'date_of_update',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b)
+            type: 'date',
+            flex: 1,
+            valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
         },
         {
-            headerName: __('HSDU Code'),
+            renderHeader: () => (
+                <strong>{__('HSDU Code')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'HSDU_CODE',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b),
+            flex: 1
         },
         {
-            headerName: __('HSDU Type'),
+            renderHeader: () => (
+                <strong>{__('HSDU Type')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'HSDU_TYPE_tier',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Functionality'),
+            renderHeader: () => (
+                <strong>{__('Functionality')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'P2_FUNCIONALITY',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Accesibility'),
+            renderHeader: () => (
+                <strong>{__('Accesibility')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'P2_ACCESSIBILITY',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Actions'),
+            renderHeader: () => (
+                <strong>{__('Actions')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'actions',
-            checkboxSelection: false,
-            filter: true,
-            pinned: 'right',
-            cellRenderer: function ({data}) {
-                if (data.can_receive_situation_update === 0) {
+            type: 'actions',
+            flex: 1,
+            renderCell: (params) => {
+                if (params.can_receive_situation_update === 0) {
                     return (
-                        <Grid container alignItems="center" wrap="nowrap">
-                            <Icon>close</Icon>
-                            <Typography>{__("No updates expected")}</Typography>
-                        </Grid>
+                        <Typography variant="caption" display="block" gutterBottom>
+                            {__("No updates expected")}
+                        </Typography>
                     );
                 } else {
                     return (
-                        <TableButtonWithLInk
-                            buttons={[
-                                {
-                                    label: __('Update Situation'),
-                                    class: "btn btn-default",
-                                    icon: "add_box",
-                                    url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/${data.id}/situation-update/create`)
-                                }
-                            ]}
-                        />
+                        <Button startIcon={<EditIcon />} href={replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/${params.id}/situation-update/create`)}
+                                size="small" permissions={['HSDU_CREATE']}>
+                            {__('Update')}
+                        </Button>
                     );
                 }
             },
-
         }
-
     ];
 }
 
