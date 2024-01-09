@@ -1,119 +1,103 @@
 import {__} from "../../../utils/translationsUtility";
-import TableIconWithLink from "../../../components/common/icon/TableIconWithLink";
+import dayjs from "dayjs";
+import {GridActionsCellItem} from "@mui/x-data-grid";
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from "@mui/icons-material/Delete";
 import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
-
-// const CustomLinkRenderer = ({data}) => {
-//     const link = `/admin/user/${data.id}`;
-//     return (
-//         <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
-//     );
-// };
 
 const SituationUpdateIndexTableHeader = () => {
     return [
         {
-            headerName: __('Id'),
+            headerClassName: 'material_table_header_style',
+            renderHeader: () => (
+                <strong>{__('Id')}</strong>
+            ),
             field: 'id',
-            checkboxSelection: false,
-            filter: true,
-            width: 50,
-            sortable: true,
+            type: 'number',
+            width: 30
         },
         {
-            headerName: __('Date of update'),
-            checkboxSelection: false,
+            renderHeader: () => (
+                <strong>{__('Date of update')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'date_of_update',
-            filter: true,
-            width: 150,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b)
+            type: 'date',
+            flex: 1,
+            valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
         },
         {
-            headerName: __('HSDU Code'),
+            renderHeader: () => (
+                <strong>{__('HSDU Code')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'HSDU_CODE',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b)
+            flex: 1
         },
         {
-            headerName: __('HSDU Name'),
+            renderHeader: () => (
+                <strong>{__('HSDU Name')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'name',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b),
+            flex: 1
         },
         {
-            headerName: __('Tier'),
+            renderHeader: () => (
+                <strong>{__('Tier')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'HSDU_TYPE_tier',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('HSDU Type'),
+            renderHeader: () => (
+                <strong>{__('HSDU Type')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'HSDU_TYPE',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Status'),
+            renderHeader: () => (
+                <strong>{__('Status')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'status',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Last modified on'),
+            renderHeader: () => (
+                <strong>{__('Last modified on')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'last_modified_date',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            type: 'date',
+            flex: 1,
+            valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
         },
         {
-            headerName: __('Last modified by'),
+            renderHeader: () => (
+                <strong>{__('Last modified by')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'last_modified_by',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Actions'),
+            renderHeader: () => (
+                <strong>{__('Actions')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'actions',
-            checkboxSelection: false,
-            filter: true,
-            cellRenderer: function ({data}) {
-                return (
-                    <TableIconWithLink
-                        icons={[
-                            {
-                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/${data.id}/edit`),
-                                iconName: 'edit',
-                                class: '' // Add any additional classes if needed
-                            },
-                            {
-                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/${data.id}`),
-                                iconName: 'visibility',
-                                class: '' // Add any additional classes if needed
-                            },
-                            {
-                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`),
-                                iconName: 'delete',
-                                class: '' // Add any additional classes if needed
-                            }
-                        ]}
-                    />
-                );
-            },
+            type: 'actions',
+            flex: 1,
+            getActions: (params) => [
+                <GridActionsCellItem icon={<EditIcon />} onClick={() => {return window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/${params.id}/edit`)}} label={__('Edit')} />,
+                <GridActionsCellItem icon={<VisibilityIcon />} onClick={() => {return window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/admin-update/${params.id}`)}} label={__('View')} />,
+                <GridActionsCellItem icon={<DeleteIcon />} onClick={() => {return window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`)}} label={__('Delete')} />,
+            ],
         }
     ];
 }

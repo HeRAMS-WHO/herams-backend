@@ -1,32 +1,28 @@
 import {__} from "../../../utils/translationsUtility";
+import Link from "@mui/material/Link";
 import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
-
-const CustomLinkRenderer = ({data}) => {
-    const link = `/admin/user/${data.id}`;
-    return (
-        <Link to={replaceVariablesAsText( `/admin/survey/${data.id}`)} className={"agGridAnkur"}>{data.title}</Link>
-    );
-};
 
 const SurveyIndexTableHeader = () => [
     {
-        headerName: __('Title'),
-        checkboxSelection: false,
-        field: 'title',
-        filter: true,
-        width: 200,
-        sortable: true,
-        cellRenderer: CustomLinkRenderer,
-        comparator: (a, b) => a.localeCompare(b)
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Id')}</strong>
+        ),
+        field: 'id',
+        type: 'number',
+        width: 80
     },
     {
-        headerName: __('Id'),
-        field: 'id',
-        checkboxSelection: false,
-        filter: true,
-        width: 100,
-        sortable: true,
-    },
+        renderHeader: () => (
+            <strong>{__('Title')}</strong>
+        ),
+        renderCell: (params) => (
+            <Link href={replaceVariablesAsText( `/admin/survey/${params.id}`)}>{params.value}</Link>
+        ),
+        headerClassName: 'material_table_header_style',
+        field: 'title',
+        flex: 1
+    }
 ];
 
 export default SurveyIndexTableHeader

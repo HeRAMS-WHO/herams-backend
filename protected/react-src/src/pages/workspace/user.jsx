@@ -2,10 +2,10 @@ import {__} from '../../utils/translationsUtility';
 import FormGroup from "../../components/common/form/FormGroup";
 import FormButtons from "../../components/common/form/FormButtons";
 import ReactTagsWrapper from "../../components/common/form/ReactTagsWrapper";
-import Table from "../../components/common/table/Table";
 import {deleteUserRole} from "../../services/apiProxyService";
 import useWorkspaceUserRoles from "../../hooks/userRoles/useWorkspaceUserRoles";
 import WorkspaceUserRolesTableHeader from "./WorkspaceUserRolesTableHeader";
+import MuiTable from "../../components/common/table/MuiTable";
 
 const WorkspaceUserRoles = () => {
     const {workspaceId} = params.value
@@ -66,7 +66,7 @@ const WorkspaceUserRoles = () => {
                     ]}
                 />
             </div>
-            <Table
+            <MuiTable
                 columnDefs={WorkspaceUserRolesTableHeader({deleteYesCallback})}
                 data={workspaceUsers}/>
         </div>

@@ -1,12 +1,12 @@
-import {useId} from "react"
+import React, {useId} from "react"
 import {__} from '../../utils/translationsUtility';
 import FormGroup from "../../components/common/form/FormGroup";
 import FormButtons from "../../components/common/form/FormButtons";
 import ReactTagsWrapper from "../../components/common/form/ReactTagsWrapper";
-import Table from "../../components/common/table/Table";
 import ProjectUserRolesTableHeader from "./user/ProjectUserRolesTableHeader";
 import {deleteUserRole} from "../../services/apiProxyService";
 import useProjectUserRoles from "../../hooks/userRoles/useProjectUserRoles";
+import MuiTable from "../../components/common/table/MuiTable";
 
 const ProjectUserRoles = () => {
     const {projectId} = params.value;
@@ -36,7 +36,7 @@ const ProjectUserRoles = () => {
                 useReloadInfo()
             })
     }
-    
+    console.log(projectUsers);
     return (
         <div className="container-fluid px-2">
             <div className="row mt-2">
@@ -109,7 +109,7 @@ const ProjectUserRoles = () => {
                     ]}
                 />
             </div>
-            <Table
+            <MuiTable
                 columnDefs={ProjectUserRolesTableHeader({deleteYesCallback})}
                 data={projectUsers}/>
         </div>

@@ -1,75 +1,73 @@
 import {__} from "../../../utils/translationsUtility";
-
-const CustomLinkRenderer = ({data}) => {
-    const { projectId } = params.value;
-    const link = `/admin/project/${projectId}/workspace/${data.id}/HSDU`;
-    return (
-        <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
-    );
-};
+import Link from "@mui/material/Link";
+import dayjs from "dayjs";
 
 const WorkspacesIndexTableHeader = () => [
     {
-        headerName: __('Id'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Id')}</strong>
+        ),
         field: 'id',
-        checkboxSelection: false,
-        filter: true,
-        width: 100,
-        sortable: true,
+        type: 'number',
+        width: 80
     },
     {
-        headerName: __('Title'),
-        checkboxSelection: false,
+        renderHeader: () => (
+            <strong>{__('Title')}</strong>
+        ),
+        renderCell: (params) => (
+            <Link href={`/admin/project/${params.row.project_id}/workspace/${params.id}/HSDU`}>{params.value}</Link>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'name',
-        filter: true,
-        width: 200,
-        sortable: true,
-        valueGetter: ({data}) => data.name,
-        cellRenderer: CustomLinkRenderer,
-        comparator: (a, b) => a.localeCompare(b)
+        flex: 1
     },
     {
-        headerName: __('Date of update'),
+        renderHeader: () => (
+            <strong>{__('Date of update')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'date_of_update',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b)
+        type: 'date',
+        flex: 1,
+        valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
     },
     {
-        headerName: __('# Contributors'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Contributors')}</strong>
+        ),
         field: 'contributorCount',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
+        type: 'number',
+        flex: 1
     },
     {
-        headerName: __('# HSDUs'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('HSDUs')}</strong>
+        ),
         field: 'facilityCount',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
+        type: 'number',
+        flex: 1
     },
     {
-        headerName: __('# Responses'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Responses')}</strong>
+        ),
         field: 'responseCount',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
+        type: 'number',
+        flex: 1
     },
     {
-        headerName: __('# Workspace owner'),
+        renderHeader: () => (
+            <strong>{__('Workspace owner')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'created_by',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-    },
+        flex: 1
+    }
 ];
 
 export default WorkspacesIndexTableHeader
