@@ -9,28 +9,39 @@ metadata:
 spec:
   tls:
     - hosts:
-      - "*.v2.herams-staging.org"
-      - v2.herams-staging.org
-      - v2-api.herams-staging.org
+        - "*.v2.herams-staging.org"
+        - v2.herams-staging.org
+        - v2-api.herams-staging.org
+        - lara.herams-staging.org
       secretName: v2.herams-staging.tls
   rules:
-  - host: v2.herams-staging.org
-    http:
-      paths:
-      - backend:
-          service:
-            name: app-service
-            port:
-              number: 80
-        pathType: Prefix
-        path: /
-  - host: v2-api.herams-staging.org
-    http:
-      paths:
-        - backend:
-            service:
-              name: api-service
-              port:
-                number: 80
-          pathType: Prefix
-          path: /
+    - host: v2.herams-staging.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: app-service
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+    - host: v2-api.herams-staging.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: api-service
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+    - host: lara.herams-staging.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: v2lara-service
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
