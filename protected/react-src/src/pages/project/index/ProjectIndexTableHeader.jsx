@@ -1,75 +1,72 @@
 import {__} from "../../../utils/translationsUtility";
+import Link from "@mui/material/Link";
 import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
-
-const CustomLinkRenderer = ({data}) => {
-    const link = `/admin/user/${data.id}`;
-    return (
-        <Link to={replaceVariablesAsText( `/admin/project/${data.id}/workspace`)} className={"agGridAnkur"}>{data.i18n['title'][data.primary_language]}</Link>
-    );
-};
 
 const ProjectIndexTableHeader = () => [
     {
-        headerName: __('Id'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Id')}</strong>
+        ),
         field: 'id',
-        checkboxSelection: false,
-        filter: true,
-        width: 100,
-        sortable: true,
+        type: 'number',
+        width: 80
     },
     {
-        headerName: __('Project Name'),
-        checkboxSelection: false,
+        renderHeader: () => (
+            <strong>{__('Project Name')}</strong>
+        ),
+        renderCell: (params) => (
+            <Link href={replaceVariablesAsText( `/admin/project/${params.id}/workspace`)}>{params.value}</Link>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'name',
-        filter: true,
-        width: 200,
-        sortable: true,
-        valueGetter: ({data}) => data.i18n['title'][data.primary_language],
-        cellRenderer: CustomLinkRenderer,
-        comparator: (a, b) => a.localeCompare(b)
+        flex: 1
     },
     {
-        headerName: __('# Workspaces'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Workspaces')}</strong>
+        ),
         field: 'workspaceCount',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b)
+        type: 'number',
+        flex: 1
     },
     {
-        headerName: __('# Contributors'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Contributors')}</strong>
+        ),
         field: 'contributorCount',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
+        type: 'number',
+        flex: 1
     },
     {
-        headerName: __('# HSDUs'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('HSDUs')}</strong>
+        ),
         field: 'facilityCount',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
+        type: 'number',
+        flex: 1
     },
     {
-        headerName: __('# Responses'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Responses')}</strong>
+        ),
         field: 'responseCount',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
+        type: 'number',
+        flex: 1
     },
     {
-        headerName: __('Project coordinator'),
+        renderHeader: () => (
+            <strong>{__('Project coordinator')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'coordinatorName',
-        checkboxSelection: false,
-        filter: true,
-        width: 200,
-        sortable: true,
-    },
+        flex: 1
+    }
 ];
 
 export default ProjectIndexTableHeader

@@ -1,8 +1,13 @@
 import {__} from "../../utils/translationsUtility";
 import useHSDUList from "../../hooks/HSDU/useHSDUList";
 import HSDUIndexTableHeader from "./index/HSDUIndexTableHeader";
-import Table from "../../components/common/table/Table";
-import ActionOnHeaderLists from "../../components/common/ActionOnHeaderLists";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Item from "@mui/material/Grid";
+import MuiTable from "../../components/common/table/MuiTable";
+import React from "react";
 import replaceVariablesAsText from "../../utils/replaceVariablesAsText";
 
 const HSDUList = () => {
@@ -14,26 +19,27 @@ const HSDUList = () => {
     if (isLoading) {
         return <div>Loading...</div>; // Render a loading indicator or similar while data is being fetched
     }
-    return (
-        <div className="container-fluid px-2">
-            <div className="row mt-2">
-                <div className="col-md-6">
-                    <h1 className="mt-3">
-                        {__('HSDU list')}
-                    </h1>
-                </div>
-                <div className="col-md-6">
-                    <ActionOnHeaderLists
-                        label={__('Register new HSDU')}
-                        permissions={['HSDU_CREATE']}
-                        url={replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/create`)}/>
-                </div>
-            </div>
-            <Table
-                deleteYesCallback={() => {}}
-                columnDefs={HSDUIndexTableHeader()}
-                data={HSDUList}/>
-        </div>
+    return HSDUList && (
+        <Grid container>
+            <Grid item xs={9}>
+                <Typography variant="h5" gutterBottom>
+                    {__('HSDU list')}
+                </Typography>
+            </Grid>
+            <Grid item xs={3}>
+                <Button startIcon={<AddCircleIcon />} variant="contained"
+                        href={replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/create`)} permissions={['HSDU_CREATE']}>
+                    {__('Register HSDU')}
+                </Button>
+            </Grid>
+            <Grid item xs={12}>
+                <Item>
+                    <MuiTable
+                        columnDefs={HSDUIndexTableHeader()}
+                        data={HSDUList}/>
+                </Item>
+            </Grid>
+        </Grid>
     );
 }
 

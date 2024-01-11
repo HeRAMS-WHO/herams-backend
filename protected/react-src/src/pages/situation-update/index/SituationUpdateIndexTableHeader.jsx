@@ -1,113 +1,96 @@
 import {__} from "../../../utils/translationsUtility";
 import TableIconWithLink from "../../../components/common/icon/TableIconWithLink";
 import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
-
-// const CustomLinkRenderer = ({data}) => {
-//     const link = `/admin/user/${data.id}`;
-//     return (
-//         <Link to={link} className={"agGridAnkur"}>{data.name}</Link>
-//     );
-// };
+import dayjs from "dayjs";
+import {GridActionsCellItem} from "@mui/x-data-grid";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const SituationUpdateIndexTableHeader = () => {
-    const {} = params.value.projectId;
-    console.log(params.value);
     return [
         {
-            headerName: __('Id'),
+            headerClassName: 'material_table_header_style',
+            renderHeader: () => (
+                <strong>{__('Id')}</strong>
+            ),
             field: 'id',
-            checkboxSelection: false,
-            filter: true,
-            width: 50,
-            sortable: true,
+            type: 'number',
+            width: 30
         },
         {
-            headerName: __('Date of update'),
-            checkboxSelection: false,
+            renderHeader: () => (
+                <strong>{__('Date of update')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'date_of_update',
-            filter: true,
-            width: 150,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b)
+            type: 'date',
+            flex: 1,
+            valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
         },
         {
-            headerName: __('Building condition'),
+            renderHeader: () => (
+                <strong>{__('Building condition')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'P2_COND_BUILDING',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b)
+            flex: 1
         },
         {
-            headerName: __('Functionality'),
+            renderHeader: () => (
+                <strong>{__('Functionality')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'P2_FUNCIONALITY',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
-            comparator: (a, b) => a.localeCompare(b),
+            flex: 1
         },
         {
-            headerName: __('Accesibility'),
+            renderHeader: () => (
+                <strong>{__('Accesibility')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'P2_ACCESSIBILITY',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Status'),
+            renderHeader: () => (
+                <strong>{__('Status')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'status',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Last modified on'),
+            renderHeader: () => (
+                <strong>{__('Last modified on')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'last_modified_date',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            type: 'date',
+            flex: 1,
+            valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
         },
         {
-            headerName: __('Last modified by'),
+            renderHeader: () => (
+                <strong>{__('Last modified by')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'last_modified_by',
-            checkboxSelection: false,
-            filter: true,
-            width: 200,
-            sortable: true,
+            flex: 1
         },
         {
-            headerName: __('Actions'),
+            renderHeader: () => (
+                <strong>{__('Actions')}</strong>
+            ),
+            headerClassName: 'material_table_header_style',
             field: 'actions',
-            checkboxSelection: false,
-            filter: true,
-            cellRenderer: function ({data}) {
-                return (
-                    <TableIconWithLink
-                        icons={[
-                            {
-                                url: replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${data.id}/edit`),
-                                iconName: 'edit',
-                                class: '' // Add any additional classes if needed
-                            },
-                            {
-                                url: replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${data.id}`),
-                                iconName: 'visibility',
-                                class: '' // Add any additional classes if needed
-                            },
-                            {
-                                url: replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`),
-                                iconName: 'delete',
-                                class: '' // Add any additional classes if needed
-                            }
-                        ]}
-                    />
-                );
-            },
+            type: 'actions',
+            flex: 1,
+            getActions: (params) => [
+                <GridActionsCellItem icon={<EditIcon />} onClick={() => {return window.location.href = replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${params.id}/edit`)}} label={__('Impersonate')} />,
+                <GridActionsCellItem icon={<VisibilityIcon />} onClick={() => {return window.location.href = replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${params.id}`)}} label={__('Delete User\'s Role')} />,
+                <GridActionsCellItem icon={<DeleteIcon />} onClick={() => {return window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`)}} label={__('Delete User\'s Role')} />,
+            ],
         }
     ];
 }

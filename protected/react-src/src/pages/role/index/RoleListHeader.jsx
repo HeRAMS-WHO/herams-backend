@@ -1,138 +1,81 @@
 import {__} from "../../../utils/translationsUtility";
-import DeleteButton from "../../../components/common/button/DeleteButton";
-const CustomLinkRenderer = ({data}) => {
-    const link = `/admin/role/${data.id}/update`;
-    return (
-        <Link 
-            to={link} 
-            className={"agGridAnkur"}>
-                {data.name}
-        </Link>
-    );
-};
+import Link from "@mui/material/Link";
+import dayjs from "dayjs";
+import {GridActionsCellItem} from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const comparatorProjectName = (a, b) => {
-    let title1 = '', title2 = '';
-    const lang1 = a?.primary_language ?? '';
-    const lang2 = b?.primary_language ?? '';
-    if (!!a) {
-        const titlesA = JSON.parse(a.i18n);
-        title1 = titlesA.title[lang1] ?? '';
-    }
-    if (!!b) {
-        const titlesB = JSON.parse(b.i18n);
-        title2 = titlesB.title[lang2] ?? '';
-    }
-    return title1.localeCompare(title2);
-}
-
-
-const RoleListHeader = ({deleteYesCallback}) => [
+const RoleListHeader = ({deleteRole}) => [
     {
-        headerName: __('Id'),
+        headerClassName: 'material_table_header_style',
+        renderHeader: () => (
+            <strong>{__('Id')}</strong>
+        ),
         field: 'id',
-        checkboxSelection: false,
-        filter: true,
-        width: 80,
-        pinned: 'left'
+        type: 'number',
+        width: 80
     },
     {
-        headerName: __('Name'),
-        checkboxSelection: false,
+        renderHeader: () => (
+            <strong>{__('Name')}</strong>
+        ),
+        renderCell: (params) => (
+            <Link href={`/admin/role/${params.id}/update`}>{params.value}</Link>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'name',
-        filter: true,
-        width: 300,
-        pinned: 'left',
-        cellRenderer: CustomLinkRenderer,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b)
+        flex: 1
     },
     {
-        headerName: __('Scope'),
+        renderHeader: () => (
+            <strong>{__('Scope')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'scope',
-        checkboxSelection: false,
-        filter: true,
-        width: 100,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b)
+        flex: 1
     },
     {
-        headerName: __('Type'),
+        renderHeader: () => (
+            <strong>{__('Type')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'type',
-        checkboxSelection: false,
-        filter: true,
-        width: 100,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
+        flex: 1
     },
     {
-        headerName: __('Project'),
-        checkboxSelection: false,
-        filter: true,
+        renderHeader: () => (
+            <strong>{__('Project')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'projectInfo',
-        cellRenderer: function ({data}) {
-            if (data.projectInfo) {
-                const {title} = JSON.parse(data.projectInfo.i18n);
-                return title[data.projectInfo.primary_language];
+        renderCell: (data) => {
+            if (data.field === 'projectInfo' && data.value) {
+                const {title} = JSON.parse(data.value.i18n);
+                return title[data.value.primary_language];
             }
         },
-        width: 120,
-        sortable: true,
-        comparator: (a, b) => comparatorProjectName(a, b),
+        flex: 1
     },
     {
-        headerName: __('Created Date'),
+        renderHeader: () => (
+            <strong>{__('Created date')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'created_date',
-        checkboxSelection: false,
-        filter: true,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
+        type: 'date',
+        flex: 1,
+        valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
     },
     {
-        headerName: __('Created By'),
-        checkboxSelection: false,
-        filter: true,
-        valueGetter: function ({data}) {
-            return data.creatorUserInfo?.name ?? '';
-        },
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
-    },
-    {
-        headerName: __('Last Modified Date'),
-        field: 'last_modified_date',
-        checkboxSelection: false,
-        filter: true,
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
-    },
-    {
-        headerName: __('Last Modified By'),
-        field: 'updaterUserInfo',
-        checkboxSelection: false,
-        filter: true,
-        valueGetter: function ({data}) {
-            return data.updaterUserInfo?.name ?? '';
-        },
-        sortable: true,
-        comparator: (a, b) => a.localeCompare(b),
-    },
-    {
-        headerName: __('Actions'),
+        renderHeader: () => (
+            <strong>{__('Actions')}</strong>
+        ),
+        headerClassName: 'material_table_header_style',
         field: 'actions',
-        checkboxSelection: false,
-        filter: true,
-        pinned: 'right',
-        cellRenderer: function ({data}) {
-            const confirmationText = __('Are you sure you want to delete the role {}?').replace('{}', data.name);
-            return <DeleteButton
-                title={__('Delete Role')}
-                html={confirmationText}
-                confirmButtonText={__('Delete')}
-                cancelButtonText={__('Cancel')}
-                yesCallback={() => deleteYesCallback(data.id)}/>
-        },
-
+        type: 'actions',
+        flex: 1,
+        getActions: (params) => [
+            <GridActionsCellItem icon={<DeleteIcon />} onClick={() => deleteRole(params.id)} label={__('Delete User\'s Role')} />,
+        ],
     }
 
 ];
