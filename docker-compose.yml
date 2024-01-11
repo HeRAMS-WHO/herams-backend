@@ -186,7 +186,7 @@ services:
   devdb:
     << : *mysql
     ports:
-      - "3306:3306"
+      - "3311:3306"
     volumes:
       - devdb:/var/lib/mysql:rw
       - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
