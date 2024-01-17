@@ -132,6 +132,8 @@ jobs:
         run: composer --version
       - name: install composer
         run: composer install --ignore-platform-reqs
+      - name: update local i18n files
+        run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
