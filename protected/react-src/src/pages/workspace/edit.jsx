@@ -11,7 +11,6 @@ const WorkspaceEdit = () => {
     const { workspaceId } = params.value;
     return (<>
         <div>
-            <h1>{replaceVariablesAsText('Workspace Update')}</h1>
            <form className="w-100">
                     {Object.keys(titles).map((language) => {
                         return (

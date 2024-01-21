@@ -11,15 +11,14 @@ const WorkspaceUpdate = () => {
     const { workspaceId } = params.value;
     return (<>
         <div>
-            <h1>{replaceVariablesAsText('Workspace Update')}</h1>
            <form className="w-100">
                     {Object.keys(titles).map((language) => {
                         return (
                             <div key={language}>
-                                <FormGroup 
-                                    label={locales?.value?.find((element) => element.value === language)?.name} 
+                                <FormGroup
+                                    label={locales?.value?.find((element) => element.value === language)?.name}
                                     inputClassName='col-md-6'>
-                                    <TextInput 
+                                    <TextInput
                                         className="form-control"
                                         onChange={(e) => setTitles({...titles, [language]: e.target.value})}
                                         value={titles[language]} />
@@ -38,7 +37,7 @@ const WorkspaceUpdate = () => {
                         ]}
                     />
                 </div>
-            </form> 
+            </form>
         </div>
     </>)
 }
