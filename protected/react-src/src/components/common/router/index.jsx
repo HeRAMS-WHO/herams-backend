@@ -23,7 +23,7 @@ const useNavigate = () => {
 }
 
 // Your custom Link component
-const Link = ({ to, children, className = '', ...props }) => {
+const Link = React.forwardRef(({ to, children, className = '', ...props }, ref) => {
     const navigate = useNavigate();
     const onClick = (e) => {
         if (e.metaKey || e.ctrlKey) return;
@@ -32,11 +32,11 @@ const Link = ({ to, children, className = '', ...props }) => {
         navigate(to);
     };
     return (
-        <a href={to} onClick={onClick} className={className} {...props}>
-            {children}
-        </a>
+      <a href={to} onClick={onClick} className={className} ref={ref} {...props}>
+          {children}
+      </a>
     );
-};
+});
 
 // Custom LinkButton component
 const LinkButton = ({ to, label, icon, className, ...props }) => {
