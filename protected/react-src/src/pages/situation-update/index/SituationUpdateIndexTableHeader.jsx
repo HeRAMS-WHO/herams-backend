@@ -1,98 +1,76 @@
-import {__} from "../../../utils/translationsUtility";
-import TableIconWithLink from "../../../components/common/icon/TableIconWithLink";
-import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
-import dayjs from "dayjs";
-import {GridActionsCellItem} from "@mui/x-data-grid";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { __ } from '../../../utils/translationsUtility'
+import dayjs from 'dayjs'
+import { GridActionsCellItem } from '@mui/x-data-grid'
+import EditIcon from '@mui/icons-material/Edit'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import DeleteIcon from '@mui/icons-material/Delete'
+import replaceVariablesAsText from '../../../utils/replaceVariablesAsText'
 
 const SituationUpdateIndexTableHeader = () => {
-    return [
-        {
-            headerClassName: 'material_table_header_style',
-            renderHeader: () => (
-                <strong>{__('Id')}</strong>
-            ),
-            field: 'id',
-            type: 'number',
-            width: 30
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Date of update')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'date_of_update',
-            type: 'date',
-            flex: 1,
-            valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Building condition')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'P2_COND_BUILDING',
-            flex: 1
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Functionality')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'P2_FUNCIONALITY',
-            flex: 1
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Accesibility')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'P2_ACCESSIBILITY',
-            flex: 1
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Status')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'status',
-            flex: 1
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Last modified on')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'last_modified_date',
-            type: 'date',
-            flex: 1,
-            valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Last modified by')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'last_modified_by',
-            flex: 1
-        },
-        {
-            renderHeader: () => (
-                <strong>{__('Actions')}</strong>
-            ),
-            headerClassName: 'material_table_header_style',
-            field: 'actions',
-            type: 'actions',
-            flex: 1,
-            getActions: (params) => [
-                <GridActionsCellItem icon={<EditIcon />} onClick={() => {return window.location.href = replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${params.id}/edit`)}} label={__('Impersonate')} />,
-                <GridActionsCellItem icon={<VisibilityIcon />} onClick={() => {return window.location.href = replaceVariablesAsText( `/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${params.id}`)}} label={__('Delete User\'s Role')} />,
-                <GridActionsCellItem icon={<DeleteIcon />} onClick={() => {return window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`)}} label={__('Delete User\'s Role')} />,
-            ],
-        }
-    ];
+  return [
+    {
+      headerName: __('Id'),
+      field: 'id',
+      type: 'number',
+      width: 30,
+    },
+    {
+      headerName: __('Date of update'),
+      field: 'date_of_update',
+      type: 'date',
+      flex: 1,
+      valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:mm'),
+    },
+    {
+      headerName: __('Building condition'),
+      field: 'P2_COND_BUILDING',
+      flex: 1,
+    },
+    {
+      headerName: __('Functionality'),
+      field: 'P2_FUNCIONALITY',
+      flex: 1,
+    },
+    {
+      headerName: __('Accessibility'),
+      field: 'P2_ACCESSIBILITY',
+      flex: 1,
+    },
+    {
+      headerName: __('Status'),
+      field: 'status',
+      flex: 1,
+    },
+    {
+      headerName: __('Last modified on'),
+      field: 'last_modified_date',
+      type: 'date',
+      flex: 1,
+      valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:mm'),
+    },
+    {
+      headerName: __('Last modified by'),
+      field: 'last_modified_by',
+      flex: 1,
+    },
+    {
+      headerName: __('Actions'),
+      field: 'actions',
+      type: 'actions',
+      flex: 1,
+      getActions: (params) => [
+        <GridActionsCellItem icon={<EditIcon/>} onClick={() => {
+          window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${params.id}/edit`)
+        }} label={__('Impersonate')}/>,
+        <GridActionsCellItem icon={<VisibilityIcon/>} onClick={() => {
+          window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/situation-update/${params.id}`)
+        }} label={__('View')}/>,
+        <GridActionsCellItem icon={<DeleteIcon/>} onClick={() => {
+          window.location.href = replaceVariablesAsText(`/admin/project/:projectId/workspace/:workspaceId/HSDU/:hsduId/settings`)
+        }} label={__('Delete')}/>,
+      ],
+    },
+  ]
 }
 
 export default SituationUpdateIndexTableHeader
