@@ -4,7 +4,7 @@ import FormButtons from "../../components/common/form/FormButtons";
 import ReactTagsWrapper from "../../components/common/form/ReactTagsWrapper";
 import {deleteUserRole} from "../../services/apiProxyService";
 import useWorkspaceUserRoles from "../../hooks/userRoles/useWorkspaceUserRoles";
-import WorkspaceUserRolesTableHeader from "./WorkspaceUserRolesTableHeader";
+import WorkspaceUserRolesTableHeader from "./user/WorkspaceUserRolesTableHeader";
 import MuiTable from "../../components/common/table/MuiTable";
 
 const WorkspaceUserRoles = () => {
