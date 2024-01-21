@@ -10,86 +10,66 @@ const SituationUpdateIndexTableHeader = () => {
     return [
         {
             headerClassName: 'material_table_header_style',
-            renderHeader: () => (
-                <strong>{__('Id')}</strong>
-            ),
+            headerName: __('Id'), // Added headerName
             field: 'id',
             type: 'number',
             width: 30
         },
         {
-            renderHeader: () => (
-                <strong>{__('Date of update')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('Date of update'),
             field: 'date_of_update',
             type: 'date',
             flex: 1,
             valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
         },
         {
-            renderHeader: () => (
-                <strong>{__('HSDU Code')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('HSDU Code'),
             field: 'HSDU_CODE',
             flex: 1
         },
         {
-            renderHeader: () => (
-                <strong>{__('HSDU Name')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('HSDU Name'),
             field: 'name',
             flex: 1
         },
         {
-            renderHeader: () => (
-                <strong>{__('Tier')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('Tier'),
             field: 'HSDU_TYPE_tier',
             flex: 1
         },
         {
-            renderHeader: () => (
-                <strong>{__('HSDU Type')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('HSDU Type'),
             field: 'HSDU_TYPE',
             flex: 1
         },
         {
-            renderHeader: () => (
-                <strong>{__('Status')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('Status'),
             field: 'status',
             flex: 1
         },
         {
-            renderHeader: () => (
-                <strong>{__('Last modified on')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('Last modified on'),
             field: 'last_modified_date',
             type: 'date',
             flex: 1,
             valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:MM')
         },
         {
-            renderHeader: () => (
-                <strong>{__('Last modified by')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('Last modified by'),
             field: 'last_modified_by',
             flex: 1
         },
         {
-            renderHeader: () => (
-                <strong>{__('Actions')}</strong>
-            ),
             headerClassName: 'material_table_header_style',
+            headerName: __('Actions'),
             field: 'actions',
             type: 'actions',
             flex: 1,

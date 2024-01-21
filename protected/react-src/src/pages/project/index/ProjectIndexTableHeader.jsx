@@ -1,23 +1,19 @@
-import {__} from "../../../utils/translationsUtility";
+import { __ } from "../../../utils/translationsUtility";
 import Link from "@mui/material/Link";
 import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
 
 const ProjectIndexTableHeader = () => [
     {
         headerClassName: 'material_table_header_style',
-        renderHeader: () => (
-            <strong>{__('Id')}</strong>
-        ),
+        headerName: __('Id'), // Added headerName
         field: 'id',
         type: 'number',
         width: 80
     },
     {
-        renderHeader: () => (
-            <strong>{__('Project Name')}</strong>
-        ),
+        headerName: __('Project Name'),
         renderCell: (params) => (
-            <Link href={replaceVariablesAsText( `/admin/project/${params.id}/workspace`)}>{params.value}</Link>
+          <Link href={replaceVariablesAsText(`/admin/project/${params.id}/workspace`)}>{params.value}</Link>
         ),
         headerClassName: 'material_table_header_style',
         field: 'name',
@@ -25,48 +21,38 @@ const ProjectIndexTableHeader = () => [
     },
     {
         headerClassName: 'material_table_header_style',
-        renderHeader: () => (
-            <strong>{__('Workspaces')}</strong>
-        ),
+        headerName: __('Workspaces'),
         field: 'workspaceCount',
         type: 'number',
         flex: 1
     },
     {
         headerClassName: 'material_table_header_style',
-        renderHeader: () => (
-            <strong>{__('Contributors')}</strong>
-        ),
+        headerName: __('Contributors'),
         field: 'contributorCount',
         type: 'number',
         flex: 1
     },
     {
         headerClassName: 'material_table_header_style',
-        renderHeader: () => (
-            <strong>{__('HSDUs')}</strong>
-        ),
+        headerName: __('HSDUs'),
         field: 'facilityCount',
         type: 'number',
         flex: 1
     },
     {
         headerClassName: 'material_table_header_style',
-        renderHeader: () => (
-            <strong>{__('Responses')}</strong>
-        ),
+        headerName: __('Responses'),
         field: 'responseCount',
         type: 'number',
         flex: 1
     },
     {
-        renderHeader: () => (
-            <strong>{__('Project coordinator')}</strong>
-        ),
         headerClassName: 'material_table_header_style',
+        headerName: __('Project coordinator'),
         field: 'coordinatorName',
         flex: 1
     }
 ];
 
-export default ProjectIndexTableHeader
+export default ProjectIndexTableHeader;
