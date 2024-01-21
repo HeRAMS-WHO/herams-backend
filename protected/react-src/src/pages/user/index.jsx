@@ -15,7 +15,6 @@ const UserIndex = () => {
         <Grid container>
             <Grid item xs={10}>
                 <Typography variant="h5" gutterBottom>
-                    {__('Users list')}
                 </Typography>
             </Grid>
             <Grid item xs={2}>

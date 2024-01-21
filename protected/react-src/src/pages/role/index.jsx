@@ -23,7 +23,6 @@ const RolesList = () => {
         <Grid container>
             <Grid item xs={10}>
                 <Typography variant="h5" gutterBottom>
-                    {__('Roles list')}
                 </Typography>
             </Grid>
             <Grid item xs={2}>

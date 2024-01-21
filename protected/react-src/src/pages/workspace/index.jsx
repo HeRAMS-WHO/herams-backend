@@ -19,7 +19,6 @@ const WorkspacesList = () => {
         <Grid container>
             <Grid item xs={9}>
                 <Typography variant="h5" gutterBottom>
-                    {__('Workspaces list')}
                 </Typography>
             </Grid>
             <Grid item xs={3}>

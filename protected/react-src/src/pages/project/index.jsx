@@ -16,7 +16,6 @@ const ProjectList = () => {
         <Grid container>
             <Grid item xs={9}>
                 <Typography variant="h5" gutterBottom>
-                    {__('Projects')}
                 </Typography>
             </Grid>
             <Grid item xs={3}>

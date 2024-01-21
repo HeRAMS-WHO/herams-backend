@@ -40,7 +40,6 @@ const HSDUSettings = () => {
     return (
         <>
             <Box marginY={2}>
-                <Typography variant="h6">{__("Delete HSDU")}</Typography>
                 <Typography>{__("This will permanently delete the HSDU. This action cannot be undone.")}</Typography>
                 <Button variant="contained" color="secondary" onClick={() => setOpenDeleteDialog(true)}>
                     {__("Delete")}

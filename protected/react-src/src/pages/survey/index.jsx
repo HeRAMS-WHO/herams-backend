@@ -17,7 +17,6 @@ const SurveyList = () => {
         <Grid container>
             <Grid item xs={9}>
                 <Typography variant="h5" gutterBottom>
-                    {__('Surveys')}
                 </Typography>
             </Grid>
             <Grid item xs={3}>

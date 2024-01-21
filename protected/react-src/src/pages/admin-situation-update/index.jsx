@@ -16,7 +16,6 @@ const AdminSituationUpdateList = () => {
         <Grid container>
             <Grid item xs={9}>
                 <Typography variant="h5" gutterBottom>
-                    {__('Situation Update list')}
                 </Typography>
             </Grid>
             <Grid item xs={3}>
