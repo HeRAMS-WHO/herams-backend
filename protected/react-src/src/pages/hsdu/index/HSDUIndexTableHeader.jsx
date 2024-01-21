@@ -1,11 +1,11 @@
-import { __ } from '../../../utils/translationsUtility';
-import Typography from '@mui/material/Typography';
-import replaceVariablesAsText from '../../../utils/replaceVariablesAsText';
-import Link from '@mui/material/Link';
-import dayjs from 'dayjs';
-import Button from '@mui/material/Button';
-import EditIcon from '@mui/icons-material/Edit';
-import React from 'react';
+import { __ } from '../../../utils/translationsUtility'
+import Typography from '@mui/material/Typography'
+import replaceVariablesAsText from '../../../utils/replaceVariablesAsText'
+import Link from '@mui/material/Link'
+import dayjs from 'dayjs'
+import Button from '@mui/material/Button'
+import EditIcon from '@mui/icons-material/Edit'
+import React from 'react'
 
 const HSDUIndexTableHeader = () => {
   return [
