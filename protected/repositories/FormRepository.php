@@ -43,7 +43,7 @@ class FormRepository
     {
         return new SurveyForm(
             submitRoute: $this->createUri('/api/project/create'),
-            redirectRoute: 'admin/project',
+            redirectRoute: '/admin/project',
             serverValidationRoute: $this->createUri('/api/project/validate'),
             configuration: SurveyConfiguration::forCreatingProject()
         );

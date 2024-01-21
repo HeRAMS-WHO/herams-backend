@@ -63,7 +63,7 @@ $menu = SideMenu::begin([
 ]);
 
 if (app()->user->can(PermissionOld::PERMISSION_CREATE_PROJECT)) {
-    echo Html::a('New project', ['project/create'], [
+    echo Html::a('New project', ['admin/project/create'], [
         'style' => [
             'color' => '#737373',
         ],
