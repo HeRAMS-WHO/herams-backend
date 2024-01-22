@@ -32,6 +32,16 @@ const MuiTable = ({
         height: 600,
         width: '100%',
         fontFamily: 'Source Sans Pro',
+        '& .MuiDataGrid-toolbarContainer .MuiSelect-root': {
+          fontSize: '13px',
+          lineHeight: '13px',
+          color: '#4075C3',
+          fontFamily: '"Source Sans Pro", sans-serif',
+          '& .MuiSvgIcon-root': { // Targeting the dropdown icon if necessary
+            fill: '#4075C3', // This will change the color of the icon
+          },
+          // Apply additional styles if necessary, such as padding, margins, etc.
+        },
         '& .material_table_header_style': {
           backgroundColor: '#f8f8f8',
         },
@@ -40,6 +50,23 @@ const MuiTable = ({
         },
         '& .MuiDataGrid-columnHeaderTitle': {
           fontWeight: 'bold',
+        },
+        '& .MuiButton-textPrimary': {
+          fontSize: '13px',
+          lineHeight: '13px',
+          color: '#4075C3',
+          fontFamily: '"Source Sans Pro", sans-serif',
+          textTransform: 'none', // Assuming you don't want uppercase text
+          // Apply additional styles if necessary
+        },
+        '& .MuiDataGrid-filterForm': {
+          '& .MuiInputBase-input': {
+            fontSize: '13px', // Set the font size to match the tabs
+            lineHeight: '13px', // Set the line height to match the tabs (if needed)
+            fontFamily: '"Source Sans Pro", sans-serif', // Set the font family to match the tabs
+            color: '#4075C3', // Set the font color to match the tabs
+            // Apply additional styles if necessary
+          },
         },
       }}>
         <DataGrid

@@ -43,11 +43,11 @@ html {
     box-sizing: inherit;
 }
 
-a, a:hover, a:active, a:visited {
-    text-decoration: none;
-    color: inherit;
-    transition: color 0.3s;
-}
+/*a, a:hover, a:active, a:visited {*/
+/*    text-decoration: none;*/
+/*    color: inherit;*/
+/*    transition: color 0.3s;*/
+/*}*/
 
 em {
     font-weight: bold;
@@ -149,13 +149,13 @@ body {
     font-size: 11px;
 }
 
-.user-menu a, .user-menu a:visited {
-    text-decoration: inherit;
-    color: var(--text-color);
-    display: inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
-}
+/*.user-menu a, .user-menu a:visited {*/
+/*    text-decoration: inherit;*/
+/*    color: var(--text-color);*/
+/*    display: inline-block;*/
+/*    margin-left: 10px;*/
+/*    margin-right: 10px;*/
+/*}*/
 
 .user-menu a:first-child {
     border-left: none;
@@ -270,10 +270,10 @@ body {
     z-index: 1000000;
 }
 
-a, a:visited {
-    color: var(--link-color);
-    text-decoration: none;
-}
+/*a, a:visited {*/
+/*    color: var(--link-color);*/
+/*    text-decoration: none;*/
+/*}*/
 
 a:hover {
     color: var(--primary-button-background-color);

@@ -35,12 +35,12 @@ spec:
                   number: 80
             pathType: Prefix
             path: /
-    - host: lara.herams-staging.org
+    - host: api-v2.herams-staging.org
       http:
         paths:
           - backend:
               service:
-                name: v2lara-service
+                name: v2api
                 port:
                   number: 80
             pathType: Prefix
