@@ -7,9 +7,10 @@ use yii\web\AssetBundle;
 
 class IframeResizeBundle extends AssetBundle
 {
-    public $baseUrl = '@npm/iframe-resizer/js';
+    public $basePath = '@webroot';
+    public $baseUrl = '@web';
 
     public $js = [
-        'iframeResizer.min.js'
+        'js/iframe-resizer/iframeResizer.min.js'
     ];
 }
