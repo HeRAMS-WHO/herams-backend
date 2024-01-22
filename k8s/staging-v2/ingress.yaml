@@ -12,7 +12,7 @@ spec:
         - "*.v2.herams-staging.org"
         - v2.herams-staging.org
         - v2-api.herams-staging.org
-        - lara.herams-staging.org
+        - api-v2.herams-staging.org
       secretName: v2.herams-staging.tls
   rules:
     - host: v2.herams-staging.org
