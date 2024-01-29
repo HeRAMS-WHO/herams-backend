@@ -918,3 +918,18 @@ input[type="text"] {
 .sd-btn.sd-btn--action.sd-navigation__complete-btn {
     background-color: #19b394; !important;
 }
+
+.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
+    background-color: #4075c3;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 4px;
+    margin-bottom: 8px; /* Adjust this value to match the space above the button */
+}
+
+.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary:hover {
+    color: white;
+}
