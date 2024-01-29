@@ -914,3 +914,7 @@ input[type="text"] {
     --breadcrumbs-color: #fff;
     --separator-color: #fff;
 }
+
+.sd-btn.sd-btn--action.sd-navigation__complete-btn {
+    background-color: #19b394; !important;
+}
