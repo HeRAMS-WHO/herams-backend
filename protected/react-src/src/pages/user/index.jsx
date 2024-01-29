@@ -13,16 +13,6 @@ const UserIndex = () => {
     const { userList } = useUserList()
     return (
         <Grid container>
-            <Grid item xs={10}>
-                <Typography variant="h5" gutterBottom>
-                </Typography>
-            </Grid>
-            <Grid item xs={2}>
-                <Button startIcon={<AddCircleIcon />} variant="contained"
-                        href={`/admin/user/create`} permissions={['USER_CREATE']}>
-                    {__('Create User')}
-                </Button>
-            </Grid>
             <Grid item xs={12}>
                 <Item>
                     <MuiTable
