@@ -920,26 +920,6 @@ input[type="text"] {
 }
 
 .MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
-    background-color: #4075c3; /* Herams logo blue */
-    color: white; /* Font color */
-    font-family: Arial, sans-serif; /* Replace with the actual font family used for the tabs */
-    font-size: 13px; /* Same size as the tabs */
-    text-transform: uppercase; /* Capitalize the text */
-    padding: 8px 20px; /* Adjust padding to control the height */
-    border-radius: 4px; /* Rounded corners, adjust as needed */
-    box-shadow: none; /* Remove any shadow if present */
-    /* Adjust margins as needed to align with other elements */
-}
-
-/* Align button to the right inside its container, assuming the container uses flexbox */
-.container-of-the-button {
-    display: flex;
-    justify-content: flex-end; /* Aligns the button to the right */
-    align-items: center; /* Centers the button vertically */
-    /* Other styling as needed */
-}
-
-.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
     background-color: #4075c3;
     color: white;
     font-family: Arial, sans-serif;
