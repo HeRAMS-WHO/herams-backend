@@ -933,3 +933,18 @@ input[type="text"] {
 .MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary:hover {
     color: white;
 }
+
+.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways {
+    text-decoration: underline;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+/* Hover state */
+.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways:hover {
+    color: #4075c3!important;
+}
+
+/* Visited state */
+.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways:visited {
+    color: rgba(0, 0, 0, 0.87);
+}
