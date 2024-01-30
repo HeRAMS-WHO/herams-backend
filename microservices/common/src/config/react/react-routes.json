@@ -394,6 +394,17 @@
       "VIEW_GLOBAL_USER"
     ]
   },
+  "/admin/material": {
+    "pageTitle": "Material",
+    "URL": "/admin/material",
+    "hasTabs": false,
+    "tabName": "Material",
+    "redirectTo": "",
+    "page": "material/index",
+    "permissions": [
+      "VIEW_GLOBAL_USER"
+    ]
+  },
   "/admin/role": {
     "pageTitle": "Administration",
     "URL": "/admin/role",

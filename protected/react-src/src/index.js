@@ -13,7 +13,7 @@ import RolesEdit from "./pages/role/update";
 import ProjectUserRoles from "./pages/project/user";
 import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 import UserIndex from "./pages/user/index";
-import UserMaterial from "./components/Users/UserMaterial";
+import Material from "./pages/material/index";
 import WorkspaceUserRoles from "./pages/workspace/user";
 import GlobalUserRoles from "./pages/user/view";
 import SurveyWidget from "./components/SurveyJs/SurveyWidget";

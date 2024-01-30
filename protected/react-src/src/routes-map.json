@@ -27,6 +27,7 @@
     "/admin/survey/:surveyID": "/survey/:surveyID/update",
     "/admin/user": "/admin/user/index",
     "/admin/user/:userID": "/admin/user/:userID/global-user-roles",
+    "/admin/material": "/admin/material/index",
     "/admin/role": "/role",
     "/admin/role/create": "/role/0/create",
     "/admin/role/:roleId": "/role/:roleId/update"
