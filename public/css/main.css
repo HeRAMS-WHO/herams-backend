@@ -948,3 +948,12 @@ input[type="text"] {
 .MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways:visited {
     color: rgba(0, 0, 0, 0.87);
 }
+
+.export-icon-container {
+    display: flex;
+    align-items: center;
+}
+
+.export-text {
+    margin-left: 8px;
+}

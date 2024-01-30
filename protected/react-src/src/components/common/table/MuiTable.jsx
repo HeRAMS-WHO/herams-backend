@@ -7,7 +7,7 @@ import { __ } from '../../../utils/translationsUtility';
 import { Box } from '@mui/material'; // Optional theme CSS
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import CustomToolbar from './CustomToolbal';
+import CustomToolbar from './CustomToolbar';
 
 const MuiTable = ({
   columnDefs,
@@ -19,7 +19,7 @@ const MuiTable = ({
   const buttonListener = useCallback(e => {
     gridRef.current.columnApi.resetColumnState()
 
-  }, [])
+  }, []);
 
   return (
     <Grid>
@@ -32,7 +32,7 @@ const MuiTable = ({
         height: 600,
         width: '100%',
         fontFamily: 'Source Sans Pro',
-        '& .MuiDataGrid-toolbarContainer .MuiSelect-root': {
+        '& .MuiDataGrid-toolbarContainer .MuiSelect-root, div > button': {
           fontSize: '13px',
           lineHeight: '13px',
           color: '#4075C3',
@@ -82,11 +82,12 @@ const MuiTable = ({
             },
           }}
           components={{
-            Toolbar: CustomToolbar,
+            Toolbar: () => <CustomToolbar columnDefs={columnDefs} data={data} />,
           }}
           // slots={{ toolbar: GridToolbar }}
           pageSizeOptions={[10, 20]}
           checkboxSelection
+          ref={gridRef}
         />
       </Box>
     </Grid>
