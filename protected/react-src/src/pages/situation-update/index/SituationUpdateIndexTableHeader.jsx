@@ -19,7 +19,7 @@ const SituationUpdateIndexTableHeader = () => {
       field: 'date_of_update',
       type: 'date',
       flex: 1,
-      valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:mm'),
+      valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD'),
     },
     {
       headerName: __('Building condition'),
