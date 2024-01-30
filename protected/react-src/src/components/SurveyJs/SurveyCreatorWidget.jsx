@@ -44,7 +44,7 @@ const SurveyCreatorWidget = ({url}) => {
 
         const getData = async () => {
             return await fetchWithCsrf(config.dataUrl, null, 'GET');
-        }
+        };
 
         const createSurvey = async (saveNo, callback) => {
             try {
@@ -68,6 +68,7 @@ const SurveyCreatorWidget = ({url}) => {
 
         //Refresh survey and reset property grid to let it handle onShowingProperty event
         surveyCreator.JSON = {};
+        surveyCreator.haveCommercialLicense = true;
 
         surveyCreator.saveSurveyFunc = (saveNo, callback) => config.dataUrl ? updateSurvey(saveNo, callback) : createSurvey(saveNo, callback);
 
