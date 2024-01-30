@@ -8,8 +8,8 @@
     "@mui/icons-material": "^5.15.1",
     "@mui/material": "^5.14.20",
     "@mui/x-data-grid": "^6.18.3",
-    "@preact/signals-react": "^1.3.7",
     "@mui/x-date-pickers": "^6.18.4",
+    "@preact/signals-react": "^1.3.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -19,6 +19,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "dayjs": "^1.11.10",
     "eslint": "^8.51.0",
+    "file-saver": "^2.0.5",
     "leaflet": "^1.9.4",
     "path-to-regexp": "^6.2.1",
     "react": "^18.2.0",
@@ -32,7 +33,8 @@
     "survey-react-ui": "^1.9.116",
     "sweetalert2": "^11.7.31",
     "sweetalert2-react-content": "^5.0.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start2": "HOST=0.0.0.0 react-scripts start",
