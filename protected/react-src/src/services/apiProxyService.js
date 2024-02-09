@@ -1,8 +1,10 @@
 import { param } from 'jquery';
 import {deleteRequest, get, post} from './httpMethods';
 
-export const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
-
+export const BASE_URL = 'http://api.herams.localhost/api/';
+export const doLogin = (data) => {
+    return post(`${BASE_URL}/authentication/login`, data);
+}
 export const fetchProfile = (queryParams, headers) => {
     return get(`${BASE_URL}/user/profile`, queryParams, headers);
 }

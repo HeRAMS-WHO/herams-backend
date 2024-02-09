@@ -1,9 +1,21 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import L from 'leaflet';
 import { fetchCsfrToken } from '../../services/apiProxyService';
-import { getCsrfToken } from '../../utils/csrfTokenUtility';
-
+import { doLogin } from '../../services/apiProxyService';
 const AuthLogin = () => {
+  const {email, setEmail} = useState('');
+  const {password, setPassword} = useState('');
+  const login = () => {
+    const data = {
+      email,
+      password
+    }
+    if (email && password) {
+      doLogin(data).then((res) => {
+        console.log(res);
+      })
+    }
+  }
   useEffect(() => {
     const map = L.map('map', {
       preferCanvas: true,
@@ -81,22 +93,35 @@ const AuthLogin = () => {
               <form method='post' action='/session/create' className='d-flex' style={{gap:'30px', textAlign:'left'}}>
                 <h2 className='text-primary h5'>{replaceVariablesAsText('Login')}</h2>
                 <div className='w-100'>
-                  <input type='hidden' name='_csrf' value={getCsrfToken()}/>
                   <div className="form-group">
                     <label htmlFor="email">{replaceVariablesAsText('Email address')} <i className='text-red'> *</i></label>
-                    <input type="email" className="form-control" id="email" name="username" placeholder="Enter email" />
+                    <input 
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={email}
+                      type="email" 
+                      className="form-control" 
+                      id="email" 
+                      name="username" 
+                      placeholder="Enter email" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="password">{replaceVariablesAsText('Password')}</label>
-                    <input type="password" className="form-control"  id="password" name='current-password' placeholder="Password" />
+                    <input
+                      onChange={(e) => setPassword(e.target.value)} 
+                      value={password}
+                      type="password" 
+                      className="form-control"  
+                      id="password" 
+                      name='current-password' 
+                      placeholder="Password" />
                   </div>
                   <div className="form-group form-check">
-                    <input type="checkbox" className="form-check-input" id="remember" />
+                    
                     <label className="form-check-label" htmlFor="remember">
                       {replaceVariablesAsText('Remember me')}
                     </label>
                   </div>
-                  <button type="submit" className="btn btn-default">{replaceVariablesAsText('Login')}</button>
+                  <button type="button" className="btn btn-default">{replaceVariablesAsText('Login')}</button>
                 </div>
               </form>
               <hr className='mt-2' />
