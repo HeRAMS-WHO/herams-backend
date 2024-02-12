@@ -1,7 +1,3 @@
-import { __ } from '../../../utils/translationsUtility'
-import Link from '@mui/material/Link'
-import replaceVariablesAsText from '../../../utils/replaceVariablesAsText'
-
 const ProjectIndexTableHeader = () => [
   {
     headerClassName: 'material_table_header_style',
@@ -12,9 +8,9 @@ const ProjectIndexTableHeader = () => [
   },
   {
     headerName: __('Project Name'),
-    renderCell: (params) => (
-      <Link href={replaceVariablesAsText(`/admin/project/${params.id}/workspace`)}>{params.value}</Link>
-    ),
+    renderCell: (params) => {
+      return (<Link to={replaceVariablesAsText(`/admin/project/${params.id}/workspace`)}>{params?.row?.i18n?.title[languageSelected.value] ?? params?.row?.i18n?.title['en'] }</Link>)
+    },
     headerClassName: 'material_table_header_style',
     field: 'name',
     flex: 1,
@@ -29,7 +25,7 @@ const ProjectIndexTableHeader = () => [
   {
     headerClassName: 'material_table_header_style',
     headerName: __('Contributors'),
-    field: 'contributorCount',
+    field: 'totalContributors',
     type: 'number',
     flex: 1,
   },

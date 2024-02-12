@@ -38,7 +38,8 @@ export const post = async (url, data) => {
             headers: {
                 'Content-Type': 'application/json',
                 'X-Csrf-Token': getCsrfToken(),
-                'X-Requested-With': 'XMLHttpRequest'
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
             },
             body: JSON.stringify(data),
         });

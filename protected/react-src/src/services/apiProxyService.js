@@ -1,8 +1,10 @@
 import { param } from 'jquery';
 import {deleteRequest, get, post} from './httpMethods';
 
-export const BASE_URL = window.HERAMS_PROXY_API_URL || `${window.location.origin}/api-proxy/core`;
-
+export const BASE_URL = 'http://api.herams.localhost/api';
+export const doLogin = (data) => {
+    return post(`${BASE_URL}/authentication/login`, data);
+}
 export const fetchProfile = (queryParams, headers) => {
     return get(`${BASE_URL}/user/profile`, queryParams, headers);
 }
@@ -32,7 +34,7 @@ export const fetchRoles = (queryParams, headers) => {
     return get(`${BASE_URL}/roles/index`, queryParams, headers);
 }
 export const fetchProject = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/project/${id}/view`, queryParams, headers);
+    return get(`${BASE_URL}/project/${id}`, queryParams, headers);
 }
 export const fetchRolesInProject = (id, queryParams, headers) => {
     return get(`${BASE_URL}/project/${id}/roles`, queryParams, headers);
@@ -44,7 +46,7 @@ export const fetchRolesInWorkspace = (id, queryParams, headers) => {
     return get(`${BASE_URL}/workspace/${id}/roles`, queryParams, headers);
 }
 export const fetchProjects = (queryParams, headers) => {
-    return get(`${BASE_URL}/projects`, queryParams, headers);
+    return get(`${BASE_URL}/project`, queryParams, headers);
 }
 
 export const fetchRole = (id, queryParams, headers) => {
@@ -78,7 +80,7 @@ export const fetchUser = (id, queryParams, headers) => {
     return get(`${BASE_URL}/user/${id}/view`, queryParams, headers);
 }
 export const fetchProjectWorkspaces = (projectId, queryParams, headers) => {
-    return get(`${BASE_URL}/project/${projectId}/workspaces`, queryParams, headers);
+    return get(`${BASE_URL}/project/${projectId}/workspace`, queryParams, headers);
 }
 
 export const fetchFacilities = (workspaceId, queryParams, headers) => {
@@ -101,7 +103,7 @@ export const fetchAUserInformation = (id, queryParams, headers) => {
 }
 
 export const fetchUserRoles = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/user/${id}/roles`, queryParams, headers);
+    return get(`${BASE_URL}/user/${id}/role`, queryParams, headers);
 }
 
 export const fetchUpdateWorkspace = ({id, data, headers}) => {

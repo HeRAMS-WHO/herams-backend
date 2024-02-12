@@ -16,12 +16,17 @@ module.exports = {
         static: {
             directory: path.join(__dirname, "dist"),
         },
-        allowedHosts: ["react.herams.test"],
+        allowedHosts: ["localhost"],
         compress: true,
-        port: 9090,
+        port: 3000,
         hot: false,
         client: false,
-        historyApiFallback: true,
+        historyApiFallback: {
+            index: '/static/js/index.html', 
+            rewrites: [
+                { from: /^\/static\/js\/.*$/, to: '/static/js/index.html' },
+            ],
+        },
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -34,6 +39,7 @@ module.exports = {
             Router: [path.resolve(__dirname, './src/components/common/router'), 'Router'],
             LinkButton: [path.resolve(__dirname, './src/components/common/router'), 'LinkButton'],
             Link: [path.resolve(__dirname, './src/components/common/router'), 'Link'],
+            Time: [path.resolve(__dirname, './src/components/common/Time'), 'default'],
         }),
         new webpack.ProvidePlugin({ //IT contains the list of global states
             info: [path.resolve(__dirname, './src/states/info'), 'default'],
