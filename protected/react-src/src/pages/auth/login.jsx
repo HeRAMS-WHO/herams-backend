@@ -3,16 +3,22 @@ import L from 'leaflet';
 import { fetchCsfrToken } from '../../services/apiProxyService';
 import { doLogin } from '../../services/apiProxyService';
 const AuthLogin = () => {
-  const {email, setEmail} = useState('');
-  const {password, setPassword} = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const login = () => {
     const data = {
       email,
       password
     }
-    if (email && password) {
-      doLogin(data).then((res) => {
-        console.log(res);
+    if (data.email && data.password) {
+      doLogin(data)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.token){
+            sessionStorage.setItem('token', res.token)
+            navigate('/admin/project');
+          }
       })
     }
   }
@@ -54,7 +60,7 @@ const AuthLogin = () => {
     })
 
     return () => {
-      // Limpiar recursos al desmontar el componente si es necesario
+      
     };
   }, []);
 
@@ -121,7 +127,10 @@ const AuthLogin = () => {
                       {replaceVariablesAsText('Remember me')}
                     </label>
                   </div>
-                  <button type="button" className="btn btn-default">{replaceVariablesAsText('Login')}</button>
+                  <button 
+                    onClick={login}
+                    type="button" 
+                    className="btn btn-default">{replaceVariablesAsText('Login')}</button>
                 </div>
               </form>
               <hr className='mt-2' />
