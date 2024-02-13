@@ -14,6 +14,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FilePresentIcon from '@mui/icons-material/FilePresent';
+import {BASE_URL} from "../../services/apiProxyService";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -46,7 +47,6 @@ const ProjectImport = () => {
     const [showInvalidFile, setShowInvalidFile] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadResponse, setUploadResponse] = useState(null);
-    const [confirmImport, setConfirmImport] = useState('no');
     const [showValidationModal, setShowValidationModal] = useState(true);
 
     const handleFileChange = (event) => {
@@ -62,7 +62,6 @@ const ProjectImport = () => {
     const importWs = async (confirm_import) => {
         setShowLoading(true);
         setUploadResponse(null);
-        setConfirmImport(confirm_import);
         setShowValidationModal(confirm_import === 'no');
         handleClose(); // close the modal popup
         const formData = new FormData();
@@ -70,7 +69,7 @@ const ProjectImport = () => {
         formData.append('confirm_import', confirm_import);
 
         try {
-            const response = await apiService.importWs(1, formData);
+            const response = await apiService.importWs(replaceVariablesAsText(':projectId'), formData);
             const responseData = await response.json();
             setShowLoading(false);
             setUploadResponse(responseData);
@@ -157,7 +156,7 @@ const ProjectImport = () => {
             </Grid>
             <Grid item xs={4}>
                 <Button target="_blank"
-                        href={replaceVariablesAsText('http://laravel.herams.test/api/project/:projectId/import-ws-template')}>
+                        href={BASE_URL + replaceVariablesAsText('/project/:projectId/import-ws-template')}>
                     Download template
                 </Button>
             </Grid>
