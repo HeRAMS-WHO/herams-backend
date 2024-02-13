@@ -31,7 +31,7 @@ export const createUserRole = (data) => {
     return post(`${BASE_URL}/user-role`, data);
 }
 export const fetchWorkspace = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/workspace/${id}/view`, queryParams, headers);
+    return get(`${BASE_URL}/workspace/${id}`, queryParams, headers);
 }
 export const fetchHsdu = (id, queryParams, headers) => {
     return get(`${BASE_URL}/facility/${id}/view`, queryParams, headers);
@@ -90,7 +90,7 @@ export const fetchProjectWorkspaces = (projectId, queryParams, headers) => {
 }
 
 export const fetchFacilities = (workspaceId, queryParams, headers) => {
-    return get(`${BASE_URL}/workspace/${workspaceId}/facilities`, queryParams, headers);
+    return get(`${BASE_URL}/workspace/${workspaceId}/HSDU`, queryParams, headers);
 }
 
 export const fetchResponses = (hsduId, queryParams, headers) => {
