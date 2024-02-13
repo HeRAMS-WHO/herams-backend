@@ -1,8 +1,8 @@
 import { param } from 'jquery';
 import {deleteRequest, get, post} from './httpMethods';
 
-export const BASE_URL = 'http://laravel.herams.test/api';
-//export const BASE_URL = 'https://api-v2.herams-staging.org/api';
+//export const BASE_URL = 'http://laravel.herams.test/api';
+export const BASE_URL = 'https://api-v2.herams-staging.org/api';
 
 export const doLogin = (data) => {
     return post(`${BASE_URL}/authentication/login`, data);
