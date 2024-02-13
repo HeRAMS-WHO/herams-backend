@@ -1,4 +1,3 @@
-import { __ } from '../../utils/translationsUtility'
 import useWorkspacesList from '../../hooks/Workspace/useWorkspacesList'
 import WorkspaceIndexTableHeader from './index/WorkspaceIndexTableHeader'
 import Grid from '@mui/material/Grid'
@@ -7,8 +6,6 @@ import Button from '@mui/material/Button'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Item from '@mui/material/Grid'
 import MuiTable from '../../components/common/table/MuiTable'
-import React from 'react'
-import replaceVariablesAsText from '../../utils/replaceVariablesAsText'
 
 const WorkspacesList = () => {
   const {
