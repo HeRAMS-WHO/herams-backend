@@ -1,7 +1,7 @@
 import { param } from 'jquery';
 import {deleteRequest, get, post} from './httpMethods';
 
-//export const BASE_URL = 'http://api.herams.localhost/api';
+//export const BASE_URL = 'http://laravel.herams.test/api';
 export const BASE_URL = 'https://api-v2.herams-staging.org/api';
 
 export const doLogin = (data) => {
@@ -17,6 +17,10 @@ export const fetchLocales = (queryParams, headers) => {
 
 export const updateProfile = (data, headers) => {
     return post(`${BASE_URL}/user/profile`, data, headers);
+}
+
+export const importWs = (id, data, headers) => {
+    return post(`${BASE_URL}/project/${id}/import-ws`, data, headers);
 }
 
 export const updateRoleAndPermissions = (id, data) => {

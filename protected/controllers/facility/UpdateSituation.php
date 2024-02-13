@@ -15,10 +15,8 @@ use prime\widgets\survey\Survey;
 use Yii;
 use yii\web\Response;
 
-
 final class UpdateSituation extends FrontendAction
 {
-
     public function run(
         FacilityRepository $facilityRepository,
         WorkspaceRepository $workspaceRepository,

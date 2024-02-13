@@ -3,7 +3,6 @@
 namespace prime\controllers;
 
 use prime\components\Controller;
-use prime\controllers\AccessControllerReact;
 
 class ReactController extends \prime\components\Controller
 {
@@ -25,6 +24,7 @@ class ReactController extends \prime\components\Controller
             ],
         ];
     }
+
     public function actionIndex()
     {
         return $this->render('index');

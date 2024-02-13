@@ -125,7 +125,9 @@ final class FacilityController extends Controller
             ])->setSurveySettings();
         $surveySettings = $surveyJS->getSurveySettings();
 
-        return ['settings' => $surveySettings];
+        return [
+            'settings' => $surveySettings,
+        ];
     }
 
     public function actionViewSituation(
@@ -156,7 +158,9 @@ final class FacilityController extends Controller
             ->inDisplayMode()->setSurveySettings();
 
         $surveySettings = $surveyJS->getSurveySettings();
-        return ['settings' => $surveySettings];
+        return [
+            'settings' => $surveySettings,
+        ];
     }
 
     public function actionDeleteSituation(
@@ -220,7 +224,9 @@ final class FacilityController extends Controller
         $surveySettings = $surveyJS->getSurveySettings();
         $response = $surveyResponseRepository->retrieve(new SurveyResponseId($cid));
 
-        return ['settings' => $surveySettings];
+        return [
+            'settings' => $surveySettings,
+        ];
     }
 
     public function actionViewAdminSituation(
@@ -253,7 +259,9 @@ final class FacilityController extends Controller
             ->inDisplayMode()->setSurveySettings();
 
         $surveySettings = $surveyJS->getSurveySettings();
-        return ['settings' => $surveySettings];
+        return [
+            'settings' => $surveySettings,
+        ];
     }
 
     public function render($view, $params = [])

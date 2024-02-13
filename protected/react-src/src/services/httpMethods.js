@@ -7,6 +7,7 @@ export const get = async (url, queryParams = {}, headers = {}) => {
     const response = await fetch(fullUrl, {
         method: 'GET',
         headers: {
+            'Authorization': 'Bearer ' + sessionStorage?.token,
             'Content-Type': 'application/json',
             'X-Csrf-Token': getCsrfToken(),
             'X-Requested-With': 'XMLHttpRequest',
@@ -22,6 +23,7 @@ export const deleteRequest = async (url, queryParams = {}, headers = {}) => {
     const response = await fetch(fullUrl, {
         method: 'DELETE',
         headers: {
+            'Authorization': 'Bearer ' + sessionStorage?.token,
             'Content-Type': 'application/json',
             'X-Csrf-Token': getCsrfToken(),
             'X-Requested-With': 'XMLHttpRequest',
@@ -36,6 +38,7 @@ export const post = async (url, data) => {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
+                'Authorization': 'Bearer ' + sessionStorage?.token,
                 'Content-Type': 'application/json',
                 'X-Csrf-Token': getCsrfToken(),
                 'X-Requested-With': 'XMLHttpRequest',
@@ -46,6 +49,30 @@ export const post = async (url, data) => {
 
         if (!response.ok) {
             throw new Error(`Server responded with status: ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        console.error('Error during POST request:', error);
+        throw error;  // re-throw the error so it's caught in updateProfile as well
+    }
+};
+
+export const postUpload = async (url, data) => {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage?.token,
+                //'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: data,
+        });
+
+        if (!response.ok) {
+          //  throw new Error(`Server responded with status: ${response.status}`);
         }
 
         return response;

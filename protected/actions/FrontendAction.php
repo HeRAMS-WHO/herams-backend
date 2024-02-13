@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\actions;
 
 use prime\components\Controller;
-use prime\components\View;
 use yii\base\Action;
 
 /**
