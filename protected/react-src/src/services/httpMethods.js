@@ -60,8 +60,10 @@ export const postUpload = async (url, data) => {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'X-Csrf-Token': getCsrfToken(),
-                'X-Requested-With': 'XMLHttpRequest'
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage?.token,
+                //'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
             },
             body: data,
         });

@@ -1,12 +1,12 @@
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import React, {useState} from "react";
+import {useState} from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import * as apiService from "../../services/apiService";
 import {styled} from "@mui/material/styles";
-import {Alert, CircularProgress} from "@mui/material";
+import {Alert, CircularProgress, Link} from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Radio from '@mui/material/Radio';
@@ -155,10 +155,9 @@ const ProjectImport = () => {
                 </FormControl>
             </Grid>
             <Grid item xs={4}>
-                <Button target="_blank"
-                        href={BASE_URL + replaceVariablesAsText('/project/:projectId/import-ws-template')}>
+                <Link color="primary" href={BASE_URL + replaceVariablesAsText('/project/:projectId/import-ws-template')}>
                     Download template
-                </Button>
+                </Link>
             </Grid>
             <Grid item xs={1}></Grid>
             <Grid item xs={10}>
