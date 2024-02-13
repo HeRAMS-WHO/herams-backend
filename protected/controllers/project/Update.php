@@ -7,7 +7,6 @@ namespace prime\controllers\project;
 use herams\common\domain\project\ProjectRepository;
 use herams\common\values\ProjectId;
 use prime\components\BreadcrumbService;
-use prime\components\Controller;
 use prime\repositories\FormRepository;
 use prime\widgets\survey\SurveyFormWidget;
 use yii\base\Action;
@@ -38,8 +37,5 @@ class Update extends Action
         return [
             'settings' => $settings,
         ];
-
-
-
     }
 }

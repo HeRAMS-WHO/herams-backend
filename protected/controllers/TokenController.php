@@ -1,11 +1,11 @@
 <?php
 
 namespace prime\controllers;
+
 use Yii;
 
 class TokenController extends \prime\components\Controller
 {
-
     public function behaviors(): array
     {
         return [
@@ -22,9 +22,9 @@ class TokenController extends \prime\components\Controller
             ],
         ];
     }
+
     public function actionIndex()
     {
-        
         //Json response yii2 code
         $response = Yii::$app->response;
         $response->format = \yii\web\Response::FORMAT_JSON;

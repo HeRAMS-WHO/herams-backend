@@ -6,7 +6,6 @@ namespace prime\controllers\project;
 
 use herams\common\interfaces\AccessCheckInterface;
 use herams\common\models\PermissionOld;
-use prime\components\Controller;
 use prime\repositories\FormRepository;
 use prime\widgets\survey\SurveyFormWidget;
 use yii\base\Action;

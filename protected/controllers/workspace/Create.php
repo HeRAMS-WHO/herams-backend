@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace prime\controllers\workspace;
 
 use herams\common\values\ProjectId;
-use prime\components\Controller;
 use prime\repositories\FormRepository;
 use prime\widgets\survey\SurveyFormWidget;
 use yii\base\Action;

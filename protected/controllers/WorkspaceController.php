@@ -10,7 +10,6 @@ use herams\common\values\WorkspaceId;
 use prime\components\Controller;
 use prime\controllers\workspace\Create;
 use prime\controllers\workspace\Facilities;
-use prime\controllers\workspace\Import;
 use prime\controllers\workspace\RequestAccess;
 use prime\controllers\workspace\Share;
 use prime\controllers\workspace\Update;

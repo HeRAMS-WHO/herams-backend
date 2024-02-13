@@ -35,19 +35,18 @@ ReactAsset::register($this);
         </style>
         <?php
         $this->head();
-        ?>
+?>
     </head>
     <?php
-        echo Html::beginTag('body', $this->params['body'] ?? []);
-        $this->beginBody();
-        echo $content;
-        echo Html::endTag('div');
+echo Html::beginTag('body', $this->params['body'] ?? []);
+$this->beginBody();
+echo $content;
+echo Html::endTag('div');
 
-        $this->endBody();
-        echo Html::endTag('body');
-        ?>
+$this->endBody();
+echo Html::endTag('body');
+?>
 </html>
 
 <?php
 $this->endPage();
-
