@@ -26,6 +26,7 @@ const TabsMenu = ({routes}) => {
                 return ;
             }
             if (routeWithoutLast == URLWithoutLast) {
+                //alert(JSON.stringify(routes[route]));
                 tempTabs.push(routes[route])
             }
         })

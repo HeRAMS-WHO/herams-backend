@@ -224,6 +224,15 @@
       "EXPORT_WS"
     ]
   },
+  "/admin/project/:projectId/import-data": {
+    "pageTitle": ":projectName",
+    "URL": "/admin/project/:projectId/import-data",
+    "hasTabs": true,
+    "tabName": "Import Data",
+    "redirectTo": "",
+    "page": "project/import",
+    "permissions": []
+  },
   "/admin/project/:projectId/workspace/:workspaceId/user": {
     "pageTitle": ":workspaceName",
     "URL": "/admin/project/:projectId/workspace/:workspaceId/user",

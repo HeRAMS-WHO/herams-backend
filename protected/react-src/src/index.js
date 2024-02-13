@@ -23,6 +23,7 @@ import CreateAdminSituation from "./components/FacilityPages/AdminSituation/Crea
 import ViewAdminSituation from "./components/FacilityPages/AdminSituation/ViewAdminSituation";
 import EditAdminSituation from "./components/FacilityPages/AdminSituation/EditAdminSituation";
 import CreateProject from "./pages/project/create";
+import ProjectImport from "./pages/project/import";
 import ViewSituation from "./components/FacilityPages/ViewSituation";
 import EditSituation from "./components/FacilityPages/EditSituation";
 import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";

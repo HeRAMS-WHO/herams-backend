@@ -22,7 +22,7 @@ module.exports = {
         hot: false,
         client: false,
         historyApiFallback: {
-            index: '/static/js/index.html', 
+            index: '/static/js/index.html',
             rewrites: [
                 { from: /^\/static\/js\/.*$/, to: '/static/js/index.html' },
             ],
@@ -52,7 +52,6 @@ module.exports = {
             locales: [path.resolve(__dirname, './src/states/locales'), 'default'],
         }),
         new webpack.ProvidePlugin({ //It contains the list of global hooks and utils functions
-            reloadInfo: [path.resolve(__dirname, './src/utils/reloadInfo'), 'default'],
             __: [path.resolve(__dirname, './src/utils/translationsUtility'), '__'],
             goToParent: [path.resolve(__dirname, './src/utils/goToParent'), 'default'],
             useReloadInfo: [path.resolve(__dirname, './src/hooks/useReloadInfo'), 'default'],
