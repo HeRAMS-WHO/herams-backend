@@ -162,23 +162,23 @@ const ProjectImport = () => {
             <Grid item xs={1}></Grid>
             <Grid item xs={10}>
                 <FormControl>
-                    <Button sx={{width: '70vw'}} component="label" variant="outlined" endIcon={<FilePresentIcon/>}>
+                    <Button sx={{width: '50vw'}} component="label" variant="outlined" endIcon={<FilePresentIcon/>}>
                         Select CSV file
                         <VisuallyHiddenInput type="file" onChange={(e) => handleFileChange(e)}/>
                     </Button>
                 </FormControl>
                 {selectedFile &&
-                    <Alert severity="warning" sx={{width: '70vw'}}>
+                    <Alert severity="warning" sx={{width: '50vw'}}>
                         Selected file: {selectedFile.name}
                     </Alert>
                 }
                 {showInvalidFile &&
-                    <Alert severity="error" sx={{width: '70vw'}}>
+                    <Alert severity="error" sx={{width: '50vw'}}>
                         Invalid file format
                     </Alert>
                 }
                 {uploadResponse &&
-                    <Alert severity="info" sx={{width: '70vw'}}>
+                    <Alert severity="info" sx={{width: '50vw'}}>
                         {uploadResponse.msg}
                     </Alert>
                 }
