@@ -12,7 +12,7 @@ export const fetchProfile = (queryParams, headers) => {
 }
 
 export const fetchLocales = (queryParams, headers) => {
-    return get(`${BASE_URL}/configuration/locales?_lang=${languageSelected.value}`, queryParams, headers);
+    return get(`${BASE_URL}/configuration/locale?_lang=${languageSelected.value}`, queryParams, headers);
 }
 
 export const updateProfile = (data, headers) => {

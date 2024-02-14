@@ -22,9 +22,13 @@ const WorkspacesIndexTableHeader = () => [
     field: 'date_of_update',
     type: 'date',
     flex: 1,
-    renderCell: (params) => {
-      return <Time time={params.row.date_of_update} />
-    },
+    
+    valueFormatter: (params) => { 
+      if (!params.value) {
+        return ''
+      }
+      return dayjs(params.value).format('YYYY-MM-DD')
+    }
   },
   {
     headerName: __('Contributors'),
