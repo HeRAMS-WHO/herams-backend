@@ -1,4 +1,3 @@
-import { __ } from '../../../utils/translationsUtility'
 import Typography from '@mui/material/Typography'
 import replaceVariablesAsText from '../../../utils/replaceVariablesAsText'
 import Link from '@mui/material/Link'
@@ -38,7 +37,7 @@ const HSDUIndexTableHeader = () => {
     },
     {
       headerName: __('HSDU Type'),
-      field: 'HSDU_TYPE_tier',
+      field: 'tier',
       flex: 1,
     },
     {

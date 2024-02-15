@@ -1,7 +1,7 @@
-import { param } from 'jquery';
-import {deleteRequest, get, post} from './httpMethods';
+import {deleteRequest, get, post, put} from './httpMethods';
 
 //export const BASE_URL = 'http://laravel.herams.test/api';
+//export const BASE_URL = 'http://api.herams.localhost/api';
 export const BASE_URL = 'https://api-v2.herams-staging.org/api';
 
 export const doLogin = (data) => {
@@ -24,7 +24,7 @@ export const importWs = (id, data, headers) => {
 }
 
 export const updateRoleAndPermissions = (id, data) => {
-    return post(`${BASE_URL}/roles/${id}/update`, data);
+    return put(`${BASE_URL}/role/${id}`, data);
 }
 
 export const createUserRole = (data) => {
@@ -34,29 +34,29 @@ export const fetchWorkspace = (id, queryParams, headers) => {
     return get(`${BASE_URL}/workspace/${id}`, queryParams, headers);
 }
 export const fetchHsdu = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/facility/${id}/view`, queryParams, headers);
+    return get(`${BASE_URL}/facility/${id}`, queryParams, headers);
 }
 export const fetchRoles = (queryParams, headers) => {
-    return get(`${BASE_URL}/roles/index`, queryParams, headers);
+    return get(`${BASE_URL}/role`, queryParams, headers);
 }
 export const fetchProject = (id, queryParams, headers) => {
     return get(`${BASE_URL}/project/${id}`, queryParams, headers);
 }
 export const fetchRolesInProject = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/project/${id}/roles`, queryParams, headers);
+    return get(`${BASE_URL}/project/${id}/role`, queryParams, headers);
 }
 export const fetchUsersRolesInWorkspace = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/workspace/${id}/users`, queryParams, headers);
+    return get(`${BASE_URL}/workspace/${id}/user`, queryParams, headers);
 }
 export const fetchRolesInWorkspace = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/workspace/${id}/roles`, queryParams, headers);
+    return get(`${BASE_URL}/workspace/${id}/role`, queryParams, headers);
 }
 export const fetchProjects = (queryParams, headers) => {
     return get(`${BASE_URL}/project`, queryParams, headers);
 }
 
 export const fetchRole = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/roles/${id}/view`, queryParams, headers);
+    return get(`${BASE_URL}/role/${id}`, queryParams, headers);
 }
 
 export const deleteUserRole = (id, queryParams, headers) => {
@@ -64,26 +64,26 @@ export const deleteUserRole = (id, queryParams, headers) => {
 }
 
 export const fetchPermissions = (queryParams, headers) => {
-    return get(`${BASE_URL}/permissions/index`, queryParams, headers);
+    return get(`${BASE_URL}/permission`, queryParams, headers);
 }
 
 export const fetchRolePermissions = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/roles/${id}/permissions`, queryParams, headers);
+    return get(`${BASE_URL}/role/${id}/permission`, queryParams, headers);
 }
 export const fetchProjectVisibilityChoices = (data, headers) => {
     const lang = document.documentElement.lang;
-    return get(`${BASE_URL}/configuration/visibilities?_lang=${lang}`, data, headers);
+    return get(`${BASE_URL}/configuration/visibility?_lang=${lang}`, data, headers);
 };
 
 export const fetchDeleteRole = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/roles/${id}/delete`, queryParams, headers);
+    return deleteRequest(`${BASE_URL}/role/${id}`, queryParams, headers);
 }
 
 export const fetchUsers = (queryParams, headers) => {
-    return get(`${BASE_URL}/user/index`, queryParams, headers);
+    return get(`${BASE_URL}/user`, queryParams, headers);
 }
 export const fetchUser = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/user/${id}/view`, queryParams, headers);
+    return get(`${BASE_URL}/user/${id}`, queryParams, headers);
 }
 export const fetchProjectWorkspaces = (projectId, queryParams, headers) => {
     return get(`${BASE_URL}/project/${projectId}/workspace`, queryParams, headers);
@@ -94,18 +94,18 @@ export const fetchFacilities = (workspaceId, queryParams, headers) => {
 }
 
 export const fetchResponses = (hsduId, queryParams, headers) => {
-    return get(`${BASE_URL}/facility/${hsduId}/data-responses`, queryParams, headers);
+    return get(`${BASE_URL}/HSDU/${hsduId}/data-responses`, queryParams, headers);
 }
 
 export const fetchAdminResponses = (hsduId, queryParams, headers) => {
-    return get(`${BASE_URL}/facility/${hsduId}/admin-responses`, queryParams, headers);
+    return get(`${BASE_URL}/HSDU/${hsduId}/admin-responses`, queryParams, headers);
 }
 
 export const fetchUserRolesInProject = (projectId, queryParams, headers) => {
-    return get(`${BASE_URL}/user-role/project/${projectId}/index`, queryParams, headers);
+    return get(`${BASE_URL}/project/${projectId}/role`, queryParams, headers);
 }
 export const fetchAUserInformation = (id, queryParams, headers) => {
-    return get(`${BASE_URL}/user/${id}/view`, queryParams, headers);
+    return get(`${BASE_URL}/user/${id}`, queryParams, headers);
 }
 
 export const fetchUserRoles = (id, queryParams, headers) => {
@@ -117,15 +117,15 @@ export const fetchUpdateWorkspace = ({id, data, headers}) => {
 }
 
 export const deleteProject = (id, data, headers) => {
-    return post(`${BASE_URL}/project/${id}/delete-project`, data, headers);
+    return deleteRequest(`${BASE_URL}/project/${id}`, data, headers);
 }
 
 export const deleteProjectWorkspaces = (id, data, headers) => {
-    return post(`${BASE_URL}/project/${id}/delete-workspaces`, data, headers);
+    return deleteRequest(`${BASE_URL}/project/${id}/delete-workspaces`, data, headers);
 }
 
 export const deleteHSDU = (id, data, headers) => {
-    return post(`${BASE_URL}/facility/${id}/delete-facility`, data, headers);
+    return deleteRequest(`${BASE_URL}/facility/${id}`, data, headers);
 }
 
 export const fetchCsfrToken = (queryParams, headers) => {
@@ -133,5 +133,5 @@ export const fetchCsfrToken = (queryParams, headers) => {
 }
 
 export const fetchSurveys = (queryParams, headers) => {
-    return get(`${BASE_URL}/surveys`, queryParams, headers);
+    return get(`${BASE_URL}/survey`, queryParams, headers);
 }

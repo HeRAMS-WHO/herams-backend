@@ -9,10 +9,12 @@ const ProjectIndexTableHeader = () => [
   {
     headerName: __('Project Name'),
     renderCell: (params) => {
-      return (<Link to={replaceVariablesAsText(`/admin/project/${params.id}/workspace`)}>{params?.row?.i18n?.title[languageSelected.value] ?? params?.row?.i18n?.title['en'] }</Link>)
+      const title = params.value.title
+      const projectName = title && title[languageSelected.value] ? title[languageSelected.value] : title?.en
+      return (<Link to={replaceVariablesAsText(`/admin/project/${params.id}/workspace`)}>{projectName}</Link>)
     },
     headerClassName: 'material_table_header_style',
-    field: 'name',
+    field: 'i18n',
     flex: 1,
   },
   {

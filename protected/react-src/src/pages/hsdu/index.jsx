@@ -1,8 +1,6 @@
-import { __ } from '../../utils/translationsUtility'
 import useHSDUList from '../../hooks/HSDU/useHSDUList'
 import HSDUIndexTableHeader from './index/HSDUIndexTableHeader'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Item from '@mui/material/Grid'
