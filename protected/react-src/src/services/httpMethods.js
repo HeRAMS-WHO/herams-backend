@@ -58,6 +58,30 @@ export const post = async (url, data) => {
     }
 };
 
+export const put = async (url, data) => {
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage?.token,
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {
+        console.error('Error during POST request:', error);
+        throw error;  // re-throw the error so it's caught in updateProfile as well
+    }
+};
+
 export const postUpload = async (url, data) => {
     try {
         const response = await fetch(url, {
