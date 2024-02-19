@@ -96,10 +96,16 @@ const ProjectImport = () => {
                     </Typography>
                     {showValidationModal &&
                         <Grid item xs={12}>
-                            {uploadResponse && uploadResponse.data &&
+                            {uploadResponse && uploadResponse.data && uploadResponse.data.valid > 0 &&
                                 <Typography id="modal-modal-description" sx={{mt: 2}}>
                                     <CheckCircleOutlineIcon color="success" /> Data is valid: {uploadResponse.data.valid} records
                                     ready to be imported
+                                </Typography>
+                            }
+                            {uploadResponse && uploadResponse.data && uploadResponse.data.invalid > 0 &&
+                                <Typography id="modal-modal-description" sx={{mt: 1}}>
+                                    <HighlightOffIcon color="error" /> {uploadResponse.data.invalid} records
+                                    have errors
                                 </Typography>
                             }
                             <Button variant="outlined" onClick={handleClose} sx={{mt: 2, ml: '15vw'}}>
@@ -168,7 +174,7 @@ const ProjectImport = () => {
                     </Button>
                 </FormControl>
                 {selectedFile &&
-                    <Alert severity="warning" sx={{width: '50vw'}}>
+                    <Alert severity="info" sx={{width: '50vw'}}>
                         Selected file: {selectedFile.name}
                     </Alert>
                 }
