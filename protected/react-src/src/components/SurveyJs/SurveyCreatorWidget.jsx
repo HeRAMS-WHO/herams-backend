@@ -48,7 +48,7 @@ const getSurveyConfig = (surveyID = null) => {
     return settings;
     
 }
-const SurveyCreatorWidget = ({url}) => {
+const SurveyCreatorWidget = () => {
     const [creator, setCreator] = useState(null);
     const [config, setSurveyConfig] = useState(null);
     const [surveyID, setSurveyID] = useState(params.value?.surveyID ); 
@@ -57,7 +57,7 @@ const SurveyCreatorWidget = ({url}) => {
     useEffect(() => {
         const {settings} = getSurveyConfig(surveyID);
         setSurveyConfig(settings)
-    }, [url, surveyID])
+    }, [surveyID])
 
     useEffect(() => {
 
