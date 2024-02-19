@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { BASE_URL } from "../../services/apiProxyService";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
@@ -9,23 +10,54 @@ import { applySurveyConfigurations } from './custom/survey-modifications';
 import {applyHSDUStateQuestion} from "./custom/HSDUStateQuestion";
 import {applyFacilityTypeQuestion} from "./custom/FacilityTypeQuestion";
 import {createInCollectionWithCsrf, fetchWithCsrf, get} from "../../services/httpMethods";
+import { useNavigate } from "../common/router";
 
 applySurveyConfigurations();
 applyHSDUStateQuestion();
 applyFacilityTypeQuestion();
 
+const getSurveyConfig = (surveyID = null) => {
+    if (!surveyID) {
+        return {
+            settings: {
+                'creatorOptions': {
+                    'showState': 'true',
+                    'showTranslationTab': 'true'
+                },
+                'createUrl': `${BASE_URL}/survey`,
+                'dataUrl': null,
+                'elementId': 'w0',
+                'updateUrl': null
+            }
+        };
+    }
 
-const SurveyCreatorWidget = ({url}) => {
+    const settings = {
+        settings: {
+            'creatorOptions': {
+                'showState': 'true',
+                'showTranslationTab': 'true'
+            },
+            'createUrl': `${BASE_URL}/survey`,
+            'dataUrl': `${BASE_URL}/survey/${surveyID}`,
+            'elementId': 'w0',
+            'updateUrl': `${BASE_URL}/survey/${surveyID}/update`
+        }
+    };
+    
+    return settings;
+    
+}
+const SurveyCreatorWidget = () => {
     const [creator, setCreator] = useState(null);
     const [config, setSurveyConfig] = useState(null);
+    const [surveyID, setSurveyID] = useState(params.value?.surveyID ); 
     surveyLocalization.supportedLocales = [];
 
     useEffect(() => {
-        get(url).then((response) => {
-            const settings = JSON.parse(response.settings);
-            setSurveyConfig(settings)
-        })
-    }, [url])
+        const {settings} = getSurveyConfig(surveyID);
+        setSurveyConfig(settings)
+    }, [surveyID])
 
     useEffect(() => {
 
@@ -34,7 +66,7 @@ const SurveyCreatorWidget = ({url}) => {
         const updateSurvey = async (saveNo, callback) => {
             try {
                 const response = await fetchWithCsrf(config.dataUrl, {config: surveyCreator.JSON}, 'PUT');
-                console.warn('response', response);
+                window.location.href = (window.location.origin + '/admin/survey/');
                 callback(saveNo, true);
             } catch (e) {
                 console.error(e);
@@ -43,18 +75,14 @@ const SurveyCreatorWidget = ({url}) => {
         };
 
         const getData = async () => {
-            return await fetchWithCsrf(config.dataUrl, null, 'GET');
+            return await get(config.dataUrl);
         };
 
         const createSurvey = async (saveNo, callback) => {
             try {
-                const surveyUrl = await createInCollectionWithCsrf(config.createUrl, {config: surveyCreator.JSON});
-                const id = surveyUrl.match(/\d+/)[0];
-
-                let newUrl = config.updateUrl.replace('10101010', id);
-                window.location.replace(newUrl);
-
-                callback(saveNo, true);
+                const { id } = await createInCollectionWithCsrf(config.createUrl, {config: surveyCreator.JSON});                
+                window.location.href=id;
+                //callback(saveNo, true);
             } catch (e) {
                 console.error(e);
                 callback(saveNo, false);

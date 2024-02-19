@@ -9,7 +9,7 @@ export const get = async (url, queryParams = {}, headers = {}) => {
         headers: {
             'Authorization': 'Bearer ' + sessionStorage?.token,
             'Content-Type': 'application/json',
-            'X-Csrf-Token': getCsrfToken(),
+            'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
             ...headers
         },
@@ -25,7 +25,7 @@ export const deleteRequest = async (url, queryParams = {}, headers = {}) => {
         headers: {
             'Authorization': 'Bearer ' + sessionStorage?.token,
             'Content-Type': 'application/json',
-            'X-Csrf-Token': getCsrfToken(),
+            'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
             ...headers
         },
@@ -40,7 +40,6 @@ export const post = async (url, data) => {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage?.token,
                 'Content-Type': 'application/json',
-                'X-Csrf-Token': getCsrfToken(),
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'application/json',
             },
@@ -130,6 +129,7 @@ export const fetchWithCsrf = async  (uri, body = null, method = 'POST') => {
             Accept: 'application/json;indent=2',
             'Accept-Language': document.documentElement.lang ?? 'en',
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage?.token,
         },
         body: (body !== null && typeof body === 'object') ? JSON.stringify(body) : body,
         redirect: 'error',
@@ -171,18 +171,19 @@ export const createInCollectionWithCsrf = async  (uri, body) => {
             'X-CSRF-Token': getCsrfToken(),
             Accept: 'application/json;indent=2',
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + sessionStorage?.token,
         },
         body: JSON.stringify(body),
         redirect: 'error',
         referrer: 'no-referrer',
     })
+    const json = await response.json()
 
     if (response.status === 422) {
-        const json = await response.json()
         throw new ValidationError(json)
     }
-    if (response.status === 204 || response.status === 303) {
-        return response.headers.get('Location')
+    if (response.status === 201) {
+        return json;
     }
     
     if (!response.ok) {
@@ -193,5 +194,5 @@ export const createInCollectionWithCsrf = async  (uri, body) => {
             throw new Error(`Request failed with code (${response.status}): ${response.statusText}`)
         }
     }
-    throw new Error(`Expected status code 204 or 303, got ${response.status}`)
+    throw new Error(`Expected status code 201, got ${response.status}`)
 }
