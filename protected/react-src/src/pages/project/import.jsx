@@ -98,7 +98,7 @@ const ProjectImport = () => {
                         <Grid item xs={12}>
                             {uploadResponse && uploadResponse.data && uploadResponse.data.valid > 0 &&
                                 <Typography id="modal-modal-description" sx={{mt: 2}}>
-                                    <CheckCircleOutlineIcon color="success" /> Data is valid: {uploadResponse.data.valid} records
+                                    <CheckCircleOutlineIcon color="success" /> {uploadResponse.data.valid} records
                                     ready to be imported
                                 </Typography>
                             }
