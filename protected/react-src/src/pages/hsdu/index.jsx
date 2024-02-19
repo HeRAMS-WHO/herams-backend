@@ -14,8 +14,7 @@ const HSDUList = () => {
     isLoading,
   } = useHSDUList() // Destructure isLoading
 
-  console.log('HSDUList', HSDUList)
-  console.log('isLoading', isLoading)
+ 
 
   if (isLoading) {
     return <div>Loading...</div> // Render a loading indicator or similar while data is being fetched

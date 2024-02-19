@@ -1,7 +1,8 @@
 import SurveyCreatorWidget from "../../components/SurveyJs/SurveyCreatorWidget";
+import { BASE_URL } from "../../services/apiProxyService";
 const EditSurvey = () => {
     const { surveyID } = params.value
-    const url = `${window.location.origin}/survey/${surveyID}/update`
+    const url = `${BASE_URL}/survey/${surveyID}/updateConfig`
     return (<> <SurveyCreatorWidget url={url} /> </>)
 }
 
