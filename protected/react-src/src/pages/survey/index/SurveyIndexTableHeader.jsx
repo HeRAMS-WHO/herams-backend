@@ -1,8 +1,8 @@
-import {__} from "../../../utils/translationsUtility";
-import Link from "@mui/material/Link";
-import replaceVariablesAsText from "../../../utils/replaceVariablesAsText";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { deleteSurvey } from "../../../services/apiProxyService";
 
-const SurveyIndexTableHeader = () => [
+const SurveyIndexTableHeader = ({refreshTable = () => {}}) => [
     {
         headerClassName: 'material_table_header_style',
         headerName: __('Id'),
@@ -12,13 +12,27 @@ const SurveyIndexTableHeader = () => [
     },
     {
         renderCell: (params) => (
-            <Link href={replaceVariablesAsText( `/admin/survey/${params.id}`)}>{params.value}</Link>
+            <Link to={replaceVariablesAsText( `/admin/survey/${params.id}`)}>{params.value}</Link>
         ),
         headerClassName: 'material_table_header_style',
         headerName: __('Title'),
         field: 'title',
         flex: 1
-    }
+    },
+    {
+        headerClassName: 'material_table_header_style',
+        headerName: __('Actions'),
+        field: 'actions',
+        type: 'actions',
+        flex: 1,
+        getActions: (params) => [
+          <GridActionsCellItem icon={<DeleteIcon/>} onClick={() => {
+            deleteSurvey(params.id).then(() => {
+                refreshTable()
+            })
+          }} label={__('Delete')}/>,
+        ],
+      },
 ];
 
 export default SurveyIndexTableHeader
