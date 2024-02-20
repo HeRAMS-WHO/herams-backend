@@ -1,4 +1,3 @@
-import { __ } from '../../utils/translationsUtility'
 import useSurveyList from '../../hooks/Survey/useSurveyList'
 import SurveyIndexTableHeader from './index/SurveyIndexTableHeader'
 import Grid from '@mui/material/Grid'
@@ -11,8 +10,7 @@ import React from 'react'
 import replaceVariablesAsText from '../../utils/replaceVariablesAsText'
 
 const SurveyList = () => {
-  const { surveys } = useSurveyList()
-
+  const { surveys, refreshSurveys } = useSurveyList()
   return (
     <Grid container justifyContent="flex-start">
       <Grid item xs={12} sm={12} style={{
@@ -27,7 +25,7 @@ const SurveyList = () => {
       <Grid item xs={12}>
         <Item>
           <MuiTable
-            columnDefs={SurveyIndexTableHeader()}
+            columnDefs={SurveyIndexTableHeader({refreshTable:refreshSurveys})}
             data={surveys}/>
         </Item>
       </Grid>

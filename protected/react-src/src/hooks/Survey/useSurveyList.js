@@ -3,13 +3,17 @@ import {fetchSurveys} from "../../services/apiProxyService";
 
 const useSurveyList = () => {
     const [surveys, setSurveys] = useState([])
-    useEffect(() => {
+    const refreshSurveys = () => {
         fetchSurveys().then((response) => {
             setSurveys(response)
         })
+    }
+    useEffect(() => {
+        refreshSurveys()
     }, [])
     return {
-        surveys
+        surveys,
+        refreshSurveys
     }
 }
 

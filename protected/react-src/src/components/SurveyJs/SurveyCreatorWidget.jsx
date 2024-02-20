@@ -66,7 +66,7 @@ const SurveyCreatorWidget = () => {
         const updateSurvey = async (saveNo, callback) => {
             try {
                 const response = await fetchWithCsrf(config.dataUrl, {config: surveyCreator.JSON}, 'PUT');
-                window.location.href = (window.location.origin + '/admin/survey/');
+                //window.location.href = (window.location.origin + '/admin/survey/');
                 callback(saveNo, true);
             } catch (e) {
                 console.error(e);

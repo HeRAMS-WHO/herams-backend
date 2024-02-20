@@ -119,7 +119,9 @@ export const fetchUpdateWorkspace = ({id, data, headers}) => {
 export const deleteProject = (id, data, headers) => {
     return deleteRequest(`${BASE_URL}/project/${id}`, data, headers);
 }
-
+export const deleteSurvey = (id, data, headers) => {
+    return deleteRequest(`${BASE_URL}/survey/${id}`, data, headers);
+}
 export const deleteProjectWorkspaces = (id, data, headers) => {
     return deleteRequest(`${BASE_URL}/project/${id}/delete-workspaces`, data, headers);
 }
