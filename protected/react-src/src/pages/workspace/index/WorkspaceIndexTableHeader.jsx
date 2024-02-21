@@ -14,7 +14,7 @@ const WorkspacesIndexTableHeader = () => [
       const title = titles && titles[languageSelected.value] ? titles[languageSelected.value] : titles?.en
       return (<Link to={`/admin/project/${params.row.project_id}/workspace/${params.row.id}/HSDU`}>{title ?? 'No name in selected language' }</Link>)
     },
-    field: 'name',
+    field: 'i18n',
     flex: 1,
   },
   {
