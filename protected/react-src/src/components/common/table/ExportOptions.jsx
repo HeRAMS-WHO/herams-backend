@@ -26,9 +26,7 @@ const ExportOptions = ({ columnDefs, data }) => {
     const formatData = (row, field) => {
         let cellValue;
         // Check if the field has i18n data
-        console.log(field);
         if (field === "i18n" && row[field] && row[field].title) {
-            console.log('test');
             const i18nValue = row[field].title;
             // Fetch the value based on the selected language, fallback to 'en' if not available
             cellValue = i18nValue[languageSelected.value] || i18nValue['en'];
