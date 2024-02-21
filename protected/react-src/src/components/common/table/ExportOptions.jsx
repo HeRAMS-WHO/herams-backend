@@ -1,58 +1,76 @@
-import React, { useState } from 'react'
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
+import React, {useState} from 'react';
+import {IconButton, Menu, MenuItem} from '@mui/material';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import dayjs from "dayjs";
+import languageSelected from "../../../states/languageSelected";
 
-const ExportOptions = ({ columnDefs, data }) => {
+const ExportOptions = ({columnDefs, data}) => {
+    const [anchorEl, setAnchorEl] = useState(null);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const csvExport = () => {
+        const headers = columnDefs.map(colDef => colDef.headerName);
+        const fields = columnDefs.map(colDef => colDef.field);
 
-  const xlsxExport = () => {
-    const headers = columnDefs.map(colDef => colDef.headerName);
-    const fields = columnDefs.map(colDef => colDef.field);
-    const exportData = [headers, fields];
+        // Prepare the CSV content
+        const csvContent = [
+            headers.join(','), // First line: Header names
+            fields.join(','), // Second line: Field names
+            // Following lines: Data rows
+            ...data.map(row =>
+                fields.map(field => {
+                    let cellValue;
+                    // Check if the field has i18n data
+                    if (field === "i18n" && row[field] && row[field].title) {
+                        const i18nValue = row[field].title;
+                        // Fetch the value based on the selected language, fallback to 'en' if not available
+                        cellValue = i18nValue[languageSelected.value] || i18nValue['en'];
+                    } else {
+                        // Handle non-i18n fields, including date formatting
+                        cellValue = row[field];
+                        if (columnDefs.find(colDef => colDef.field === field && colDef.type === 'date')) {
+                            cellValue = cellValue ? dayjs(cellValue).format('YYYY-MM-DD') : '';
+                        } else if (cellValue === undefined || typeof cellValue === 'object') {
+                            cellValue = ''; // Exclude actions or handle other complex objects
+                        }
+                    }
+                    // Escape quotes and wrap in quotes if necessary
+                    return `"${String(cellValue).replace(/"/g, '""')}"`;
+                }).join(',')
+            )
+        ].join('\r\n');
 
-    data.forEach(row => {
-      const rowData = columnDefs.map(colDef => row[colDef.field]);
-      exportData.push(rowData);
-    });
-
-    const worksheet = XLSX.utils.aoa_to_sheet(exportData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const dataBlob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-    FileSaver.saveAs(dataBlob, 'exportedData.xlsx');
-
-    handleClose(); // Close the menu after export
-  };
+        // Create and trigger a download of the CSV file
+        const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'exportedData.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
 
-  return (
-    <div>
-      <IconButton color="primary"  size="large" onClick={handleClick}>
-        <span className="export-icon-container">
-          <SaveAltIcon />
-          <span className="export-text">Export</span>
-        </span>
-      </IconButton>
-
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem onClick={xlsxExport}>Export XLSX</MenuItem>
-        {/* Add more menu items for other exports if needed */}
-      </Menu>
-    </div>
-  );
+    return (
+        <div>
+            <IconButton color="primary" size="large" onClick={handleClick}>
+                <SaveAltIcon/>
+                <span>Export</span>
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+                <MenuItem onClick={csvExport}>Export CSV</MenuItem>
+                {/* Add more menu items for other exports if needed */}
+            </Menu>
+        </div>
+    );
 };
 
 export default ExportOptions;
