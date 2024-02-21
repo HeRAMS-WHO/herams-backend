@@ -2,7 +2,6 @@ import React from 'react';
 import {createRoot} from "react-dom/client";
 
 import App from './App';
-import Profile from './components/ProfilePage/Profile';
 import ProjectList from './pages/project/index';
 import ProjectSettings from './pages/project/settings';
 import SurveyList from './pages/survey/index';
@@ -11,28 +10,17 @@ import EditSurvey from './pages/survey/edit';
 import RolesList from './pages/role/index';
 import RolesEdit from "./pages/role/update";
 import ProjectUserRoles from "./pages/project/user";
-import SurveyCreatorWidget from "./components/SurveyJs/SurveyCreatorWidget";
 import UserIndex from "./pages/user/index";
 import Material from "./pages/material/index";
 import WorkspaceUserRoles from "./pages/workspace/user";
 import GlobalUserRoles from "./pages/user/view";
-import SurveyWidget from "./components/SurveyJs/SurveyWidget";
-import CreateFacility from "./components/FacilityPages/CreateFacility";
-import UpdateSituation from "./components/FacilityPages/UpdateSituation";
-import CreateAdminSituation from "./components/FacilityPages/AdminSituation/CreateAdminSituation";
-import ViewAdminSituation from "./components/FacilityPages/AdminSituation/ViewAdminSituation";
-import EditAdminSituation from "./components/FacilityPages/AdminSituation/EditAdminSituation";
 import CreateProject from "./pages/project/create";
 import ProjectImport from "./pages/project/import";
-import ViewSituation from "./components/FacilityPages/ViewSituation";
-import EditSituation from "./components/FacilityPages/EditSituation";
-import ViewFacilitySurvey from "./components/FacilityPages/ViewFacilitySurvey";
 import WorkspaceUpdate from './pages/workspace/update';
 import CreateSituationUpdate from './pages/situation-update/create';
 import EditSituationUpdate from './pages/situation-update/edit';
 import ViewSituationUpdate from './pages/situation-update/view';
 import reportWebVitals from "./reportWebVitals";
-import UpdateWorkspace from "./components/Workspace/UpdateWorkspace";
 import WorkspacesList from "./pages/workspace/index"
 import CreateWorkspace from "./pages/workspace/create"
 import HSDUList from "./pages/hsdu/index"
@@ -44,7 +32,6 @@ import CreateAdminSituationUpdate from './pages/admin-situation-update/create';
 import EditAdminSituationUpdate from './pages/admin-situation-update/edit';
 import ViewAdminSituationUpdate from './pages/admin-situation-update/view';
 import AuthLogin from './pages/auth/login';
-// import UpdateProject from "./components/ProjectPages/UpdateProject";
 import './App.css'
 import './index.css';
 import './css/react-tags.css';
