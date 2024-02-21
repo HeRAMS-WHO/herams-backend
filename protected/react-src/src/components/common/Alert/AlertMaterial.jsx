@@ -5,22 +5,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AlertDialog = ({ open, handleClose, title, children }) => (
-  <Dialog
-    open={open}
-    TransitionComponent={Transition}
-    keepMounted
-    onClose={handleClose}
-    aria-describedby="alert-dialog-slide-description"
-  >
-    <DialogTitle>{title}</DialogTitle>
-    <DialogContent>{children}</DialogContent>
-    <DialogActions>
-      <Button onClick={handleClose}>Close</Button>
-    </DialogActions>
-  </Dialog>
-);
-
 const AlertMaterial = ({
   type = 'success',
   open,
