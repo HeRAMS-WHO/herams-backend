@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Snackbar, Alert, LinearProgress } from '@mui/material';
 
-const CustomSnackbarWithProgress = ({ open, handleClose, message, severity, duration = 6000 }) => {
+const SnackBarMaterial = ({ open, handleClose, message, severity, duration = 6000 }) => {
     const [progress, setProgress] = useState(0);
     const [internalOpen, setInternalOpen] = useState(false);
 
@@ -47,4 +47,4 @@ const CustomSnackbarWithProgress = ({ open, handleClose, message, severity, dura
     );
 };
 
-export default CustomSnackbarWithProgress;
+export default SnackBarMaterial;

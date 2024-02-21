@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import {Box, CircularProgress, IconButton, Menu, MenuItem, Snackbar} from '@mui/material';
-import MuiAlert from '@mui/material/Alert';
+import {Box, IconButton, Menu, MenuItem} from '@mui/material';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import dayjs from "dayjs";
 import languageSelected from "../../../states/languageSelected";
-import CustomSnackbar from "../Alert/SnackBarMaterial";
+import SnackBarMaterial from "../Alert/SnackBarMaterial";
 
 const ExportOptions = ({ columnDefs, data }) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -27,7 +26,9 @@ const ExportOptions = ({ columnDefs, data }) => {
     const formatData = (row, field) => {
         let cellValue;
         // Check if the field has i18n data
+        console.log(field);
         if (field === "i18n" && row[field] && row[field].title) {
+            console.log('test');
             const i18nValue = row[field].title;
             // Fetch the value based on the selected language, fallback to 'en' if not available
             cellValue = i18nValue[languageSelected.value] || i18nValue['en'];
@@ -85,7 +86,7 @@ const ExportOptions = ({ columnDefs, data }) => {
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
                 <MenuItem onClick={csvExport}>Export CSV</MenuItem>
             </Menu>
-            <CustomSnackbar
+            <SnackBarMaterial
                 open={snackbarInfo.open}
                 handleClose={handleSnackbarClose}
                 message={snackbarInfo.message}
