@@ -8,7 +8,7 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
     {
         headerName: __('Role name'),
         checkboxSelection: false,
-        field: 'roleInfo.name',
+        field: 'role_info.name',
         filter: true,
         width: 200,
         pinned: 'left',
@@ -49,7 +49,7 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
     },
     {
         headerName: __('Added on'),
-        field: 'created_date',
+        field: 'created_at',
         checkboxSelection: false,
         filter: true,
         sortable: true,
@@ -59,7 +59,7 @@ const GlobalUserRolesTableHeader = ({deleteYesCallback}) => [
         headerName: __('Created By'),
         checkboxSelection: false,
         filter: true,
-        valueGetter: ({data}) => data.createdByInfo?.name ?? '',
+        valueGetter: ({data}) => data.created_by_info?.name ?? '',
         sortable: true,
         comparator: (a, b) => a.localeCompare(b),
     },
