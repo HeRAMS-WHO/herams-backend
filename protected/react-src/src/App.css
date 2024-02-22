@@ -385,3 +385,13 @@ Make elements with the HTML hidden attribute stay hidden by default.
   display: none;
 }
 
+.icon.icon-user {
+  width: 15px;
+}
+.delete-button {
+  width: 40px;
+}
+.icon.icon-trash {
+  width: 15px;
+  height:15px;
+}

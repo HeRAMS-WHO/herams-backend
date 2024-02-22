@@ -3,7 +3,6 @@ import {BasicUserInfo, TitleGlobalUserRoles} from "./view/GlobalUserRolesParts";
 import Table from "../../components/common/table/Table";
 import GlobalUserRolesTableHeader from "./view/GlobalUserRolesTableHeader";
 import FormButtons from "../../components/common/form/FormButtons";
-import {__} from "../../utils/translationsUtility";
 import ReactTagsWrapper from "../../components/common/form/ReactTagsWrapper";
 import FormGroup from "../../components/common/form/FormGroup";
 import {deleteUserRole} from "../../services/apiProxyService";

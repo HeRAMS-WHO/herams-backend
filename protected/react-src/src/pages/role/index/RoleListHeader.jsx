@@ -1,5 +1,3 @@
-import { __ } from '../../../utils/translationsUtility'
-import Link from '@mui/material/Link'
 import dayjs from 'dayjs'
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -14,7 +12,7 @@ const RoleListHeader = ({ deleteRole }) => [
   {
     headerName: __('Name'),
     renderCell: (params) => (
-      <Link href={`/admin/role/${params.id}/update`}>{params.value}</Link>
+      <Link to={`/admin/role/${params.id}/update`}>{params.value}</Link>
     ),
     field: 'name',
     flex: 1,
