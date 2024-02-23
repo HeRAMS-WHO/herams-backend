@@ -1,8 +1,8 @@
 import {deleteRequest, get, post, put} from './httpMethods';
 
 //export const BASE_URL = 'http://laravel.herams.test/api';
-//export const BASE_URL = 'http://api.herams.localhost/api';
-export const BASE_URL = 'https://api-v2.herams-staging.org/api';
+export const BASE_URL = 'http://api.herams.localhost/api';
+//export const BASE_URL = 'https://api-v2.herams-staging.org/api';
 
 export const doLogin = (data) => {
     return post(`${BASE_URL}/authentication/login`, data);
@@ -22,7 +22,9 @@ export const updateProfile = (data, headers) => {
 export const importWs = (id, data, headers) => {
     return post(`${BASE_URL}/project/${id}/import-ws`, data, headers);
 }
-
+export const createRoleAndPermissions = (data) => {
+    return post(`${BASE_URL}/role`, data);
+}
 export const updateRoleAndPermissions = (id, data) => {
     return put(`${BASE_URL}/role/${id}`, data);
 }

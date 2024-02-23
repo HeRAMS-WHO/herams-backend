@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types";
 import FormGroup from "../../../components/common/form/FormGroup";
-import {__} from "../../../utils/translationsUtility";
 import TextInput from "../../../components/common/form/TextInput";
+import dayjs from "dayjs";
 
 export function TitleGlobalUserRoles(props) {
     return <div className="row mt-2">
@@ -36,7 +36,7 @@ export function BasicUserInfo(props) {
                 </FormGroup>
                 <FormGroup label={__("Created date")} inputClassName="col-md-6">
                     <TextInput
-                        value={props.userInfo.created_at ?? ""}
+                        value={dayjs(props.userInfo.created_at).format('YYYY-MM-DD H:m:s')  ?? ""}
                         className="form-control"
                         disabled={true}
                     />
@@ -50,7 +50,7 @@ export function BasicUserInfo(props) {
                 </FormGroup>
                 <FormGroup label={__("Latest update date")} inputClassName="col-md-6">
                     <TextInput
-                        value={props.userInfo.updated_at ?? ""}
+                        value={dayjs(props.userInfo.updated_at).format('YYYY-MM-DD H:m:s') ?? ""}
                         className="form-control"
                         disabled={true}
                     />

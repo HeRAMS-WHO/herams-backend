@@ -29,12 +29,11 @@ const RoleListHeader = ({ deleteRole }) => [
   },
   {
     headerName: __('Project'),
-    field: 'projectInfo',
-    renderCell: (data) => {
-      if (data.field === 'projectInfo' && data.value) {
-        const { title } = JSON.parse(data.value.i18n)
-        return title[data.value.primary_language]
-      }
+    field: 'project_info',
+    valueGetter: (data) => {
+      const title = data?.value?.i18n?.title
+      const projectName = title && title[languageSelected.value] ? title[languageSelected.value] : title?.en
+      return projectName
     },
     flex: 1,
   },

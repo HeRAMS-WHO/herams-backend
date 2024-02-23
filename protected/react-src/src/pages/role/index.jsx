@@ -2,14 +2,11 @@ import useRoleList from '../../hooks/Role/useRoleList'
 import RoleListHeader from './index/RoleListHeader'
 import { fetchDeleteRole } from '../../services/apiProxyService'
 import Item from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import { __ } from '../../utils/translationsUtility'
 import MuiTable from '../../components/common/table/MuiTable'
 import Grid from '@mui/material/Grid'
 import React from 'react'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-import Button from '@mui/material/Button'
-
+import { Button } from '@mui/material'
 const RolesList = () => {
   const {
     rolesList,
@@ -28,10 +25,13 @@ const RolesList = () => {
         display: 'flex',
         justifyContent: 'flex-end',
       }}>
-        <Button startIcon={<AddCircleIcon/>} variant="contained"
-                href={`/admin/role/create`} permissions={['ROLE_CREATE']}>
-          {__('Create Role')}
-        </Button>
+        <Button 
+          startIcon={<AddCircleIcon/>}
+          permissions={['ROLE_CREATE']}
+          onClick={() => {useNavigate()(`/admin/role/create`)}}
+          variant="contained">
+            {__('Create Role')}
+        </Button>        
       </Grid>
       <Grid item xs={12}>
         <Item>
