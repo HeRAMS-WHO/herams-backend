@@ -8,13 +8,16 @@ const useRolePermissions = (roleId) => {
     useEffect( () => {
         async function fetchData() {
             const permissionsResponse = await fetchPermissions();
-            const permissionsInRole = await fetchRolePermissions(roleId);
-            const tempPermissions = permissionsResponse.map((permission) => ({
-                value: permission.code,
-                label: permission.name,
-                parent: permission.parent,
-                checked: !!permissionsInRole.find((rolePermission) => rolePermission.permission_code === permission.code),
-            }));
+            const permissionsInRole = (await fetchRolePermissions(roleId)) ?? [];
+            
+            const tempPermissions = permissionsResponse.map((permission) => {
+                return ({
+                    value: permission.code,
+                    label: permission.name,
+                    parent: permission.parent,
+                    checked: !!permissionsInRole.find((rolePermission) => rolePermission.permission_code === permission.code),
+                })
+            });
             setRolesPermissions(tempPermissions);
         }
         fetchData()
