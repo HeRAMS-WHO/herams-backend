@@ -1,0 +1,305 @@
+version: '3.8'
+networks:
+  devproxy2:
+    external: true
+volumes:
+  shared:
+  debugdata:
+    driver_opts:
+      type: tmpfs
+      o: "uid=65534"
+      device: "/docker/example"
+  devdb:
+  assets:
+    driver_opts:
+      type: tmpfs
+      o: "uid=65534"
+      device: "/docker/example"
+
+x-env:
+  base: &base
+    image: ghcr.io/herams-who/docker/php-v2:latest
+    volumes:
+      - .:/project:rw
+      - ./tests:/project/tests:rw
+      - ./protected/messages:/project/protected/messages:rw
+    tmpfs:
+      - /runtime:rw,noexec,nosuid,uid=${UID-0}
+      - /tmp:rw,noexec,nosuid,uid=${UID-0}
+      - /project/public/assets:rw,noexec,nosuid,uid=${UID-0}
+    environment: &base-env
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/username: ${DB_USER}
+      SECRET_database/password: ${DB_PASS}
+      YII_ENV: $YII_ENV
+      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
+      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
+      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
+      RUNTIME_PATH: /runtime
+      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+      PRIVATE_KEY_FILE: /project/local/testkey
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
+      SECRET_smtp/encryption: tcp
+      API_HOST: api.herams.test
+    user: ${UID-0}:${GID-0}
+    working_dir: "/project"
+  mysql: &mysql
+    image: mysql
+    command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+services:
+  api:
+    environment:
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/username: ${DB_USER}
+      SECRET_database/password: ${DB_PASS}
+      SECRET_app/cookie_validation_key: secret
+      SECRET_app/url_signer_secret: secret
+      SECRET_app/jwt_secret_key: secretsecretsecretsecretsecretsecret
+      YII_ENV: $YII_ENV
+      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
+      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
+      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
+      RUNTIME_PATH: /run
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
+      SECRET_smtp/encryption: ''
+    depends_on:
+      - devdb
+      - mailcatcher
+      - phpmyadmin
+    image: ghcr.io/herams-who/docker/php-api-v2:latest
+    volumes:
+      - shared:/shared
+      - type: bind
+        source: ./microservices/api
+        target: /project
+        read_only: true
+      - type: bind
+        source: ./microservices/common
+        target: /common
+        read_only: true
+      - type: volume
+        source: debugdata
+        target: /debugdata
+  phpfpm:
+    networks:
+      - devproxy2
+      - default
+    environment:
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/username: ${DB_USER}
+      SECRET_database/password: ${DB_PASS}
+      SECRET_app/cookie_validation_key: secret
+      SECRET_app/url_signer_secret: secret
+      SECRET_app/jwt_secret_key: secretsecretsecretsecretsecretsecret
+      YII_ENV: $YII_ENV
+      SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
+      SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
+      SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
+      RUNTIME_PATH: /run
+      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
+      SECRET_smtp/encryption: ''
+      API_HOST: api.herams.test
+    depends_on:
+      - devdb
+      - mailcatcher
+      - phpmyadmin
+    image: ghcr.io/herams-who/docker/php-v2:latest
+    volumes:
+      - shared:/shared
+      - type: bind
+        source: ./
+        target: /project
+      - type: bind
+        source: ./node_modules
+        target: /project/public/node_modules
+        read_only: true
+      - type: volume
+        source: assets
+        target: /project/public/assets
+      - type: volume
+        source: debugdata
+        target: /debugdata
+  coverage:
+    networks:
+      - devproxy2
+      - default
+    image: nginx
+    volumes:
+      - ./tests/_output/coverage:/usr/share/nginx/html:ro
+  nginx-api:
+    networks:
+      - devproxy2
+      - default
+    image: ghcr.io/herams-who/docker/nginx-api-v2:latest
+    depends_on:
+      - api
+      - coverage
+    volumes:
+      - shared:/shared
+  nginx:
+    networks:
+      - devproxy2
+      - default
+    image: ghcr.io/herams-who/docker/nginx-v2:latest
+    environment:
+      PHPFPM: "phpfpm:9000"
+      API: "api:9000"
+      RESOLVER: "127.0.0.11"
+    depends_on:
+      - phpfpm
+      - api
+      - coverage
+    volumes:
+      - shared:/shared
+      - type: bind
+        source: ./protected/config/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      - type: bind
+        source: ./public
+        target: /www
+      - type: bind
+        source: ./node_modules
+        target: /www/node_modules
+      - type: volume
+        source: assets
+        target: /www/assets
+        read_only: true
+        volume:
+          nocopy: true
+  ## Mysql server (local), this will create a persistent data store for local development
+  devdb:
+    << : *mysql
+    volumes:
+      - devdb:/var/lib/mysql:rw
+      - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
+
+  # Mysql server (testing), this will store data on tmpfs, it will not persist
+  testdb:
+    image: mysql
+    command: --character-set-server=utf8mb4 --max-connections=1000
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    volumes:
+      - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
+    tmpfs:
+      - /var/lib/mysql:rw,nodev,nosuid,relatime
+  react-dev:
+    build:
+      context: .
+      dockerfile: docker/react/Dockerfile
+      args:
+        USER_ID: 1001
+        GROUP_ID: 1001
+    working_dir: /app/protected/react-src
+    networks:
+      - devproxy2
+      - default
+    volumes:
+      - type: bind
+        source: ./protected/react-src
+        target: /app/protected/react-src
+        consistency: cached
+      - type: bind
+        source: ./protected/react-src/node_modules
+        target: /app/protected/react-src/node_modules
+        consistency: delegated
+    environment:
+      - npm_config_cache=/app/protected/react-src/.npm-cache
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=react.herams.test
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+      - HOT=false
+      - LIVE_RELOAD=false
+      - HTTPS=false
+    user: ${UID-0}:${GID-0}
+  cli:
+    << : *base
+    depends_on:
+      - devdb
+      - mailcatcher
+      - phpmyadmin
+    entrypoint: ["/project/microservices/console/yiic"]
+    init: true
+    command: ""
+    environment:
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/username: ${DB_USER}
+      SECRET_database/password: ${DB_PASS}
+  testcli:
+    <<: *base
+    depends_on:
+      - testdb
+    entrypoint: ["/project/microservices/console/yiic"]
+    init: true
+    command: ""
+    environment:
+      <<: *base-env
+      RUNTIME_PATH: /runtime
+  composer:
+    << : *base
+    init: true
+    entrypoint: ["composer"]
+    volumes:
+      - /composer-cache
+      - .:/project:rw
+  codeception:
+    << : *base
+    depends_on:
+      - testdb
+    init: true
+    entrypoint: [
+      "sh",
+      "-c",
+      "wait4ports -s 30 tcp://testdb:3306 && exec /project/vendor/bin/codecept $$*",
+      "-"
+    ]
+    command: "run"
+    environment:
+      SECRET_database/dsn: "mysql:host=devdb;port=3306;dbname=${DB_NAME}"
+      SECRET_database/username: $DB_USER
+      SECRET_database/password: $DB_PASS
+      YII_ENV: $YII_ENV
+      SECRET_app/url_signer_secret: secret
+      SECRET_app/cookie_validation_key: secret
+      SECRET_mailchimp/api_key: ''
+      SECRET_mailchimp/list_id: ''
+      SECRET_mailchimp/tag: ''
+      SECRET_smtp/host: mailcatcher
+      SECRET_smtp/port: 1025
+      RUNTIME_PATH: /runtime
+      API_HOST: api.herams.test
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    networks:
+      - devproxy2
+      - default
+    depends_on:
+      - devdb
+    environment:
+      PMA_HOST: testdevdb
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASS}
+    labels:
+      - "npm.host=phpmyadmin.herams.test"
+    tmpfs:
+      - /sessions
+  mailcatcher:
+    image: schickling/mailcatcher
+    networks:
+      - devproxy2
+      - default
+    ports:
+      - "127.0.0.1:${MAILCATCHER_PORT-12347}:1080"
