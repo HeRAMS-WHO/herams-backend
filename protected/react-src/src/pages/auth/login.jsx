@@ -17,7 +17,8 @@ const AuthLogin = () => {
         .then((res) => {
           if (res.token){
             sessionStorage.setItem('token', res.token)
-            navigate('/admin/project');
+            navigate('/home');
+            window.location.reload();
           }
       })
     }
