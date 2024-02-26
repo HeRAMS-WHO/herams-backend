@@ -1,0 +1,30 @@
+.numbered-circle {
+    background-color: #4177c1;
+    border-radius: 50%;
+    color: white;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    opacity: 0.8;
+    border: 3px solid #0249aa;
+}
+
+.leaflet-popup-content-wrapper {
+    background-color: #f9f9f9;
+    border: 1px #4177c1 solid;
+    width: 30vw;
+    height: 20vh;
+}
+
+.leaflet-popup-content-header {
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+}
+
+.leaflet-popup-content-body {
+    color: #666;
+}

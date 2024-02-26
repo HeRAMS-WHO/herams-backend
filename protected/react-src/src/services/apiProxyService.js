@@ -139,3 +139,7 @@ export const fetchCsfrToken = (queryParams, headers) => {
 export const fetchSurveys = (queryParams, headers) => {
     return get(`${BASE_URL}/survey`, queryParams, headers);
 }
+
+export const getProjectsMap = (id, queryParams, headers) => {
+    return get(`${BASE_URL}/home/projects-map`, queryParams, headers);
+}

@@ -1,4 +1,14 @@
 {
+  "/home": {
+    "pageTitle": "Homepage",
+    "URL": "/home",
+    "hasTabs": false,
+    "tabName": "",
+    "redirectTo": "",
+    "page": "home/index",
+    "layout": "HomeLayout",
+    "permissions": []
+  },
   "/": {
     "pageTitle": "Homepage",
     "URL": "/",
