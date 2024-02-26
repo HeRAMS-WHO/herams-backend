@@ -1,6 +1,5 @@
-import {__} from '../../utils/translationsUtility';
 import {roleScopes, roleTypes} from '../../enums/RoleEnums';
-import {updateRoleAndPermissions} from "../../services/apiProxyService";
+import {updateRoleAndPermissions, createRoleAndPermissions} from "../../services/apiProxyService";
 import styles from './RoleEdit.module.css';
 import useRole from "../../hooks/Role/useRole";
 import useRolePermissions from "../../hooks/Role/useRolePermissions";
@@ -12,6 +11,7 @@ import DropdownInput from "../../components/common/form/DropdownInput";
 import CheckboxesGroup from "../../components/common/form/CheckboxesGroup";
 import FormButtons from "../../components/common/form/FormButtons";
 import {transformProjectsToLabelValuePairs} from "../../utils/transformProjectsToLabelValuePairs";
+import dayjs from 'dayjs';
 const RoleEdit = () => {
     const navigate = useNavigate();
     const { roleId = 0 } = params.value;
@@ -38,11 +38,13 @@ const RoleEdit = () => {
             ...roleData,
             permissions: filteredPermissions
         }
-
-        const response = await updateRoleAndPermissions(roleId, data);
+        const response = await (roleId === 0 ? 
+            createRoleAndPermissions(data) : 
+            updateRoleAndPermissions(roleId, data));
         if (response.ok) {
             return navigate('/admin/role');
         }
+        
     }
 
     function isEditing() {
@@ -98,7 +100,7 @@ const RoleEdit = () => {
             <FormGroup label={__('Created on')}>
                 <TextInput
                     className="form-control"
-                    value={roleData.createdDate}
+                    value = {roleData.createdDate && dayjs(roleData.createdDate).format('YYYY-MM-DD HH:mm')}
                     disabled={true}
                 />
             </FormGroup>
@@ -112,7 +114,7 @@ const RoleEdit = () => {
             <FormGroup label={__('Last modified on')}>
                 <TextInput
                     className="form-control"
-                    value={roleData.lastModifiedDate}
+                    value = {roleData.lastModifiedDate && dayjs(roleData.lastModifiedDate).format('YYYY-MM-DD HH:mm')}
                     disabled={true}
                 />
             </FormGroup>

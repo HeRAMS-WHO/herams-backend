@@ -1,8 +1,6 @@
-import { __ } from '../../../utils/translationsUtility'
 import { UserIcon } from '../../../components/common/icon/IconsSet'
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/Delete'
-import Link from '@mui/material/Link'
 import dayjs from 'dayjs'
 
 const UserIndexTableHeader = () => [
@@ -15,7 +13,7 @@ const UserIndexTableHeader = () => [
   {
     headerName: __('Name'),
     renderCell: (params) => (
-      <Link href={`/admin/user/${params.id}`}>{params.value}</Link>
+      <Link to={`/admin/user/${params.id}`}>{params.value}</Link>
     ),
     field: 'name',
     flex: 1,
@@ -27,14 +25,14 @@ const UserIndexTableHeader = () => [
   },
   {
     headerName: __('Created on'),
-    field: 'created_date',
+    field: 'created_at',
     type: 'date',
     flex: 1,
     valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:mm'),
   },
   {
     headerName: __('Last login'),
-    field: 'last_login_date',
+    field: 'last_login_at',
     type: 'date',
     flex: 1,
     valueFormatter: (params) => params.value && dayjs(params.value).format('YYYY-MM-DD HH:mm'),

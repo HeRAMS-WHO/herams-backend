@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types";
 import FormGroup from "../../../components/common/form/FormGroup";
-import {__} from "../../../utils/translationsUtility";
 import TextInput from "../../../components/common/form/TextInput";
+import dayjs from "dayjs";
 
 export function TitleGlobalUserRoles(props) {
     return <div className="row mt-2">
@@ -16,7 +16,7 @@ export function TitleGlobalUserRoles(props) {
 TitleGlobalUserRoles.propTypes = {userInfo: PropTypes.any};
 
 export function BasicUserInfo(props) {
-
+    console.log(props)
     return <div className="row mt-2">
         <form className="w-100">
             <div>
@@ -36,7 +36,7 @@ export function BasicUserInfo(props) {
                 </FormGroup>
                 <FormGroup label={__("Created date")} inputClassName="col-md-6">
                     <TextInput
-                        value={props.userInfo.created_date ?? ""}
+                        value={dayjs(props.userInfo.created_at).format('YYYY-MM-DD H:m:s')  ?? ""}
                         className="form-control"
                         disabled={true}
                     />
@@ -50,7 +50,7 @@ export function BasicUserInfo(props) {
                 </FormGroup>
                 <FormGroup label={__("Latest update date")} inputClassName="col-md-6">
                     <TextInput
-                        value={props.userInfo.last_modified_date ?? ""}
+                        value={dayjs(props.userInfo.updated_at).format('YYYY-MM-DD H:m:s') ?? ""}
                         className="form-control"
                         disabled={true}
                     />
@@ -64,7 +64,7 @@ export function BasicUserInfo(props) {
                 </FormGroup>
                 <FormGroup label={__("Last login date")} inputClassName="col-md-6">
                     <TextInput
-                        value={props.userInfo.last_login_date ?? ""}
+                        value={props.userInfo.last_login_at ?? ""}
                         className="form-control"
                         disabled={true}
                     />

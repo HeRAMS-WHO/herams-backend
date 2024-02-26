@@ -22,7 +22,9 @@ export const updateProfile = (data, headers) => {
 export const importWs = (id, data, headers) => {
     return post(`${BASE_URL}/project/${id}/import-ws`, data, headers);
 }
-
+export const createRoleAndPermissions = (data) => {
+    return post(`${BASE_URL}/role`, data);
+}
 export const updateRoleAndPermissions = (id, data) => {
     return put(`${BASE_URL}/role/${id}`, data);
 }

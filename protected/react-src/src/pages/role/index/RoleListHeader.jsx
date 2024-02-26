@@ -1,5 +1,3 @@
-import { __ } from '../../../utils/translationsUtility'
-import Link from '@mui/material/Link'
 import dayjs from 'dayjs'
 import { GridActionsCellItem } from '@mui/x-data-grid'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -14,7 +12,7 @@ const RoleListHeader = ({ deleteRole }) => [
   {
     headerName: __('Name'),
     renderCell: (params) => (
-      <Link href={`/admin/role/${params.id}/update`}>{params.value}</Link>
+      <Link to={`/admin/role/${params.id}/update`}>{params.value}</Link>
     ),
     field: 'name',
     flex: 1,
@@ -31,12 +29,11 @@ const RoleListHeader = ({ deleteRole }) => [
   },
   {
     headerName: __('Project'),
-    field: 'projectInfo',
-    renderCell: (data) => {
-      if (data.field === 'projectInfo' && data.value) {
-        const { title } = JSON.parse(data.value.i18n)
-        return title[data.value.primary_language]
-      }
+    field: 'project_info',
+    valueGetter: (data) => {
+      const title = data?.value?.i18n?.title
+      const projectName = title && title[languageSelected.value] ? title[languageSelected.value] : title?.en
+      return projectName
     },
     flex: 1,
   },

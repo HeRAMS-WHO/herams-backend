@@ -64,9 +64,9 @@ function useRole(roleId = null){
                 projectId: roleResponse.project_id || '',
                 type: roleResponse.type || '',
                 createdDate: roleResponse.created_date,
-                createdBy: roleResponse.creatorUserInfo?.name || '',
+                createdBy: roleResponse.creator_user_info?.name || '',
                 lastModifiedDate: roleResponse.last_modified_date,
-                lastModifiedBy: roleResponse.updaterUserInfo?.name || ''
+                lastModifiedBy: roleResponse.updater_user_info?.name || ''
             }
             setRoleData(roleData);
         }
