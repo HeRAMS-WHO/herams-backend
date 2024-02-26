@@ -18,7 +18,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import herams_logo from '../../img/HeRAMS.svg';
 import {Box, Divider, ListItemIcon, Typography} from "@mui/material";
 import {useEffect, useState} from 'react';
 import L from 'leaflet';
@@ -105,8 +104,8 @@ const HomeIndex = () => {
                             id="herams-header"
                         >
                             <img
-                                srcSet={herams_logo}
-                                src={herams_logo}
+                                srcSet="https://v2.herams-staging.org/img/HeRAMS.svg"
+                                src="https://v2.herams-staging.org/img/HeRAMS.svg"
                                 alt="HeRAMs"
                                 style={{height: '5vh', mt: 3}}
                                 loading="lazy" />
