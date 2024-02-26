@@ -1,5 +1,6 @@
 import React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Slide, Alert, Button } from '@mui/material';
+import { Slide, Alert, Button } from '@mui/material';
+import AlertDialogMaterial from "./AlertDialogMaterial";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,9 +45,9 @@ const AlertMaterial = ({
         <Button onClick={handleClose}>{finalButtonName}</Button> // Changed to handleClose for consistency
       )}
 
-      <AlertDialog open={open} handleClose={handleClose} title={finalTitle}>
+      <AlertDialogMaterial open={open} handleClose={handleClose} title={finalTitle}>
         <Alert severity={type}>{finalMessage}</Alert>
-      </AlertDialog>
+      </AlertDialogMaterial>
     </div>
   );
 };

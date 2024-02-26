@@ -5,7 +5,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AlertDialogMaterial = ({ open, handleClose, title, children, duration = 5000 }) => {
+const AlertDialogMaterial = ({ open, handleClose, title, children, duration = 3000 }) => {
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
