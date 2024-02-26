@@ -30,19 +30,25 @@ const urlDataRetriever = ({url, routes}) => {
     return data;
 }
 const useApp = () => {
+
     const [Page, setPage] = useState(null)
     const [layout, setLayout] = useState(null)
 
     useEffect(() => {
         const {currentPage, genericUrl} = urlDataRetriever({url: location.value, routes});        
         const routeData = reactRoutes[genericUrl]
+        // redirect to auth login
+        if (!sessionStorage.length || !sessionStorage.token) {
+            useNavigate()(replaceVariablesAsText('/auth/login'))
+        }
+
         if (routeData.redirectTo){
             useNavigate()(replaceVariablesAsText(routeData.redirectTo || '/'))
         }
         else if (routeData === null || !routeData.page){
-            window.location.href = replaceVariablesAsText((location.value !== routesMap[location.value]) ?
-                routesMap[location.value] || '' :
-                location.value || '')
+           // window.location.href = replaceVariablesAsText((location.value !== routesMap[location.value]) ?
+           //     routesMap[location.value] || '' :
+           //     location.value || '')
         }
         else if (routeData !== null || routeData.page){
             const component = pages[routeData?.URL]

@@ -18,7 +18,6 @@ const ProjectList = () => {
         display: 'flex',
         justifyContent: 'flex-end',
       }}>
-          <a href={replaceVariablesAsText(`/home`)}>home</a>
         <Button startIcon={<AddCircleIcon/>} variant="contained"
                 href={replaceVariablesAsText(`/admin/project/create`)} permissions={['CREATE_PROJECT']}>
           {__('Create project')}
