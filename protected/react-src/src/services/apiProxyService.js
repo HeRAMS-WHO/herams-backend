@@ -1,8 +1,8 @@
 import {deleteRequest, get, post, put} from './httpMethods';
 
 //export const BASE_URL = 'http://laravel.herams.test/api';
-//export const BASE_URL = 'http://api.herams.localhost/api';
-export const BASE_URL = 'https://api-v2.herams-staging.org/api';
+export const BASE_URL = 'http://api.herams.localhost/api';
+//export const BASE_URL = 'https://api-v2.herams-staging.org/api';
 
 export const doLogin = (data) => {
     return post(`${BASE_URL}/authentication/login`, data);
