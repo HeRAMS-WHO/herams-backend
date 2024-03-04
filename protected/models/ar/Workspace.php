@@ -61,7 +61,7 @@ class Workspace extends ActiveRecord
     public function getPermissions(): ActiveQuery
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
-            ->andWhere(['target' => self::class]);
+            ->andWhere(['target' => self::class])->andWhere(['!=', 'source', 'prime\models\ar\Application']);
     }
 
     public function behaviors()
