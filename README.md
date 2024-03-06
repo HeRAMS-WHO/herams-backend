@@ -28,4 +28,4 @@ After taking the above steps you will have everything up and running:
 ### Commands available
 We expose a number of commands via docker-compose:
 - `docker-compose run --rm composer` will run composer, use this to install / update dependencies.
-- `docker-composer run --rm codeception` will run the test suite
+- `docker-composer run --rm codeception` will run the test suite.
