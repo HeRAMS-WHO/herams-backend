@@ -65,7 +65,7 @@
     "permissions": []
   },
   "/admin/project/:projectId/workspace/create": {
-    "pageTitle": ":Create workspace",
+    "pageTitle": "Create workspace",
     "URL": "/admin/project/:projectId/workspace/create",
     "hasTabs": false,
     "tabName": "",
@@ -334,6 +334,17 @@
     "tabName": "Project settings",
     "redirectTo": "",
     "page": "project/settings",
+    "permissions": [
+      "UPDATE_PROJECT_SETTINGS"
+    ]
+  },
+  "/admin/project/:projectId/update": {
+    "pageTitle": ":projectName",
+    "URL": "/admin/project/:projectId/update",
+    "hasTabs": true,
+    "tabName": "Project settings",
+    "redirectTo": "",
+    "page": "project/create",
     "permissions": [
       "UPDATE_PROJECT_SETTINGS"
     ]

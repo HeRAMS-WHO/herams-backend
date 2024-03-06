@@ -32,6 +32,9 @@ export const updateRoleAndPermissions = (id, data) => {
 export const createUserRole = (data) => {
     return post(`${BASE_URL}/user-role`, data);
 }
+export const fetchCreateWorkspace = (data, headers) => {
+    return post(`${BASE_URL}/workspace`, data, headers);
+}
 export const fetchWorkspace = (id, queryParams, headers) => {
     return get(`${BASE_URL}/workspace/${id}`, queryParams, headers);
 }
@@ -68,13 +71,20 @@ export const deleteUserRole = (id, queryParams, headers) => {
 export const fetchPermissions = (queryParams, headers) => {
     return get(`${BASE_URL}/permission`, queryParams, headers);
 }
+export const fetchCreateProject = (data, headers) => {
+    return post(`${BASE_URL}/project`, data, headers);
+}
 
 export const fetchRolePermissions = (id, queryParams, headers) => {
     return get(`${BASE_URL}/role/${id}/permission`, queryParams, headers);
 }
 export const fetchProjectVisibilityChoices = (data, headers) => {
-    const lang = document.documentElement.lang;
-    return get(`${BASE_URL}/configuration/visibility?_lang=${lang}`, data, headers);
+    const lang = languageSelected.value
+    return get(`${BASE_URL}/configuration/project-visibility?_lang=${lang}`, data, headers);
+};
+
+export const fetchCountries = (data, headers) => {
+    return get(`${BASE_URL}/configuration/country`, data, headers);
 };
 
 export const fetchDeleteRole = (id, queryParams, headers) => {
