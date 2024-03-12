@@ -457,7 +457,7 @@ class Project extends ActiveRecord implements Linkable
     public function getPermissions()
     {
         return $this->hasMany(Permission::class, ['target_id' => 'id'])
-            ->andWhere(['target' => self::class]);
+            ->andWhere(['target' => self::class])->andWhere(['!=', 'source', 'prime\models\ar\Application']);
     }
 
     /**
