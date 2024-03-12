@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-prod","kubernetes.io/ingress.class":"nginx"},"name":"ingress-production","namespace":"prod"},"spec":{"rules":[{"host":"www.herams.org","http":{"paths":[{"backend":{"service":{"name":"app-service","port":{"number":80}}},"pathType":"ImplementationSpecific"}]}},{"host":"herams.org","http":{"paths":[{"backend":{"service":{"name":"app-service","port":{"number":80}}},"pathType":"ImplementationSpecific"}]}}],"tls":[{"hosts":["*.herams.org","herams.org"],"secretName":"herams.org.tls"}]}}
+    kubernetes.io/ingress.class: nginx
+  creationTimestamp: "2024-03-06T22:21:19Z"
+  generation: 3
+  name: ingress-production
+  namespace: prod
+  resourceVersion: "389877659"
+  uid: 74706746-ca7f-4531-bf73-b7827ed31938
+spec:
+  rules:
+  - host: www.herams.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: app-service
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  - host: api-v1.herams.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: v1api-service
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  - host: herams.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: app-service
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - '*.herams.org'
+    - herams.org
+    secretName: tls-herams-secret-new
+status:
+  loadBalancer:
+    ingress:
+    - ip: 64.225.80.235
