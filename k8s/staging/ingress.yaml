@@ -9,11 +9,11 @@ metadata:
 spec:
   tls:
     - hosts:
-      - "*.herams-staging.org"
-      - herams-staging.org
+      - "*.herams-stg.org"
+      - herams-stg.org
       secretName: herams-staging.tls
   rules:
-  - host: www.herams-staging.org
+  - host: www.herams-stg.org
     http:
       paths:
       - backend:
@@ -22,7 +22,7 @@ spec:
             port:
               number: 80
         pathType: ImplementationSpecific
-  - host: weblate.herams-staging.org
+  - host: weblate.herams-stg.org
     http:
       paths:
         - backend:
@@ -31,7 +31,7 @@ spec:
               port:
                 number: 80
           pathType: ImplementationSpecific
-  - host: herams-staging.org
+  - host: herams-stg.org
     http:
       paths:
       - backend:
@@ -40,7 +40,7 @@ spec:
             port:
               number: 80
         pathType: ImplementationSpecific
-  - host: api.herams-staging.org
+  - host: api.herams-stg.org
     http:
       paths:
         - backend:

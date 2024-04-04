@@ -133,11 +133,11 @@ metadata:
 spec:
   tls:
     - hosts:
-      - "*.herams-staging.org"
-      - herams-staging.org
+      - "*.herams-stg.org"
+      - herams-stg.org
       secretName: herams-staging.tls
   rules:
-    - host: "<?= env('DEPLOYMENT_NAME') ?>.herams-staging.org"
+    - host: "<?= env('DEPLOYMENT_NAME') ?>.herams-stg.org"
       http:
         paths:
           - backend:
