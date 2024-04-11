@@ -321,7 +321,7 @@ class Chart extends Element
             ]
         ];
         $jsConfig = Json::encode($config);
-
+        $chartType = Json::encode($this->chartType);
         $id = Json::encode($this->getId());
         $this->view->registerJs(<<<JS
         (function() {
@@ -330,6 +330,7 @@ class Chart extends Element
             let canvas = document.getElementById(canvasId);
             let ctx = canvas.getContext('2d');
             let chart = new Chart(ctx, $jsConfig);
+            let chartType = $chartType;
             canvas.closest('.element').insertAdjacentHTML('beforeend', chart.generateLegend());
             chart.options.tooltips.custom = function(tooltip) {
                 // Tooltip Element
@@ -418,10 +419,13 @@ class Chart extends Element
                 chart.update();
             }
             
-            let items = container.getElementsByClassName("legend-item");
-            Array.from(items).forEach(function(item) {
-                item.addEventListener('click', legendItemClick);
-            });
+            // disable legend click event for bar charts
+            if (chartType !== 'bar') {
+                let items = container.getElementsByClassName("legend-item");
+                Array.from(items).forEach(function(item) {
+                    item.addEventListener('click', legendItemClick);
+                });
+            }
 
         })();
 JS
