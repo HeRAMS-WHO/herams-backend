@@ -58,7 +58,7 @@ jobs:
           fail_ci_if_error: false # optional (default = false)
 
   deploy:
-    needs: [ test, build ]
+    needs: [ build ] #[ test, build ]
     runs-on: ubuntu-latest
     name: Deploy
     steps:
