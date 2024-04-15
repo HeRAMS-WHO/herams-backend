@@ -419,7 +419,7 @@ class Chart extends Element
                 chart.update();
             }
             
-            // disable legend click event for bar charts
+            // disable legend click event for bar charts 
             if (chartType !== 'bar') {
                 let items = container.getElementsByClassName("legend-item");
                 Array.from(items).forEach(function(item) {
