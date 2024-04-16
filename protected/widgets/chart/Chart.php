@@ -419,14 +419,12 @@ class Chart extends Element
                 chart.update();
             }
             
+            let items = container.getElementsByClassName("legend-item");
             // disable legend click event for bar charts 
-            if (chartType !== 'bar') {
-                let items = container.getElementsByClassName("legend-item");
-                Array.from(items).forEach(function(item) {
-                    item.addEventListener('click', legendItemClick);
-                });
-            }
-
+            Array.from(items).forEach(function(item) {
+                chartType !== 'bar' ? 
+                    item.addEventListener('click', legendItemClick) : item.style.pointerEvents = 'none';
+            });
         })();
 JS
         );
