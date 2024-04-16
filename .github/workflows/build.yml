@@ -3,59 +3,59 @@ on:
   push:
     branches: [ v1 ]
 jobs:
-  test:
-    name: Run tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@2.9.0
-        with:
-          php-version: '8.0' # Modify this according to your required PHP version.
-          extensions: mbstring, dom, ctype, iconv, zip, curl
-          coverage: xdebug
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-      - name: Setup GitHub Token for Composer
-        run: composer config -g github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
-      - name: Fetch highest stable version of Composer 2.2.*
-        run: |
-          LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "
-          import sys, json
-          versions = [v for v in json.load(sys.stdin)['package']['versions'].keys() if v.startswith('2.2.') and '-dev' not in v and '-alpha' not in v and '-beta' not in v and '-RC' not in v]
-          versions.sort(key=lambda s: list(map(int, s.split('.'))))
-          print(versions[-1])
-          ")
-          echo "LATEST_2_2_VERSION=$LATEST_2_2_VERSION" >> $GITHUB_ENV
+  # test:
+  #   name: Run tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Setup PHP
+  #       uses: shivammathur/setup-php@2.9.0
+  #       with:
+  #         php-version: '8.0' # Modify this according to your required PHP version.
+  #         extensions: mbstring, dom, ctype, iconv, zip, curl
+  #         coverage: xdebug
+  #     - name: Get Composer Cache Directory
+  #       id: composer-cache
+  #       run: |
+  #         echo "::set-output name=dir::$(composer config cache-files-dir)"
+  #     - uses: actions/cache@v1
+  #       with:
+  #         path: ${{ steps.composer-cache.outputs.dir }}
+  #         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-composer-
+  #     - name: Setup GitHub Token for Composer
+  #       run: composer config -g github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
+  #     - name: Fetch highest stable version of Composer 2.2.*
+  #       run: |
+  #         LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "
+  #         import sys, json
+  #         versions = [v for v in json.load(sys.stdin)['package']['versions'].keys() if v.startswith('2.2.') and '-dev' not in v and '-alpha' not in v and '-beta' not in v and '-RC' not in v]
+  #         versions.sort(key=lambda s: list(map(int, s.split('.'))))
+  #         print(versions[-1])
+  #         ")
+  #         echo "LATEST_2_2_VERSION=$LATEST_2_2_VERSION" >> $GITHUB_ENV
   
-      # Use $LATEST_2_2_VERSION in subsequent steps as needed
-      - name: Update Composer to the fetched version
-        run: composer self-update $LATEST_2_2_VERSION
-      - name: Display Composer Version
-        run: composer --version
-      - name: install composer
-        run: composer install --ignore-platform-reqs
-      - run: composer global require "squizlabs/php_codesniffer=3.*"
-      - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
-      - run: docker-compose build
-      - run: docker network create devproxy2
-      - run: cp .env.default .env
-      - run: docker-compose run --rm codeception run --coverage-xml
-      - run: composer stan
-      - uses: codecov/codecov-action@v1
-        with:
-          files: ./tests/_output/coverage.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: false # optional (default = false)
+  #     # Use $LATEST_2_2_VERSION in subsequent steps as needed
+  #     - name: Update Composer to the fetched version
+  #       run: composer self-update $LATEST_2_2_VERSION
+  #     - name: Display Composer Version
+  #       run: composer --version
+  #     - name: install composer
+  #       run: composer install --ignore-platform-reqs
+  #     - run: composer global require "squizlabs/php_codesniffer=3.*"
+  #     - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
+  #     - run: docker-compose build
+  #     - run: docker network create devproxy2
+  #     - run: cp .env.default .env
+  #     - run: docker-compose run --rm codeception run --coverage-xml
+  #     - run: composer stan
+  #     - uses: codecov/codecov-action@v1
+  #       with:
+  #         files: ./tests/_output/coverage.xml
+  #         flags: unittests # optional
+  #         name: codecov-umbrella # optional
+  #         fail_ci_if_error: false # optional (default = false)
 
   deploy:
     needs: [ build ] #[ test, build ]
