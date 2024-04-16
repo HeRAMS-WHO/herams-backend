@@ -2,6 +2,9 @@ name: Deploy to v1.herams-staging.org
 on:
   push:
     branches: [ v1 ]
+  workflow_dispatch:
+
+
 jobs:
   test:
     name: Run tests
