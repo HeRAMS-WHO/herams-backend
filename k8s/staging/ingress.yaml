@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: staging-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
+    spec.ingressClassName: nginx
     cert-manager.io/cluster-issuer: frontend-v1-letsencrypt
 
 spec:
