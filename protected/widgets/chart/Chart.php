@@ -189,6 +189,17 @@ class Chart extends Element
             $colors[] = $colorMap[strtr($code, ['-' => '_'])] ?? '#000000';
         }
 
+        $yAxes = [];
+        if ($this->chartType === 'bar') {
+            $yAxes = [
+                [
+                    'ticks' => [
+                        'beginAtZero' => true
+                    ]
+                ]
+            ];
+        }
+
         $dataSet = $this->applyMapping($map, $unmappedData);
         $config = [
             'type' => $this->chartType,
@@ -212,7 +223,8 @@ class Chart extends Element
                         [
                             'display' => false,
                         ]
-                    ]
+                    ],
+                    'yAxes' => $yAxes
                 ],
                 'elements' => [
                     $this->chartType == self::TYPE_BAR ? 'topRight' : 'center' => [
