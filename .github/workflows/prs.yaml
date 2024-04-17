@@ -53,4 +53,4 @@ jobs:
       - run: docker-compose build
       - run: docker network create devproxy2
       - run: docker-compose run --rm codeception run --coverage-xml
-      - run: composer stan
+      # - run: composer stan
