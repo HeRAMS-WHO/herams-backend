@@ -3,15 +3,15 @@ kind: Ingress
 metadata:
   name: staging-ingress
   annotations:
-    spec.ingressClassName: nginx
-    cert-manager.io/cluster-issuer: frontend-v1-letsencrypt
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
 spec:
   tls:
     - hosts:
       - "*.herams-stg.org"
       - herams-stg.org
-      secretName: frontend-v1-letsencrypt
+      secretName: herams-wildcard-tls-secret #herams-staging.tls
   rules:
   - host: www.herams-stg.org
     http:
