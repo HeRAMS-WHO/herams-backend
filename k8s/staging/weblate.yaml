@@ -30,7 +30,7 @@ data:
   REDIS_HOST: localhost
   WEBLATE_SERVER_EMAIL: weblate@herams.org
   WEBLATE_DEFAULT_FROM_EMAIL: weblate@herams.org
-  WEBLATE_SITE_DOMAIN: weblate.herams-staging.org
+  WEBLATE_SITE_DOMAIN: weblate.herams-stg.org
   WEBLATE_ENABLE_HTTPS: "1"
   WEBLATE_REGISTRATION_OPEN: "1"
   WEBLATE_ALLOWED_HOSTS: '*'

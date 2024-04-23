@@ -6,9 +6,9 @@
 
 ## Requirements
 - Git must be available
-
+ 
 ## Steps
-1. Get [Docker](https://docs.docker.com/install/)
+1. Get [Docker](https://docs.docker.com/install/) 
 2. Get [Docker Compose](https://docs.docker.com/compose/install/)
 3. Run the following commands:
  ```

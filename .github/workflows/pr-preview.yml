@@ -55,7 +55,7 @@ jobs:
         with:
           issue-number: "${{ env.PR_NUMBER }}"
           body: |
-            Preview environment created at: https://${{ env.RELEASE_VERSION }}.herams-staging.org
+            Preview environment created at: https://${{ env.RELEASE_VERSION }}.herams-stg.org
           reactions: '+1'
   build:
     name: Build containers

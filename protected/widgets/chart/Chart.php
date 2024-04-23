@@ -189,6 +189,17 @@ class Chart extends Element
             $colors[] = $colorMap[strtr($code, ['-' => '_'])] ?? '#000000';
         }
 
+        $yAxes = [];
+        if ($this->chartType === 'bar') {
+            $yAxes = [
+                [
+                    'ticks' => [
+                        'beginAtZero' => true
+                    ]
+                ]
+            ];
+        }
+
         $dataSet = $this->applyMapping($map, $unmappedData);
         $config = [
             'type' => $this->chartType,
@@ -212,7 +223,8 @@ class Chart extends Element
                         [
                             'display' => false,
                         ]
-                    ]
+                    ],
+                    'yAxes' => $yAxes
                 ],
                 'elements' => [
                     $this->chartType == self::TYPE_BAR ? 'topRight' : 'center' => [
@@ -321,7 +333,7 @@ class Chart extends Element
             ]
         ];
         $jsConfig = Json::encode($config);
-
+        $chartType = Json::encode($this->chartType);
         $id = Json::encode($this->getId());
         $this->view->registerJs(<<<JS
         (function() {
@@ -330,6 +342,7 @@ class Chart extends Element
             let canvas = document.getElementById(canvasId);
             let ctx = canvas.getContext('2d');
             let chart = new Chart(ctx, $jsConfig);
+            let chartType = $chartType;
             canvas.closest('.element').insertAdjacentHTML('beforeend', chart.generateLegend());
             chart.options.tooltips.custom = function(tooltip) {
                 // Tooltip Element
@@ -419,10 +432,11 @@ class Chart extends Element
             }
             
             let items = container.getElementsByClassName("legend-item");
+            // disable legend click event for bar charts 
             Array.from(items).forEach(function(item) {
-                item.addEventListener('click', legendItemClick);
+                chartType !== 'bar' ? 
+                    item.addEventListener('click', legendItemClick) : item.style.pointerEvents = 'none';
             });
-
         })();
 JS
         );
