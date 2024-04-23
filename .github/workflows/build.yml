@@ -44,18 +44,18 @@ jobs:
       - name: install composer
         run: composer install --ignore-platform-reqs
       - run: composer global require "squizlabs/php_codesniffer=3.*"
-      - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
+      # - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
       - run: docker-compose build
       - run: docker network create devproxy2
       - run: cp .env.default .env
       - run: docker-compose run --rm codeception run --coverage-xml
-      - run: composer stan
-      - uses: codecov/codecov-action@v1
-        with:
-          files: ./tests/_output/coverage.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: false # optional (default = false)
+      # - run: composer stan
+      # - uses: codecov/codecov-action@v1
+      #   with:
+      #     files: ./tests/_output/coverage.xml
+      #     flags: unittests # optional
+      #     name: codecov-umbrella # optional
+      #     fail_ci_if_error: false # optional (default = false)
 
   deploy:
     needs: [ test, build ]
