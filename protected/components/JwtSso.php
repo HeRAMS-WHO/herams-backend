@@ -78,21 +78,20 @@ class JwtSso extends Component implements TicketingInterface
         ?int $expires = null
     ): string {
 
+        $key = Signer\Key\InMemory::plainText(strtr((string)$this->privateKey, ['    ' => "\n"]));
         $builder = new Builder(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
-        $builder
+
+        $token = $builder
             ->issuedBy($this->issuer ?? \Yii::$app->name)
             ->permittedFor($this->loginUrl)
             ->withClaim($this->claim, $this->createUserName($identifier))
+            ->withClaim('errorUrl', isset($this->errorRoute) ? Url::to($this->errorRoute, true) : null)
             ->issuedAt(Carbon::now()->toImmutable())
-            ->expiresAt(Carbon::now()->addSeconds($expires ?? $this->defaultExpiration)->toImmutable());
+            ->expiresAt(Carbon::now()->addSeconds($expires ?? $this->defaultExpiration)->toImmutable())
+            ->getToken(new Signer\Rsa\Sha256(), $key)
+        ;
 
-        if (isset($this->errorRoute)) {
-            $builder->withClaim('errorUrl', Url::to($this->errorRoute, true));
-        }
-
-        $key = Signer\Key\InMemory::plainText(strtr((string)$this->privateKey, ['    ' => "\n"]));
-        $jwt =  $builder->getToken(new Signer\Rsa\Sha256(), $key)->toString();
-        return $jwt;
+        return $token->toString();
     }
 
     private function createUserName(string $identifier): string
