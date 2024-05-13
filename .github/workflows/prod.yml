@@ -102,11 +102,11 @@ jobs:
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       - run: composer install --ignore-platform-reqs
       - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
-      - uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: docker/login-action@v1
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Set up Docker Buildx
