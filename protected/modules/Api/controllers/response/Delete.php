@@ -24,7 +24,7 @@ class Delete extends Action
         if (empty($key)) {
             throw new ServerErrorHttpException('No key configured');
         }
-        if (!hash_equals("Bearer $key", $request->headers->get('Authorization'))) {
+        if (!hash_equals("Be:arer $key", $request->headers->get('Authorization'))) {
             throw new ForbiddenHttpException();
         }
 
