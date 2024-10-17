@@ -43,6 +43,10 @@ jobs:
         run: composer --version
       - name: install composer
         run: composer install --ignore-platform-reqs
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose -y
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       # - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
       - run: docker-compose build
