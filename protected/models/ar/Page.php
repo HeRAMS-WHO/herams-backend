@@ -47,6 +47,9 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             \Yii::t('app.pagetitle', 'Overview', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Infrastructure', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Condition', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Cancer services', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Environmental cleaning', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Personal protective equipment', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Functionality', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Accessibility', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Building and equipment condition', null, $sourceLanguage),
@@ -86,7 +89,7 @@ class Page extends ActiveRecord implements PageInterface, Exportable
             \Yii::t('app.pagetitle', 'Heating', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Transportation', null, $sourceLanguage),
             \Yii::t('app.pagetitle', 'Connectivity', null, $sourceLanguage),
-            \Yii::t('app.pagetitle', 'Support', null, $sourceLanguage),
+            \Yii::t('app.pagetitle', 'Support', null, $sourceLanguage), 
         ];
     }
     public function getProject()
