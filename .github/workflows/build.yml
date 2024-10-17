@@ -45,7 +45,7 @@ jobs:
         run: composer install --ignore-platform-reqs
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       # - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
-      - run: docker-compose build
+      - run: docker build .
       - run: docker network create devproxy2
       - run: cp .env.default .env
       - run: docker-compose run --rm codeception run --coverage-xml
