@@ -46,13 +46,13 @@ jobs:
       - name: Install Docker Compose
         run: |
           sudo apt-get update
-          sudo apt-get install docker-compose -y
+          sudo apt-get install docker-compose-plugin -y
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       # - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
-      - run: docker-compose build
+      - run: docker compose build
       - run: docker network create devproxy2
       - run: cp .env.default .env
-      - run: docker-compose run --rm codeception run --coverage-xml
+      - run: docker compose run --rm codeception run --coverage-xml
       # - run: composer stan
       # - uses: codecov/codecov-action@v1
       #   with:
