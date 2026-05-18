@@ -26,7 +26,7 @@ $this->beginContent('@views/layouts/map.php');
         <?= $content; ?>
     </div>
 </div>
-<div class="hidden">test deploy</div>
+<div class="hidden">test deploy </div>
 <?php
 
 $this->endContent();
