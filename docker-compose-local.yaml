@@ -27,15 +27,16 @@ x-env:
       SECRET_database/username: appuser
       SECRET_database/password: secret
       YII_ENV: test
-      # SECRET_limesurvey/host: ${LS_HOST}
-      # SECRET_limesurvey/username: ${LS_USER}
-      # SECRET_limesurvey/password: ${LS_PASS}
+      SECRET_limesurvey/host: ${LS_HOST}
+      SECRET_limesurvey/password: ${LS_PASS}
+      SECRET_limesurvey/username: ${LS_USER}
+      SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
       # SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
       # SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
       # SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
       # RUNTIME_PATH: /runtime
-      # RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
-      # URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
+      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       # PRIVATE_KEY_FILE: /project/local/testkey
       # SECRET_smtp/host: mailcatcher
       # SECRET_smtp/port: 1025
@@ -43,12 +44,13 @@ x-env:
     # user: ${UID-0}:${GID-0}
     # working_dir: "/project"
   mysql: &mysql
-    image: mysql
+    image: mysql:8.0
+    command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: test
-      MYSQL_USER: appuser
-      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
 services:
   phpfpm:
     networks:
@@ -61,16 +63,17 @@ services:
       SECRET_app/cookie_validation_key: secret
       SECRET_app/url_signer_secret: secret
       # YII_ENV: $YII_ENV
-      SECRET_limesurvey/host: 127.0.0.1
-      SECRET_limesurvey/password: secret
-      SECRET_limesurvey/username: appuser
+      SECRET_limesurvey/host: ${LS_HOST}
+      SECRET_limesurvey/password: ${LS_PASS}
+      SECRET_limesurvey/username: ${LS_USER}
+      SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
       # SECRET_limesurvey/sso_private_key: ${LS_PRIV_KEY}
       # SECRET_mailchimp/api_key: ${MAILCHIMP_API_KEY}
       # SECRET_mailchimp/list_id: ${MAILCHIMP_LIST_ID}
       # SECRET_mailchimp/tag: ${MAILCHIMP_TAG}
       # RUNTIME_PATH: /run
-      # RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
-      # URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
+      RESPONSE_SUBMISSION_KEY: ${RESPONSE_SUBMISSION_KEY}
+      URL_SIGNING_SECRET: ${URL_SIGNING_SECRET}
       # SECRET_smtp/host: mailcatcher
       # SECRET_smtp/port: 1025
       # SECRET_smtp/encryption: ''
@@ -142,9 +145,7 @@ services:
     << : *mysql
     volumes:
       - devdb:/var/lib/mysql:rw
-      # - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
-    ports:
-      - 3307:3306
+      - ./tests/_data/db:/docker-entrypoint-initdb.d:ro
 
   # Mysql server (testing), this will store data on tmpfs, it will not persist
   testdb:
@@ -179,8 +180,8 @@ services:
       SECRET_database/dsn: "mysql:host=testdb;port=3306;dbname=test"
       SECRET_database/username: appuser
       SECRET_database/password: secret
-      # YII_ENV: $YII_ENV
-      # RUNTIME_PATH: /runtime
+      YII_ENV: $YII_ENV
+      RUNTIME_PATH: /runtime
   composer:
     << : *base
     init: true
