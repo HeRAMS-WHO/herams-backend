@@ -1,4 +1,3 @@
-version: '3.8'
 networks:
   devproxy2:
     external: true
@@ -43,7 +42,7 @@ x-env:
     user: ${UID-0}:${GID-0}
     working_dir: "/project"
   mysql: &mysql
-    image: mysql
+    image: mysql:8.0
     command: --character-set-server=utf8mb4 --max-connections=1000 --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: secret
@@ -144,7 +143,7 @@ services:
 
   # Mysql server (testing), this will store data on tmpfs, it will not persist
   testdb:
-    image: mysql
+    image: mysql:8.0
     command: --character-set-server=utf8mb4 --max-connections=1000
     environment:
       MYSQL_ROOT_PASSWORD: secret
