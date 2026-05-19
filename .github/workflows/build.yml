@@ -7,11 +7,11 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '8.0' # Modify this according to your required PHP version.
+          php-version: '8.1' # Modify this according to your required PHP version.
           extensions: mbstring, dom, ctype, iconv, zip, curl
           coverage: xdebug
       - name: Get Composer Cache Directory
@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set manifests
         run: |
           echo 'MANIFESTS<<EOF' >> $GITHUB_ENV
@@ -104,7 +104,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '8.0' # Modify this according to your required PHP version.
+          php-version: '8.1' # Modify this according to your required PHP version.
           extensions: mbstring, dom, ctype, iconv, zip, curl
           coverage: xdebug
       - name: Get Composer Cache Directory
@@ -117,6 +117,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+      - name: Setup GitHub Token for Composer
+        run: composer config -g github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
       - name: Fetch highest stable version of Composer 2.2.*
         run: |
           LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "

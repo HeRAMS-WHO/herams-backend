@@ -8,7 +8,7 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
@@ -23,6 +23,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+      - name: Setup GitHub Token for Composer
+        run: composer config -g github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
       - name: Fetch highest stable version of Composer 2.2.*
         run: |
           LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "
@@ -50,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Authenticate to kubernetes
         uses: azure/k8s-set-context@v1
         with:
@@ -59,7 +61,7 @@ jobs:
           k8s-secret: ${{ secrets.PROD_K8S_SECRET }}
       - name: get_manifests
         run: echo manifests=$(ls k8s/shared/*.yaml k8s/prod/*.yaml | tr "\n" ",") >> $GITHUB_ENV
-      - uses: Azure/k8s-deploy@v1
+      - uses: Azure/k8s-deploy@v1.4
         with:
           namespace: 'prod'
           manifests: ${{ env.manifests }}
@@ -71,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
@@ -86,6 +88,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+      - name: Setup GitHub Token for Composer
+        run: composer config -g github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
       - name: Fetch highest stable version of Composer 2.2.*
         run: |
           LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "
@@ -101,19 +105,19 @@ jobs:
         run: composer self-update $LATEST_2_2_VERSION
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       - run: composer install --ignore-platform-reqs
-      - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
-      - uses: docker/login-action@v1
+      - run: composer update herams/i18n --ignore-platform-reqs --no-scripts --with-all-dependencies
+      - uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           install: true
       - name: Build and push Docker images
-        uses: docker/build-push-action@v2.9.0
+        uses: docker/build-push-action@v3.0.0
         with:
           push: true
           context: .
