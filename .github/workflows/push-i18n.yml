@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -18,7 +18,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: 'HeRAMS-WHO/herams-i18n'
           path: 'herams-i18n'
