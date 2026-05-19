@@ -74,7 +74,7 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -89,7 +89,7 @@ jobs:
           print(versions[-1])
           ")
           echo "LATEST_2_2_VERSION=$LATEST_2_2_VERSION" >> $GITHUB_ENV
-  
+
       # Use $LATEST_2_2_VERSION in subsequent steps as needed
       - name: Update Composer to the fetched version
         run: composer self-update $LATEST_2_2_VERSION

@@ -1,4 +1,4 @@
-name: Deploy to staging
+name: Deploy to staging # 2026
 on:
   push:
     branches: [ v1 ]
@@ -18,7 +18,7 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -46,13 +46,13 @@ jobs:
       - name: Install Docker Compose
         run: |
           sudo apt-get update
-          sudo apt-get install docker-compose -y
+          sudo apt-get install docker-compose-plugin -y
       - run: composer global require "squizlabs/php_codesniffer=3.*"
       # - run: composer update herams/i18n --ignore-platform-reqs --no-cache --no-scripts --with-all-dependencies
-      - run: docker-compose build
+      - run: docker compose build
       - run: docker network create devproxy2
       - run: cp .env.default .env
-      - run: docker-compose run --rm codeception run --coverage-xml
+      - run: docker compose run --rm codeception run --coverage-xml
       # - run: composer stan
       # - uses: codecov/codecov-action@v1
       #   with:
@@ -113,7 +113,7 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
