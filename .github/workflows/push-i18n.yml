@@ -20,9 +20,9 @@ jobs:
             ${{ runner.os }}-composer-
       - uses: actions/checkout@v2
         with:
-          repository: 'WorldHealthOrganization/herams-i18n'
+          repository: 'HeRAMS-WHO/herams-i18n'
           path: 'herams-i18n'
-          ssh-key: ${{ secrets.i18n_private_key }}
+          token: ${{ secrets.COMPOSER_GITHUB_TOKEN }}
         name: Checkout i18n repo
       - name: Setup PHP Action
         uses: shivammathur/setup-php@2.9.0
