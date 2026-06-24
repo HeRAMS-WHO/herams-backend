@@ -12,10 +12,11 @@ final class CompletenessFeature
      * Project id the feature is enabled for. Set to 0 (a non-existent id) to
      * disable the feature for every project.
      */
-    public const PROJECT_ID = 77; // staging - HeRAMS Training - project
+    public const PROJECT_ID = 87; // production - HeRAMS Training - project
 
     public static function isEnabledFor(?int $projectId): bool
     {
+        return true; // TODO: only for staging release
         return $projectId !== null && $projectId === self::PROJECT_ID;
     }
 }
