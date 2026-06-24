@@ -46,7 +46,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function recomputeCompleteness(): void
     {
         // Kill switch
-        if ( ! CompletenessFeature::isEnabledFor($this->project?->id)) {
+        if (!CompletenessFeature::isEnabledFor($this->project?->id)) {
             return;
         }
 
