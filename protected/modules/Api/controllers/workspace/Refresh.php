@@ -43,6 +43,8 @@ class Refresh extends Action
 
             $dataResponse = Response::findOne($key) ?? new Response($key);
             $loader->loadData($response->getData(), $workspace, $dataResponse);
+            $dataResponse->populateRelation('project', $workspace->project);
+            $dataResponse->recomputeCompleteness();
             if ($dataResponse->isNewRecord && $dataResponse->save()) {
                 $new++;
                 $saved++;

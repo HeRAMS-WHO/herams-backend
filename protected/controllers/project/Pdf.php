@@ -7,6 +7,7 @@ use prime\models\ar\Permission;
 use prime\models\ar\Project;
 use prime\models\ar\Page;
 use prime\models\forms\ResponseFilter;
+use prime\services\completeness\CompletenessFeature;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
 use SamIT\LimeSurvey\Interfaces\SurveyInterface;
 use yii\base\Action;
@@ -64,6 +65,9 @@ class Pdf extends Action
 
 
         $responses = $project->getResponses();
+        if (CompletenessFeature::isEnabledFor($project->id)) {
+            $responses = $responses->complete();
+        }
 
         \Yii::beginProfile('ResponseFilterinit');
 
