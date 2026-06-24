@@ -32,6 +32,8 @@ class Export extends Model
     public $includeTextHeader = true;
     public $includeCodeHeader = true;
 
+    public $includeOnlyComplete = false;
+
     public $answersAsText = false;
 
     private SurveyInterface $survey;
@@ -44,6 +46,7 @@ class Export extends Model
         return [
             'includeTextHeader' => \Yii::t('app', 'Include text header'),
             'includeCodeHeader' => \Yii::t('app', 'Include code header'),
+            'includeOnlyComplete' => \Yii::t('app', 'Only complete responses'),
             'answersAsText' => \Yii::t('app', 'Answers as text'),
             'language' => \Yii::t('app', 'Language')
         ];
@@ -64,7 +67,7 @@ class Export extends Model
     public function rules()
     {
         return [
-            [['includeTextHeader', 'includeCodeHeader', 'answersAsText'], BooleanValidator::class],
+            [['includeTextHeader', 'includeCodeHeader', 'includeOnlyComplete', 'answersAsText'], BooleanValidator::class],
             [['language'], RangeValidator::class, 'range' => array_keys($this->getLanguages())]
         ];
     }
@@ -162,6 +165,10 @@ class Export extends Model
         WriterInterface $writer,
         ResponseQuery $responseQuery
     ): void {
+
+        if ($this->includeOnlyComplete) {
+            $responseQuery->complete();
+        }
 
         $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 
