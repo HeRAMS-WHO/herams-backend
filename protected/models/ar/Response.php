@@ -45,7 +45,8 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function recomputeCompleteness(): void
     {
         $checker = (new ResponseCompletenessFactory($this->project?->country))->create();
-        $this->is_complete = $checker->isComplete($this->data ?? []);
+        $date = $this->date instanceof \DateTimeInterface ? $this->date->format('Y-m-d') : $this->date;
+        $this->is_complete = $checker->isComplete($this->data ?? [], $date);
     }
 
     public static function find(): ResponseQuery
