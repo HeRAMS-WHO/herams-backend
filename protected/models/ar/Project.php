@@ -118,7 +118,7 @@ class Project extends ActiveRecord implements Linkable
         foreach ($virtualFields->virtualFields as $key => $definition) {
             $fields[$key] = $key;
         }
-        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount', 'responseCount'] as $hidden) {
+        foreach (['overrides', 'typemap', 'title', 'contributorPermissionCount'] as $hidden) {
             unset($fields[$hidden]);
         }
         return $fields;
@@ -254,7 +254,7 @@ class Project extends ActiveRecord implements Linkable
             ],
             'facilityCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
+                VirtualFieldBehavior::GREEDY => Response::find()->complete()->andWhere([
                     'workspace_id' => Workspace::find()->select('id')
                         ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                 ])->addParams([':path' => '$.facilityCount'])->
@@ -264,12 +264,12 @@ class Project extends ActiveRecord implements Linkable
                     if (isset($override)) {
                         return (int)$override;
                     }
-                    return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->count(new Expression('DISTINCT [[hf_id]]'));
+                    return $model->workspaceCount === 0 ? 0 : (int) $model->getResponses()->complete()->count(new Expression('DISTINCT [[hf_id]]'));
                 }
             ],
             'responseCount' => [
                 VirtualFieldBehavior::CAST => VirtualFieldBehavior::CAST_INT,
-                VirtualFieldBehavior::GREEDY => Response::find()->andWhere([
+                VirtualFieldBehavior::GREEDY => Response::find()->complete()->andWhere([
                     'workspace_id' => Workspace::find()->select('id')
                         ->where(['tool_id' => new Expression(self::tableName() . '.[[id]]')]),
                 ])->addParams([':path' => '$.responseCount'])->
@@ -279,7 +279,7 @@ class Project extends ActiveRecord implements Linkable
                     if ($model->workspaceCount === 0) {
                         return 0;
                     }
-                    return (int)($model->getOverride('responseCount') ?? $model->getResponses()->count());
+                    return (int)($model->getOverride('responseCount') ?? $model->getResponses()->complete()->count());
                 }
             ],
             'permissionSourceCount' => [
