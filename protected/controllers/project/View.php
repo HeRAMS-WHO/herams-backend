@@ -9,7 +9,6 @@ use prime\models\ar\Page;
 use prime\models\ar\Permission;
 use prime\models\ar\read\Project;
 use prime\models\forms\ResponseFilter;
-use prime\services\completeness\CompletenessFeature;
 use SamIT\abac\interfaces\Resolver;
 use SamIT\abac\repositories\PreloadingSourceRepository;
 use SamIT\LimeSurvey\Interfaces\QuestionInterface;
@@ -74,10 +73,7 @@ class View extends Action
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }
 
-        $responses = $project->getResponses();
-        if (CompletenessFeature::isEnabledFor($project->id)) {
-            $responses = $responses->complete();
-        }
+        $responses = $project->getResponses()->complete();
         $workspaces = $project->getWorkspaces()->indexBy('id')->select('title')->column();
 
         \Yii::beginProfile('ResponseFilterinit');

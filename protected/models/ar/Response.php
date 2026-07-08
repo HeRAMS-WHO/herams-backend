@@ -9,7 +9,6 @@ use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseQuery;
-use prime\services\completeness\CompletenessFeature;
 use prime\services\completeness\ResponseCompletenessFactory;
 use yii\validators\RequiredValidator;
 
@@ -45,11 +44,6 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function recomputeCompleteness(): void
     {
-        // Kill switch checker
-        if (!CompletenessFeature::isEnabledFor($this->project?->id)) {
-            return;
-        }
-
         $checker = (new ResponseCompletenessFactory($this->project?->country))->create();
         $this->is_complete = $checker->isComplete($this->data ?? []);
     }
