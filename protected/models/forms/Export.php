@@ -115,6 +115,17 @@ class Export extends Model
         yield new GetterColumn('subjectId', 'Subject ID');
         yield new GetterColumn('date', 'Date');
 
+        $asText = $this->answersAsText;
+        yield new ClosureColumn(static function (HeramsResponseInterface $response) use ($asText): ?string {
+            if (!$response instanceof Response || $response->is_complete === null) {
+                return null;
+            }
+            if ($asText) {
+                return $response->is_complete ? 'Complete' : 'Incomplete';
+            }
+            return $response->is_complete ? '1' : '0';
+        }, 'is_complete', 'Completeness status');
+
         /** @var QuestionInterface[] $questions */
 
         $groups = $survey->getGroups();
