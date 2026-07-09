@@ -18,7 +18,7 @@ use yii\validators\RequiredValidator;
  * @property string|\DateTimeInterface $last_updated The last time this response was synced
  * @property int $workspace_id
  * @property int $id
- * @property string|\DateTimeInterface $date The date of the information
+ * @property string|\DateTimeInterface|null $date The date of the information
  * @property int $survey_id
  * @property array $data
  * @property string $hf_id
@@ -124,6 +124,9 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getDate(): ?Carbon
     {
+        if (empty($this->date)) {
+            return null;
+        }
         return Carbon::createFromFormat('Y-m-d', $this->date);
     }
 
@@ -213,7 +216,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function rules()
     {
         return [
-            [['date', 'hf_id', 'id', 'survey_id', 'workspace_id'], RequiredValidator::class]
+            [['hf_id', 'id', 'survey_id', 'workspace_id'], RequiredValidator::class]
         ];
     }
 
