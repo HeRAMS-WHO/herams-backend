@@ -32,6 +32,6 @@ class ResponseQuery extends ActiveQuery
      */
     public function complete(): self
     {
-        return $this->andWhere(["{$this->getPrimaryTableName()}.[[is_complete]]" => true]);
+        return $this->andWhere(['[[is_complete]]' => true]);
     }
 }

@@ -14,6 +14,6 @@ class Index extends Action
         return $this->controller->asJson(Project::find()
             ->orderBy(['id' => 'asc'])
             ->andWhere(['visibility' => Project::VISIBILITY_PUBLIC])
-            ->withFields('latestDate', 'workspaceCount', 'facilityCount', 'contributorPermissionCount')->all());
+            ->withFields('latestDate', 'workspaceCount', 'facilityCount', 'responseCount', 'contributorPermissionCount')->all());
     }
 }

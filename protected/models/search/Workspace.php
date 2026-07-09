@@ -50,8 +50,8 @@ class Workspace extends Model
             ->select([
                 'workspace_id',
                 'latestUpdate' => 'MAX(date)',
-                'facilityCount' => 'COUNT(DISTINCT hf_id)',
-                'responseCount' => 'COUNT(*)'
+                'facilityCount' => 'COUNT(DISTINCT CASE WHEN is_complete = 1 THEN hf_id END)',
+                'responseCount' => 'COALESCE(SUM(is_complete = 1), 0)'
             ])
             ->from(\prime\models\ar\Response::tableName())
             ->groupBy('workspace_id');
