@@ -352,7 +352,7 @@ CREATE TABLE `prime2_response` (
   `survey_id` int NOT NULL,
   `workspace_id` int NOT NULL,
   `data` json DEFAULT NULL,
-  `date` date NOT NULL,
+  `date` date DEFAULT NULL,
   `hf_id` varchar(20) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `last_updated` datetime DEFAULT CURRENT_TIMESTAMP,
   `is_complete` tinyint(1) DEFAULT NULL,

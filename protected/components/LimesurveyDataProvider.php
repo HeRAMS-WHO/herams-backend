@@ -51,9 +51,8 @@ class LimesurveyDataProvider extends Component
          * @var ResponseInterface $value
          */
         foreach ($this->client->getResponsesByToken($surveyId, $token) as $key => $value) {
-            if ($value->getSubmitDate() !== null) {
-                yield $value;
-            }
+            // #869 ticket: ignore submit date validation
+            yield $value;
         }
     }
 
