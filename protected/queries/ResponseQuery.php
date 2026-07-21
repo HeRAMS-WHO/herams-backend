@@ -26,4 +26,12 @@ class ResponseQuery extends ActiveQuery
     {
         return $this->andWhere(["{$this->getPrimaryTableName()}.[[workspace_id]]" => $workspace->id]);
     }
+
+    /**
+     * filter by is_complete - ticket #864
+     */
+    public function complete(): self
+    {
+        return $this->andWhere(['[[is_complete]]' => true]);
+    }
 }

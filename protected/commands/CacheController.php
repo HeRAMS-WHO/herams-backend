@@ -136,6 +136,8 @@ class CacheController extends \yii\console\controllers\CacheController
                  */
                 $responseModel = Response::findOne($key) ?? new Response($key);
                 $loader->loadData($response->getData(), $workspace, $responseModel);
+                $responseModel->populateRelation('project', $workspace->project);
+                $responseModel->recomputeCompleteness();
                 $ids[] = $responseModel->getId();
 
                 if ($responseModel->isNewRecord && $responseModel->save()) {

@@ -28,6 +28,10 @@ echo Form::widget([
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => \kartik\switchinput\SwitchInput::class
         ],
+        'includeOnlyComplete' => [
+            'type' => Form::INPUT_WIDGET,
+            'widgetClass' => \kartik\switchinput\SwitchInput::class
+        ],
         'answersAsText' => [
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => \kartik\switchinput\SwitchInput::class

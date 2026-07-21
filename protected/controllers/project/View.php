@@ -73,7 +73,7 @@ class View extends Action
             throw new NotFoundHttpException('No reporting has been set up for this project');
         }
 
-        $responses = $project->getResponses();
+        $responses = $project->getResponses()->complete();
         $workspaces = $project->getWorkspaces()->indexBy('id')->select('title')->column();
 
         \Yii::beginProfile('ResponseFilterinit');

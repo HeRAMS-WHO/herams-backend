@@ -26,6 +26,7 @@ $this->beginContent('@views/layouts/map.php');
         <?= $content; ?>
     </div>
 </div>
+<div class="hidden">test deploy 19.05.26 - 17:19</div>
 <?php
 
 $this->endContent();

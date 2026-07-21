@@ -63,7 +63,7 @@ class Pdf extends Action
         }
 
 
-        $responses = $project->getResponses();
+        $responses = $project->getResponses()->complete();
 
         \Yii::beginProfile('ResponseFilterinit');
 

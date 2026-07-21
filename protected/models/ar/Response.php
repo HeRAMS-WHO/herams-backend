@@ -9,6 +9,7 @@ use prime\models\ActiveRecord;
 use prime\objects\HeramsCodeMap;
 use prime\objects\HeramsSubject;
 use prime\queries\ResponseQuery;
+use prime\services\completeness\ResponseCompletenessFactory;
 use yii\validators\RequiredValidator;
 
 /**
@@ -17,10 +18,11 @@ use yii\validators\RequiredValidator;
  * @property string|\DateTimeInterface $last_updated The last time this response was synced
  * @property int $workspace_id
  * @property int $id
- * @property string|\DateTimeInterface $date The date of the information
+ * @property string|\DateTimeInterface|null $date The date of the information
  * @property int $survey_id
  * @property array $data
  * @property string $hf_id
+ * @property bool|null $is_complete
  * @property Workspace $workspace
  * @property Project $project
  */
@@ -36,7 +38,15 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function beforeSave($insert)
     {
         $this->last_updated = Carbon::now();
+        $this->recomputeCompleteness();
         return parent::beforeSave($insert);
+    }
+
+    public function recomputeCompleteness(): void
+    {
+        $checker = (new ResponseCompletenessFactory($this->project?->country))->create();
+        $date = $this->date instanceof \DateTimeInterface ? $this->date->format('Y-m-d') : $this->date;
+        $this->is_complete = $checker->isComplete($this->data ?? [], $date);
     }
 
     public static function find(): ResponseQuery
@@ -114,6 +124,9 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function getDate(): ?Carbon
     {
+        if (empty($this->date)) {
+            return null;
+        }
         return Carbon::createFromFormat('Y-m-d', $this->date);
     }
 
@@ -203,7 +216,7 @@ class Response extends ActiveRecord implements HeramsResponseInterface
     public function rules()
     {
         return [
-            [['date', 'hf_id', 'id', 'survey_id', 'workspace_id'], RequiredValidator::class]
+            [['hf_id', 'id', 'survey_id', 'workspace_id'], RequiredValidator::class]
         ];
     }
 

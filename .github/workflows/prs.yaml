@@ -6,18 +6,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '8.0' # Modify this according to your required PHP version.
+          php-version: '8.1' # Modify this according to your required PHP version.
           extensions: mbstring, dom, ctype, iconv, zip, curl
           coverage: xdebug
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -27,7 +27,7 @@ jobs:
         id: docker-images
         run: |
           echo "::set-output name=dir::$(docker info --format '{{ .DockerRootDir}}')"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-docker
@@ -50,7 +50,7 @@ jobs:
       - name: Display Composer Version
         run: composer --version
       - run: composer install --ignore-platform-reqs
-      - run: docker-compose build
+      - run: docker compose build
       - run: docker network create devproxy2
-      - run: docker-compose run --rm codeception run --coverage-xml
+      - run: docker compose run --rm codeception run --coverage-xml
       # - run: composer stan

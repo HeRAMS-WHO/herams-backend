@@ -32,6 +32,8 @@ class Export extends Model
     public $includeTextHeader = true;
     public $includeCodeHeader = true;
 
+    public $includeOnlyComplete = true;
+
     public $answersAsText = false;
 
     private SurveyInterface $survey;
@@ -44,6 +46,7 @@ class Export extends Model
         return [
             'includeTextHeader' => \Yii::t('app', 'Include text header'),
             'includeCodeHeader' => \Yii::t('app', 'Include code header'),
+            'includeOnlyComplete' => \Yii::t('app', 'Only complete responses'),
             'answersAsText' => \Yii::t('app', 'Answers as text'),
             'language' => \Yii::t('app', 'Language')
         ];
@@ -64,7 +67,7 @@ class Export extends Model
     public function rules()
     {
         return [
-            [['includeTextHeader', 'includeCodeHeader', 'answersAsText'], BooleanValidator::class],
+            [['includeTextHeader', 'includeCodeHeader', 'includeOnlyComplete', 'answersAsText'], BooleanValidator::class],
             [['language'], RangeValidator::class, 'range' => array_keys($this->getLanguages())]
         ];
     }
@@ -111,6 +114,17 @@ class Export extends Model
         }
         yield new GetterColumn('subjectId', 'Subject ID');
         yield new GetterColumn('date', 'Date');
+
+        $asText = $this->answersAsText;
+        yield new ClosureColumn(static function (HeramsResponseInterface $response) use ($asText): ?string {
+            if (!$response instanceof Response || $response->is_complete === null) {
+                return null;
+            }
+            if ($asText) {
+                return $response->is_complete ? 'Complete' : 'Incomplete';
+            }
+            return $response->is_complete ? '1' : '0';
+        }, 'is_complete', 'Completeness status');
 
         /** @var QuestionInterface[] $questions */
 
@@ -162,6 +176,10 @@ class Export extends Model
         WriterInterface $writer,
         ResponseQuery $responseQuery
     ): void {
+
+        if ($this->includeOnlyComplete) {
+            $responseQuery->complete();
+        }
 
         $query = isset($this->filter->date) ? $this->filter->filterQuery($responseQuery) : $responseQuery;
 
