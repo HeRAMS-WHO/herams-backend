@@ -32,7 +32,7 @@ class Export extends Model
     public $includeTextHeader = true;
     public $includeCodeHeader = true;
 
-    public $includeOnlyComplete = false;
+    public $includeOnlyComplete = true;
 
     public $answersAsText = false;
 
