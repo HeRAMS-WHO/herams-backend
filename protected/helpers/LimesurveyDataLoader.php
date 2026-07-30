@@ -17,6 +17,10 @@ class LimesurveyDataLoader
         Workspace $workspace,
         Response $response
     ): void {
+        if (array_key_exists('submitdate', $data)) {
+            $response->ls_submit_date = $this->parseSubmitDate($data['submitdate']);
+        }
+
         $data = toArrayWithKeys(filter(function ($value) {
             return $value !== "" && $value !== null;
         }, $data));
@@ -71,5 +75,14 @@ class LimesurveyDataLoader
             }
         }
         $response->data = $transformed;
+    }
+
+    private function parseSubmitDate($value): ?string
+    {
+        $value = (string) $value;
+        if (strlen($value) < 8 || !preg_match('/[1-9]/', $value)) {
+            return null;
+        }
+        return Carbon::parse($value)->format('Y-m-d H:i:s');
     }
 }

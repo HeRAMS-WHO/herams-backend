@@ -19,10 +19,11 @@ use yii\validators\RequiredValidator;
  * @property int $workspace_id
  * @property int $id
  * @property string|\DateTimeInterface|null $date The date of the information
+ * @property string|\DateTimeInterface|null $ls_submit_date The Limesurvey submit date; null when the questionnaire was never submitted
  * @property int $survey_id
  * @property array $data
  * @property string $hf_id
- * @property bool|null $is_complete
+ * @property int|null $is_complete
  * @property Workspace $workspace
  * @property Project $project
  */
@@ -44,9 +45,18 @@ class Response extends ActiveRecord implements HeramsResponseInterface
 
     public function recomputeCompleteness(): void
     {
-        $checker = (new ResponseCompletenessFactory($this->project?->country))->create();
-        $date = $this->date instanceof \DateTimeInterface ? $this->date->format('Y-m-d') : $this->date;
-        $this->is_complete = $checker->isComplete($this->data ?? [], $date);
+        if (empty($this->ls_submit_date)) {
+            $isComplete = 0;
+        } else {
+            $checker = (new ResponseCompletenessFactory($this->project?->country))->create();
+            $date = $this->date instanceof \DateTimeInterface ? $this->date->format('Y-m-d') : $this->date;
+            $isComplete = (int) $checker->isComplete($this->data ?? [], $date);
+        }
+
+        $old = $this->getOldAttribute('is_complete');
+        if ($old === null || (int) $old !== $isComplete) {
+            $this->is_complete = $isComplete;
+        }
     }
 
     public static function find(): ResponseQuery

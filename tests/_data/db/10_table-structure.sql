@@ -356,6 +356,7 @@ CREATE TABLE `prime2_response` (
   `hf_id` varchar(20) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `last_updated` datetime DEFAULT CURRENT_TIMESTAMP,
   `is_complete` tinyint(1) DEFAULT NULL,
+  `ls_submit_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`survey_id`),
   KEY `date` (`date`,`hf_id`),
   KEY `date_2` (`hf_id`,`date`) USING BTREE,
