@@ -48,14 +48,17 @@ class Refresh extends Action
             $loader->loadData($response->getData(), $workspace, $dataResponse);
             $dataResponse->populateRelation('project', $workspace->project);
             $dataResponse->recomputeCompleteness();
-            if ($dataResponse->isNewRecord && $dataResponse->save()) {
-                $new++;
-                $saved++;
-            } elseif (empty($dataResponse->dirtyAttributes)) {
+
+            $isNew = $dataResponse->isNewRecord;
+            if (!$isNew && empty($dataResponse->dirtyAttributes)) {
                 $unchanged++;
             } elseif ($dataResponse->save()) {
-                $updated++;
                 $saved++;
+                if ($isNew) {
+                    $new++;
+                } else {
+                    $updated++;
+                }
             } else {
                 $failed++;
                 $failedIds[] = $dataResponse->getId();
