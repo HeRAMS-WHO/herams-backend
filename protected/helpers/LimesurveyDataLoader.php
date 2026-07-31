@@ -79,10 +79,16 @@ class LimesurveyDataLoader
 
     private function parseSubmitDate($value): ?string
     {
-        $value = (string) $value;
-        if (strlen($value) < 8 || !preg_match('/[1-9]/', $value)) {
+        $value = is_scalar($value) ? trim((string) $value) : '';
+        if ($value === '' || !preg_match('/[1-9]/', $value)) {
             return null;
         }
-        return Carbon::parse($value)->format('Y-m-d H:i:s');
+        try {
+            return Carbon::parse($value)->format('Y-m-d H:i:s');
+        } catch (\Throwable $e) {
+            \Yii::warning("Unparseable submitdate: {$value}", __METHOD__);
+            return null;
+        }
     }
+
 }
