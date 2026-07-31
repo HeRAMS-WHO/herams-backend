@@ -28,7 +28,7 @@ echo Form::widget([
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => \kartik\switchinput\SwitchInput::class
         ],
-        'includeOnlyComplete' => [
+        'includeDraftResponses' => [
             'type' => Form::INPUT_WIDGET,
             'widgetClass' => \kartik\switchinput\SwitchInput::class
         ],
