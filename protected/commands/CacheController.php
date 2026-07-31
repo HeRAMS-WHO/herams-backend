@@ -140,9 +140,8 @@ class CacheController extends \yii\console\controllers\CacheController
                 $responseModel->recomputeCompleteness();
                 $ids[] = $responseModel->getId();
 
-                if ($responseModel->isNewRecord && $responseModel->save()) {
-                    $saved++;
-                } elseif (empty($responseModel->dirtyAttributes)) {
+                $isNew = $responseModel->isNewRecord;
+                if (!$isNew && empty($responseModel->dirtyAttributes)) {
                     $unchanged++;
                 } elseif ($responseModel->save()) {
                     $saved++;

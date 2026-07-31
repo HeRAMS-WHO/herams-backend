@@ -46,7 +46,15 @@ class ResponseController extends Controller
 
         do {
             $query = (new Query())
-                ->select(['r.id', 'r.survey_id', 'r.data', 'r.date', 'r.is_complete', 'country' => 'p.country'])
+                ->select([
+                    'r.id',
+                    'r.survey_id',
+                    'r.data',
+                    'r.date',
+                    'r.is_complete',
+                    'r.ls_submit_date',
+                    'country' => 'p.country',
+                ])
                 ->from(['r' => '{{%response}}'])
                 ->leftJoin(['w' => '{{%workspace}}'], 'w.id = r.workspace_id')
                 ->leftJoin(['p' => '{{%project}}'], 'p.id = w.tool_id')
@@ -78,7 +86,9 @@ class ResponseController extends Controller
                 $checker = $checkers[$row['country'] ?? '']
                     ??= (new ResponseCompletenessFactory($row['country']))->create();
                 $data = is_string($row['data']) ? json_decode($row['data'], true) : $row['data'];
-                $isComplete = $checker->isComplete(is_array($data) ? $data : [], $row['date'] !== null ? (string) $row['date'] : null);
+                // #869 ticket: a questionnaire that was never submitted is always incomplete.
+                $isComplete = !empty($row['ls_submit_date'])
+                    && $checker->isComplete(is_array($data) ? $data : [], $row['date'] !== null ? (string) $row['date'] : null);
 
                 if ($row['is_complete'] !== null && (bool) $row['is_complete'] === $isComplete) {
                     continue;
