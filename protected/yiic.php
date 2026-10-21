@@ -5,7 +5,7 @@ use prime\components\KubernetesSecretEnvironment;
 define('YII_DEBUG', file_exists(__DIR__ . '/config/debug'));
 define('YII_ENV', getenv('YII_ENV'));
 defined('CONSOLE') or define('CONSOLE', true);
-
+error_reporting(E_ALL & ~E_DEPRECATED);
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', file_exists(__DIR__ . '/config/debug') ? 3 : 0);
 require_once __DIR__ . '/../vendor/autoload.php';
 spl_autoload_register(['Yii', 'autoload'], true, true);
