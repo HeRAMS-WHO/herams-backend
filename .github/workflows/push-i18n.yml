@@ -27,7 +27,7 @@ jobs:
       - name: Setup PHP Action
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '8.1'
+          php-version: '8.2'
       - name: Fetch highest stable version of Composer 2.2.*
         run: |
           LATEST_2_2_VERSION=$(curl -s https://packagist.org/packages/composer/composer.json | python -c "

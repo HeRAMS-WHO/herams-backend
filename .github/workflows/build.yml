@@ -11,7 +11,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '8.1' # Modify this according to your required PHP version.
+          php-version: '8.2' # Modify this according to your required PHP version.
           extensions: mbstring, dom, ctype, iconv, zip, curl
           coverage: xdebug
       - name: Get Composer Cache Directory
@@ -50,6 +50,9 @@ jobs:
       - run: docker compose build
       - run: docker network create devproxy2
       - run: cp .env.default .env
+      # Generate actor classes in a separate process: on PHP 8.2 Codeception 4 prints
+      # deprecation notices while generating, which breaks session tests in the same run.
+      - run: docker compose run --rm codeception build
       - run: docker compose run --rm codeception run --coverage-xml
       # - run: composer stan
       # - uses: codecov/codecov-action@v1
@@ -104,7 +107,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '8.1' # Modify this according to your required PHP version.
+          php-version: '8.2' # Modify this according to your required PHP version.
           extensions: mbstring, dom, ctype, iconv, zip, curl
           coverage: xdebug
       - name: Get Composer Cache Directory
