@@ -67,7 +67,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.9.0
         with:
-          php-version: '8.1' # Modify this according to your required PHP version.
+          php-version: '8.2' # Modify this according to your required PHP version.
           extensions: mbstring, dom, ctype, iconv, zip, curl
           coverage: xdebug
       - name: Get Composer Cache Directory

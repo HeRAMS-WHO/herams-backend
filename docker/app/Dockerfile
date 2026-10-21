@@ -1,4 +1,4 @@
-FROM ghcr.io/herams-who/docker/phpfpm:latest
+FROM ghcr.io/herams-who/docker/phpfpm-v2:latest
 
 ADD docker/app/php-fpm.conf /
 ADD docker/app/init.sh /sbin/init.sh
