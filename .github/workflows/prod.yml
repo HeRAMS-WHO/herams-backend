@@ -43,6 +43,9 @@ jobs:
       - run: docker compose build
       - run: docker network create devproxy2
       - run: cp .env.default .env
+      # Generate actor classes in a separate process: on PHP 8.2 Codeception 4 prints
+      # deprecation notices while generating, which breaks session tests in the same run.
+      - run: docker compose run --rm codeception build
       - run: docker compose run --rm codeception run
       - run: composer stan
   deploy:
