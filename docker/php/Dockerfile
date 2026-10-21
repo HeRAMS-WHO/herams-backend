@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.2-fpm-alpine
 LABEL org.opencontainers.image.source = "https://github.com/HeRAMS-WHO/docker"
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN apk add --update --no-cache \
